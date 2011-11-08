@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS | Bitmap</title>
+  <link rel="stylesheet" href="../.styles/examples.css"/>
+  <script src="../../lib/graphics.js"></script>
+  <script src="scripts/execute.js"></script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>display.Bitmap</h1>
+</header>
+
+<section>
+  <h2>draw</h2>
+  <ul class="executable">
+    <li>
+      <pre>var stage = new Stage(canvas);
+var bitmap = new Bitmap();
+stage.addChild(bitmap);
+bitmap.draw('images/lena.png');</pre>
+      <canvas></canvas>
+    </li>
+    <li>
+      <pre>var stage = new Stage(canvas);
+var bitmap = new Bitmap();
+stage.addChild(bitmap);
+var img = new Image();
+img.src = 'images/opaque_dst.png';
+bitmap.draw(img);</pre>
+      <canvas></canvas>
+    </li>
+    <li>
+      <pre>var stage = new Stage(canvas);
+var bitmap = new Bitmap();
+stage.addChild(bitmap);
+var img = new Image();
+img.addEventListener('load', function () {
+  bitmap.draw(img);
+}, false);
+img.src = 'images/lena.png';</pre>
+      <canvas></canvas>
+    </li>
+  </ul>
+</section>
+
+</body>
+</html>

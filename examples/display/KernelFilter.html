@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS | KernelFilter</title>
+  <style>
+    canvas {
+      background : url('../.images/check.png') repeat 0 0;
+    }
+  </style>
+  <script type="text/javascript" src="../lib/display.js"></script>
+  <script type="text/javascript">
+    (function (Graphics, PrewittFilter, SobelFilter, LaplacianFilter,
+               UnsharpMaskFilter, BlurFilter, GaussianFilter, MedianFilter,
+               BilateralFilter) {
+      var document = window.document;
+
+      window.addEventListener('load', function (e) {
+        setTimeout(function () {
+          var canvases = document.querySelectorAll('_canvas');
+          var sectionTime = {};
+          Array.prototype.forEach.apply(canvases,
+            [function (canvas, i, canvases) {
+              var display = new Graphics(canvas);
+              for (var i = 0, len = 1; i < len; i++) {
+                (function (i, len, sectionTime) {
+                  display.clear();
+                  display.loadImage('images/lenna-y.gif', 0, 0, function (e) {
+                    var rel = canvas.getAttribute('rel');
+                    switch (rel) {
+                      case 'laplacian':
+                        display.filters = [new LaplacianFilter(false)];
+                        break;
+                      case 'unsharpMask':
+                        display.filters = [new UnsharpMaskFilter(2, 2)];
+                        break;
+                      case 'blur':
+                        display.filters = [new BlurFilter(2, 2)];
+                        break;
+                      case 'gaussian':
+                        display.filters = [new GaussianFilter(2, 2, 1)];
+                        break;
+                      case 'median':
+                        display.filters = [new MedianFilter(2, 2)];
+                        break;
+                      case 'bilateral':
+                        display.filters = [new BilateralFilter(2, 2, 2)];
+                        break;
+                      case 'prewitt':
+                        display.filters = [new PrewittFilter()];
+                        break;
+                      case 'sobel':
+                        display.filters = [new SobelFilter()];
+                        break;
+                    }
+                    if (i >= len - 10) {
+                      var time = (new Date()).getTime();
+                      display.render();
+                      time = (new Date()).getTime() - time;
+                      if (sectionTime[rel] === undefined) {
+                        sectionTime[rel] = time;
+                      } else {
+                        sectionTime[rel] += time;
+                      }
+                      console.log(rel, time);
+                      if (i === len - 1) {
+                        sectionTime[rel] /= 10;
+                        console.log(rel, '---->', sectionTime[rel]);
+                        console.log([
+                          sectionTime.laplacian,
+                          sectionTime.unsharpMask,
+                          sectionTime.blur,
+                          sectionTime.gaussian,
+                          sectionTime.median,
+                          sectionTime.bilateral,
+                          sectionTime.prewitt,
+                          sectionTime.sobel
+                        ].join('\t'));
+                      }
+                    }
+                  });
+                })(i, len, sectionTime);
+              }
+            }]);
+        }, 1000);
+      }, false);
+    })(display.core.Graphics,
+      display.filters.PrewittFilter,
+      display.filters.SobelFilter,
+      display.filters.LaplacianFilter,
+      display.filters.UnsharpMaskFilter,
+      display.filters.BlurFilter,
+      display.filters.GaussianFilter,
+      display.filters.MedianFilter,
+      display.filters.BilateralFilter);
+  </script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>Kernel Filter Test</h1>
+</header>
+
+<section>
+  <h2>Raw</h2>
+  <img src="images/lenna-y.gif"/>
+</section>
+
+<section>
+  <h2>Laplacian Filter</h2>
+  <canvas rel="laplacian" width="512" height="480"></canvas>
+  <img src="images/lenna-y-lap8.gif"/>
+</section>
+
+<section>
+  <h2>Unsharp Mask Filter</h2>
+  <canvas rel="unsharpMask" width="512" height="480"></canvas>
+</section>
+
+<section>
+  <h2>Blur Filter</h2>
+  <canvas rel="blur" width="512" height="480"></canvas>
+</section>
+
+<section>
+  <h2>Gaussian Filter</h2>
+  <canvas rel="gaussian" width="512" height="480"></canvas>
+</section>
+
+<section>
+  <h2>Median Filter</h2>
+  <canvas rel="median" width="512" height="480"></canvas>
+</section>
+
+<section>
+  <h2>Bilateral Filter</h2>
+  <canvas rel="bilateral" width="512" height="480"></canvas>
+</section>
+
+<section>
+  <h2>Prewitt Filter</h2>
+  <canvas rel="prewitt" width="512" height="480"></canvas>
+  <img src="images/lenna-y-prewitt.gif"/>
+</section>
+
+<section>
+  <h2>Sobel Filter</h2>
+  <canvas rel="sobel" width="512" height="480"></canvas>
+  <img src="images/lenna-y-sobel.gif"/>
+</section>
+
+</body>
+</html>

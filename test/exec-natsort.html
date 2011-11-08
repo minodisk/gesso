@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    ul {
+      list-style-type : none;
+      padding         : 0;
+    }
+
+    textarea {
+      width : 100%;
+    }
+  </style>
+  <script type="text/javascript" src="../lib/browser/utils.js"></script>
+  <script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', function (e) {
+      document
+        .querySelector('input[type="submit"]')
+        .addEventListener('click', function (e) {
+          e.preventDefault();
+          var body = {};
+          for (var i = 0, len = this.form.elements.length, elem; i < len; ++i) {
+            elem = this.form.elements[i];
+            if (elem.name) {
+              if (utils.array.isArray(body[elem.name])) {
+                body[elem.name].push(elem.value);
+              }
+              body[elem.name] = elem.value;
+            }
+          }
+          console.log(body);
+          /*utils.http.submit(form, function (res) {
+           });*/
+        });
+    });
+  </script>
+</head>
+<body>
+<ul>
+  <li>
+    <form action="make_natsort_test.php" method="post">
+      <label for="id">src:</label><textarea id="src" name="src"></textarea>
+      <input type="submit" value="shuffle -> natsort"/>
+    </form>
+  </li>
+  <li>
+    <label for="dstPHP">PHP dst:</label>
+
+    <p id="dstPHP"></p>
+    <label for="dstRuby">Rudy dst:</label>
+
+    <p id="dstRuby"></p>
+  </li>
+</ul>
+</body>
+</html>

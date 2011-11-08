@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS | TextField</title>
+  <link rel="stylesheet" href="../.styles/examples.css"/>
+  <script src="../../lib/graphics.js"></script>
+  <script src="../.scripts/execute.js"></script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>display.TextField</h1>
+</header>
+
+<section>
+  <h2>new TextField()</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+(new Shape()).drawLine(250, 30, 450, 30).stroke(1, 0xff0000)
+             .drawCircle(250, 30, 3).stroke(1, 0xff0000)
+             .drawLine(250, 60, 450, 60).stroke(1, 0xff0000)
+             .drawCircle(250, 60, 3).stroke(1, 0xff0000)
+             .drawLine(250, 90, 450, 90).stroke(1, 0xff0000)
+             .drawCircle(250, 90, 3).stroke(1, 0xff0000)
+             .drawLine(250, 120, 450, 120).stroke(1, 0xff0000)
+             .drawCircle(250, 120, 3).stroke(1, 0xff0000)
+             .drawLine(250, 150, 450, 150).stroke(1, 0xff0000)
+             .drawCircle(250, 150, 3).stroke(1, 0xff0000)
+             .drawLine(250, 180, 450, 180).stroke(1, 0xff0000)
+             .drawCircle(250, 180, 3).stroke(1, 0xff0000)
+             .addTo(stage);
+
+var format, textField;
+
+format = new TextFormat();
+format.textBaseline = Baseline.TOP;
+textField = new TextField('top - ABCdefg', format);
+textField.x = 250;
+textField.y = 30;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.textBaseline = Baseline.HANGING;
+textField = new TextField('hanging - ABCdefg', format);
+textField.x = 250;
+textField.y = 60;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.textBaseline = Baseline.MIDDLE;
+textField = new TextField('middle - ABCdefg', format);
+textField.x = 250;
+textField.y = 90;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.textBaseline = Baseline.ALPHABETIC;
+textField = new TextField('alphabetic - ABCdefg', format);
+textField.x = 250;
+textField.y = 120;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.textBaseline = Baseline.IDEOGRAPHIC;
+textField = new TextField('ideographic - ABCdefg', format);
+textField.x = 250;
+textField.y = 150;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.textBaseline = Baseline.BOTTOM;
+textField = new TextField('bottom - ABCdefg', format);
+textField.x = 250;
+textField.y = 180;
+stage.addChild(textField);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+</body>
+</html>

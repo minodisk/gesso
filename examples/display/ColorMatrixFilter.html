@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>graphicsJS | ColorMatrixFilter</title>
+<link rel="stylesheet" href="../.styles/examples.css"/>
+<script type="text/javascript" src="../../lib/graphics.js"></script>
+<script type="text/javascript">
+(function(window, document) {
+  var Stage = require('display/Stage')
+    , Bitmap = require('display/Bitmap')
+    , ColorMatrix = require('display/filters/ColorMatrix')
+    , ColorMatrixFilter = require('display/filters/ColorMatrixFilter')
+    , ArrayUtil = require('utils/ArrayUtil');
+
+  window.addEventListener('DOMContentLoaded', function(e) {
+    function removeAllChildren(node) {
+      while (node.childNodes.length) {
+        node.removeChild(node.firstChild);
+      }
+    }
+
+    var tooltip = document.createElement('div');
+    tooltip.className = 'matrix';
+
+    var canvases = ArrayUtil.toArray(document.querySelectorAll('canvas'));
+    canvases.forEach(function(canvas, i, canvases) {
+      var stage = new Stage(canvas);
+      var bitmap = new Bitmap();
+      stage.addChild(bitmap);
+
+      var colorMatrixMap = {};
+      var colorMatrix = new ColorMatrix();
+      var role = canvas.getAttribute('role');
+      var matched = role.match(/([^\(\)]+)(?:\(([^\(\)]+)\))?/);
+      var methodName = matched[1];
+      var argument = matched[2];
+      switch (methodName) {
+        case 'invert':
+          colorMatrix.invert();
+          break;
+        case 'adjustSaturation':
+          colorMatrix.adjustSaturation(Number(argument));
+          break;
+        case 'adjustContrast':
+          colorMatrix.adjustContrast(Number(argument));
+          break;
+        case 'adjustBrightness':
+          colorMatrix.adjustBrightness(Number(argument));
+          break;
+        case 'adjustHue':
+          colorMatrix.adjustHue(Number(argument));
+          break;
+        case 'rotateHue':
+          colorMatrix.rotateHue(Number(argument));
+          break;
+        case 'luminance2Alpha':
+          colorMatrix.luminance2Alpha();
+          break;
+        case 'adjustAlphaContrast':
+          colorMatrix.adjustAlphaContrast(Number(argument));
+          break;
+        case 'colorize':
+          colorMatrix.colorize(parseInt(argument, 16), 1);
+          break;
+        case 'setChannels':
+          switch (argument) {
+            case 'R':
+              colorMatrix.setChannels(1, 0, 0, 8);
+              break;
+            case 'G':
+              colorMatrix.setChannels(0, 2, 0, 8);
+              break;
+            case 'B':
+              colorMatrix.setChannels(0, 0, 4, 8);
+              break;
+          }
+          break;
+        case 'average':
+          switch (argument) {
+            case 'R':
+              colorMatrix.average(1, 0, 0);
+              break;
+            case 'G':
+              colorMatrix.average(0, 1, 0);
+              break;
+            case 'B':
+              colorMatrix.average(0, 0, 1);
+              break;
+          }
+          break;
+        case 'threshold':
+          colorMatrix.threshold(Number(argument));
+          break;
+        case 'desaturate':
+          colorMatrix.desaturate();
+          break;
+        case 'randomize':
+          colorMatrix.randomize();
+          break;
+        case 'setMultiplicators':
+          colorMatrix.setMultiplicators(Number(argument), Number(argument),
+            Number(argument), 1);
+          break;
+        case 'clearChannels':
+          switch (argument) {
+            case 'R':
+              colorMatrix.clearChannels(true, false, false, false);
+              break;
+            case 'G':
+              colorMatrix.clearChannels(false, true, false, false);
+              break;
+            case 'B':
+              colorMatrix.clearChannels(false, false, true, false);
+              break;
+          }
+          break;
+        case 'thresholdAlpha':
+          colorMatrix.thresholdAlpha(Number(argument));
+          break;
+        case 'averageRGB2Alpha':
+          colorMatrix.averageRGB2Alpha();
+          break;
+        case 'invertAlpha':
+          colorMatrix.invertAlpha();
+          break;
+        case 'rgb2Alpha':
+          switch (argument) {
+            case 'R':
+              colorMatrix.rgb2Alpha(1, 0, 0);
+              break;
+            case 'G':
+              colorMatrix.rgb2Alpha(0, 1, 0);
+              break;
+            case 'B':
+              colorMatrix.rgb2Alpha(0, 0, 1);
+              break;
+          }
+          break;
+        case 'setAlpha':
+          colorMatrix.setAlpha(Number(argument));
+          break;
+        case 'rotateRed':
+          colorMatrix.rotateRed(Number(argument));
+          break;
+        case 'rotateGreen':
+          colorMatrix.rotateGreen(Number(argument));
+          break;
+        case 'rotateBlue':
+          colorMatrix.rotateBlue(Number(argument));
+          break;
+        case 'shearRed':
+          switch (argument) {
+            case 'G':
+              colorMatrix.shearRed(1, 0);
+              break;
+            case 'B':
+              colorMatrix.shearRed(0, 1);
+              break;
+            case 'GB':
+              colorMatrix.shearRed(1, 1);
+              break;
+          }
+          break;
+        case 'shearGreen':
+          switch (argument) {
+            case 'R':
+              colorMatrix.shearGreen(1, 0);
+              break;
+            case 'B':
+              colorMatrix.shearGreen(0, 1);
+              break;
+            case 'RB':
+              colorMatrix.shearGreen(1, 1);
+              break;
+          }
+          break;
+        case 'shearBlue':
+          switch (argument) {
+            case 'R':
+              colorMatrix.shearBlue(1, 0);
+              break;
+            case 'G':
+              colorMatrix.shearBlue(0, 1);
+              break;
+            case 'RG':
+              colorMatrix.shearBlue(1, 1);
+              break;
+          }
+          break;
+      }
+      bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+      bitmap.draw('images/lena.png');
+
+      colorMatrixMap[methodName] = colorMatrix;
+      canvas.addEventListener('mouseover', function(e) {
+        tooltip.appendChild(document.createTextNode(colorMatrix
+          .toString()));
+        tooltip.style.left = String(e.pageX + 16) + 'px';
+        tooltip.style.top = String(e.pageY + 12) + 'px';
+        document.body.appendChild(tooltip);
+      }, false);
+      canvas.addEventListener('mousemove', function(e) {
+        tooltip.style.left = String(e.pageX + 16) + 'px';
+        tooltip.style.top = String(e.pageY + 12) + 'px';
+      }, false);
+      canvas.addEventListener('mouseout', function(e) {
+        removeAllChildren(tooltip);
+        document.body.removeChild(tooltip);
+      }, false);
+    });
+  }, false);
+})(window, document);
+</script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>display.filters.ColorMatrixFilter</h1>
+</header>
+
+<section>
+  <h2>Invert</h2>
+  <canvas role="invert" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Adjust Saturation</h2>
+  <canvas role="adjustSaturation(-.5)" width="256" height="128"></canvas>
+  <canvas role="adjustSaturation(.0)" width="256" height="128"></canvas>
+  <canvas role="adjustSaturation(.5)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Adjust Contrast</h2>
+  <canvas role="adjustContrast(-.5)" width="256" height="128"></canvas>
+  <canvas role="adjustContrast(.0)" width="256" height="128"></canvas>
+  <canvas role="adjustContrast(.5)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Adjust Brightness</h2>
+  <canvas role="adjustBrightness(-.5)" width="256" height="128"></canvas>
+  <canvas role="adjustBrightness(.0)" width="256" height="128"></canvas>
+  <canvas role="adjustBrightness(.5)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Adjust Hue</h2>
+  <canvas role="adjustHue(90)" width="256" height="128"></canvas>
+  <canvas role="adjustHue(180)" width="256" height="128"></canvas>
+  <canvas role="adjustHue(270)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Rotate Hue</h2>
+  <canvas role="rotateHue(90)" width="256" height="128"></canvas>
+  <canvas role="rotateHue(180)" width="256" height="128"></canvas>
+  <canvas role="rotateHue(270)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Luminance to Alpha</h2>
+  <canvas role="luminance2Alpha" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Adjust Alpha Contrast</h2>
+  <canvas role="adjustAlphaContrast(-1.0)" width="256" height="128"></canvas>
+  <canvas role="adjustAlphaContrast(0.0)" width="256" height="128"></canvas>
+  <canvas role="adjustAlphaContrast(1.0)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Colorize</h2>
+  <canvas role="colorize(ff0000)" width="256" height="128"></canvas>
+  <canvas role="colorize(00ff00)" width="256" height="128"></canvas>
+  <canvas role="colorize(0000ff)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Set Channels</h2>
+  <canvas role="setChannels(R)" width="256" height="128"></canvas>
+  <canvas role="setChannels(G)" width="256" height="128"></canvas>
+  <canvas role="setChannels(B)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Average</h2>
+  <canvas role="average(R)" width="256" height="128"></canvas>
+  <canvas role="average(G)" width="256" height="128"></canvas>
+  <canvas role="average(B)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Threshold</h2>
+  <canvas role="threshold(64)" width="256" height="128"></canvas>
+  <canvas role="threshold(128)" width="256" height="128"></canvas>
+  <canvas role="threshold(192)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Desaturate</h2>
+  <canvas role="desaturate" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Randomize</h2>
+  <canvas role="randomize" width="256" height="128"></canvas>
+  <canvas role="randomize" width="256" height="128"></canvas>
+  <canvas role="randomize" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Set Multiplicators</h2>
+  <canvas role="setMultiplicators(1)" width="256" height="128"></canvas>
+  <canvas role="setMultiplicators(2)" width="256" height="128"></canvas>
+  <canvas role="setMultiplicators(3)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Clear Channels</h2>
+  <canvas role="clearChannels(R)" width="256" height="128"></canvas>
+  <canvas role="clearChannels(G)" width="256" height="128"></canvas>
+  <canvas role="clearChannels(B)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Threshold Alpha</h2>
+  <canvas role="thresholdAlpha(.25)" width="256" height="128"></canvas>
+  <canvas role="thresholdAlpha(.5)" width="256" height="128"></canvas>
+  <canvas role="thresholdAlpha(1)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Average RGB to Alpha</h2>
+  <canvas role="averageRGB2Alpha" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Invert Alpha</h2>
+  <canvas role="invertAlpha" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>RGB to Alpha</h2>
+  <canvas role="rgb2Alpha(R)" width="256" height="128"></canvas>
+  <canvas role="rgb2Alpha(G)" width="256" height="128"></canvas>
+  <canvas role="rgb2Alpha(B)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Set Alpha</h2>
+  <canvas role="setAlpha(.25)" width="256" height="128"></canvas>
+  <canvas role="setAlpha(.5)" width="256" height="128"></canvas>
+  <canvas role="setAlpha(.75)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Rotate Red</h2>
+  <canvas role="rotateRed(90)" width="256" height="128"></canvas>
+  <canvas role="rotateRed(180)" width="256" height="128"></canvas>
+  <canvas role="rotateRed(270)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Rotate Green</h2>
+  <canvas role="rotateGreen(90)" width="256" height="128"></canvas>
+  <canvas role="rotateGreen(180)" width="256" height="128"></canvas>
+  <canvas role="rotateGreen(270)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Rotate Blue</h2>
+  <canvas role="rotateBlue(90)" width="256" height="128"></canvas>
+  <canvas role="rotateBlue(180)" width="256" height="128"></canvas>
+  <canvas role="rotateBlue(270)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Shear Red</h2>
+  <canvas role="shearRed(G)" width="256" height="128"></canvas>
+  <canvas role="shearRed(B)" width="256" height="128"></canvas>
+  <canvas role="shearRed(GB)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Shear Green</h2>
+  <canvas role="shearGreen(R)" width="256" height="128"></canvas>
+  <canvas role="shearGreen(B)" width="256" height="128"></canvas>
+  <canvas role="shearGreen(RB)" width="256" height="128"></canvas>
+</section>
+
+<section>
+  <h2>Shear Blue</h2>
+  <canvas role="shearBlue(R)" width="256" height="128"></canvas>
+  <canvas role="shearBlue(G)" width="256" height="128"></canvas>
+  <canvas role="shearBlue(RG)" width="256" height="128"></canvas>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+canvas {
+  background : url('../.images/check.png') repeat 0 0;
+}
+
+pre, code {
+  font-size   : 12px;
+  font-family : 'Consolas', 'Inconsolate', 'Courier', monospace;
+}
+
+.matrix {
+  position         : absolute;
+  background-color : #ffffe1;
+  border           : 1px solid #000000;
+  padding          : 4px 6px;
+  box-shadow       : 5px 5px 5px rgba(0, 0, 0, .5);
+  white-space      : pre;
+  font-size        : 12px;
+  font-family      : 'Consolas', 'Inconsolate', 'Courier', monospace;
+}

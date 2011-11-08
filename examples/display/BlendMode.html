@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS | BlendMode</title>
+  <style>
+    ul {
+      list-style-type : none;
+    }
+
+    li>img {
+      margin-left : 5px;
+    }
+
+    li>span {
+      display    : inline-block;
+      width      : 90px;
+      text-align : right;
+    }
+
+    li>span:after {
+      content : ':';
+      margin  : 0 5px;
+    }
+
+    .imgContainer {
+      display  : inline-block;
+      position : relative;
+      width    : 176px;
+      height   : 182px;
+    }
+
+    .imgContainer>img {
+      position   : absolute;
+      top        : 0;
+      left       : 0;
+      background : none;
+    }
+
+    .imgContainer,
+    img,
+    canvas {
+      /*background : url('images/check.png') repeat 0 0;*/
+    }
+  </style>
+  <script type="text/javascript" src="../../lib/browser/bucketz.js"></script>
+  <script type="text/javascript" src="scripts/processing.js"></script>
+  <script type="text/javascript">
+    (function (window, document) {
+      var Graphics = require('display.Graphics');
+      var Layer = require('display.Layer');
+      var BlendMode = require('display.blends.BlendMode');
+      var ArrayUtil = require('utils.ArrayUtil');
+
+      var displayMap = {};
+
+      window.addEventListener('DOMContentLoaded', function init(e) {
+        window.removeEventListener('DOMContentLoaded', init);
+
+        var canvases = ArrayUtil.toArray(document.querySelectorAll('_canvas'));
+
+        canvases.forEach(function (canvas, i, canvases) {
+          var type = canvas.parentNode.parentNode.className;
+          var mode = canvas.className;
+
+          var rawDst = document.querySelector('#' + type + 'Dst');
+          var rawSrc = document.querySelector('#' + type + 'Src');
+
+          var script;
+          if (mode === 'normal') {
+            script = document.querySelector('#' + type + 'Normal').textContent;
+          } else {
+            script = document.querySelector('#' + type + 'Blend').textContent;
+            script = script.replace('#MODE#', mode.toUpperCase());
+          }
+          var canvasP = document.createElement('_canvas');
+          canvas.parentNode.appendChild(canvasP);
+          new Processing(canvasP, script);
+
+          var display = new Graphics(canvas);
+          var dst = new Layer();
+          display.addChild(dst);
+          dst.draw(rawDst);
+          var src = new Layer();
+          display.addChild(src);
+          src.draw(rawSrc);
+          src.blendMode = BlendMode[mode.toUpperCase()];
+          display.render();
+
+          if (type === 'opaque') {
+            var img = document.createElement('img');
+            img.setAttribute('src', 'images/ps_' + mode + '.png');
+            canvas.parentNode.appendChild(img);
+          }
+        });
+
+      }, false);
+    })(window, document);
+  </script>
+  <script id="opaqueNormal" type="application/processing">
+    /* @pjs preload='images/opaque_dst.png, images/opaque_src.png';
+    */
+    size(176, 182);
+    background(255, 255, 255);
+
+    PImage dst = loadImage('images/opaque_dst.png');
+    PImage src = loadImage('images/opaque_src.png');
+    image(dst, 0, 0);
+    image(src, 0, 0);
+  </script>
+  <script id="opaqueBlend" type="application/processing">
+    /* @pjs preload='images/opaque_dst.png, images/opaque_src.png';
+    */
+    size(176, 182);
+    background(255, 255, 255);
+
+    PImage dst = loadImage('images/opaque_dst.png');
+    PImage src = loadImage('images/opaque_src.png');
+    dst.blend(src, 0, 0, 176, 182, 0, 0, 176, 182, #MODE#);
+    image(dst, 0, 0);
+  </script>
+  <script id="transparentNormal" type="application/processing">
+    /* @pjs preload='images/transparent_dst.png, images/transparent_src.png';
+    */
+    size(176, 182);
+    background(255, 255, 255);
+
+    PImage dst = loadImage('images/transparent_dst.png');
+    PImage src = loadImage('images/transparent_src.png');
+    image(dst, 0, 0);
+    image(src, 0, 0);
+  </script>
+  <script id="transparentBlend" type="application/processing">
+    /* @pjs preload='images/transparent_dst.png, images/transparent_src.png';
+    */
+    size(176, 182);
+    background(255, 255, 255);
+
+    PImage dst = loadImage('images/transparent_dst.png');
+    PImage src = loadImage('images/transparent_src.png');
+    dst.blend(src, 0, 0, 176, 182, 0, 0, 176, 182, #MODE#);
+    image(dst, 0, 0);
+  </script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>Blend Mode Test</h1>
+</header>
+
+<h2>images</h2>
+<ul>
+  <li>
+    <span>dst</span>
+
+    <div class="imgContainer"><img id="opaqueDst"
+                                   src="images/opaque_dst.png"/></div>
+    <div class="imgContainer"><img id="transparentDst"
+                                   src="images/transparent_dst.png"/></div>
+  </li>
+  <li>
+    <span>src</span>
+
+    <div class="imgContainer"><img id="opaqueSrc"
+                                   src="images/opaque_src.png"/></div>
+    <div class="imgContainer"><img id="transparentSrc"
+                                   src="images/transparent_src.png"/></div>
+  </li>
+</ul>
+<hr/>
+
+<h2>blend (display.js | processing.js | PhotoShop)</h2>
+<ul class="opaque">
+  <li>
+    <span>normal</span>
+    <canvas class="normal" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>blend</span>
+    <canvas class="blend" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>add</span>
+    <canvas class="add" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>subtract</span>
+    <canvas class="subtract" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>darkest</span>
+    <canvas class="darkest" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>lightest</span>
+    <canvas class="lightest" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>difference</span>
+    <canvas class="difference" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>exclusion</span>
+    <canvas class="exclusion" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>multiply</span>
+    <canvas class="multiply" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>screen</span>
+    <canvas class="screen" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>overlay</span>
+    <canvas class="overlay" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>hard light</span>
+    <canvas class="hard_light" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>soft light</span>
+    <canvas class="soft_light" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>dodge</span>
+    <canvas class="dodge" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>burn</span>
+    <canvas class="burn" width="176" height="182"></canvas>
+  </li>
+</ul>
+<ul class="transparent">
+  <li>
+    <span>normal</span>
+    <canvas class="normal" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>blend</span>
+    <canvas class="blend" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>add</span>
+    <canvas class="add" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>subtract</span>
+    <canvas class="subtract" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>darkest</span>
+    <canvas class="darkest" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>lightest</span>
+    <canvas class="lightest" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>difference</span>
+    <canvas class="difference" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>exclusion</span>
+    <canvas class="exclusion" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>multiply</span>
+    <canvas class="multiply" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>screen</span>
+    <canvas class="screen" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>overlay</span>
+    <canvas class="overlay" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>hard light</span>
+    <canvas class="hard_light" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>soft light</span>
+    <canvas class="soft_light" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>dodge</span>
+    <canvas class="dodge" width="176" height="182"></canvas>
+  </li>
+  <li>
+    <span>burn</span>
+    <canvas class="burn" width="176" height="182"></canvas>
+  </li>
+</ul>
+
+</body>
+</html>

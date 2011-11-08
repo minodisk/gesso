@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS | Shape</title>
+  <link rel="stylesheet" href="../.styles/examples.css"/>
+  <script src="../../lib/graphics.js"></script>
+  <script src="../.scripts/execute.js"></script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>display.Shape</h1>
+</header>
+
+<section>
+  <h2>drawRect/drawRectangle</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.drawRect(50, 50, 100);
+shape.fill(0xff0000, .5);
+shape.drawRect(200, 50, 50, 100);
+shape.fill(0x00ff00, .5);
+shape.drawRectangle(new Rectangle(300, 50, 150, 100));
+shape.fill(0x0000ff, .5);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>drawRoundRect/drawRoundRectangle</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.drawRoundRect(50, 50, 100, 100, 10);
+shape.fill(0xff0000, .5);
+shape.drawRoundRect(200, 50, 50, 100, 10, 50);
+shape.fill(0x00ff00, .5);
+shape.drawRoundRectangle(new Rectangle(300, 50, 150, 100), 50, 50);
+shape.fill(0x0000ff, .5);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>drawCircle/drawEllipse</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.drawCircle(100, 100, 50);
+shape.fill(0xff0000, .5);
+shape.drawEllipse(200, 50, 50, 100);
+shape.fill(0x00ff00, .5);
+shape.drawEllipse(300, 50, 150, 100);
+shape.fill(0x0000ff, .5);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>drawRegularPolygon</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.drawRegularPolygon(100, 100, 60, 3);
+shape.fill(0xff0000, .5);
+shape.drawRegularPolygon(250, 100, 60, 6);
+shape.fill(0x00ff00, .5);
+shape.drawRegularPolygon(400, 100, 60, 12);
+shape.fill(0x0000ff, .5);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>drawStar/drawRegularStar</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.drawStar(100, 100, 60, 15, 5);
+shape.fill(0xff0000, .5);
+shape.drawStar(250, 100, 60, 35, 5);
+shape.fill(0x00ff00, .5);
+shape.drawRegularStar(400, 100, 60, 5);
+shape.fill(0x0000ff, .5);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>fill/stroke</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.drawRect(20, 30, 150, 100);
+shape.fill();
+shape.stroke(10, 0xffff00);
+shape.drawRoundRect(150, 50, 100, 100, 10);
+shape.fill(0x00ff00, .5);
+shape.stroke(5, 0xff0000, 1);
+shape.drawCircle(250, 125, 60);
+shape.stroke(1, 0x000000, 1);
+shape.drawRegularPolygon(290, 120, 60, 5);
+shape.fill(0xffff00, .75);
+shape.drawRegularStar(400, 100, 90, 8);
+shape.fill(0x0000ff, .5);
+shape.stroke(5, 0xff00ff, 1);
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>method chain</h2>
+
+  <div class="execute">
+    <pre>
+(new Shape()).drawRect(20, 30, 150, 100)
+             .fill()
+             .stroke(10, 0xffff00)
+             .drawRoundRect(150, 50, 100, 100, 10)
+             .fill(0x00ff00, .5)
+             .stroke(5, 0xff0000, 1)
+             .drawCircle(250, 125, 60)
+             .stroke(1, 0x000000, 1)
+             .drawRegularPolygon(290, 120, 60, 5)
+             .fill(0xffff00, .75)
+             .drawRegularStar(400, 100, 90, 8)
+             .fill(0x0000ff, .5)
+             .stroke(5, 0xff00ff, 1)
+             .addTo(new Stage(canvas));
+    </pre>
+    <canvas width="500" height="200"></canvas>
+  </div>
+</section>
+
+</body>
+</html>
