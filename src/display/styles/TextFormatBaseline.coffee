@@ -1,4 +1,4 @@
-module.exports = TextBaseline =
+module.exports = TextFormatBaseline =
 
   TOP: 'top'
   HANGING: 'hanging'

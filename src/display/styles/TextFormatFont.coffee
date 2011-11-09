@@ -1,4 +1,4 @@
-module.exports = FontFamily =
+module.exports = TextFormatFont =
 
   SERIF: 'serif'
   SANS_SERIF: 'sans-serif'

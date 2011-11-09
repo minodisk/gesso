@@ -1,13 +1,10 @@
-FontFamily = require('display/styles/FontFamily')
-FontWeight = require('display/styles/FontWeight')
-FontStyle = require('display/styles/FontStyle')
-FontVariant = require('display/styles/FontVariant')
-TextAlign = require('display/styles/TextAlign')
-TextBaseline = require('display/styles/TextBaseline')
+TextFormatFont = require('display/styles/TextFormatFont')
+TextFormatAlign = require('display/styles/TextFormatAlign')
+TextFormatBaseline = require('display/styles/TextFormatBaseline')
 
 module.exports = class TextFormat
 
-  constructor: (@fontFamily = FontFamily.SANS_SERIF, @fontSize = 16, @color = 0, @fontWeight = FontWeight.NORMAL, @fontStyle = FontStyle.NORMAL, @fontVariant = FontVariant.NORMAL, @textAlign = TextAlign.START, @textBaseline = TextBaseline.ALPHABETIC) ->
+    constructor:(@font = TextFormatFont.SANS_SERIF, @size = 16, @color = 0, @bold = false, @italic = false, @smallCaps = false, @align = TextFormatAlign.START, @baseline = TextFormatBaseline.ALPHABETIC)->
 
-  toStyleSheet: () ->
-    "#{@fontStyle} #{@fontVariant} #{@fontWeight} #{@fontSize}px #{@fontFamily}"
+    toStyleSheet:()->
+        "#{ if @italic then 'italic' else 'normal' } #{ if @smallCaps then 'small-caps' else 'normal' } #{ if @bold then 'bold' else 'normal' } #{ @size }px #{ @font }"

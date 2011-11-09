@@ -1,4 +1,4 @@
-module.exports = TextAlign =
+module.exports = TextFormatAlign =
 
   START: 'start'
   END: 'end'
