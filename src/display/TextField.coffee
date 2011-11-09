@@ -8,9 +8,9 @@ module.exports = class TextField extends DisplayObject
     super('TextField')
     @rect = new Rectangle()
     @_stack =
-      method: 'drawText'
-      arguments: [text, format, null]
-      rect: @rect
+      method   : 'drawText'
+      arguments: [ text, format, null ]
+      rect     : @rect
     @_stacks.push @_stack
     metrix = @_measureText()
     @rect.y = -metrix.height * 2
@@ -44,12 +44,12 @@ module.exports = class TextField extends DisplayObject
   _measureText: ->
     @_context.font = @_stack.arguments[1].toStyleSheet()
     metrix = @_context.measureText @_stack.arguments[0]
-    metrix.height = @_stack.arguments[1].fontSize
+    metrix.height = @_stack.arguments[1].size
     metrix
 
   _drawText: (text, format, maxLength = null) ->
     @_context.font = format.toStyleSheet()
-    @_context.textAlign = format.textAlign
-    @_context.textBaseline = format.textBaseline
+    @_context.textAlign = format.align
+    @_context.textBaseline = format.baseline
     @_context.fillStyle = TextField.toColorString format.color
     @_context.fillText text, 0, -@rect.y, maxLength

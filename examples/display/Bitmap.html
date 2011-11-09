@@ -4,7 +4,7 @@
   <title>graphicsJS | Bitmap</title>
   <link rel="stylesheet" href="../.styles/examples.css"/>
   <script src="../../lib/graphics.js"></script>
-  <script src="scripts/execute.js"></script>
+  <script src="../.scripts/execute.js"></script>
 </head>
 <body>
 
@@ -16,15 +16,15 @@
 
 <section>
   <h2>draw</h2>
-  <ul class="executable">
-    <li>
+  <ul>
+    <li class="execute">
       <pre>var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
 bitmap.draw('images/lena.png');</pre>
       <canvas></canvas>
     </li>
-    <li>
+    <li class="execute">
       <pre>var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
@@ -33,7 +33,7 @@ img.src = 'images/opaque_dst.png';
 bitmap.draw(img);</pre>
       <canvas></canvas>
     </li>
-    <li>
+    <li class="execute">
       <pre>var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);

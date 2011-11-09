@@ -5,7 +5,7 @@ BlendMode = require('display/blends/BlendMode')
 module.exports = class Sprite extends DisplayObject
 
   constructor: () ->
-    super('Sprite')
+    super 'Sprite'
     @_children = []
 
   Sprite::__defineSetter__ '_stage', (value) ->
@@ -16,12 +16,12 @@ module.exports = class Sprite extends DisplayObject
   addChild:(child)->
     child._stage = @_stage
     child._parent = @
-    @_children.push(child)
+    @_children.push child
     @_requestRender true
     return
 
   removeChild:(displayObject)->
-    index = @_children.indexOf(displayObject)
+    index = @_children.indexOf displayObject
     @_children.splice index, 1 if index isnt -1
     @_requestRender true
     return
@@ -31,9 +31,11 @@ module.exports = class Sprite extends DisplayObject
     for child in @_children when child._stacks.length > 0
       child.render()
       if child.blendMode is BlendMode.NORMAL
-        @_context.drawImage(child._canvas, child.x + child.bounds.x, child.y + child.bounds.y)
+        throw new Error 'canvas isn\'t set' unless child._canvas?
+        throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y
+        @_context.drawImage child._canvas, child.x + child.bounds.x, child.y + child.bounds.y
       else
         imageData = @getImageData()
-        Blend.scan(imageData, child.getImageData(), child.blendMode)
-        @_context.putImageData(imageData, 0, 0)
+        Blend.scan imageData, child.getImageData(), child.blendMode
+        @_context.putImageData imageData, 0, 0
     return

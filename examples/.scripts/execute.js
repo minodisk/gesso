@@ -8,7 +8,7 @@
   window.Sprite = require('display/Sprite');
   window.TextField = require('display/TextField');
   window.TextFormat = require('display/styles/TextFormat');
-  window.Baseline = require('display/styles/TextBaseline');
+  window.TextFormatBaseline = require('display/styles/TextFormatBaseline');
   window.Rectangle = require('geom/Rectangle');
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes = document.querySelectorAll('.execute');
