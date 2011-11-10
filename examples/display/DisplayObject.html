@@ -47,7 +47,7 @@ stage.addEventListener('enterFrame', function (e) {
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(150, 75, 50)
-shape.fill(0xff0000, 1);
+shape.fill(0x0581d2);
 stage.addChild(shape);
 var direction = -1;
 stage.addEventListener('enterFrame', function (e) {
@@ -70,7 +70,7 @@ stage.addEventListener('enterFrame', function (e) {
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50);
-shape.fill(0xff0000, 0.5);
+shape.fill(0x0581d2);
 shape.x = 150;
 shape.y = 75;
 stage.addChild(shape);
@@ -83,13 +83,13 @@ stage.addEventListener('enterFrame', function (e) {
 </section>
 
 <section>
-  <h2>scale</h2>
+  <h2>scaleX/scaleY</h2>
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50);
-shape.fill(0xff0000, 0.5);
+shape.fill(0x0581d2);
 shape.x = 150;
 shape.y = 75;
 stage.addChild(shape);
