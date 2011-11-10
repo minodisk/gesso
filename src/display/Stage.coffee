@@ -1,4 +1,6 @@
 Sprite = require('display/Sprite')
+TextField = require('display/TextField')
+TextFormat = require('display/styles/TextFormat')
 Capabilities = require('system/Capabilities')
 
 _tick = do ->
@@ -10,6 +12,15 @@ _tick = do ->
   (callback)-> setTimeout (()->callback((new Date()).getTime())), 1000 / 60
 
 module.exports = class Stage extends Sprite
+
+  Stage::__defineGetter__ 'debug', -> @_debug
+  Stage::__defineSetter__ 'debug', (debug) ->
+    @_debug = debug
+    unless @_debugTextField?
+      @_debugTextField = new TextField
+      @_debugTextField.format = new TextFormat 'monospace', 13, 0xffffff
+      console.log @_debugTextField.format
+      @addChild @_debugTextField
 
   constructor:(canvasOrWidth, height = null)->
     super('Stage')
@@ -40,6 +51,7 @@ module.exports = class Stage extends Sprite
     if (@currentFrame % 30) is 0
       @frameRate = (300000 / (time - @_time) >> 0) / 10
       @_time = time
+      @_debugTextField.text = "fps: #{ @frameRate }" if @_debugTextField?
     @dispatchEvent 'enterFrame'
     if @_isRender
       @render()

@@ -1,8 +1,11 @@
-EventEmitter = require('events/EventDispatcher')
-BlendMode = require('display/blends/BlendMode')
-Rectangle = require('geom/Rectangle')
+EventDispatcher = require 'events/EventDispatcher'
+BlendMode = require 'display/blends/BlendMode'
+Matrix = require 'geom/Matrix'
+Rectangle = require 'geom/Rectangle'
 
-module.exports = class DisplayObject extends EventEmitter
+_RADIAN_PER_DEGREE = Math.PI / 180
+
+module.exports = class DisplayObject extends EventDispatcher
 
   @toColorString: (color = 0, alpha = 1) ->
     "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
@@ -13,11 +16,13 @@ module.exports = class DisplayObject extends EventEmitter
     @_parent = null
     @_x = 0
     @_y = 0
+    @_matrix = new Matrix()
     @_width = 0
     @_height = 0
-    @_scaleX = 0
-    @_scaleY = 0
-    @alpha = 1
+    @_scaleX = 1
+    @_scaleY = 1
+    @_rotation = 0
+    @_alpha = 1
     @blendMode = BlendMode.NORMAL
     @rect = new Rectangle()
     @filters = []
@@ -27,58 +32,66 @@ module.exports = class DisplayObject extends EventEmitter
     @_stacks = []
     @_rerender = false
 
-  DisplayObject::__defineGetter__ 'stage', ()-> @__stage
-  DisplayObject::__defineSetter__ '_stage', (value)->
+  DisplayObject::__defineGetter__ 'stage', -> @__stage
+  DisplayObject::__defineSetter__ '_stage', (value) ->
     @__stage = value
     return
 
-  DisplayObject::__defineGetter__ 'parent', ()-> @_parent
+  DisplayObject::__defineGetter__ 'parent', -> @_parent
 
-  DisplayObject::__defineGetter__ 'x', ()-> @_x
-  DisplayObject::__defineSetter__ 'x', (value)->
+  DisplayObject::__defineGetter__ 'x', -> @_x
+  DisplayObject::__defineSetter__ 'x', (value) ->
     @_x = value
     @_requestRender false
     return
 
-  DisplayObject::__defineGetter__ 'y', ()-> @_y
-  DisplayObject::__defineSetter__ 'y', (value)->
+  DisplayObject::__defineGetter__ 'y', -> @_y
+  DisplayObject::__defineSetter__ 'y', (value) ->
     @_y = value
     @_requestRender false
     return
 
-  DisplayObject::__defineGetter__ 'width', ()-> @_width
-  DisplayObject::__defineSetter__ 'width', (value)->
+  DisplayObject::__defineGetter__ 'alpha', -> @_alpha
+  DisplayObject::__defineSetter__ 'alpha', (value) ->
+    @_alpha = value
+    @_requestRender false
+    return
+
+  DisplayObject::__defineGetter__ 'rotation', -> @_rotation
+  DisplayObject::__defineSetter__ 'rotation', (value) ->
+    @_rotation = value
+    @_requestRender false
+    return
+
+  DisplayObject::__defineGetter__ 'width', -> @_width
+  DisplayObject::__defineSetter__ 'width', (value) ->
     @_width = value
     @_scaleX = value / @_canvas.width unless @_canvas.width is 0
     @_requestRender false
     return
 
-  DisplayObject::__defineGetter__ 'height', ()-> @_height
-  DisplayObject::__defineSetter__ 'height', (value)->
+  DisplayObject::__defineGetter__ 'height', -> @_height
+  DisplayObject::__defineSetter__ 'height', (value) ->
     @_height = value
     @_scaleY = value / @_canvas.height unless @_canvas.height is 0
     @_requestRender false
     return
 
-  DisplayObject::__defineGetter__ 'scaleX', ()-> @_scaleX
-  DisplayObject::__defineSetter__ 'scaleX', (value)->
+  DisplayObject::__defineGetter__ 'scaleX', -> @_scaleX
+  DisplayObject::__defineSetter__ 'scaleX', (value) ->
     @_scaleX = value
     @_width = @_canvas.width * value
     @_requestRender false
     return
 
-  DisplayObject::__defineGetter__ 'scaleY', ()-> @_scaleY
-  DisplayObject::__defineSetter__ 'scaleY', (value)->
+  DisplayObject::__defineGetter__ 'scaleY', -> @_scaleY
+  DisplayObject::__defineSetter__ 'scaleY', (value) ->
     @_scaleY = value
     @_height = @_canvas.height * value
     @_requestRender false
     return
 
-  set:(propertyName, value)->
-    @[propertyName] = value
-    @
-
-  render:->
+  render: ->
     if @_rerender
       @_rerender = false
       @rect = new Rectangle()
@@ -102,15 +115,19 @@ module.exports = class DisplayObject extends EventEmitter
         @_context.putImageData newImageData, @bounds.x, @bounds.y
     return
 
-  clear:->
+  clear: ->
     @_canvas.width = @rect.width
     @_requestRender true
 
-  addTo:(parent)->
+  addTo: (parent) ->
     throw new TypeError "parent #{ parent } isn't display object container" unless parent instanceof Sprite
     parent.addChild(@)
 
-  _requestRender:(rerender)->
+  set: (propertyName, value) ->
+    @[propertyName] = value
+    @
+
+  _requestRender: (rerender) ->
     @_rerender = true if rerender
     @_parent._requestRender() if @_parent?
     @

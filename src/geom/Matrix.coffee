@@ -10,12 +10,26 @@ Matrix = |b d y|
 
 module.exports = class Matrix
 
-  constructor:(@a = 1, @b = 0, @c = 0, @d = 1, @x = 0, @y = 0)->
+  constructor: (@a = 1, @b = 0, @c = 0, @d = 1, @x = 0, @y = 0)->
 
-  clone:->
+  clone: ->
     new Matrix @a, @b, @c, @d, @x, @y
 
-  concat:(matrix)->
+  apply: (matrix) ->
+    @_apply matrix.a, matrix.b, matrix.c, matrix.d, matrix.x, matrix.y
+  _apply: (a, b, c, d, x, y) ->
+    @a = a
+    @b = b
+    @c = c
+    @d = d
+    @x = x
+    @y = y
+    @
+
+  setTo: (context) ->
+    context.setTransform @a, @b, @c, @d, @x, @y
+
+  concat: (matrix) ->
     @_concat matrix.a, matrix.b, matrix.c, matrix.d, matrix.x, matrix.y
   _concat:(a, b, c, d, x, y)->
     @a = @a * a + @c * b + @x * 0
@@ -35,7 +49,7 @@ module.exports = class Matrix
   rotate:(angle)->
     c = _cos angle
     s = _sin angle
-    @concat c, -s, s, c, 0, 0
+    @_concat c, s, -s, c, 0, 0
 
   skew:(skewX, skewY)->
-    @concat 0, _tan(skewY), _tan(skewX), 0, 0, 0
+    @_concat 0, _tan(skewY), _tan(skewX), 0, 0, 0
