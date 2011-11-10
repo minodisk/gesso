@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>graphicsJS | Bitmap</title>
+  <title>graphicsJS Examples | Bitmap</title>
   <link rel="stylesheet" href="../.styles/examples.css"/>
   <script src="../../lib/graphics.js"></script>
   <script src="../.scripts/execute.js"></script>
@@ -11,40 +11,43 @@
 <header>
   <a href="../">index</a>
 
-  <h1>display.Bitmap</h1>
+  <h1>display/Bitmap</h1>
 </header>
 
 <section>
   <h2>draw</h2>
-  <ul>
-    <li class="execute">
-      <pre>var stage = new Stage(canvas);
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
-bitmap.draw('images/lena.png');</pre>
-      <canvas></canvas>
-    </li>
-    <li class="execute">
-      <pre>var stage = new Stage(canvas);
+bitmap.draw('images/lena.png');
+    </pre>
+    <canvas></canvas>
+  </div>
+  <div class="execute">
+    <pre>var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
 var img = new Image();
 img.src = 'images/opaque_dst.png';
 bitmap.draw(img);</pre>
-      <canvas></canvas>
-    </li>
-    <li class="execute">
-      <pre>var stage = new Stage(canvas);
+    <canvas></canvas>
+  </div>
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
 var img = new Image();
 img.addEventListener('load', function () {
   bitmap.draw(img);
 }, false);
-img.src = 'images/lena.png';</pre>
-      <canvas></canvas>
-    </li>
-  </ul>
+img.src = 'images/lena.png';
+    </pre>
+    <canvas></canvas>
+  </div>
 </section>
 
 </body>
