@@ -10089,7 +10089,7 @@
 
     /**
      * Sets the position of the camera through setting the eye position, the center of the scene, and which axis is facing
-     * upward. Moving the eye position and the direction it is pointing (the center of the scene) allows the images to be
+     * upward. Moving the eye position and the direction it is pointing (the center of the scene) allows the _images to be
      * seen from different angles. The version without any parameters sets the camera to the default position, pointing to
      * the center of the display window with the Y axis as up. The default values are camera(width/2.0, height/2.0,
      * (height/2.0) / tan(PI*60.0 / 360.0), width/2.0, height/2.0, 0, 0, 1, 0). This function is similar to gluLookAt()
@@ -11163,7 +11163,7 @@
     /**
      * The smooth() function draws all geometry with smooth (anti-aliased) edges. This will slow down the frame rate of the application,
      * but will enhance the visual refinement. <br/><br/>
-     * Note that smooth() will also improve image quality of resized images, and noSmooth() will disable image (and font) smoothing altogether.
+     * Note that smooth() will also improve image quality of resized _images, and noSmooth() will disable image (and font) smoothing altogether.
      *
      * @see #noSmooth()
      * @see #hint()
@@ -12667,11 +12667,11 @@
     };
 
     /**
-    * Modifies the location from which images draw. The default mode is imageMode(CORNER), which specifies
+    * Modifies the location from which _images draw. The default mode is imageMode(CORNER), which specifies
     * the location to be the upper left corner and uses the fourth and fifth parameters of image() to set
     * the image's width and height. The syntax imageMode(CORNERS) uses the second and third parameters of
     * image() to set the location of one corner of the image and uses the fourth and fifth parameters to
-    * set the opposite corner. Use imageMode(CENTER) to draw images centered at the given x and y position.
+    * set the opposite corner. Use imageMode(CENTER) to draw _images centered at the given x and y position.
     * The parameter to imageMode() must be written in ALL CAPS because Processing is a case sensitive language.
     *
     * @param {MODE} MODE      Either CORNER, CORNERS, or CENTER
@@ -13400,8 +13400,8 @@
     * a TIFF image and "image.png" will save a PNG image. If no extension is included in the filename,
     * the image will save in TIFF format and .tif will be added to the name. These files are saved to
     * the sketch's folder, which may be opened by selecting "Show sketch folder" from the "Sketch" menu.
-    * It is not possible to use save() while running the program in a web browser.  All images saved
-    * from the main drawing window will be opaque. To save images without a background, use createGraphics().
+    * It is not possible to use save() while running the program in a web browser.  All _images saved
+    * from the main drawing window will be opaque. To save _images without a background, use createGraphics().
     *
     * @param {String} filename      any sequence of letters and numbers
     *
@@ -13469,7 +13469,7 @@
     }
 
     /**
-    * Datatype for storing images. Processing can display .gif, .jpg, .tga, and .png images. Images may be
+    * Datatype for storing _images. Processing can display .gif, .jpg, .tga, and .png _images. Images may be
     * displayed in 2D and 3D space. Before an image is used, it must be loaded with the loadImage() function.
     * The PImage object contains fields for the width and height of the image, as well as an array called
     * pixels[]  which contains the values for every pixel in the image. A group of methods, described below,
@@ -13653,7 +13653,7 @@
       * @see get
       */
       this.resize = function(w, h) {
-        if (this.isRemote) { // Remote images cannot access imageData
+        if (this.isRemote) { // Remote _images cannot access imageData
           throw "Image is loaded remotely. Cannot resize.";
         } else {
           if (this.width !== 0 || this.height !== 0) {
@@ -13714,7 +13714,7 @@
       // or setPixels(), .length becomes getLength()
       this.pixels = {
         getLength: (function(aImg) {
-          if (aImg.isRemote) { // Remote images cannot access imageData
+          if (aImg.isRemote) { // Remote _images cannot access imageData
             throw "Image is loaded remotely. Cannot get length.";
           } else {
             return function() {
@@ -13723,7 +13723,7 @@
           }
         }(this)),
         getPixel: (function(aImg) {
-          if (aImg.isRemote) { // Remote images cannot access imageData
+          if (aImg.isRemote) { // Remote _images cannot access imageData
             throw "Image is loaded remotely. Cannot get pixels.";
           } else {
             return function(i) {
@@ -13734,7 +13734,7 @@
           }
         }(this)),
         setPixel: (function(aImg) {
-          if (aImg.isRemote) { // Remote images cannot access imageData
+          if (aImg.isRemote) { // Remote _images cannot access imageData
             throw "Image is loaded remotely. Cannot set pixel.";
           } else {
             return function(i,c) {
@@ -13747,7 +13747,7 @@
           }
         }(this)),
         set: function(arr) {
-          if (this.isRemote) { // Remote images cannot access imageData
+          if (this.isRemote) { // Remote _images cannot access imageData
             throw "Image is loaded remotely. Cannot set pixels.";
           } else {
             for (var i = 0, aL = arr.length; i < aL; i++) {
@@ -13782,7 +13782,7 @@
       this.updatePixels = function() {};
 
       this.toImageData = function() {
-        if (this.isRemote) { // Remote images cannot access imageData, send source image instead
+        if (this.isRemote) { // Remote _images cannot access imageData, send source image instead
           return this.sourceImg;
         } else {
           var canvasData = getCanvasData(this.imageData);
@@ -13791,7 +13791,7 @@
       };
 
       this.toDataURL = function() {
-        if (this.isRemote) { // Remote images cannot access imageData
+        if (this.isRemote) { // Remote _images cannot access imageData
           throw "Image is loaded remotely. Cannot create dataURI.";
         } else {
           var canvasData = getCanvasData(this.imageData);
@@ -13848,7 +13848,7 @@
     p.PImage = PImage;
 
     /**
-    * Creates a new PImage (the datatype for storing images). This provides a fresh buffer of pixels to play
+    * Creates a new PImage (the datatype for storing _images). This provides a fresh buffer of pixels to play
     * with. Set the size of the buffer with the width and height parameters. The format parameter defines how
     * the pixels are stored. See the PImage reference for more information.
     * Be sure to include all three parameters, specifying only the width and height (but no format) will
@@ -13870,9 +13870,9 @@
 
     // Loads an image for display. Type is an extension. Callback is fired on load.
     /**
-    * Loads an image into a variable of type PImage. Four types of images ( .gif, .jpg, .tga, .png) images may
-    * be loaded. To load correctly, images must be located in the data directory of the current sketch. In most
-    * cases, load all images in setup() to preload them at the start of the program. Loading images inside draw()
+    * Loads an image into a variable of type PImage. Four types of _images ( .gif, .jpg, .tga, .png) _images may
+    * be loaded. To load correctly, _images must be located in the data directory of the current sketch. In most
+    * cases, load all _images in setup() to preload them at the start of the program. Loading _images inside draw()
     * will reduce the speed of a program.
     * The filename parameter can also be a URL to a file found online. For security reasons, a Processing sketch
     * found online can only download files from the same server from which it came. Getting around this restriction
@@ -13937,9 +13937,9 @@
       }
     };
 
-    // async loading of large images, same functionality as loadImage above
+    // async loading of large _images, same functionality as loadImage above
     /**
-    * This function load images on a separate thread so that your sketch does not freeze while images load during
+    * This function load _images on a separate thread so that your sketch does not freeze while _images load during
     * setup(). While the image is loading, its width and height will be 0. If an error occurs while loading the image,
     * its width and height will be set to -1. You'll know when the image has loaded properly because its width and
     * height will be greater than 0. Asynchronous image loading (particularly when downloading from a server) can
@@ -13985,7 +13985,7 @@
       }
     }
     function get$3(x,y,img) {
-      if (img.isRemote) { // Remote images cannot access imageData
+      if (img.isRemote) { // Remote _images cannot access imageData
         throw "Image is loaded remotely. Cannot get x,y.";
       } else {
         // PImage.get(x,y) was called, return the color (int) at x,y of img
@@ -14004,7 +14004,7 @@
       return c;
     }
     function get$5(x, y, w, h, img) {
-      if (img.isRemote) { // Remote images cannot access imageData
+      if (img.isRemote) { // Remote _images cannot access imageData
         throw "Image is loaded remotely. Cannot get x,y,w,h.";
       } else {
         // PImage.get(x,y,w,h) was called, return x,y,w,h PImage of img
@@ -14150,7 +14150,7 @@
       }
     }
     function set$4(x, y, obj, img) {
-      if (img.isRemote) { // Remote images cannot access imageData
+      if (img.isRemote) { // Remote _images cannot access imageData
         throw "Image is loaded remotely. Cannot set x,y.";
       } else {
         var c = p.color.toArray(obj);
@@ -14419,8 +14419,8 @@
 
     // Draws an image to the Canvas
     /**
-    * Displays images to the screen. The images must be in the sketch's "data" directory to load correctly. Select "Add
-    * file..." from the "Sketch" menu to add the image. Processing currently works with GIF, JPEG, and Targa images. The
+    * Displays _images to the screen. The _images must be in the sketch's "data" directory to load correctly. Select "Add
+    * file..." from the "Sketch" menu to add the image. Processing currently works with GIF, JPEG, and Targa _images. The
     * color of an image may be modified with the tint() function and if a GIF has transparency, it will maintain its
     * transparency. The img parameter specifies the image to display and the x and y parameters define the location of
     * the image from its upper-left corner. The image is displayed at its original size unless the width and height
@@ -14499,7 +14499,7 @@
     };
 
     /**
-     * The tint() function sets the fill value for displaying images. Images can be tinted to
+     * The tint() function sets the fill value for displaying _images. Images can be tinted to
      * specified colors or made transparent by setting the alpha.
      * <br><br>To make an image transparent, but not change it's color,
      * use white as the tint color and specify an alpha value. For instance,
@@ -14550,7 +14550,7 @@
     };
 
     /**
-     * The noTint() function removes the current fill value for displaying images and reverts to displaying images with their original hues.
+     * The noTint() function removes the current fill value for displaying _images and reverts to displaying _images with their original hues.
      *
      * @see #tint()
      * @see #image()
@@ -14648,7 +14648,7 @@
       var dx2 = dx + dw;
       var dy2 = dy + dh;
       var dest;
-      if (src.isRemote) { // Remote images cannot access imageData
+      if (src.isRemote) { // Remote _images cannot access imageData
         throw "Image is loaded remotely. Cannot blend image.";
       } else {
         // check if pimgdest is there and pixels, if so this was a call from pimg.blend
@@ -14952,7 +14952,7 @@
       if (param === undef) {
         param = null;
       }
-      if (img.isRemote) { // Remote images cannot access imageData
+      if (img.isRemote) { // Remote _images cannot access imageData
         throw "Image is loaded remotely. Cannot filter image.";
       } else {
         // begin filter process
@@ -17204,7 +17204,7 @@
       }
 
       var executeSketch = function(processing) {
-        // Don't start until all specified images and fonts in the cache are preloaded
+        // Don't start until all specified _images and fonts in the cache are preloaded
         if (!curSketch.imageCache.pending && curSketch.fonts.pending()) {
           curSketch.attach(processing, defaultScope);
 
@@ -18902,7 +18902,7 @@
           // A few directives require work beyond storying key/value pairings
           if (key === "preload") {
             list = value.split(',');
-            // All pre-loaded images will get put in imageCache, keyed on filename
+            // All pre-loaded _images will get put in imageCache, keyed on filename
             for (var j = 0, jl = list.length; j < jl; j++) {
               var imageName = clean(list[j]);
               sketch.imageCache.add(imageName);

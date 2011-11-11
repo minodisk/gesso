@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>graphicsJS | ColorMatrixFilter</title>
-<link rel="stylesheet" href="../.styles/examples.css"/>
+<title>graphicsJS Examples | ColorMatrixFilter</title>
+<link rel="stylesheet" href="../_styles/examples.css"/>
 <script type="text/javascript" src="../../lib/graphics.js"></script>
 <script type="text/javascript">
 (function(window, document) {
@@ -189,7 +189,7 @@
           break;
       }
       bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-      bitmap.draw('images/lena.png');
+      bitmap.draw('_images/lena.png');
 
       colorMatrixMap[methodName] = colorMatrix;
       canvas.addEventListener('mouseover', function(e) {

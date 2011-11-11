@@ -2,9 +2,9 @@
 <html>
 <head>
   <title>graphicsJS Examples | Bitmap</title>
-  <link rel="stylesheet" href="../.styles/examples.css"/>
+  <link rel="stylesheet" href="../_styles/examples.css"/>
   <script src="../../lib/graphics.js"></script>
-  <script src="../.scripts/execute.js"></script>
+  <script src="../_scripts/execute.js"></script>
 </head>
 <body>
 
@@ -22,7 +22,7 @@
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
-bitmap.draw('images/lena.png');
+bitmap.draw('_images/lena.png');
     </pre>
     <canvas></canvas>
   </div>
@@ -31,7 +31,7 @@ bitmap.draw('images/lena.png');
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
 var img = new Image();
-img.src = 'images/opaque_dst.png';
+img.src = '_images/opaque_dst.png';
 bitmap.draw(img);</pre>
     <canvas></canvas>
   </div>
@@ -44,7 +44,7 @@ var img = new Image();
 img.addEventListener('load', function () {
   bitmap.draw(img);
 }, false);
-img.src = 'images/lena.png';
+img.src = '_images/lena.png';
     </pre>
     <canvas></canvas>
   </div>
