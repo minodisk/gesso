@@ -2,54 +2,55 @@ DisplayObject = require('display/DisplayObject')
 TextFormat = require('display/styles/TextFormat')
 Rectangle = require('geom/Rectangle')
 
+_R_BREAK = /\r?\n/
+
 module.exports = class TextField extends DisplayObject
 
-  constructor: (text = '', format = new TextFormat()) ->
-    super('TextField')
+  TextField::__defineGetter__ 'text', () -> @_texts.join '\n'
+  TextField::__defineSetter__ 'text', (text) ->
+    @_texts = @_stacks[0].arguments[0] = text.split _R_BREAK
+    @_measure()
+    @_requestRender true
+
+  TextField::__defineGetter__ 'format', () -> @_format
+  TextField::__defineSetter__ 'format', (format) ->
+    @_format = @_stacks[0].arguments[1] = format
+    @_measure()
+    @_requestRender true
+
+  TextField::__defineGetter__ 'maxWidth', () -> @_maxWidth
+  TextField::__defineSetter__ 'maxWidth', (maxWidth) ->
+    @_maxWidth = @_stacks[0].arguments[2] = value
+    @_requestRender true
+
+  constructor: (text = '', format = new TextFormat) ->
+    super 'TextField'
     @rect = new Rectangle()
-    @_stack =
+    @_stacks.push
       method   : 'drawText'
-      arguments: [ text, format, null ]
+      arguments: []
       rect     : @rect
-    @_stacks.push @_stack
-    metrix = @_measureText()
-    @rect.y = -metrix.height * 2
-    @rect.width = metrix.width
-    @rect.height = metrix.height * 4
-    @_requestRender true
+    @text = text
+    @format = format
 
-  TextField::__defineGetter__ 'text', () -> @_stack.arguments[0]
-  TextField::__defineSetter__ 'text', (value) ->
-    @_stack.arguments[0] = value
-    metrix = @_measureText()
-    @rect.y = -metrix.height * 2
-    @rect.width = if @_stack.arguments[2]? then @_stack.arguments[2] else metrix.width
-    @rect.height = metrix.height * 4
-    @_requestRender true
+  _measure: ->
+    if @_texts? and @_format?
+      @_context.font = @_format.toStyleSheet()
+      width = 0
+      for text in @_texts
+        width = Math.max width, (@_context.measureText text).width
+      height = (@_format.size + @_format.leading) * @_texts.length
+      @rect.y = -height * 2
+      @rect.width = width
+      @rect.height = height * 4
+    return
 
-  TextField::__defineGetter__ 'format', () -> @_stack.arguments[1]
-  TextField::__defineSetter__ 'format', (value) ->
-    @_stack.arguments[1] = value
-    metrix = @_measureText()
-    @rect.y = -metrix.height * 2
-    @rect.width = if @_stack.arguments[2]? then @_stack.arguments[2] else metrix.width
-    @rect.height = metrix.height * 4
-    @_requestRender true
-
-  TextField::__defineGetter__ 'maxLength', () -> @_stack.arguments[2]
-  TextField::__defineSetter__ 'maxLength', (value) ->
-    @rect.width = @_stack.arguments[2] = value
-    @_requestRender true
-
-  _measureText: ->
-    @_context.font = @_stack.arguments[1].toStyleSheet()
-    metrix = @_context.measureText @_stack.arguments[0]
-    metrix.height = @_stack.arguments[1].size
-    metrix
-
-  _drawText: (text, format, maxLength = null) ->
+  _drawText: (texts, format, maxLength = null) ->
     @_context.font = format.toStyleSheet()
     @_context.textAlign = format.align
     @_context.textBaseline = format.baseline
     @_context.fillStyle = TextField.toColorString format.color
-    @_context.fillText text, 0, -@rect.y, maxLength
+    lineHeight = format.size + format.leading
+    for text, i in @_texts
+      @_context.fillText text, 0, -@rect.y + lineHeight * i, maxLength
+    return

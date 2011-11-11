@@ -15,70 +15,87 @@
 </header>
 
 <section>
-  <h2>new TextField()</h2>
+  <h2>baseline</h2>
 
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
-(new Shape()).drawLine(250, 30, 450, 30).stroke(1, 0xff0000)
-             .drawCircle(250, 30, 3).stroke(1, 0xff0000)
-             .drawLine(250, 60, 450, 60).stroke(1, 0xff0000)
-             .drawCircle(250, 60, 3).stroke(1, 0xff0000)
-             .drawLine(250, 90, 450, 90).stroke(1, 0xff0000)
-             .drawCircle(250, 90, 3).stroke(1, 0xff0000)
-             .drawLine(250, 120, 450, 120).stroke(1, 0xff0000)
-             .drawCircle(250, 120, 3).stroke(1, 0xff0000)
-             .drawLine(250, 150, 450, 150).stroke(1, 0xff0000)
-             .drawCircle(250, 150, 3).stroke(1, 0xff0000)
-             .drawLine(250, 180, 450, 180).stroke(1, 0xff0000)
-             .drawCircle(250, 180, 3).stroke(1, 0xff0000)
+(new Shape()).drawLine(30, 30, 250, 30).stroke(1, 0xff0000)
+             .drawCircle(30, 30, 3).stroke(1, 0xff0000)
+             .drawLine(30, 60, 250, 60).stroke(1, 0xff0000)
+             .drawCircle(30, 60, 3).stroke(1, 0xff0000)
+             .drawLine(30, 90, 250, 90).stroke(1, 0xff0000)
+             .drawCircle(30, 90, 3).stroke(1, 0xff0000)
+             .drawLine(30, 120, 250, 120).stroke(1, 0xff0000)
+             .drawCircle(30, 120, 3).stroke(1, 0xff0000)
+             .drawLine(30, 150, 250, 150).stroke(1, 0xff0000)
+             .drawCircle(30, 150, 3).stroke(1, 0xff0000)
+             .drawLine(30, 180, 250, 180).stroke(1, 0xff0000)
+             .drawCircle(30, 180, 3).stroke(1, 0xff0000)
              .addTo(stage);
 
 var format, textField;
 
 format = new TextFormat();
 format.baseline = TextFormatBaseline.TOP;
-textField = new TextField('top - ABCdefg', format);
-textField.x = 250;
+textField = new TextField('baseline = "top"', format);
+textField.x = 30;
 textField.y = 30;
 stage.addChild(textField);
 
 format = new TextFormat();
 format.baseline = TextFormatBaseline.HANGING;
-textField = new TextField('hanging - ABCdefg', format);
-textField.x = 250;
+textField = new TextField('baseline = "hanging"', format);
+textField.x = 30;
 textField.y = 60;
 stage.addChild(textField);
 
 format = new TextFormat();
 format.baseline = TextFormatBaseline.MIDDLE;
-textField = new TextField('middle - ABCdefg', format);
-textField.x = 250;
+textField = new TextField('baseline = "middle"', format);
+textField.x = 30;
 textField.y = 90;
 stage.addChild(textField);
 
 format = new TextFormat();
 format.baseline = TextFormatBaseline.ALPHABETIC;
-textField = new TextField('alphabetic - ABCdefg', format);
-textField.x = 250;
+textField = new TextField('baseline = "alphabetic"', format);
+textField.x = 30;
 textField.y = 120;
 stage.addChild(textField);
 
 format = new TextFormat();
 format.baseline = TextFormatBaseline.IDEOGRAPHIC;
-textField = new TextField('ideographic - ABCdefg', format);
-textField.x = 250;
+textField = new TextField('baseline = "ideographic"', format);
+textField.x = 30;
 textField.y = 150;
 stage.addChild(textField);
 
 format = new TextFormat();
 format.baseline = TextFormatBaseline.BOTTOM;
-textField = new TextField('bottom - ABCdefg', format);
-textField.x = 250;
+textField = new TextField('baseline = "bottom"', format);
+textField.x = 30;
 textField.y = 180;
 stage.addChild(textField);
     </pre>
-    <canvas width="500" height="200"></canvas>
+    <canvas width="280" height="210"></canvas>
+  </div>
+</section>
+
+<section>
+  <h2>multiline</h2>
+
+  <div class="execute">
+    <pre>
+var stage = new Stage(canvas);
+var textField = new TextField();
+textField.text = "I thought what I'd do was,\nI'd pretend I was one of those deaf-mutes.";
+textField.format = new TextFormat('serif');
+textField.x = 30;
+textField.y = 30;
+stage.addChild(textField);
+    </pre>
+    <canvas width="400" height="100"></canvas>
   </div>
 </section>
 
