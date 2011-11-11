@@ -4,6 +4,7 @@ do (window, document)->
   TextField = require 'display/TextField'
   TextFormat = require 'display/styles/TextFormat'
   BlendMode = require 'display/blends/BlendMode'
+
   canvas = document.querySelector('canvas')
   stage = new Stage canvas
   tf = new TextField()
@@ -12,8 +13,10 @@ do (window, document)->
   stage.addChild tf
   circles = []
   isRender = false
+
   canvas.addEventListener 'click', ()=>
     isRender = !isRender
+
   stage.addEventListener 'enterFrame', ()=>
     if (isRender)
       i = circles.length
@@ -30,7 +33,7 @@ do (window, document)->
       inv = 1 - ran
       #circle.drawCircle 0, 0, 10 + 20 * ran
       circle.drawRegularStar 0, 0, 10 + 20 * ran
-      circle.fill 0xffffff * Math.random(), 0.5
+      circle.fill 0xffffff * Math.random()
       circle.speedX = 3 - 6 * Math.random()
       circle.speedY = 5 + 5 * inv
       circle.x = stage.width / 2
@@ -38,5 +41,6 @@ do (window, document)->
       stage.addChild circle
       circles.push circle
     tf.text = "fps #{ stage.frameRate }"
+
   return
 console.log arguments.callee

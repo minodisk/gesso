@@ -45,4 +45,5 @@ module.exports = class Sprite extends DisplayObject
         imageData = @getImageData()
         Blend.scan imageData, child.getImageData(), child.blendMode
         @_context.putImageData imageData, 0, 0
+      @_context.setTransform 1, 0, 0, 1, 0, 0
     return

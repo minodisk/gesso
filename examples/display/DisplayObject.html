@@ -13,16 +13,15 @@
 
   <h1>display/DisplayObject</h1>
 </header>
-<!--
+
 <section>
   <h2>translate</h2>
-  <ul>
-    <li class="execute">
-      <pre>
+  <div class="execute">
+    <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50)
-shape.fill(0xff0000, 0.5);
+shape.fill(0x0581d2);
 shape.x = shape.y = 75;
 stage.addChild(shape);
 var direction = 1;
@@ -34,12 +33,11 @@ stage.addEventListener('enterFrame', function (e) {
   }
   shape.x += direction * 1;
 });
-      </pre>
-      <canvas></canvas>
-    </li>
-  </ul>
+    </pre>
+    <canvas></canvas>
+  </div>
 </section>
--->
+
 <section>
   <h2>alpha</h2>
   <div class="execute">
@@ -83,7 +81,7 @@ stage.addEventListener('enterFrame', function (e) {
 </section>
 
 <section>
-  <h2>scaleX/scaleY</h2>
+  <h2>scale</h2>
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
