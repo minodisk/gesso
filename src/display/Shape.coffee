@@ -9,9 +9,9 @@ _PI_1_2 = _PI / 2
 _PI_2 = _PI * 2
 
 module.exports = class Shape extends DisplayObject
-  @ELLIPSE_CUBIC_BEZIER_HANDLE:(Math.SQRT2 - 1) * 4 / 3
+  @ELLIPSE_CUBIC_BEZIER_HANDLE = (Math.SQRT2 - 1) * 4 / 3
 
-  @createGradationBox:(x, y, width, height, rotation)->
+  @createGradationBox = (x, y, width, height, rotation)->
     threshold = height / width
     tan = Math.tan rotation
     width1_2 = width / 2
@@ -49,9 +49,9 @@ module.exports = class Shape extends DisplayObject
       maxX = Math.max maxX, x
       maxY = Math.max maxY, y
     @_stacks.push
-      method:'drawLine'
-      arguments:coords
-      rect:new Rectangle minX, minY, maxX - minX, maxY - minY
+      method   : 'drawLine'
+      arguments: coords
+      rect     : new Rectangle minX, minY, maxX - minX, maxY - minY
     @_requestRender true
   _drawLine:(coords...)->
     @_context.beginPath()

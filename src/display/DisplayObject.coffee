@@ -24,7 +24,6 @@ module.exports = class DisplayObject extends EventDispatcher
     @_rotation = 0
     @_alpha = 1
     @blendMode = BlendMode.NORMAL
-    @rect = new Rectangle()
     @filters = []
     @_canvas = document.createElement 'canvas'
     @_canvas.width = @_canvas.height = 0
@@ -94,12 +93,12 @@ module.exports = class DisplayObject extends EventDispatcher
   render: ->
     if @_rerender
       @_rerender = false
-      @rect = new Rectangle()
+      rect = new Rectangle()
       delta = 0
       for stack in @_stacks
-        @rect.union stack.rect if stack.rect?
+        rect.union stack.rect if stack.rect?
         delta = Math.max delta, stack.delta if stack.delta?
-      @bounds = @rect.clone()
+      @bounds = rect.clone()
       offset = Math.ceil delta / 2
       delta = offset * 2
       offset *= -1
@@ -115,6 +114,13 @@ module.exports = class DisplayObject extends EventDispatcher
         @_context.putImageData newImageData, @bounds.x, @bounds.y
     return
 
+  getRect: (targetCoordinateSpace) ->
+
+
+  getBounds: (targetCoordinateSpace) ->
+
+
+
   clear: ->
     @_canvas.width = @rect.width
     @_requestRender true
@@ -129,5 +135,5 @@ module.exports = class DisplayObject extends EventDispatcher
 
   _requestRender: (rerender) ->
     @_rerender = true if rerender
-    @_parent._requestRender() if @_parent?
+    @_parent._requestRender true if @_parent?
     @

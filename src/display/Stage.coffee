@@ -13,15 +13,6 @@ _tick = do ->
 
 module.exports = class Stage extends Sprite
 
-  Stage::__defineGetter__ 'debug', -> @_debug
-  Stage::__defineSetter__ 'debug', (debug) ->
-    @_debug = debug
-    unless @_debugTextField?
-      @_debugTextField = new TextField
-      @_debugTextField.format = new TextFormat 'monospace', 13, 0xffffff
-      console.log @_debugTextField.format
-      @addChild @_debugTextField
-
   constructor:(canvasOrWidth, height = null)->
     super('Stage')
     throw new Error("Canvas isn't supported") unless Capabilities.supports.canvas
@@ -40,7 +31,22 @@ module.exports = class Stage extends Sprite
     @currentFrame = 0
     _tick @_onAnimationFrame
 
-  getTime:->
+  Stage::__defineGetter__ 'debug', -> @_debug
+  Stage::__defineSetter__ 'debug', (debug) ->
+    @_debug = debug
+    unless @_debugTextField?
+      @_debugTextField = new TextField
+      @_debugTextField.format = new TextFormat 'monospace', 13, 0xffffff
+      console.log @_debugTextField.format
+      @addChild @_debugTextField
+
+  render: ->
+    @_canvas.width = @_width
+    for child in @_children
+      child.render()
+      @_drawChild child
+
+  getTime: ->
     (new Date()).getTime() - @_startTime
 
   getAverageFrameRate:()->
