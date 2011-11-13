@@ -35,23 +35,23 @@ module.exports = class Sprite extends DisplayObject
     for child in @_children
       child.render()
       @bounds.union child.bounds
-    @_canvas.width = @bounds.width
-    @_canvas.height = @bounds.height
+    @_drawing.canvas.width = @bounds.width
+    @_drawing.canvas.height = @bounds.height
     for child in @_children
       @_drawChild child
     return
   _drawChild: (child) ->
-    @_context.globalAlpha = if child.alpha < 0 then 0 else if child.alpha > 1 then 1 else child.alpha
-    @_context.translate child.x, child.y
-    @_context.scale child.scaleX, child.scaleY
-    @_context.rotate child.rotation * _RADIAN_PER_DEGREE
+    @_drawing.globalAlpha = if child.alpha < 0 then 0 else if child.alpha > 1 then 1 else child.alpha
+    #@_drawing.translate child.x, child.y
+    #@_drawing.scale child.scaleX, child.scaleY
+    #@_drawing.rotate child.rotation * _RADIAN_PER_DEGREE
     if child.blendMode is BlendMode.NORMAL
-      throw new Error 'canvas isn\'t set' unless child._canvas?
+      throw new Error 'canvas isn\'t set' unless child._transforming.canvas?
       throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y
       if child.bounds.width > 0 and child.bounds.height > 0
-        @_context.drawImage child._canvas, child.bounds.x, child.bounds.y
+        @_drawing.drawImage child._transforming.canvas, child.x + child.bounds.x * child.scaleX, child.y + child.bounds.y * child.scaleY
     else
       imageData = @getImageData()
       Blend.scan imageData, child.getImageData(), child.blendMode
-      @_context.putImageData imageData, 0, 0
-    @_context.setTransform 1, 0, 0, 1, 0, 0
+      @_drawing.putImageData imageData, 0, 0
+    @_drawing.setTransform 1, 0, 0, 1, 0, 0

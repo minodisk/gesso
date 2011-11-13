@@ -54,13 +54,13 @@ module.exports = class Shape extends DisplayObject
       rect     : new Rectangle minX, minY, maxX - minX, maxY - minY
     @_requestRender true
   _drawLine:(coords...)->
-    @_context.beginPath()
-    @_context.moveTo coords[0], coords[1]
+    @_drawing.beginPath()
+    @_drawing.moveTo coords[0], coords[1]
     max = Math.ceil coords.length / 2
     for i in [1...max] by 1
       j = i * 2
-      @_context.lineTo coords[j], coords[j + 1]
-    #@_context.closePath()
+      @_drawing.lineTo coords[j], coords[j + 1]
+    #@_drawing.closePath()
     return
 
   drawRectangle:(rect) ->
@@ -72,9 +72,9 @@ module.exports = class Shape extends DisplayObject
       rect:new Rectangle x, y, width, height
     @_requestRender true
   _drawRect:(x, y, width, height) ->
-    @_context.beginPath()
-    @_context.rect x, y, width, height
-    @_context.closePath()
+    @_drawing.beginPath()
+    @_drawing.rect x, y, width, height
+    @_drawing.closePath()
     return
 
   drawRoundRectangle:(rect, ellipseW, ellipseH = ellipseW) ->
@@ -86,17 +86,17 @@ module.exports = class Shape extends DisplayObject
       rect:new Rectangle x, y, width, height
     @_requestRender true
   _drawRoundRect:(x, y, width, height, ellipseW, ellipseH = ellipseW) ->
-    @_context.beginPath()
-    @_context.moveTo x + ellipseW, y
-    @_context.lineTo x + width - ellipseW, y
-    @_context.quadraticCurveTo x + width, y, x + width, y + ellipseH
-    @_context.lineTo x + width, y + height - ellipseH
-    @_context.quadraticCurveTo x + width, y + height, x + width - ellipseW, y + height
-    @_context.lineTo x + ellipseW, y + height
-    @_context.quadraticCurveTo x, y + height, x, y + height - ellipseH
-    @_context.lineTo x, y + ellipseH
-    @_context.quadraticCurveTo x, y, x + ellipseW, y
-    @_context.closePath()
+    @_drawing.beginPath()
+    @_drawing.moveTo x + ellipseW, y
+    @_drawing.lineTo x + width - ellipseW, y
+    @_drawing.quadraticCurveTo x + width, y, x + width, y + ellipseH
+    @_drawing.lineTo x + width, y + height - ellipseH
+    @_drawing.quadraticCurveTo x + width, y + height, x + width - ellipseW, y + height
+    @_drawing.lineTo x + ellipseW, y + height
+    @_drawing.quadraticCurveTo x, y + height, x, y + height - ellipseH
+    @_drawing.lineTo x, y + ellipseH
+    @_drawing.quadraticCurveTo x, y, x + ellipseW, y
+    @_drawing.closePath()
     return
 
   drawCircle:(x, y, radius, startAngle, endAngle, anticlockwise) ->
@@ -106,9 +106,9 @@ module.exports = class Shape extends DisplayObject
       rect     : new Rectangle x - radius, y - radius, radius * 2, radius * 2
     @_requestRender true
   _drawCircle:(x, y, radius, startAngle = 0, endAngle = _PI_2, anticlockwise = false) ->
-    @_context.beginPath()
-    @_context.arc x, y, radius, startAngle, endAngle, anticlockwise
-    @_context.closePath()
+    @_drawing.beginPath()
+    @_drawing.arc x, y, radius, startAngle, endAngle, anticlockwise
+    @_drawing.closePath()
     return
 
   drawEllipse:(x, y, width, height) ->
@@ -124,13 +124,13 @@ module.exports = class Shape extends DisplayObject
     y += height
     handleWidth = width * Shape.ELLIPSE_CUBIC_BEZIER_HANDLE
     handleHeight = height * Shape.ELLIPSE_CUBIC_BEZIER_HANDLE
-    @_context.beginPath()
-    @_context.moveTo x + width, y
-    @_context.bezierCurveTo x + width, y + handleHeight, x + handleWidth, y + height, x, y + height
-    @_context.bezierCurveTo x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
-    @_context.bezierCurveTo x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
-    @_context.bezierCurveTo x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
-    @_context.closePath()
+    @_drawing.beginPath()
+    @_drawing.moveTo x + width, y
+    @_drawing.bezierCurveTo x + width, y + handleHeight, x + handleWidth, y + height, x, y + height
+    @_drawing.bezierCurveTo x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
+    @_drawing.bezierCurveTo x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
+    @_drawing.bezierCurveTo x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
+    @_drawing.closePath()
     return
 
   drawRegularPolygon:(x, y, radius, length = 3) ->
@@ -141,12 +141,12 @@ module.exports = class Shape extends DisplayObject
     @_requestRender true
   _drawRegularPolygon:(x, y, radius, length) ->
     u = _PI_2 / length
-    @_context.beginPath()
-    @_context.moveTo x, y - radius
+    @_drawing.beginPath()
+    @_drawing.moveTo x, y - radius
     for i in [1..length]
       r = -_PI_1_2 + u * i
-      @_context.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
-    @_context.closePath()
+      @_drawing.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
+    @_drawing.closePath()
     return
 
   drawRegularStar:(x, y, outer, length = 5)->
@@ -159,14 +159,14 @@ module.exports = class Shape extends DisplayObject
       rect:new Rectangle x - outer, y - outer, outer * 2, outer * 2
     @_requestRender true
   _drawStar:(x, y, outer, inner, length)->
-    @_context.beginPath()
-    @_context.moveTo x, y - outer
+    @_drawing.beginPath()
+    @_drawing.moveTo x, y - outer
     u = _PI / length
     for i in [1..length * 2] by 1
       radius = if (i & 1) is 0 then outer else inner
       r = -_PI_1_2 + u * i
-      @_context.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
-    @_context.closePath()
+      @_drawing.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
+    @_drawing.closePath()
     return
 
   clip:() ->
@@ -175,7 +175,7 @@ module.exports = class Shape extends DisplayObject
       arguments:ArrayUtil.toArray arguments
     @_requestRender true
   _clip:() ->
-    @_context.clip()
+    @_drawing.clip()
     return
 
   fillGradient:(type, colors, alphas, ratios, gradientBox) ->
@@ -188,8 +188,8 @@ module.exports = class Shape extends DisplayObject
       arguments:[color, alpha]
     @_requestRender true
   _fill:(color, alpha) ->
-    @_context.fillStyle = Shape.toColorString color, alpha
-    @_context.fill()
+    @_drawing.fillStyle = Shape.toColorString color, alpha
+    @_drawing.fill()
     return
 
   strokeGradient:(type, colors, alphas, ratios, gradientBox) ->
@@ -203,17 +203,17 @@ module.exports = class Shape extends DisplayObject
       delta:thickness
     @_requestRender true
   _stroke:(thickness, color, alpha, capsStyle, jointStyle, miterLimit) ->
-    @_context.lineWidth = thickness
-    @_context.strokeStyle = Shape.toColorString color, alpha
-    @_context.lineCaps = capsStyle
-    @_context.lineJoin = jointStyle
-    @_context.miterLimit = miterLimit
-    @_context.stroke()
+    @_drawing.lineWidth = thickness
+    @_drawing.strokeStyle = Shape.toColorString color, alpha
+    @_drawing.lineCaps = capsStyle
+    @_drawing.lineJoin = jointStyle
+    @_drawing.miterLimit = miterLimit
+    @_drawing.stroke()
     return
 
   _createLinearGradient:(colors, alphas, ratios, gradientBox) ->
     len = colors.length
     throw new TypeError 'Invalid length of colors, alphas or ratios.' if alphas.length isnt len || ratios.length isnt len
-    gradient = @_context.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
+    gradient = @_drawing.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
     gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
     gradient

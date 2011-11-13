@@ -19,7 +19,7 @@ module.exports = class Bitmap extends DisplayObject
         img.addEventListener 'load', ((e) => @drawImage img, x, y), false
       return img
     if data instanceof DisplayObject
-      data = data._canvas
+      data = data._drawing.canvas
     if data instanceof HTMLCanvasElement or data instanceof HTMLVideoElement
       @drawImage data, x, y
       return
@@ -35,7 +35,7 @@ module.exports = class Bitmap extends DisplayObject
       rect     : new Rectangle x, y, image.width, image.height
     @_requestRender true
   _drawImage:(image, x, y)->
-    @_context.drawImage image, x, y, image.width, image.height
+    @_drawing.drawImage image, x, y, image.width, image.height
     return
 
   drawImageData:(imageData, x = 0, y = 0)->
