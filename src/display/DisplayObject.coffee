@@ -4,6 +4,8 @@ Matrix = require 'geom/Matrix'
 Rectangle = require 'geom/Rectangle'
 
 _RADIAN_PER_DEGREE = Math.PI / 180
+_sqrt = Math.sqrt
+_ceil = Math.ceil
 
 module.exports = class DisplayObject extends EventDispatcher
 
@@ -93,20 +95,44 @@ module.exports = class DisplayObject extends EventDispatcher
   render: ->
     if @_rerender
       @_rerender = false
+
+      # union bounds
       rect = new Rectangle()
       delta = 0
       for stack in @_stacks
         rect.union stack.rect if stack.rect?
         delta = Math.max delta, stack.delta if stack.delta?
+      console.log 'rect', rect.x, rect.y, rect.width, rect.height
       @bounds = rect.clone()
       offset = Math.ceil delta / 2
       delta = offset * 2
       offset *= -1
       @bounds.offset offset, offset
       @bounds.inflate delta, delta
+      console.log 'bounds', @bounds.x, @bounds.y, @bounds.width, @bounds.height
+
+      # calculate minimal bounds when context is transformed
+      #radius = _ceil(_sqrt @bounds.width * @bounds.width + @bounds.height * @bounds.height)
+      radius = @bounds.measureFarDistance 0, 0
+      @bounds.x = @bounds.y = -radius
+      @bounds.width = @bounds.height = radius * 2
+      console.log 'sqrt', @bounds.x, @bounds.y, @bounds.width, @bounds.height
+      console.log '----------'
+
+      # apply size to canvas
       @_canvas.width = @bounds.width
       @_canvas.height = @bounds.height
+
+      # draw canvas rect
+      @_context.lineWidth = 3
+      @_context.strokeStyle = '#ff0000'
+      @_context.strokeRect 0, 0, @_canvas.width, @_canvas.height
+
+      # call stacks
+      @_context.translate -@bounds.x, -@bounds.y
       @["_#{ stack.method }"].apply this, stack.arguments for stack in @_stacks
+
+      # apply filters
       if (@filters.length > 0)
         imageData = @_context.getImageData @bounds.x, @bounds.y, @bounds.width, @bounds.height
         newImageData = @_context.createImageData @bounds.width, @bounds.height
@@ -116,10 +142,7 @@ module.exports = class DisplayObject extends EventDispatcher
 
   getRect: (targetCoordinateSpace) ->
 
-
   getBounds: (targetCoordinateSpace) ->
-
-
 
   clear: ->
     @_canvas.width = @rect.width
