@@ -55,11 +55,11 @@ module.exports = class Shape extends DisplayObject
     @_requestRender true
   _drawLine:(coords...)->
     @_context.beginPath()
-    @_context.moveTo coords[0] - @bounds.x, coords[1] - @bounds.y
+    @_context.moveTo coords[0], coords[1]
     max = Math.ceil coords.length / 2
     for i in [1...max] by 1
       j = i * 2
-      @_context.lineTo coords[j] - @bounds.x, coords[j + 1] - @bounds.y
+      @_context.lineTo coords[j], coords[j + 1]
     #@_context.closePath()
     return
 
@@ -101,13 +101,13 @@ module.exports = class Shape extends DisplayObject
 
   drawCircle:(x, y, radius, startAngle, endAngle, anticlockwise) ->
     @_stacks.push
-      method:'drawCircle'
-      arguments:[x, y, radius, startAngle, endAngle, anticlockwise]
-      rect:new Rectangle x - radius, y - radius, radius * 2, radius * 2
+      method   : 'drawCircle'
+      arguments: [x, y, radius, startAngle, endAngle, anticlockwise]
+      rect     : new Rectangle x - radius, y - radius, radius * 2, radius * 2
     @_requestRender true
   _drawCircle:(x, y, radius, startAngle = 0, endAngle = _PI_2, anticlockwise = false) ->
     @_context.beginPath()
-    @_context.arc x - @bounds.x, y - @bounds.y, radius, startAngle, endAngle, anticlockwise
+    @_context.arc x, y, radius, startAngle, endAngle, anticlockwise
     @_context.closePath()
     return
 
@@ -160,12 +160,12 @@ module.exports = class Shape extends DisplayObject
     @_requestRender true
   _drawStar:(x, y, outer, inner, length)->
     @_context.beginPath()
-    @_context.moveTo x - @bounds.x, y - @bounds.y - outer
+    @_context.moveTo x, y - outer
     u = _PI / length
     for i in [1..length * 2] by 1
       radius = if (i & 1) is 0 then outer else inner
       r = -_PI_1_2 + u * i
-      @_context.lineTo x - @bounds.x + radius * Math.cos(r), y - @bounds.y + radius * Math.sin(r)
+      @_context.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
     @_context.closePath()
     return
 
