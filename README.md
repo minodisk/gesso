@@ -1,7 +1,5 @@
 # graphicsJS
 
-Wrapper of API for drawing on the canvas.
-
 * [Documentation](http://minodisk.github.com/graphics-js/docs/)
 * [Examples](http://minodisk.github.com/graphics-js/examples/)
 * [Demos](http://minodisk.github.com/graphics-js/demos/)
