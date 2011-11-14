@@ -18,15 +18,17 @@
 <section>
   <h2>draw</h2>
 
+  <p>Assign file path.</p>
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
-bitmap.draw('_images/lena.png');
-    </pre>
+bitmap.draw('_images/lena.png');</pre>
     <canvas></canvas>
   </div>
+  
+  <p>Assign Image object that loads content incompletely.</p>
   <div class="execute">
     <pre>var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -36,6 +38,8 @@ img.src = '_images/opaque_dst.png';
 bitmap.draw(img);</pre>
     <canvas></canvas>
   </div>
+  
+  <p>Assign Image object that loads content completely.</p>
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
@@ -45,8 +49,7 @@ var img = new Image();
 img.addEventListener('load', function () {
   bitmap.draw(img);
 }, false);
-img.src = '_images/lena.png';
-    </pre>
+img.src = '_images/lena.png';</pre>
     <canvas></canvas>
   </div>
 </section>
