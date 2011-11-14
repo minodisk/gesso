@@ -1,3 +1,7 @@
+# The Base class for all objects that can be placed on the display list.
+# You can access this module by doing:
+# `require('display/DisplayObject')`
+
 EventDispatcher = require 'events/EventDispatcher'
 BlendMode = require 'display/blends/BlendMode'
 Matrix = require 'geom/Matrix'
@@ -11,9 +15,13 @@ _sqrt = Math.sqrt
 
 module.exports = class DisplayObject extends EventDispatcher
 
+  # ## DisplayObject.toColorString(color = 0, alpha = 1)
+  # Generates string of color style.
   @toColorString: (color = 0, alpha = 1) ->
     "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
 
+  # ## constructor
+  # Constructs DisplayObject.
   constructor: ->
     super 'DisplayObject'
     @__stage = null
@@ -37,37 +45,51 @@ module.exports = class DisplayObject extends EventDispatcher
     @_refresh = false
     @_transform = false
 
+  # ## stage
+  # [read-only] The Stage of this.
   DisplayObject::__defineGetter__ 'stage', -> @__stage
   DisplayObject::__defineSetter__ '_stage', (value) ->
     @__stage = value
     return
 
+  # ## parent
+  # [read-only] The Sprite object that contains this.
   DisplayObject::__defineGetter__ 'parent', -> @_parent
 
+  # ## x
+  # The x coordinate of this relative to parent coordinate space.
   DisplayObject::__defineGetter__ 'x', -> @_x
   DisplayObject::__defineSetter__ 'x', (value) ->
     @_x = value
     @_requestRender false
     return
 
+  # ## y
+  # The y coordinate of this relative to parent coordinate space.
   DisplayObject::__defineGetter__ 'y', -> @_y
   DisplayObject::__defineSetter__ 'y', (value) ->
     @_y = value
     @_requestRender false
     return
 
+  # ## alpha
+  # The alpha transparency value of this, between 0.0 - 1.0.
   DisplayObject::__defineGetter__ 'alpha', -> @_alpha
   DisplayObject::__defineSetter__ 'alpha', (value) ->
     @_alpha = value
     @_requestRender false, true
     return
 
+  # ## rotation
+  # The rotation of this, in degrees.
   DisplayObject::__defineGetter__ 'rotation', -> @_rotation
   DisplayObject::__defineSetter__ 'rotation', (value) ->
     @_rotation = value
     @_requestRender false, true
     return
 
+  # ## width
+  # The width of this, in pixels.
   DisplayObject::__defineGetter__ 'width', -> @_width
   DisplayObject::__defineSetter__ 'width', (value) ->
     @_width = value
@@ -75,6 +97,8 @@ module.exports = class DisplayObject extends EventDispatcher
     @_requestRender false, true
     return
 
+  # ## height
+  # The height of this, in pixels.
   DisplayObject::__defineGetter__ 'height', -> @_height
   DisplayObject::__defineSetter__ 'height', (value) ->
     @_height = value
@@ -82,6 +106,8 @@ module.exports = class DisplayObject extends EventDispatcher
     @_requestRender false, true
     return
 
+  # ## scaleX
+  # The horizontal scale of this.
   DisplayObject::__defineGetter__ 'scaleX', -> @_scaleX
   DisplayObject::__defineSetter__ 'scaleX', (value) ->
     @_scaleX = value
@@ -89,6 +115,8 @@ module.exports = class DisplayObject extends EventDispatcher
     @_requestRender false, true
     return
 
+  # ## scaleY
+  # The vertical scale of this.
   DisplayObject::__defineGetter__ 'scaleY', -> @_scaleY
   DisplayObject::__defineSetter__ 'scaleY', (value) ->
     @_scaleY = value
@@ -96,6 +124,9 @@ module.exports = class DisplayObject extends EventDispatcher
     @_requestRender false, true
     return
 
+  # ## _render()
+  # [private] Draws on canvas if needs redrawing.
+  # Copies the image to another canvas if needs transformation.
   render: ->
     if @_refresh
       @_refresh = false
