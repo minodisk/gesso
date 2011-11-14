@@ -2,22 +2,6 @@
 
 Wrapper of API for drawing on the canvas.
 
-## supports
-
-* alpha
-* transform (translate, rotation, scale)
-* cache as bitmap
-* blend mode
-* filter
-* multiline text
-
-## classes
-
-### display
-
-* DisplayObject
-* TextField
-* Bitmap
-* Shape
-* Sprite
-* Stage
+* [Documentation](http://minodisk.github.com/graphics-js/docs/)
+* [Examples](http://minodisk.github.com/graphics-js/examples/)
+* [Demos](http://minodisk.github.com/graphics-js/demos/)

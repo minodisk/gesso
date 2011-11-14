@@ -41,7 +41,7 @@ generateDocs = ->
       content_file: 'README.md'
       include_index: true
       docco_files: sources
-      header: 'graphicsJS'
+      header: 'graphicsJS Documentation'
       subheader: 'Wrapper of API for drawing on the canvas.'
       background: 'diagonal-noise'
     fs.writeFile PAIGE_CONFIG, JSON.stringify(config), (err) ->
