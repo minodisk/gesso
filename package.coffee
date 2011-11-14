@@ -37,12 +37,12 @@ generateDocs = ->
   fs.readdir SRC_DIR, (err, files) ->
     findFiles files, SRC_DIR
     config =
-      title: 'graphicsJS'
+      title: 'graphicsJS Docs'
       content_file: 'README.md'
       include_index: true
       docco_files: sources
-      header: 'graphicsJS Documentation'
-      subheader: 'Wrapper of API for drawing on the canvas.'
+      header: 'graphicsJS Docs'
+      subheader: 'The wrapper of API for drawing on the canvas.'
       background: 'diagonal-noise'
     fs.writeFile PAIGE_CONFIG, JSON.stringify(config), (err) ->
       child_process.spawn 'paige', [ PAIGE_CONFIG ]
