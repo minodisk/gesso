@@ -1,3 +1,7 @@
+pre {
+  margin-bottom: 15px;
+}
+
 canvas {
   background : url('../../resources/check.png') repeat 0 0;
 }
