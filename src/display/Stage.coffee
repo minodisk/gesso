@@ -1,9 +1,19 @@
+# **Package:** *display*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Shape* >
+# *Sprite* > *Stage*<br/>
+# **Subclasses:** -
+#
+# The *Stage* class represents the root drawing area.<br/>
+# You can access this module by doing:<br/>
+# `require('display/Stage')`
+
 Sprite = require 'display/Sprite'
-TextField = require 'display/TextField'
-TextFormat = require 'display/styles/TextFormat'
+TextField = require 'text/TextField'
+TextFormat = require 'text/TextFormat'
 Capabilities = require 'system/Capabilities'
 
 _ceil = Math.ceil
+_round = Math.round
 _tick = do ->
   @requestAnimationFrame or
   @webkitRequestAnimationFrame or
@@ -12,10 +22,12 @@ _tick = do ->
   @msRequestAnimationFrame or
   (callback) -> setTimeout (()->callback((new Date()).getTime())), 1000 / 60
 
-
 module.exports = class Stage extends Sprite
 
-  constructor:(canvasOrWidth, height = null)->
+  # ## new Stage(canvas:*HTMLCanvasElement*)
+  # ## new Stage(width:*int*, height:*int*)
+  # Creates a new *Stage* instance.
+  constructor: (canvasOrWidth, height = null) ->
     super 'Stage'
     throw new Error "Canvas isn't supported" unless Capabilities.supports.canvas
     if canvasOrWidth instanceof HTMLCanvasElement
@@ -31,48 +43,45 @@ module.exports = class Stage extends Sprite
     @_drawing = canvas.getContext '2d'
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
-    @fps = 30
-    _tick @_onAnimationFrame
-
-  Stage::__defineGetter__ 'debug', -> @_debug
-  Stage::__defineSetter__ 'debug', (debug) ->
-    @_debug = debug
-    unless @_debugTextField?
-      @_debugTextField = new TextField
-      @_debugTextField.format = new TextFormat 'monospace', 13, 0xffffff
-      console.log @_debugTextField.format
-      @addChild @_debugTextField
+    @_frameRate = 60
+    _tick @_enterFrame
     return
 
-  Stage::__defineGetter__ 'fps', -> @_fps
-  Stage::__defineSetter__ 'fps', (fps) ->
-    @_fps = fps
-    @_msecPerFrame = _ceil 1000 / fps
-    return
+  # ## frameRate:*Number*
+  # Effective frame rate rounded off to one decimal places, in fps.
+  # *Stage* updates `frameRate` once in every 30 frames.
+  Stage::__defineGetter__ 'frameRate', -> @_frameRate
 
-  render: ->
-    @_drawing.canvas.width = @_width
-    for child in @_children
-      child.render()
-      @_drawChild child
-
-  getTime: ->
+  # ## getTimer():*int*
+  # Computes elapsed time since *Stage* constructed, in milliseconds.
+  getTimer: ->
     (new Date()).getTime() - @_startTime
 
-  getAverageFrameRate:()->
-    @getTime() / @currentFrame
-
-  _onAnimationFrame: (time) =>
+  # ## _enterFrame(time:*int*):*void*
+  # [private] Handler on enter frame.
+  _enterFrame: (time) =>
     @currentFrame++
     if (@currentFrame % 30) is 0
-      @frameRate = (300000 / (time - @_time) >> 0) / 10
+      @_frameRate = (300000 / (time - @_time) >> 0) / 10
       @_time = time
     @dispatchEvent 'enterFrame'
-    if @_isRender
-      @render()
-      @_isRender = false
-    _tick @_onAnimationFrame
+    if @_cache
+      @_cache = false
+      @_render()
+    _tick @_enterFrame
+    return
 
-  _requestRender:->
-    @_isRender = true
+  # ## _render():*void*
+  # [private] Renders children and draws children on canvas.
+  _render: ->
+    @_drawing.canvas.width = @_width
+    for child in @_children
+      child._render()
+      @_drawChild child
+    return
+
+  # ## _requestRender():*void*
+  # [private] Reserves rendering on next frame.
+  _requestRender: ->
+    @_cache = true
     return
