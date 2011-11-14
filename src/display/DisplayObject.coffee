@@ -1,4 +1,4 @@
-# The Base class for all objects that can be placed on the display list.
+# The base class for all objects that can be placed on the display list.
 # You can access this module by doing:
 # `require('display/DisplayObject')`
 
@@ -15,8 +15,8 @@ _sqrt = Math.sqrt
 
 module.exports = class DisplayObject extends EventDispatcher
 
-  # ## DisplayObject.toColorString(color = 0, alpha = 1)
-  # Generates string of color style.
+  # ## toColorString()
+  # [static] Generates string of color style.
   @toColorString: (color = 0, alpha = 1) ->
     "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
 
@@ -46,18 +46,18 @@ module.exports = class DisplayObject extends EventDispatcher
     @_transform = false
 
   # ## stage
-  # [read-only] The Stage of this.
+  # [read-only] The Stage of this object.
   DisplayObject::__defineGetter__ 'stage', -> @__stage
   DisplayObject::__defineSetter__ '_stage', (value) ->
     @__stage = value
     return
 
   # ## parent
-  # [read-only] The Sprite object that contains this.
+  # [read-only] The Sprite object that contains this object.
   DisplayObject::__defineGetter__ 'parent', -> @_parent
 
   # ## x
-  # The x coordinate of this relative to parent coordinate space.
+  # The x coordinate of this object relative to parent coordinate space.
   DisplayObject::__defineGetter__ 'x', -> @_x
   DisplayObject::__defineSetter__ 'x', (value) ->
     @_x = value
@@ -65,7 +65,7 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## y
-  # The y coordinate of this relative to parent coordinate space.
+  # The y coordinate of this object relative to parent coordinate space.
   DisplayObject::__defineGetter__ 'y', -> @_y
   DisplayObject::__defineSetter__ 'y', (value) ->
     @_y = value
@@ -73,7 +73,7 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## alpha
-  # The alpha transparency value of this, between 0.0 - 1.0.
+  # The alpha transparency value of this object, between 0.0 and 1.0.
   DisplayObject::__defineGetter__ 'alpha', -> @_alpha
   DisplayObject::__defineSetter__ 'alpha', (value) ->
     @_alpha = value
@@ -81,7 +81,7 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## rotation
-  # The rotation of this, in degrees.
+  # The rotation of this object, in degrees.
   DisplayObject::__defineGetter__ 'rotation', -> @_rotation
   DisplayObject::__defineSetter__ 'rotation', (value) ->
     @_rotation = value
@@ -89,7 +89,7 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## width
-  # The width of this, in pixels.
+  # The width of this object, in pixels.
   DisplayObject::__defineGetter__ 'width', -> @_width
   DisplayObject::__defineSetter__ 'width', (value) ->
     @_width = value
@@ -98,7 +98,7 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## height
-  # The height of this, in pixels.
+  # The height of this object, in pixels.
   DisplayObject::__defineGetter__ 'height', -> @_height
   DisplayObject::__defineSetter__ 'height', (value) ->
     @_height = value
@@ -107,7 +107,7 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## scaleX
-  # The horizontal scale of this.
+  # The horizontal scale of this object.
   DisplayObject::__defineGetter__ 'scaleX', -> @_scaleX
   DisplayObject::__defineSetter__ 'scaleX', (value) ->
     @_scaleX = value
@@ -116,13 +116,36 @@ module.exports = class DisplayObject extends EventDispatcher
     return
 
   # ## scaleY
-  # The vertical scale of this.
+  # The vertical scale of this object.
   DisplayObject::__defineGetter__ 'scaleY', -> @_scaleY
   DisplayObject::__defineSetter__ 'scaleY', (value) ->
     @_scaleY = value
     @_height = @_drawing.canvas.height * value
     @_requestRender false, true
     return
+
+  # ## set()
+  # Sets property to this object. Returns self for method chain.
+  set: (propertyName, value) ->
+    @[propertyName] = value
+    @
+
+  # ## clear()
+  # Clears the drawn graphics.
+  clear: ->
+    @_drawing.canvas.width = @rect.width
+    @_requestRender true
+
+  # ## addTo()
+  # Adds this object to Sprite object.
+  addTo: (parent) ->
+    throw new TypeError "parent #{ parent } isn't display object container" unless parent instanceof Sprite
+    parent.addChild(@)
+
+  # ## getBounds()
+  # Calculates a rectangle that defines the area of this object object relative to
+  # target coordinate space.
+  getBounds: (targetCoordinateSpace) ->
 
   # ## _render()
   # [private] Draws on canvas if needs redrawing.
@@ -145,23 +168,17 @@ module.exports = class DisplayObject extends EventDispatcher
       @bounds.inflate delta, delta
 
       # calculate minimal bounds when context is transformed
-      #radius = _ceil(_sqrt @bounds.width * @bounds.width + @bounds.height * @bounds.height)
       radius = @bounds.measureFarDistance 0, 0
       @bounds.x = @bounds.y = -radius
       @bounds.width = @bounds.height = radius * 2
-      
+
       # apply size to canvas
       @_drawing.canvas.width = @bounds.width
       @_drawing.canvas.height = @bounds.height
 
-      # draw canvas rect
-      #@_drawing.lineWidth = 3
-      #@_drawing.strokeStyle = '#ff0000'
-      #@_drawing.strokeRect 0, 0, @_drawing.canvas.width, @_drawing.canvas.height
-
       # call stacks
       @_drawing.translate -@bounds.x, -@bounds.y
-      @["_#{ stack.method }"].apply this, stack.arguments for stack in @_stacks
+      @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
 
       # apply filters
       if (@filters.length > 0)
@@ -175,12 +192,7 @@ module.exports = class DisplayObject extends EventDispatcher
       @_transforming.canvas.width = @bounds.width * @scaleX
       @_transforming.canvas.height = @bounds.height * @scaleY
 
-      # draw canvas rect
-      #@_transforming.lineWidth = 5
-      #@_transforming.strokeStyle = '#0000ff'
-      #@_transforming.strokeRect 0, 0, @_transforming.canvas.width, @_transforming.canvas.height
-
-      # transform
+      # apply transform
       @_transforming.scale @scaleX, @scaleY
       @_transforming.translate -@bounds.x, -@bounds.y
       @_transforming.rotate @rotation * _RADIAN_PER_DEGREE
@@ -191,22 +203,8 @@ module.exports = class DisplayObject extends EventDispatcher
 
     return
 
-  getRect: (targetCoordinateSpace) ->
-
-  getBounds: (targetCoordinateSpace) ->
-
-  clear: ->
-    @_drawing.canvas.width = @rect.width
-    @_requestRender true
-
-  addTo: (parent) ->
-    throw new TypeError "parent #{ parent } isn't display object container" unless parent instanceof Sprite
-    parent.addChild(@)
-
-  set: (propertyName, value) ->
-    @[propertyName] = value
-    @
-
+  # ## _requestRender()
+  # [private] Requests rendering to parent.
   _requestRender: (refresh, transform) ->
     @_refresh = true if refresh
     @_transform = true if transform
