@@ -1,10 +1,13 @@
-# The base class for all objects that can be placed on the display list.
-# You can access this module by doing:
+# **Package:** *display*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject*<br/>
+# **Subclasses:** *Bitmap*, *Shape*, *TextField*
+#
+# The base class for all objects that can be placed on the display list.<br/>
+# You can access this module by doing:<br/>
 # `require('display/DisplayObject')`
 
 EventDispatcher = require 'events/EventDispatcher'
 BlendMode = require 'display/blends/BlendMode'
-Matrix = require 'geom/Matrix'
 Rectangle = require 'geom/Rectangle'
 
 _RADIAN_PER_DEGREE = Math.PI / 180
@@ -20,15 +23,14 @@ module.exports = class DisplayObject extends EventDispatcher
   @toColorString: (color = 0, alpha = 1) ->
     "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
 
-  # ## constructor
-  # Constructs DisplayObject.
+  # ## new DisplayObject()
+  # Creates a new *DisplayObject* instance.
   constructor: ->
     super 'DisplayObject'
     @__stage = null
     @_parent = null
     @_x = 0
     @_y = 0
-    @_matrix = new Matrix()
     @_width = 0
     @_height = 0
     @_scaleX = 1
@@ -42,18 +44,18 @@ module.exports = class DisplayObject extends EventDispatcher
     @_transforming = (document.createElement 'canvas').getContext '2d'
     @_transforming.canvas.width = @_transforming.canvas.height = 0
     @_stacks = []
-    @_refresh = false
+    @_cache = false
     @_transform = false
 
   # ## stage
-  # [read-only] The Stage of this object.
+  # [read-only] The *Stage* of this object.
   DisplayObject::__defineGetter__ 'stage', -> @__stage
   DisplayObject::__defineSetter__ '_stage', (value) ->
     @__stage = value
     return
 
   # ## parent
-  # [read-only] The Sprite object that contains this object.
+  # [read-only] The *Sprite* object that contains this object.
   DisplayObject::__defineGetter__ 'parent', -> @_parent
 
   # ## x
@@ -137,22 +139,22 @@ module.exports = class DisplayObject extends EventDispatcher
     @_requestRender true
 
   # ## addTo()
-  # Adds this object to Sprite object.
+  # Adds this object to *Sprite* object.
   addTo: (parent) ->
     throw new TypeError "parent #{ parent } isn't display object container" unless parent instanceof Sprite
     parent.addChild(@)
 
   # ## getBounds()
-  # Calculates a rectangle that defines the area of this object object relative to
-  # target coordinate space.
+  # Calculates a rectangle that defines the area of this object object relative
+  # to target coordinate space.
   getBounds: (targetCoordinateSpace) ->
 
   # ## _render()
   # [private] Draws on canvas if needs redrawing.
   # Copies the image to another canvas if needs transformation.
-  render: ->
-    if @_refresh
-      @_refresh = false
+  _render: ->
+    if @_cache
+      @_cache = false
 
       # union bounds
       rect = new Rectangle()
@@ -188,14 +190,16 @@ module.exports = class DisplayObject extends EventDispatcher
         @_drawing.putImageData newImageData, @bounds.x, @bounds.y
 
     if @_transform
+      @_transform = false
+
       # reset transforming canvas
-      @_transforming.canvas.width = @bounds.width * @scaleX
-      @_transforming.canvas.height = @bounds.height * @scaleY
+      @_transforming.canvas.width = @bounds.width * @_scaleX
+      @_transforming.canvas.height = @bounds.height * @_scaleY
 
       # apply transform
-      @_transforming.scale @scaleX, @scaleY
-      @_transforming.translate -@bounds.x, -@bounds.y
-      @_transforming.rotate @rotation * _RADIAN_PER_DEGREE
+      @_transforming.scale @_scaleX, @_scaleY if @_scaleX isnt 1 or @_scaleY isnt 1
+      @_transforming.translate -@bounds.x, -@bounds.y if @bounds.x isnt 0 or @bounds.y isnt 0
+      @_transforming.rotate @_rotation * _RADIAN_PER_DEGREE if @_rotation isnt 0
       @_transforming.drawImage @_drawing.canvas, @bounds.x, @bounds.y
 
     else
@@ -205,8 +209,8 @@ module.exports = class DisplayObject extends EventDispatcher
 
   # ## _requestRender()
   # [private] Requests rendering to parent.
-  _requestRender: (refresh, transform) ->
-    @_refresh = true if refresh
+  _requestRender: (cache, transform) ->
+    @_cache = true if cache
     @_transform = true if transform
     @_parent._requestRender true if @_parent?
     @

@@ -30,10 +30,10 @@ module.exports = class Sprite extends DisplayObject
     @_requestRender true
     return
 
-  render: ->
+  _render: ->
     @bounds = new Rectangle();
     for child in @_children
-      child.render()
+      child._render()
       @bounds.union child.bounds
     @_drawing.canvas.width = @bounds.width
     @_drawing.canvas.height = @bounds.height
@@ -42,9 +42,6 @@ module.exports = class Sprite extends DisplayObject
     return
   _drawChild: (child) ->
     @_drawing.globalAlpha = if child.alpha < 0 then 0 else if child.alpha > 1 then 1 else child.alpha
-    #@_drawing.translate child.x, child.y
-    #@_drawing.scale child.scaleX, child.scaleY
-    #@_drawing.rotate child.rotation * _RADIAN_PER_DEGREE
     if child.blendMode is BlendMode.NORMAL
       throw new Error 'canvas isn\'t set' unless child._transforming.canvas?
       throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y

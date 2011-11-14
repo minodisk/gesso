@@ -1,11 +1,25 @@
+# **Package:** *display*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* >
+# *Bitmap*<br/>
+# **Subclasses:**
+#
+# The *Bitmap* class represents bitmap images.<br/>
+# You can access this module by doing:<br/>
+# `require('display/Bitmap')`
+
 DisplayObject = require('display/DisplayObject')
 Rectangle = require('geom/Rectangle')
 
 module.exports = class Bitmap extends DisplayObject
 
+  # ## new Bitmap()
+  # Creates a new *Bitmap* instance.
   constructor:->
     super 'Bitmap'
 
+  # ## draw()
+  # Draws the source *Image*, *HTMLImageElement*, *HTMLCanvasElement*,
+  # *HTMLVideoElement*, or *DisplayObject* object onto this object.
   draw:(data, x = 0, y = 0)->
     if typeof data is 'string'
       img = new Image()
@@ -16,7 +30,7 @@ module.exports = class Bitmap extends DisplayObject
       if img.complete
         @drawImage img, x, y
       else
-        img.addEventListener 'load', ((e) => @drawImage img, x, y), false
+        img.addEventListener 'load', ((e) => @drawImage(img, x, y)), false
       return img
     if data instanceof DisplayObject
       data = data._drawing.canvas
@@ -28,13 +42,18 @@ module.exports = class Bitmap extends DisplayObject
       return
     throw new TypeError "data isn't drawable object"
 
-  drawImage:(image, x = 0, y = 0)->
+  # ## drawImage()
+  # Draws the source *Image*, *HTMLImageElement*, *HTMLCanvasElement*,
+  # *HTMLVideoElement* object onto this object, without checking type of
+  # the source object.
+  drawImage: (image, x = 0, y = 0) ->
     @_stacks.push
       method   : 'drawImage'
       arguments: [ image, x, y ]
       rect     : new Rectangle x, y, image.width, image.height
+    console.log 'drawImage -> @_requestRender true'
     @_requestRender true
-  _drawImage:(image, x, y)->
+  _drawImage: (image, x, y) ->
     @_drawing.drawImage image, x, y, image.width, image.height
     return
 
