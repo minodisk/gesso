@@ -1,28 +1,46 @@
+# **Package:** *text*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* >
+# *TextField*<br/>
+# **Subclasses:** -
+#
+# The *TextField* class is used to create display objects for text display and
+# input.<br/>
+# You can access this module by doing:<br/>
+# `require('text/TextField')`
+
 DisplayObject = require('display/DisplayObject')
-TextFormat = require('display/styles/TextFormat')
+TextFormat = require('text/TextFormat')
 Rectangle = require('geom/Rectangle')
 
 _R_BREAK = /\r?\n/
 
 module.exports = class TextField extends DisplayObject
 
+  # ## text:*String*
+  # The text in this *TextField*.
   TextField::__defineGetter__ 'text', () -> @_texts.join '\n'
   TextField::__defineSetter__ 'text', (text) ->
     @_texts = @_stacks[0].arguments[0] = text.split _R_BREAK
     @_measure()
     @_requestRender true
 
+  # ## format:*TextFormat*
+  # The *TextFormat* applied to this *TextField*.
   TextField::__defineGetter__ 'format', () -> @_format
   TextField::__defineSetter__ 'format', (format) ->
     @_format = @_stacks[0].arguments[1] = format
     @_measure()
     @_requestRender true
 
+  # ## maxWidth:*Number*
+  # The max width of the text, in pixels.
   TextField::__defineGetter__ 'maxWidth', () -> @_maxWidth
   TextField::__defineSetter__ 'maxWidth', (maxWidth) ->
     @_maxWidth = @_stacks[0].arguments[2] = value
     @_requestRender true
 
+  # ## new TextField()
+  # Creates a new *TextField* instance.
   constructor: (text = '', format = new TextFormat) ->
     super 'TextField'
     @rect = new Rectangle()
@@ -33,6 +51,8 @@ module.exports = class TextField extends DisplayObject
     @text = text
     @format = format
 
+  # ## _measure():*void*
+  # [private] Computes the size of this object.
   _measure: ->
     if @_texts? and @_format?
       @_drawing.font = @_format.toStyleSheet()
@@ -45,12 +65,14 @@ module.exports = class TextField extends DisplayObject
       @rect.height = height * 4
     return
 
-  _drawText: (texts, format, maxLength = null) ->
+  # ## _drawText(texts:*Array*, format:*TextFormat*):*void*
+  # [private] Draws text onto this object.
+  _drawText: (texts, format) ->
     @_drawing.font = format.toStyleSheet()
     @_drawing.textAlign = format.align
     @_drawing.textBaseline = format.baseline
     @_drawing.fillStyle = TextField.toColorString format.color
     lineHeight = format.size + format.leading
     for text, i in @_texts
-      @_drawing.fillText text, 0, -@rect.y + lineHeight * i, maxLength
+      @_drawing.fillText text, 0, -@rect.y + lineHeight * i
     return

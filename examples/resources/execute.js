@@ -6,9 +6,9 @@
   window.Bitmap = require('display/Bitmap');
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
-  window.TextField = require('display/TextField');
-  window.TextFormat = require('display/styles/TextFormat');
-  window.TextFormatBaseline = require('display/styles/TextFormatBaseline');
+  window.TextField = require('text/TextField');
+  window.TextFormat = require('text/TextFormat');
+  window.TextFormatBaseline = require('text/TextFormatBaseline');
   window.Rectangle = require('geom/Rectangle');
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes = document.querySelectorAll('.execute');

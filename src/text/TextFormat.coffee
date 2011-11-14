@@ -1,6 +1,6 @@
-TextFormatAlign = require('display/styles/TextFormatAlign')
-TextFormatBaseline = require('display/styles/TextFormatBaseline')
-TextFormatFont = require('display/styles/TextFormatFont')
+TextFormatAlign = require('text/TextFormatAlign')
+TextFormatBaseline = require('text/TextFormatBaseline')
+TextFormatFont = require('text/TextFormatFont')
 
 module.exports = class TextFormat
 
