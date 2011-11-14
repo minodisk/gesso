@@ -1,10 +1,5 @@
 canvas {
-  background : url('check.png') repeat 0 0;
-}
-
-pre, code {
-  font-size   : 12px;
-  font-family : 'Consolas', 'Inconsolate', 'Courier', monospace;
+  background : url('../../resources/check.png') repeat 0 0;
 }
 
 .matrix {
