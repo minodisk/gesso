@@ -197,6 +197,7 @@ module.exports = class DisplayObject extends EventDispatcher
       @_transforming.canvas.height = @bounds.height * @_scaleY
 
       # apply transform
+      @_transforming.globalAlpha = if @_alpha < 0 then 0 else if @_alpha > 1 then 1 else @_alpha
       @_transforming.scale @_scaleX, @_scaleY if @_scaleX isnt 1 or @_scaleY isnt 1
       @_transforming.translate -@bounds.x, -@bounds.y if @bounds.x isnt 0 or @bounds.y isnt 0
       @_transforming.rotate @_rotation * _RADIAN_PER_DEGREE if @_rotation isnt 0

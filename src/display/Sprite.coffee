@@ -41,7 +41,6 @@ module.exports = class Sprite extends DisplayObject
       @_drawChild child
     return
   _drawChild: (child) ->
-    @_drawing.globalAlpha = if child.alpha < 0 then 0 else if child.alpha > 1 then 1 else child.alpha
     if child.blendMode is BlendMode.NORMAL
       throw new Error 'canvas isn\'t set' unless child._transforming.canvas?
       throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y
