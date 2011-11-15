@@ -42,10 +42,10 @@ module.exports = class Sprite extends DisplayObject
     return
   _drawChild: (child) ->
     if child.blendMode is BlendMode.NORMAL
-      throw new Error 'canvas isn\'t set' unless child._transforming.canvas?
-      throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y
-      if child.bounds.width > 0 and child.bounds.height > 0
-        @_drawing.drawImage child._transforming.canvas, child.x + child.bounds.x * child.scaleX, child.y + child.bounds.y * child.scaleY
+      if child.bounds?
+        throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y
+        if child.bounds.width > 0 and child.bounds.height > 0
+          @_drawing.drawImage child._transforming.canvas, child.x + child.bounds.x * child.scaleX, child.y + child.bounds.y * child.scaleY
     else
       imageData = @getImageData()
       Blend.scan imageData, child.getImageData(), child.blendMode

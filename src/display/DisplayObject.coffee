@@ -153,6 +153,8 @@ module.exports = class DisplayObject extends EventDispatcher
   # [private] Draws on canvas if needs redrawing.
   # Copies the image to another canvas if needs transformation.
   _render: ->
+    console.log 'render', @_cache, @_transform
+
     if @_cache
       @_cache = false
 

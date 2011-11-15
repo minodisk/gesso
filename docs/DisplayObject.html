@@ -117,6 +117,8 @@ to target coordinate space.</p>             </td>             <td class="code"> 
 
 <p>[private] Draws on canvas if needs redrawing.
 Copies the image to another canvas if needs transformation.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_render: </span><span class="o">-&gt;</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;render&#39;</span><span class="p">,</span> <span class="nx">@_cache</span><span class="p">,</span> <span class="nx">@_transform</span>
+
     <span class="k">if</span> <span class="nx">@_cache</span>
       <span class="vi">@_cache = </span><span class="kc">false</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>union bounds</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">rect = </span><span class="k">new</span> <span class="nx">Rectangle</span><span class="p">()</span>
       <span class="nv">delta = </span><span class="mi">0</span>
