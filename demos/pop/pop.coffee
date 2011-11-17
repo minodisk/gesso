@@ -1,8 +1,8 @@
 do (window, document)->
   Stage = require 'display/Stage'
   Shape = require 'display/Shape'
-  TextField = require 'display/TextField'
-  TextFormat = require 'display/styles/TextFormat'
+  TextField = require 'text/TextField'
+  TextFormat = require 'text/TextFormat'
   BlendMode = require 'display/blends/BlendMode'
 
   canvas = document.querySelector('canvas')
