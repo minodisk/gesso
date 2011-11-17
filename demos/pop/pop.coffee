@@ -31,12 +31,11 @@ do (window, document)->
         if circle.y > stage.height + circle.height
           circles.splice i, 1
           stage.removeChild circle
-      circle = new Shape()
-      ran = Math.random()
-      inv = 1 - ran
 
-      if stage.currentFrame % 3 is 0
-        #circle.drawCircle 0, 0, 10 + 20 * ran
+      if circles.length < 120
+        circle = new Shape()
+        ran = Math.random()
+        inv = 1 - ran
         circle.drawRegularStar 0, 0, 10 + 20 * ran
         circle.fill 0xffffff * Math.random()
         circle.speedX = MathUtil.randomBetween -3, 3
