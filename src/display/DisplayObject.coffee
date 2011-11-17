@@ -193,7 +193,8 @@ module.exports = class DisplayObject extends EventDispatcher
         filter.scan imageData, newImageData for filter in @filters
         @_input.putImageData newImageData, @_bounds.x, @_bounds.y
 
-    if @_transformed then @_transform() else @_output = @_input
+    #if @_transformed then @_transform() else @_output = @_input
+    @_output = @_input
     return
 
   _transform: ->

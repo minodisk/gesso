@@ -3,6 +3,7 @@ Blend = require('display/blends/Blend')
 BlendMode = require('display/blends/BlendMode')
 Rectangle = require('geom/Rectangle')
 
+_RADIAN_PER_DEGREE = Math.PI / 180
 _ceil = Math.ceil
 
 module.exports = class Sprite extends DisplayObject
@@ -55,7 +56,7 @@ module.exports = class Sprite extends DisplayObject
       @_input.strokeRect 0, 0, @_width, @_height
       @_input.strokeRect @_width / 2 - 5, @_height / 2 - 5, 10, 10
 
-    if @_transformed then @_transform() else @_output = @_input
+    #if @_transformed then @_transform() else @_output = @_input
     return
 
   _drawChildren: ->
@@ -64,5 +65,11 @@ module.exports = class Sprite extends DisplayObject
         if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
           throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
           #console.log @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height, child.x, child.y, child._bounds.x, child._bounds.y, child._bounds.width, child._bounds.height
-          @_input.drawImage child._output.canvas, child._x + child._bounds.x * child._scaleX - @_bounds.x, child._y + child._bounds.y * child._scaleY - @_bounds.y
+          #@_input.drawImage child._output.canvas, child._x + child._bounds.x * child._scaleX - @_bounds.x, child._y + child._bounds.y * child._scaleY - @_bounds.y
+          @_input.translate child._x, child._y
+          @_input.scale child._scaleX, child._scaleY
+          @_input.rotate child._rotation * _RADIAN_PER_DEGREE
+          @_input.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
+          @_input.drawImage child._input.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
+          @_input.setTransform 1, 0, 0, 1, 0, 0
     return
