@@ -8,10 +8,10 @@ You can access this module by doing:<br/>
 <code>require('display/Bitmap')</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DisplayObject = </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;display/DisplayObject&#39;</span><span class="p">)</span>
 <span class="nv">Rectangle = </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;geom/Rectangle&#39;</span><span class="p">)</span>
 
-<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Bitmap</span> <span class="k">extends</span> <span class="nx">DisplayObject</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h2>new Bitmap()</h2>
+<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Bitmap</span> <span class="k">extends</span> <span class="nx">DisplayObject</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>new Bitmap()</h3>
 
-<p>Creates a new <em>Bitmap</em> instance.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">constructor</span><span class="o">:-&gt;</span>
-    <span class="k">super</span> <span class="s1">&#39;Bitmap&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h2>draw()</h2>
+<p>Creates a new <em>Bitmap</em> object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">constructor</span><span class="o">:-&gt;</span>
+    <span class="k">super</span> <span class="s1">&#39;Bitmap&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>draw(data:<em>*</em>, x:<em>Number</em> = 0, y:<em>Number</em> = 0):<em>void</em></h3>
 
 <p>Draws the source <em>Image</em>, <em>HTMLImageElement</em>, <em>HTMLCanvasElement</em>,
 <em>HTMLVideoElement</em>, or <em>DisplayObject</em> object onto this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">draw</span><span class="o">:</span><span class="nf">(data, x = 0, y = 0)-&gt;</span>
@@ -27,14 +27,15 @@ You can access this module by doing:<br/>
         <span class="nx">img</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="p">((</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">@drawImage</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)),</span> <span class="kc">false</span>
       <span class="k">return</span> <span class="nx">img</span>
     <span class="k">if</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">DisplayObject</span>
-      <span class="nv">data = </span><span class="nx">data</span><span class="p">.</span><span class="nx">_input</span><span class="p">.</span><span class="nx">canvas</span>
+      <span class="nv">data = </span><span class="nx">data</span><span class="p">.</span><span class="nx">_cache</span><span class="p">.</span><span class="nx">canvas</span>
     <span class="k">if</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">HTMLCanvasElement</span> <span class="o">or</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">HTMLVideoElement</span>
       <span class="nx">@drawImage</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span>
       <span class="k">return</span>
     <span class="k">else</span> <span class="k">if</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">ImageData</span>
       <span class="nx">@drawImageData</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span>
       <span class="k">return</span>
-    <span class="k">throw</span> <span class="k">new</span> <span class="nx">TypeError</span> <span class="s2">&quot;data isn&#39;t drawable object&quot;</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h2>drawImage()</h2>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nx">TypeError</span> <span class="s2">&quot;data isn&#39;t drawable object&quot;</span>
+    <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h3>drawImage(image:<em>*</em>, x:<em>Number</em> = 0, y:<em>Number</em> = 0):<em>void</em></h3>
 
 <p>Draws the source <em>Image</em>, <em>HTMLImageElement</em>, <em>HTMLCanvasElement</em>,
 <em>HTMLVideoElement</em> object onto this object, without checking type of
@@ -46,7 +47,7 @@ the source object.</p>             </td>             <td class="code">          
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;drawImage -&gt; @_requestRender true&#39;</span>
     <span class="nx">@_requestRender</span> <span class="kc">true</span>
   <span class="nv">_drawImage: </span><span class="nf">(image, x, y) -&gt;</span>
-    <span class="nx">@_input</span><span class="p">.</span><span class="nx">drawImage</span> <span class="nx">image</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">height</span>
+    <span class="nx">@_cache</span><span class="p">.</span><span class="nx">drawImage</span> <span class="nx">image</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">height</span>
     <span class="k">return</span>
 
   <span class="nx">drawImageData</span><span class="o">:</span><span class="nf">(imageData, x = 0, y = 0)-&gt;</span>

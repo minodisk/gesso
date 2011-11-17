@@ -1,3 +1,11 @@
+# **Package:** *display*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Sprite*<br/>
+# **Subclasses:** *Stage*
+#
+# The *Sprite* can contain children.<br/>
+# You can access this module by doing:<br/>
+# `require('display/Sprite')`
+
 DisplayObject = require('display/DisplayObject')
 Blend = require('display/blends/Blend')
 BlendMode = require('display/blends/BlendMode')
@@ -13,23 +21,31 @@ module.exports = class Sprite extends DisplayObject
     @__stage = value
     return
 
+  # ### new Sprite()
+  # Creates a new *Sprite* object.
   constructor: ->
     super 'Sprite'
     @_children = []
 
-  addChild: (child) ->
-    child._stage = @_stage
-    child._parent = @
-    @_children.push child
+  # ### addChild(children...:*DisplayObject*):*Sprite*
+  # Adds a child *DisplayObject* object to this object.
+  addChild: (children...) ->
+    for child in children
+      child._stage = @_stage
+      child._parent = @
+      @_children.push child
     @_requestRender true
-    return
 
-  removeChild: (displayObject) ->
-    index = @_children.indexOf displayObject
-    @_children.splice index, 1 if index isnt -1
+  # ### removeChild(children...:*DisplayObject*):*Sprite*
+  # Removes the specified child *DisplayObject* from this object.
+  removeChild: (children...) ->
+    for child in children
+      index = @_children.indexOf child
+      @_children.splice index, 1 if index isnt -1
     @_requestRender true
-    return
 
+  # ### _render():*void*
+  # [private] Renders children, then measures bounds of this object.
   _render: ->
     if @_drawn
       @_drawn = false
@@ -41,35 +57,32 @@ module.exports = class Sprite extends DisplayObject
         bounds.x += child.x
         bounds.y += child.y
         @_bounds.union bounds
-      # computes minimal _bounds when context is transformed
       radius = _ceil @_bounds.measureFarDistance(0, 0)
       @_bounds.x = @_bounds.y = -radius
       @_bounds.width = @_bounds.height = radius * 2
 
-      @_width = @_input.canvas.width = @_bounds.width
-      @_height = @_input.canvas.height = @_bounds.height
+      @_width = @_cache.canvas.width = @_bounds.width
+      @_height = @_cache.canvas.height = @_bounds.height
 
       @_drawChildren()
 
-      @_input.strokeStyle = 'rgba(255, 0, 0, .8)'
-      @_input.lineWidth = 1
-      @_input.strokeRect 0, 0, @_width, @_height
-      @_input.strokeRect @_width / 2 - 5, @_height / 2 - 5, 10, 10
-
-    #if @_transformed then @_transform() else @_output = @_input
+      @_cache.strokeStyle = 'rgba(255, 0, 0, .8)'
+      @_cache.lineWidth = 1
+      @_cache.strokeRect 0, 0, @_width, @_height
+      @_cache.strokeRect @_width / 2 - 5, @_height / 2 - 5, 10, 10
     return
 
+  # ### _render():*void*
+  # [private] Draws children on this object.
   _drawChildren: ->
     for child in @_children
       if child.blendMode is BlendMode.NORMAL
         if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
           throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
-          #console.log @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height, child.x, child.y, child._bounds.x, child._bounds.y, child._bounds.width, child._bounds.height
-          #@_input.drawImage child._output.canvas, child._x + child._bounds.x * child._scaleX - @_bounds.x, child._y + child._bounds.y * child._scaleY - @_bounds.y
-          @_input.translate child._x, child._y
-          @_input.scale child._scaleX, child._scaleY
-          @_input.rotate child._rotation * _RADIAN_PER_DEGREE
-          @_input.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
-          @_input.drawImage child._input.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
-          @_input.setTransform 1, 0, 0, 1, 0, 0
+          @_cache.translate child._x, child._y
+          @_cache.scale child._scaleX, child._scaleY
+          @_cache.rotate child._rotation * _RADIAN_PER_DEGREE
+          @_cache.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
+          @_cache.drawImage child._cache.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
+          @_cache.setTransform 1, 0, 0, 1, 0, 0
     return

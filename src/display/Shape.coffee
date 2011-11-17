@@ -1,3 +1,11 @@
+# **Package:** *display*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Shape*<br/>
+# **Subclasses:** *Sprite*
+#
+# The *Shape* can draw a vector shape.<br/>
+# You can access this module by doing:<br/>
+# `require('display/Shape')`
+
 DisplayObject = require('display/DisplayObject')
 GradientType = require('display/styles/GradientType')
 CapsStyle = require('display/styles/CapsStyle')
@@ -7,31 +15,9 @@ Rectangle = require('geom/Rectangle')
 _PI = Math.PI
 _PI_1_2 = _PI / 2
 _PI_2 = _PI * 2
+_ELLIPSE_CUBIC_BEZIER_HANDLE = (Math.SQRT2 - 1) * 4 / 3
 
 module.exports = class Shape extends DisplayObject
-  @ELLIPSE_CUBIC_BEZIER_HANDLE = (Math.SQRT2 - 1) * 4 / 3
-
-  @createGradationBox = (x, y, width, height, rotation)->
-    threshold = height / width
-    tan = Math.tan rotation
-    width1_2 = width / 2
-    height1_2 = height / 2
-    centerX = x + width1_2
-    centerY = y + height1_2
-    if tan > -threshold and tan < threshold
-      dx = width1_2 * (if Math.cos(rotation) < 0 then -1 else 1)
-      dxt = dx * tan
-      x0:centerX - dx
-      y0:centerY - dxt
-      x1:centerX + dx
-      y1:centerY + dxt
-    else
-      dy = height1_2 * (if Math.sin(rotation) < 0 then -1 else 1)
-      dyt = dy / tan
-      x0:centerX - dyt
-      y0:centerY - dy
-      x1:centerX + dyt
-      y1:centerY + dy
 
   constructor:->
     super 'Shape'
@@ -54,13 +40,13 @@ module.exports = class Shape extends DisplayObject
       rect     : new Rectangle minX, minY, maxX - minX, maxY - minY
     @_requestRender true
   _drawLine:(coords...)->
-    @_input.beginPath()
-    @_input.moveTo coords[0], coords[1]
+    @_cache.beginPath()
+    @_cache.moveTo coords[0], coords[1]
     max = Math.ceil coords.length / 2
     for i in [1...max] by 1
       j = i * 2
-      @_input.lineTo coords[j], coords[j + 1]
-    #@_input.closePath()
+      @_cache.lineTo coords[j], coords[j + 1]
+    #@_cache.closePath()
     return
 
   drawRectangle:(rect) ->
@@ -72,9 +58,9 @@ module.exports = class Shape extends DisplayObject
       rect:new Rectangle x, y, width, height
     @_requestRender true
   _drawRect:(x, y, width, height) ->
-    @_input.beginPath()
-    @_input.rect x, y, width, height
-    @_input.closePath()
+    @_cache.beginPath()
+    @_cache.rect x, y, width, height
+    @_cache.closePath()
     return
 
   drawRoundRectangle:(rect, ellipseW, ellipseH = ellipseW) ->
@@ -86,17 +72,17 @@ module.exports = class Shape extends DisplayObject
       rect:new Rectangle x, y, width, height
     @_requestRender true
   _drawRoundRect:(x, y, width, height, ellipseW, ellipseH = ellipseW) ->
-    @_input.beginPath()
-    @_input.moveTo x + ellipseW, y
-    @_input.lineTo x + width - ellipseW, y
-    @_input.quadraticCurveTo x + width, y, x + width, y + ellipseH
-    @_input.lineTo x + width, y + height - ellipseH
-    @_input.quadraticCurveTo x + width, y + height, x + width - ellipseW, y + height
-    @_input.lineTo x + ellipseW, y + height
-    @_input.quadraticCurveTo x, y + height, x, y + height - ellipseH
-    @_input.lineTo x, y + ellipseH
-    @_input.quadraticCurveTo x, y, x + ellipseW, y
-    @_input.closePath()
+    @_cache.beginPath()
+    @_cache.moveTo x + ellipseW, y
+    @_cache.lineTo x + width - ellipseW, y
+    @_cache.quadraticCurveTo x + width, y, x + width, y + ellipseH
+    @_cache.lineTo x + width, y + height - ellipseH
+    @_cache.quadraticCurveTo x + width, y + height, x + width - ellipseW, y + height
+    @_cache.lineTo x + ellipseW, y + height
+    @_cache.quadraticCurveTo x, y + height, x, y + height - ellipseH
+    @_cache.lineTo x, y + ellipseH
+    @_cache.quadraticCurveTo x, y, x + ellipseW, y
+    @_cache.closePath()
     return
 
   drawCircle:(x, y, radius, startAngle, endAngle, anticlockwise) ->
@@ -106,9 +92,9 @@ module.exports = class Shape extends DisplayObject
       rect     : new Rectangle x - radius, y - radius, radius * 2, radius * 2
     @_requestRender true
   _drawCircle:(x, y, radius, startAngle = 0, endAngle = _PI_2, anticlockwise = false) ->
-    @_input.beginPath()
-    @_input.arc x, y, radius, startAngle, endAngle, anticlockwise
-    @_input.closePath()
+    @_cache.beginPath()
+    @_cache.arc x, y, radius, startAngle, endAngle, anticlockwise
+    @_cache.closePath()
     return
 
   drawEllipse:(x, y, width, height) ->
@@ -122,15 +108,15 @@ module.exports = class Shape extends DisplayObject
     height /= 2
     x += width
     y += height
-    handleWidth = width * Shape.ELLIPSE_CUBIC_BEZIER_HANDLE
-    handleHeight = height * Shape.ELLIPSE_CUBIC_BEZIER_HANDLE
-    @_input.beginPath()
-    @_input.moveTo x + width, y
-    @_input.bezierCurveTo x + width, y + handleHeight, x + handleWidth, y + height, x, y + height
-    @_input.bezierCurveTo x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
-    @_input.bezierCurveTo x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
-    @_input.bezierCurveTo x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
-    @_input.closePath()
+    handleWidth = width * _ELLIPSE_CUBIC_BEZIER_HANDLE
+    handleHeight = height * _ELLIPSE_CUBIC_BEZIER_HANDLE
+    @_cache.beginPath()
+    @_cache.moveTo x + width, y
+    @_cache.bezierCurveTo x + width, y + handleHeight, x + handleWidth, y + height, x, y + height
+    @_cache.bezierCurveTo x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
+    @_cache.bezierCurveTo x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
+    @_cache.bezierCurveTo x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
+    @_cache.closePath()
     return
 
   drawRegularPolygon:(x, y, radius, length = 3) ->
@@ -141,12 +127,12 @@ module.exports = class Shape extends DisplayObject
     @_requestRender true
   _drawRegularPolygon:(x, y, radius, length) ->
     u = _PI_2 / length
-    @_input.beginPath()
-    @_input.moveTo x, y - radius
+    @_cache.beginPath()
+    @_cache.moveTo x, y - radius
     for i in [1..length]
       r = -_PI_1_2 + u * i
-      @_input.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
-    @_input.closePath()
+      @_cache.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
+    @_cache.closePath()
     return
 
   drawRegularStar:(x, y, outer, length = 5)->
@@ -159,14 +145,14 @@ module.exports = class Shape extends DisplayObject
       rect:new Rectangle x - outer, y - outer, outer * 2, outer * 2
     @_requestRender true
   _drawStar:(x, y, outer, inner, length)->
-    @_input.beginPath()
-    @_input.moveTo x, y - outer
+    @_cache.beginPath()
+    @_cache.moveTo x, y - outer
     u = _PI / length
     for i in [1..length * 2] by 1
       radius = if (i & 1) is 0 then outer else inner
       r = -_PI_1_2 + u * i
-      @_input.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
-    @_input.closePath()
+      @_cache.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
+    @_cache.closePath()
     return
 
   clip:() ->
@@ -175,7 +161,7 @@ module.exports = class Shape extends DisplayObject
       arguments:ArrayUtil.toArray arguments
     @_requestRender true
   _clip:() ->
-    @_input.clip()
+    @_cache.clip()
     return
 
   fillGradient:(type, colors, alphas, ratios, gradientBox) ->
@@ -188,8 +174,8 @@ module.exports = class Shape extends DisplayObject
       arguments:[color, alpha]
     @_requestRender true
   _fill:(color, alpha) ->
-    @_input.fillStyle = Shape.toColorString color, alpha
-    @_input.fill()
+    @_cache.fillStyle = Shape.toColorString color, alpha
+    @_cache.fill()
     return
 
   strokeGradient:(type, colors, alphas, ratios, gradientBox) ->
@@ -203,17 +189,17 @@ module.exports = class Shape extends DisplayObject
       delta:thickness
     @_requestRender true
   _stroke:(thickness, color, alpha, capsStyle, jointStyle, miterLimit) ->
-    @_input.lineWidth = thickness
-    @_input.strokeStyle = Shape.toColorString color, alpha
-    @_input.lineCaps = capsStyle
-    @_input.lineJoin = jointStyle
-    @_input.miterLimit = miterLimit
-    @_input.stroke()
+    @_cache.lineWidth = thickness
+    @_cache.strokeStyle = Shape.toColorString color, alpha
+    @_cache.lineCaps = capsStyle
+    @_cache.lineJoin = jointStyle
+    @_cache.miterLimit = miterLimit
+    @_cache.stroke()
     return
 
   _createLinearGradient:(colors, alphas, ratios, gradientBox) ->
     len = colors.length
     throw new TypeError 'Invalid length of colors, alphas or ratios.' if alphas.length isnt len || ratios.length isnt len
-    gradient = @_input.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
+    gradient = @_cache.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
     gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
     gradient

@@ -1,6 +1,5 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Shape* >
-# *Sprite* > *Stage*<br/>
+# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Sprite* > *Stage*<br/>
 # **Subclasses:** -
 #
 # The *Stage* class represents the root drawing area.<br/>
@@ -25,9 +24,9 @@ _tick = do ->
 
 module.exports = class Stage extends Sprite
 
-  # ## new Stage(canvas:*HTMLCanvasElement*)
-  # ## new Stage(width:*int*, height:*int*)
-  # Creates a new *Stage* instance.
+  # ### new Stage(canvas:*HTMLCanvasElement*)
+  # ### new Stage(width:*int*, height:*int*)
+  # Creates a new *Stage* object.
   constructor: (canvasOrWidth, height = null) ->
     super 'Stage'
     throw new Error "Canvas isn't supported" unless Capabilities.supports.canvas
@@ -41,7 +40,7 @@ module.exports = class Stage extends Sprite
       @_height = canvas.height = height
     else
       throw new TypeError()
-    @_input = canvas.getContext '2d'
+    @_cache = canvas.getContext '2d'
     @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
@@ -49,18 +48,18 @@ module.exports = class Stage extends Sprite
     _tick @_enterFrame
     return
 
-  # ## frameRate:*Number*
+  # ### frameRate:*Number*
   # Effective frame rate rounded off to one decimal places, in fps.
   # *Stage* updates `frameRate` once in every 30 frames.
   Stage::__defineGetter__ 'frameRate', -> @_frameRate
 
-  # ## getTimer():*int*
+  # ### getTimer():*int*
   # Computes elapsed time since *Stage* constructed, in milliseconds.
   getTimer: ->
     (new Date()).getTime() - @_startTime
 
-  # ## _enterFrame(time:*int*):*void*
-  # [private] Handler on enter frame.
+  # ### _enterFrame(time:*int*):*void*
+  # [private] The handler of enter frame.
   _enterFrame: (time) =>
     @currentFrame++
     if (@currentFrame % 30) is 0
@@ -73,16 +72,16 @@ module.exports = class Stage extends Sprite
     _tick @_enterFrame
     return
 
-  # ## _render():*void*
-  # [private] Renders children and draws children on canvas.
+  # ### _render():*void*
+  # [private] Renders children, then draws children on this object.
   _render: ->
     for child in @_children
       child._render()
-    @_input.canvas.width = @_width
+    @_cache.canvas.width = @_width
     @_drawChildren()
     return
 
-  # ## _requestRender():*void*
+  # ### _requestRender():*void*
   # [private] Reserves rendering on next frame.
   _requestRender: ->
     @_drawn = true
