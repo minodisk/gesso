@@ -39,13 +39,13 @@ module.exports = class DisplayObject extends EventDispatcher
     @_alpha = 1
     @blendMode = BlendMode.NORMAL
     @filters = []
-    @_drawing = (document.createElement 'canvas').getContext '2d'
-    @_drawing.canvas.width = @_drawing.canvas.height = 0
-    @_transforming = (document.createElement 'canvas').getContext '2d'
-    @_transforming.canvas.width = @_transforming.canvas.height = 0
+    @_input = (document.createElement 'canvas').getContext '2d'
+    @_input.canvas.width = @_input.canvas.height = 0
+    @_output = (document.createElement 'canvas').getContext '2d'
+    @_output.canvas.width = @_output.canvas.height = 0
     @_stacks = []
-    @_cache = false
-    @_transform = false
+    @_drawn = false
+    @_transformed = false
 
   # ## stage
   # [read-only] The *Stage* of this object.
@@ -95,7 +95,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'width', -> @_width
   DisplayObject::__defineSetter__ 'width', (value) ->
     @_width = value
-    @_scaleX = value / @_drawing.canvas.width unless @_drawing.canvas.width is 0
+    @_scaleX = value / @_input.canvas.width unless @_input.canvas.width is 0
     @_requestRender false, true
     return
 
@@ -104,7 +104,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'height', -> @_height
   DisplayObject::__defineSetter__ 'height', (value) ->
     @_height = value
-    @_scaleY = value / @_drawing.canvas.height unless @_drawing.canvas.height is 0
+    @_scaleY = value / @_input.canvas.height unless @_input.canvas.height is 0
     @_requestRender false, true
     return
 
@@ -113,7 +113,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'scaleX', -> @_scaleX
   DisplayObject::__defineSetter__ 'scaleX', (value) ->
     @_scaleX = value
-    @_width = @_drawing.canvas.width * value
+    @_width = @_input.canvas.width * value
     @_requestRender false, true
     return
 
@@ -122,7 +122,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'scaleY', -> @_scaleY
   DisplayObject::__defineSetter__ 'scaleY', (value) ->
     @_scaleY = value
-    @_height = @_drawing.canvas.height * value
+    @_height = @_input.canvas.height * value
     @_requestRender false, true
     return
 
@@ -135,7 +135,7 @@ module.exports = class DisplayObject extends EventDispatcher
   # ## clear()
   # Clears the drawn graphics.
   clear: ->
-    @_drawing.canvas.width = @rect.width
+    @_input.canvas.width = @rect.width
     @_requestRender true
 
   # ## addTo()
@@ -144,76 +144,79 @@ module.exports = class DisplayObject extends EventDispatcher
     throw new TypeError "parent #{ parent } isn't display object container" unless parent instanceof Sprite
     parent.addChild(@)
 
-  # ## getBounds()
+  # ## get_bounds()
   # Calculates a rectangle that defines the area of this object object relative
   # to target coordinate space.
-  getBounds: (targetCoordinateSpace) ->
+  get_bounds: (targetCoordinateSpace) ->
 
   # ## _render()
   # [private] Draws on canvas if needs redrawing.
   # Copies the image to another canvas if needs transformation.
   _render: ->
-    console.log 'render', @_cache, @_transform
+    if @_drawn
+      @_drawn = false
 
-    if @_cache
-      @_cache = false
-
-      # union bounds
+      # union _bounds
       rect = new Rectangle()
       delta = 0
       for stack in @_stacks
         rect.union stack.rect if stack.rect?
         delta = _max delta, stack.delta if stack.delta?
-      @bounds = rect.clone()
+      @_bounds = rect.clone()
       offset = _ceil delta / 2
       delta = offset * 2
       offset *= -1
-      @bounds.offset offset, offset
-      @bounds.inflate delta, delta
+      @_bounds.offset offset, offset
+      @_bounds.inflate delta, delta
 
-      # calculate minimal bounds when context is transformed
-      radius = @bounds.measureFarDistance 0, 0
-      @bounds.x = @bounds.y = -radius
-      @bounds.width = @bounds.height = radius * 2
+      # computes minimal _bounds when context is transformed
+      radius = _ceil @_bounds.measureFarDistance(0, 0)
+      @_bounds.x = @_bounds.y = -radius
+      @_bounds.width = @_bounds.height = radius * 2
 
       # apply size to canvas
-      @_drawing.canvas.width = @bounds.width
-      @_drawing.canvas.height = @bounds.height
+      @_input.canvas.width = @_width = @_bounds.width
+      @_input.canvas.height = @_height = @_bounds.height
+
+      @_input.strokeStyle = 'rgba(0, 0, 255, .8)'
+      @_input.lineWidth = 1
+      @_input.strokeRect 0, 0, @_width, @_height
 
       # call stacks
-      @_drawing.translate -@bounds.x, -@bounds.y
+      @_input.translate -@_bounds.x, -@_bounds.y
       @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
 
       # apply filters
       if (@filters.length > 0)
-        imageData = @_drawing.getImageData @bounds.x, @bounds.y, @bounds.width, @bounds.height
-        newImageData = @_drawing.createImageData @bounds.width, @bounds.height
+        imageData = @_input.getImageData @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height
+        newImageData = @_input.createImageData @_bounds.width, @_bounds.height
         filter.scan imageData, newImageData for filter in @filters
-        @_drawing.putImageData newImageData, @bounds.x, @bounds.y
+        @_input.putImageData newImageData, @_bounds.x, @_bounds.y
 
-    if @_transform
-      @_transform = false
-
-      # reset transforming canvas
-      @_transforming.canvas.width = @bounds.width * @_scaleX
-      @_transforming.canvas.height = @bounds.height * @_scaleY
-
-      # apply transform
-      @_transforming.globalAlpha = if @_alpha < 0 then 0 else if @_alpha > 1 then 1 else @_alpha
-      @_transforming.scale @_scaleX, @_scaleY if @_scaleX isnt 1 or @_scaleY isnt 1
-      @_transforming.translate -@bounds.x, -@bounds.y if @bounds.x isnt 0 or @bounds.y isnt 0
-      @_transforming.rotate @_rotation * _RADIAN_PER_DEGREE if @_rotation isnt 0
-      @_transforming.drawImage @_drawing.canvas, @bounds.x, @bounds.y
-
-    else
-      @_transforming = @_drawing
-
+    if @_transformed then @_transform() else @_output = @_input
     return
+
+  _transform: ->
+    @_transformed = false
+    # reset transforming canvas
+    @_output.canvas.width = @_bounds.width * @_scaleX
+    @_output.canvas.height = @_bounds.height * @_scaleY
+
+    @_output.strokeStyle = 'rgba(255, 0, 0, .8)'
+    @_output.lineWidth = 1
+    @_output.strokeRect 0, 0, @_output.canvas.width, @_output.canvas.height
+
+    # apply transform
+    @_output.globalAlpha = if @_alpha < 0 then 0 else if @_alpha > 1 then 1 else @_alpha
+    @_output.scale @_scaleX, @_scaleY if @_scaleX isnt 1 or @_scaleY isnt 1
+    @_output.translate -@_bounds.x, -@_bounds.y if @_bounds.x isnt 0 or @_bounds.y isnt 0
+    @_output.rotate @_rotation * _RADIAN_PER_DEGREE if @_rotation isnt 0
+    @_output.drawImage @_input.canvas, @_bounds.x, @_bounds.y
 
   # ## _requestRender()
   # [private] Requests rendering to parent.
   _requestRender: (cache, transform) ->
-    @_cache = true if cache
-    @_transform = true if transform
+    @_drawn = true if cache
+    @_transformed = true if transform
     @_parent._requestRender true if @_parent?
     @

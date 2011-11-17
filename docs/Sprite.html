@@ -3,8 +3,7 @@
 <span class="nv">BlendMode = </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;display/blends/BlendMode&#39;</span><span class="p">)</span>
 <span class="nv">Rectangle = </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;geom/Rectangle&#39;</span><span class="p">)</span>
 
-<span class="nv">_RADIAN_PER_DEGREE = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="err">/ 180</span>
-<span class="nv">_sqrt = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
+<span class="nv">_ceil = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span>
 
 <span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Sprite</span> <span class="k">extends</span> <span class="nx">DisplayObject</span>
 
@@ -31,25 +30,37 @@
     <span class="k">return</span>
 
   <span class="nv">_render: </span><span class="o">-&gt;</span>
-    <span class="vi">@bounds = </span><span class="k">new</span> <span class="nx">Rectangle</span><span class="p">();</span>
-    <span class="k">for</span> <span class="nx">child</span> <span class="k">in</span> <span class="nx">@_children</span>
-      <span class="nx">child</span><span class="p">.</span><span class="nx">_render</span><span class="p">()</span>
-      <span class="nx">@bounds</span><span class="p">.</span><span class="nx">union</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span>
-    <span class="vi">@_drawing.canvas.width = </span><span class="nx">@bounds</span><span class="p">.</span><span class="nx">width</span>
-    <span class="vi">@_drawing.canvas.height = </span><span class="nx">@bounds</span><span class="p">.</span><span class="nx">height</span>
-    <span class="k">for</span> <span class="nx">child</span> <span class="k">in</span> <span class="nx">@_children</span>
-      <span class="nx">@_drawChild</span> <span class="nx">child</span>
+    <span class="k">if</span> <span class="nx">@_drawn</span>
+      <span class="vi">@_drawn = </span><span class="kc">false</span>
+
+      <span class="vi">@_bounds = </span><span class="k">new</span> <span class="nx">Rectangle</span><span class="p">()</span>
+      <span class="k">for</span> <span class="nx">child</span> <span class="k">in</span> <span class="nx">@_children</span>
+        <span class="nx">child</span><span class="p">.</span><span class="nx">_render</span><span class="p">()</span>
+        <span class="nv">bounds = </span><span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="nx">bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">+=</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span>
+        <span class="nx">bounds</span><span class="p">.</span><span class="nx">y</span> <span class="o">+=</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span>
+        <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">union</span> <span class="nx">bounds</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>computes minimal _bounds when context is transformed</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">radius = </span><span class="nx">_ceil</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">measureFarDistance</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="vi">@_bounds.x = @_bounds.y = </span><span class="o">-</span><span class="nx">radius</span>
+      <span class="vi">@_bounds.width = @_bounds.height = </span><span class="nx">radius</span> <span class="o">*</span> <span class="mi">2</span>
+
+      <span class="vi">@_width = @_input.canvas.width = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span>
+      <span class="vi">@_height = @_input.canvas.height = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">height</span>
+
+      <span class="nx">@_drawChildren</span><span class="p">()</span>
+
+      <span class="vi">@_input.strokeStyle = </span><span class="s1">&#39;rgba(255, 0, 0, .8)&#39;</span>
+      <span class="vi">@_input.lineWidth = </span><span class="mi">1</span>
+      <span class="nx">@_input</span><span class="p">.</span><span class="nx">strokeRect</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">@_width</span><span class="p">,</span> <span class="nx">@_height</span>
+      <span class="nx">@_input</span><span class="p">.</span><span class="nx">strokeRect</span> <span class="nx">@_width</span> <span class="sr">/ 2 - 5, @_height /</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span>
+
+    <span class="k">if</span> <span class="nx">@_transformed</span> <span class="k">then</span> <span class="nx">@_transform</span><span class="p">()</span> <span class="k">else</span> <span class="vi">@_output = </span><span class="nx">@_input</span>
     <span class="k">return</span>
-  <span class="nv">_drawChild: </span><span class="nf">(child) -&gt;</span>
-    <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">blendMode</span> <span class="o">is</span> <span class="nx">BlendMode</span><span class="p">.</span><span class="nx">NORMAL</span>
-      <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="o">?</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s1">&#39;invalid position&#39;</span> <span class="k">if</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">y</span>
-        <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">height</span> <span class="o">&gt;</span> <span class="mi">0</span>
-          <span class="nx">@_drawing</span><span class="p">.</span><span class="nx">drawImage</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_transforming</span><span class="p">.</span><span class="nx">canvas</span><span class="p">,</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">child</span><span class="p">.</span><span class="nx">scaleX</span><span class="p">,</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">child</span><span class="p">.</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">child</span><span class="p">.</span><span class="nx">scaleY</span>
-    <span class="k">else</span>
-      <span class="nv">imageData = </span><span class="nx">@getImageData</span><span class="p">()</span>
-      <span class="nx">Blend</span><span class="p">.</span><span class="nx">scan</span> <span class="nx">imageData</span><span class="p">,</span> <span class="nx">child</span><span class="p">.</span><span class="nx">getImageData</span><span class="p">(),</span> <span class="nx">child</span><span class="p">.</span><span class="nx">blendMode</span>
-      <span class="nx">@_drawing</span><span class="p">.</span><span class="nx">putImageData</span> <span class="nx">imageData</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="nx">@_drawing</span><span class="p">.</span><span class="nx">setTransform</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+
+  <span class="nv">_drawChildren: </span><span class="o">-&gt;</span>
+    <span class="k">for</span> <span class="nx">child</span> <span class="k">in</span> <span class="nx">@_children</span>
+      <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">blendMode</span> <span class="o">is</span> <span class="nx">BlendMode</span><span class="p">.</span><span class="nx">NORMAL</span>
+        <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="o">?</span> <span class="o">and</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">height</span> <span class="o">&gt;</span> <span class="mi">0</span>
+          <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s1">&#39;invalid position&#39;</span> <span class="k">if</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">y</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>console.log @<em>bounds.x, @</em>bounds.y, @<em>bounds.width, @</em>bounds.height, child.x, child.y, child.<em>bounds.x, child.</em>bounds.y, child.<em>bounds.width, child.</em>bounds.height</p>             </td>             <td class="code">               <div class="highlight"><pre>          <span class="nx">@_input</span><span class="p">.</span><span class="nx">drawImage</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_output</span><span class="p">.</span><span class="nx">canvas</span><span class="p">,</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_x</span> <span class="o">+</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">*</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_scaleX</span> <span class="o">-</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_y</span> <span class="o">+</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">y</span> <span class="o">*</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_scaleY</span> <span class="o">-</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">y</span>
+    <span class="k">return</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

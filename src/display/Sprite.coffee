@@ -3,8 +3,7 @@ Blend = require('display/blends/Blend')
 BlendMode = require('display/blends/BlendMode')
 Rectangle = require('geom/Rectangle')
 
-_RADIAN_PER_DEGREE = Math.PI / 180
-_sqrt = Math.sqrt
+_ceil = Math.ceil
 
 module.exports = class Sprite extends DisplayObject
 
@@ -31,23 +30,39 @@ module.exports = class Sprite extends DisplayObject
     return
 
   _render: ->
-    @bounds = new Rectangle();
-    for child in @_children
-      child._render()
-      @bounds.union child.bounds
-    @_drawing.canvas.width = @bounds.width
-    @_drawing.canvas.height = @bounds.height
-    for child in @_children
-      @_drawChild child
+    if @_drawn
+      @_drawn = false
+
+      @_bounds = new Rectangle()
+      for child in @_children
+        child._render()
+        bounds = child._bounds.clone()
+        bounds.x += child.x
+        bounds.y += child.y
+        @_bounds.union bounds
+      # computes minimal _bounds when context is transformed
+      radius = _ceil @_bounds.measureFarDistance(0, 0)
+      @_bounds.x = @_bounds.y = -radius
+      @_bounds.width = @_bounds.height = radius * 2
+
+      @_width = @_input.canvas.width = @_bounds.width
+      @_height = @_input.canvas.height = @_bounds.height
+
+      @_drawChildren()
+
+      @_input.strokeStyle = 'rgba(255, 0, 0, .8)'
+      @_input.lineWidth = 1
+      @_input.strokeRect 0, 0, @_width, @_height
+      @_input.strokeRect @_width / 2 - 5, @_height / 2 - 5, 10, 10
+
+    if @_transformed then @_transform() else @_output = @_input
     return
-  _drawChild: (child) ->
-    if child.blendMode is BlendMode.NORMAL
-      if child.bounds?
-        throw new Error 'invalid position' if isNaN child.x or isNaN child.bounds.x or isNaN child.y or isNaN child.bounds.y
-        if child.bounds.width > 0 and child.bounds.height > 0
-          @_drawing.drawImage child._transforming.canvas, child.x + child.bounds.x * child.scaleX, child.y + child.bounds.y * child.scaleY
-    else
-      imageData = @getImageData()
-      Blend.scan imageData, child.getImageData(), child.blendMode
-      @_drawing.putImageData imageData, 0, 0
-    @_drawing.setTransform 1, 0, 0, 1, 0, 0
+
+  _drawChildren: ->
+    for child in @_children
+      if child.blendMode is BlendMode.NORMAL
+        if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
+          throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
+          #console.log @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height, child.x, child.y, child._bounds.x, child._bounds.y, child._bounds.width, child._bounds.height
+          @_input.drawImage child._output.canvas, child._x + child._bounds.x * child._scaleX - @_bounds.x, child._y + child._bounds.y * child._scaleY - @_bounds.y
+    return

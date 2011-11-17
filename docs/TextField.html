@@ -43,10 +43,10 @@ You can access this module by doing:<br/>
 
 <p>[private] Computes the size of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_measure: </span><span class="o">-&gt;</span>
     <span class="k">if</span> <span class="nx">@_texts</span><span class="o">?</span> <span class="o">and</span> <span class="nx">@_format</span><span class="o">?</span>
-      <span class="vi">@_drawing.font = </span><span class="nx">@_format</span><span class="p">.</span><span class="nx">toStyleSheet</span><span class="p">()</span>
+      <span class="vi">@_input.font = </span><span class="nx">@_format</span><span class="p">.</span><span class="nx">toStyleSheet</span><span class="p">()</span>
       <span class="nv">width = </span><span class="mi">0</span>
       <span class="k">for</span> <span class="nx">text</span> <span class="k">in</span> <span class="nx">@_texts</span>
-        <span class="nv">width = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span> <span class="nx">width</span><span class="p">,</span> <span class="p">(</span><span class="nx">@_drawing</span><span class="p">.</span><span class="nx">measureText</span> <span class="nx">text</span><span class="p">).</span><span class="nx">width</span>
+        <span class="nv">width = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span> <span class="nx">width</span><span class="p">,</span> <span class="p">(</span><span class="nx">@_input</span><span class="p">.</span><span class="nx">measureText</span> <span class="nx">text</span><span class="p">).</span><span class="nx">width</span>
       <span class="nv">height = </span><span class="p">(</span><span class="nx">@_format</span><span class="p">.</span><span class="nx">size</span> <span class="o">+</span> <span class="nx">@_format</span><span class="p">.</span><span class="nx">leading</span><span class="p">)</span> <span class="o">*</span> <span class="nx">@_texts</span><span class="p">.</span><span class="nx">length</span>
       <span class="vi">@rect.y = </span><span class="o">-</span><span class="nx">height</span> <span class="o">*</span> <span class="mi">2</span>
       <span class="vi">@rect.width = </span><span class="nx">width</span>
@@ -54,13 +54,13 @@ You can access this module by doing:<br/>
     <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>_drawText(texts:<em>Array</em>, format:<em>TextFormat</em>):<em>void</em></h2>
 
 <p>[private] Draws text onto this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_drawText: </span><span class="nf">(texts, format) -&gt;</span>
-    <span class="vi">@_drawing.font = </span><span class="nx">format</span><span class="p">.</span><span class="nx">toStyleSheet</span><span class="p">()</span>
-    <span class="vi">@_drawing.textAlign = </span><span class="nx">format</span><span class="p">.</span><span class="nx">align</span>
-    <span class="vi">@_drawing.textBaseline = </span><span class="nx">format</span><span class="p">.</span><span class="nx">baseline</span>
-    <span class="vi">@_drawing.fillStyle = </span><span class="nx">TextField</span><span class="p">.</span><span class="nx">toColorString</span> <span class="nx">format</span><span class="p">.</span><span class="nx">color</span>
+    <span class="vi">@_input.font = </span><span class="nx">format</span><span class="p">.</span><span class="nx">toStyleSheet</span><span class="p">()</span>
+    <span class="vi">@_input.textAlign = </span><span class="nx">format</span><span class="p">.</span><span class="nx">align</span>
+    <span class="vi">@_input.textBaseline = </span><span class="nx">format</span><span class="p">.</span><span class="nx">baseline</span>
+    <span class="vi">@_input.fillStyle = </span><span class="nx">TextField</span><span class="p">.</span><span class="nx">toColorString</span> <span class="nx">format</span><span class="p">.</span><span class="nx">color</span>
     <span class="nv">lineHeight = </span><span class="nx">format</span><span class="p">.</span><span class="nx">size</span> <span class="o">+</span> <span class="nx">format</span><span class="p">.</span><span class="nx">leading</span>
     <span class="k">for</span> <span class="nx">text</span><span class="p">,</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">@_texts</span>
-      <span class="nx">@_drawing</span><span class="p">.</span><span class="nx">fillText</span> <span class="nx">text</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="nx">@rect</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">lineHeight</span> <span class="o">*</span> <span class="nx">i</span>
+      <span class="nx">@_input</span><span class="p">.</span><span class="nx">fillText</span> <span class="nx">text</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="nx">@rect</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="nx">lineHeight</span> <span class="o">*</span> <span class="nx">i</span>
     <span class="k">return</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

@@ -6,9 +6,10 @@
 <p>The <em>Stage</em> class represents the root drawing area.<br/>
 You can access this module by doing:<br/>
 <code>require('display/Stage')</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">Sprite = </span><span class="nx">require</span> <span class="s1">&#39;display/Sprite&#39;</span>
+<span class="nv">Rectangle = </span><span class="nx">require</span> <span class="s1">&#39;geom/Rectangle&#39;</span>
+<span class="nv">Capabilities = </span><span class="nx">require</span> <span class="s1">&#39;system/Capabilities&#39;</span>
 <span class="nv">TextField = </span><span class="nx">require</span> <span class="s1">&#39;text/TextField&#39;</span>
 <span class="nv">TextFormat = </span><span class="nx">require</span> <span class="s1">&#39;text/TextFormat&#39;</span>
-<span class="nv">Capabilities = </span><span class="nx">require</span> <span class="s1">&#39;system/Capabilities&#39;</span>
 
 <span class="nv">_ceil = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span>
 <span class="nv">_round = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span>
@@ -29,15 +30,16 @@ You can access this module by doing:<br/>
     <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s2">&quot;Canvas isn&#39;t supported&quot;</span> <span class="nx">unless</span> <span class="nx">Capabilities</span><span class="p">.</span><span class="nx">supports</span><span class="p">.</span><span class="nx">canvas</span>
     <span class="k">if</span> <span class="nx">canvasOrWidth</span> <span class="k">instanceof</span> <span class="nx">HTMLCanvasElement</span>
       <span class="nv">canvas = </span><span class="nx">canvasOrWidth</span>
-      <span class="vi">@width = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span>
-      <span class="vi">@height = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span>
+      <span class="vi">@_width = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span>
+      <span class="vi">@_height = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span>
     <span class="k">else</span> <span class="k">if</span> <span class="o">not</span> <span class="nb">isNaN</span><span class="p">(</span><span class="nb">Number</span> <span class="nx">canvasOrWidth</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">not</span> <span class="nb">isNaN</span><span class="p">(</span><span class="nb">Number</span> <span class="nx">height</span><span class="p">)</span>
       <span class="nv">canvas = </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span> <span class="s1">&#39;canvas&#39;</span>
-      <span class="vi">@width = </span><span class="nv">canvas.width = </span><span class="nx">canvasOrWidth</span>
-      <span class="vi">@height = </span><span class="nv">canvas.height = </span><span class="nx">height</span>
+      <span class="vi">@_width = </span><span class="nv">canvas.width = </span><span class="nx">canvasOrWidth</span>
+      <span class="vi">@_height = </span><span class="nv">canvas.height = </span><span class="nx">height</span>
     <span class="k">else</span>
       <span class="k">throw</span> <span class="k">new</span> <span class="nx">TypeError</span><span class="p">()</span>
-    <span class="vi">@_drawing = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span> <span class="s1">&#39;2d&#39;</span>
+    <span class="vi">@_input = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span> <span class="s1">&#39;2d&#39;</span>
+    <span class="vi">@_bounds = </span><span class="k">new</span> <span class="nx">Rectangle</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span>
     <span class="vi">@_startTime = @_time = </span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">()</span>
     <span class="vi">@currentFrame = </span><span class="mi">0</span>
     <span class="vi">@_frameRate = </span><span class="mi">60</span>
@@ -56,21 +58,21 @@ You can access this module by doing:<br/>
       <span class="vi">@_frameRate = </span><span class="p">(</span><span class="mi">300000</span> <span class="o">/</span> <span class="p">(</span><span class="nx">time</span> <span class="o">-</span> <span class="nx">@_time</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span>
       <span class="vi">@_time = </span><span class="nx">time</span>
     <span class="nx">@dispatchEvent</span> <span class="s1">&#39;enterFrame&#39;</span>
-    <span class="k">if</span> <span class="nx">@_cache</span>
-      <span class="vi">@_cache = </span><span class="kc">false</span>
+    <span class="k">if</span> <span class="nx">@_drawn</span>
+      <span class="vi">@_drawn = </span><span class="kc">false</span>
       <span class="nx">@_render</span><span class="p">()</span>
     <span class="nx">_tick</span> <span class="nx">@_enterFrame</span>
     <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h2>_render():<em>void</em></h2>
 
 <p>[private] Renders children and draws children on canvas.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_render: </span><span class="o">-&gt;</span>
-    <span class="vi">@_drawing.canvas.width = </span><span class="nx">@_width</span>
     <span class="k">for</span> <span class="nx">child</span> <span class="k">in</span> <span class="nx">@_children</span>
       <span class="nx">child</span><span class="p">.</span><span class="nx">_render</span><span class="p">()</span>
-      <span class="nx">@_drawChild</span> <span class="nx">child</span>
+    <span class="vi">@_input.canvas.width = </span><span class="nx">@_width</span>
+    <span class="nx">@_drawChildren</span><span class="p">()</span>
     <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h2>_requestRender():<em>void</em></h2>
 
 <p>[private] Reserves rendering on next frame.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_requestRender: </span><span class="o">-&gt;</span>
-    <span class="vi">@_cache = </span><span class="kc">true</span>
+    <span class="vi">@_drawn = </span><span class="kc">true</span>
     <span class="k">return</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

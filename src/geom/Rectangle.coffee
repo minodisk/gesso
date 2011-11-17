@@ -1,57 +1,76 @@
+# **Package:** *geom*<br/>
+# **Inheritance:** *Object* > *Rectangle*<br/>
+# **Subclasses:** -
+#
+# The *Rectangle* class represents an area defined by x, y, width and height.
+# <br/>
+# You can access this module by doing:<br/>
+# `require('geom/Rectangle')`
+
 _min = Math.min
 _max = Math.max
 _sqrt = Math.sqrt
 
 module.exports = class Rectangle
 
-  constructor:(@x = 0, @y = 0, @width = 0, @height = 0)->
+  # ## new Rectangle(x:*Number* = 0, y:*Number* = 0, width:*Number* = 0, height:*Number* = 0)
+  # Creates a new *Rectangle* instance.
+  constructor: (@x = 0, @y = 0, @width = 0, @height = 0) ->
 
-  toString:()->
+  # ## toString():*String*
+  # Creates *String* composed of x, y, width and height.
+  toString: ->
     "[Rectangle x=#{ @x } y=#{ @y } width=#{ @width } height=#{ @height }]"
 
-  clone:()->
-    new Rectangle(@x, @y, @width, @height)
+  # ## clone():*Rectangle*
+  # Clones this object.
+  clone: ->
+    new Rectangle @x, @y, @width, @height
 
-  apply:(@x, @y, @width, @height)->
-
-  applyRectangle:(rect)->
+  # ## apply(rect:*Rectangle*):*Rectangle*
+  # Applies target properties to this object.
+  apply: (rect) ->
     @x = rect.x
     @y = rect.y
     @width = rect.width
     @height = rect.height
-    return
+    @
 
-  offset:(dx, dy)->
+  # ## offset(dx:*Number*, dy:*Number*):*Rectangle*
+  # Add x and y to this object.
+  offset: (dx, dy) ->
     @x += dx
     @y += dy
-    return
+    @
 
-  offsetPoint:(pt)->
+  # ## offsetPoint(pt:*Point*):*Rectangle*
+  # Add x and y to this object using a *Point* object as a parameter.
+  offsetPoint: (pt) ->
     @x += pt.x
     @y += pt.y
-    return
+    @
 
-  inflate:(dw, dh)->
+  inflate: (dw, dh) ->
     @width += dw
     @height += dh
-    return
+    @
 
-  inflatePoint:(pt)->
+  inflatePoint: (pt) ->
     @width += pt.x
     @height += pt.y
-    return
+    @
 
-  deflate:(dw, dh)->
+  deflate: (dw, dh) ->
     @width -= dw
     @height -= dh
-    return
+    @
 
-  deflatePoint:(pt)->
+  deflatePoint: (pt) ->
     @width -= pt.x
     @height -= pt.y
-    return
+    @
 
-  union:(rect)->
+  union: (rect) ->
     l = _min @x, rect.x
     r = _max @x + @width, rect.x + rect.width
     w = r - l
@@ -62,12 +81,12 @@ module.exports = class Rectangle
     @y = t
     @width = if w < 0 then 0 else w
     @height = if h < 0 then 0 else h
-    return
+    @
 
-  isEmpty:()->
+  isEmpty: ->
     @x is 0 and @y is 0 and @width is 0 and @height is 0
 
-  intersects:(rect)->
+  intersects: (rect) ->
     l = _max @x, rect.x
     r = _min @x + @width, rect.x + rect.width
     w = r - l
@@ -78,7 +97,7 @@ module.exports = class Rectangle
     return false if h <= 0
     true
 
-  intersection:(rect)->
+  intersection: (rect) ->
     l = _max @x, rect.x
     r = _min @x + @width, rect.x + rect.width
     w = r - l

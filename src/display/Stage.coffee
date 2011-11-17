@@ -8,9 +8,10 @@
 # `require('display/Stage')`
 
 Sprite = require 'display/Sprite'
+Rectangle = require 'geom/Rectangle'
+Capabilities = require 'system/Capabilities'
 TextField = require 'text/TextField'
 TextFormat = require 'text/TextFormat'
-Capabilities = require 'system/Capabilities'
 
 _ceil = Math.ceil
 _round = Math.round
@@ -32,15 +33,16 @@ module.exports = class Stage extends Sprite
     throw new Error "Canvas isn't supported" unless Capabilities.supports.canvas
     if canvasOrWidth instanceof HTMLCanvasElement
       canvas = canvasOrWidth
-      @width = canvas.width
-      @height = canvas.height
+      @_width = canvas.width
+      @_height = canvas.height
     else if not isNaN(Number canvasOrWidth) && not isNaN(Number height)
       canvas = document.createElement 'canvas'
-      @width = canvas.width = canvasOrWidth
-      @height = canvas.height = height
+      @_width = canvas.width = canvasOrWidth
+      @_height = canvas.height = height
     else
       throw new TypeError()
-    @_drawing = canvas.getContext '2d'
+    @_input = canvas.getContext '2d'
+    @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
     @_frameRate = 60
@@ -65,8 +67,8 @@ module.exports = class Stage extends Sprite
       @_frameRate = (300000 / (time - @_time) >> 0) / 10
       @_time = time
     @dispatchEvent 'enterFrame'
-    if @_cache
-      @_cache = false
+    if @_drawn
+      @_drawn = false
       @_render()
     _tick @_enterFrame
     return
@@ -74,14 +76,14 @@ module.exports = class Stage extends Sprite
   # ## _render():*void*
   # [private] Renders children and draws children on canvas.
   _render: ->
-    @_drawing.canvas.width = @_width
     for child in @_children
       child._render()
-      @_drawChild child
+    @_input.canvas.width = @_width
+    @_drawChildren()
     return
 
   # ## _requestRender():*void*
   # [private] Reserves rendering on next frame.
   _requestRender: ->
-    @_cache = true
+    @_drawn = true
     return

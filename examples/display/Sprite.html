@@ -16,23 +16,25 @@
 </header>
 
 <section>
-  <h2>addChild</h2>
+  <h2>translate</h2>
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
-var star = new Shape();
-star.drawRegularStar(0, 0, 50);
-star.fill(0x0581d2, 0.5);
-star.x = star.y = -20;
-sprite.addChild(star);
-var circle = new Shape();
-circle.drawCircle(0, 0, 50);
-circle.fill(0xff0000, 0.5);
-circle.x = circle.y = 20;
-sprite.addChild(circle);
+var blue = new Shape();
+blue.drawCircle(0, 0, 50);
+blue.fill(0x0581d2, 0.5);
+blue.x = blue.y = -20;
+sprite.addChild(blue);
+var red = new Shape();
+red.drawCircle(0, 0, 50);
+red.fill(0xff0000, 0.5);
+red.x = red.y = 20;
+sprite.addChild(red);
+sprite.x = 75;
+sprite.y = 75;
 stage.addChild(sprite);
-/*var direction = 1;
+var direction = 1;
 stage.addEventListener('enterFrame', function (e) {
   if (sprite.x <= 75) {
     direction = 1;
@@ -40,30 +42,40 @@ stage.addEventListener('enterFrame', function (e) {
     direction = -1
   }
   sprite.x += direction * 1;
-});*/</pre>
+});</pre>
     <canvas></canvas>
   </div>
 </section>
-<!--
+
 <section>
   <h2>alpha</h2>
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
-var shape = new Shape();
-shape.drawRegularStar(150, 75, 50)
-shape.fill(0x0581d2);
-stage.addChild(shape);
+var sprite = new Sprite();
+var blue = new Shape();
+blue.drawCircle(0, 0, 50);
+blue.fill(0x0581d2, 0.5);
+blue.x = blue.y = -20;
+sprite.addChild(blue);
+var red = new Shape();
+red.drawCircle(0, 0, 50);
+red.fill(0xff0000, 0.5);
+red.x = red.y = 20;
+sprite.addChild(red);
+sprite.x = 150;
+sprite.y = 75;
+sprite.alpha = .5;
+stage.addChild(sprite);
 var direction = -1;
 stage.addEventListener('enterFrame', function (e) {
-  if (shape.alpha <= 0) {
+  if (sprite.alpha <= 0) {
     direction = 1;
-  } else if (shape.alpha >= 1) {
+  } else if (sprite.alpha >= 1) {
     direction = -1;
   }
-  shape.alpha += 0.01 * direction;
-});
-    </pre>
+  sprite.alpha += 0.01 * direction;
+});</pre>
     <canvas></canvas>
   </div>
 </section>
@@ -73,14 +85,22 @@ stage.addEventListener('enterFrame', function (e) {
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
-var shape = new Shape();
-shape.drawRegularStar(0, 0, 50);
-shape.fill(0x0581d2);
-shape.x = 150;
-shape.y = 75;
-stage.addChild(shape);
+var sprite = new Sprite();
+var blue = new Shape();
+blue.drawCircle(0, 0, 50);
+blue.fill(0x0581d2, 0.5);
+blue.x = blue.y = -20;
+sprite.addChild(blue);
+var red = new Shape();
+red.drawCircle(0, 0, 50);
+red.fill(0xff0000, 0.5);
+red.x = red.y = 20;
+sprite.addChild(red);
+sprite.x = 150;
+sprite.y = 75;
+stage.addChild(sprite);
 stage.addEventListener('enterFrame', function (e) {
-  shape.rotation++;
+  sprite.rotation++;
 });
     </pre>
     <canvas></canvas>
@@ -92,32 +112,40 @@ stage.addEventListener('enterFrame', function (e) {
   <div class="execute">
     <pre>
 var stage = new Stage(canvas);
-var shape = new Shape();
-shape.drawRegularStar(0, 0, 50);
-shape.fill(0x0581d2);
-shape.x = 150;
-shape.y = 75;
-stage.addChild(shape);
+var sprite = new Sprite();
+var blue = new Shape();
+blue.drawCircle(0, 0, 50);
+blue.fill(0x0581d2, 0.5);
+blue.x = blue.y = -20;
+sprite.addChild(blue);
+var red = new Shape();
+red.drawCircle(0, 0, 50);
+red.fill(0xff0000, 0.5);
+red.x = red.y = 20;
+sprite.addChild(red);
+sprite.x = 150;
+sprite.y = 75;
+stage.addChild(sprite);
 var xDirection = 1;
 var yDirection = -1;
 stage.addEventListener('enterFrame', function (e) {
-  if (shape.scaleX >= 1.5) {
+  if (sprite.scaleX >= 2) {
     xDirection = -1;
-  } else if (shape.scaleX <= 0.5) {
+  } else if (sprite.scaleX <= 0.5) {
     xDirection = 1;
   }
-  if (shape.scaleY >= 1.5) {
+  if (sprite.scaleY >= 1.5) {
     yDirection = -1;
-  } else if (shape.scaleY <= 0.5) {
+  } else if (sprite.scaleY <= 0.5) {
     yDirection = 1;
   }
-  shape.scaleX += 0.01 * xDirection;
-  shape.scaleY += 0.01 * yDirection;
+  sprite.scaleX += 0.01 * xDirection;
+  sprite.scaleY += 0.01 * yDirection;
 });
     </pre>
     <canvas></canvas>
   </div>
 </section>
--->
+
 </body>
 </html>

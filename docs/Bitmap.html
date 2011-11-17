@@ -27,7 +27,7 @@ You can access this module by doing:<br/>
         <span class="nx">img</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;load&#39;</span><span class="p">,</span> <span class="p">((</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">@drawImage</span><span class="p">(</span><span class="nx">img</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)),</span> <span class="kc">false</span>
       <span class="k">return</span> <span class="nx">img</span>
     <span class="k">if</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">DisplayObject</span>
-      <span class="nv">data = </span><span class="nx">data</span><span class="p">.</span><span class="nx">_drawing</span><span class="p">.</span><span class="nx">canvas</span>
+      <span class="nv">data = </span><span class="nx">data</span><span class="p">.</span><span class="nx">_input</span><span class="p">.</span><span class="nx">canvas</span>
     <span class="k">if</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">HTMLCanvasElement</span> <span class="o">or</span> <span class="nx">data</span> <span class="k">instanceof</span> <span class="nx">HTMLVideoElement</span>
       <span class="nx">@drawImage</span> <span class="nx">data</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span>
       <span class="k">return</span>
@@ -46,7 +46,7 @@ the source object.</p>             </td>             <td class="code">          
     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s1">&#39;drawImage -&gt; @_requestRender true&#39;</span>
     <span class="nx">@_requestRender</span> <span class="kc">true</span>
   <span class="nv">_drawImage: </span><span class="nf">(image, x, y) -&gt;</span>
-    <span class="nx">@_drawing</span><span class="p">.</span><span class="nx">drawImage</span> <span class="nx">image</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">height</span>
+    <span class="nx">@_input</span><span class="p">.</span><span class="nx">drawImage</span> <span class="nx">image</span><span class="p">,</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">image</span><span class="p">.</span><span class="nx">height</span>
     <span class="k">return</span>
 
   <span class="nx">drawImageData</span><span class="o">:</span><span class="nf">(imageData, x = 0, y = 0)-&gt;</span>
