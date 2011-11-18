@@ -6,10 +6,12 @@
   window.Bitmap = require('display/Bitmap');
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
+  window.ColorMatrixFilter = require('filters/ColorMatrixFilter');
   window.TextField = require('text/TextField');
   window.TextFormat = require('text/TextFormat');
   window.TextFormatBaseline = require('text/TextFormatBaseline');
   window.Rectangle = require('geom/Rectangle');
+  window.ColorMatrix = require('geom/ColorMatrix')
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes = document.querySelectorAll('.execute');
     ArrayUtil.forEach(executes, function (elem) {
