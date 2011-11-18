@@ -1,6 +1,5 @@
 (function (window, require) {
   var ArrayUtil = require('utils/ArrayUtil');
-  require('inherit');
   window.Stage = require('display/Stage');
   window.DisplayObject = require('display/DisplayObject');
   window.Bitmap = require('display/Bitmap');
