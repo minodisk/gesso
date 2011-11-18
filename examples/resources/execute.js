@@ -7,11 +7,19 @@
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
   window.ColorMatrixFilter = require('filters/ColorMatrixFilter');
+  window.PrewittFilter = require('filters/PrewittFilter');
+  window.SobelFilter = require('filters/SobelFilter');
+  window.LaplacianFilter = require('filters/LaplacianFilter');
+  window.UnsharpMaskFilter = require('filters/UnsharpMaskFilter');
+  window.BlurFilter = require('filters/BlurFilter');
+  window.GaussianFilter = require('filters/GaussianFilter');
+  window.MedianFilter = require('filters/MedianFilter');
+  window.BilateralFilter = require('filters/BilateralFilter');
+  window.Rectangle = require('geom/Rectangle');
+  window.ColorMatrix = require('geom/ColorMatrix');
   window.TextField = require('text/TextField');
   window.TextFormat = require('text/TextFormat');
   window.TextFormatBaseline = require('text/TextFormatBaseline');
-  window.Rectangle = require('geom/Rectangle');
-  window.ColorMatrix = require('geom/ColorMatrix')
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes = document.querySelectorAll('.execute');
     ArrayUtil.forEach(executes, function (elem) {
