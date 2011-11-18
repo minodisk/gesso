@@ -40,7 +40,7 @@ module.exports = class Stage extends Sprite
       @_height = canvas.height = height
     else
       throw new TypeError()
-    @_cache = canvas.getContext '2d'
+    @_context = canvas.getContext '2d'
     @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
@@ -75,9 +75,9 @@ module.exports = class Stage extends Sprite
   # ### _render():*void*
   # [private] Renders children, then draws children on this object.
   _render: ->
-    for child in @_children
+    for child in @_children when child._drawn
       child._render()
-    @_cache.canvas.width = @_width
+    @_context.canvas.width = @_width
     @_drawChildren()
     return
 

@@ -55,10 +55,10 @@ module.exports = class TextField extends DisplayObject
   # [private] Computes the size of this object.
   _measure: ->
     if @_texts? and @_format?
-      @_cache.font = @_format.toStyleSheet()
+      @_context.font = @_format.toStyleSheet()
       width = 0
       for text in @_texts
-        width = Math.max width, (@_cache.measureText text).width
+        width = Math.max width, (@_context.measureText text).width
       height = (@_format.size + @_format.leading) * @_texts.length
       @rect.y = -height * 2
       @rect.width = width
@@ -68,11 +68,11 @@ module.exports = class TextField extends DisplayObject
   # ### _drawText(texts:*Array*, format:*TextFormat*):*void*
   # [private] Draws text onto this object.
   _drawText: (texts, format) ->
-    @_cache.font = format.toStyleSheet()
-    @_cache.textAlign = format.align
-    @_cache.textBaseline = format.baseline
-    @_cache.fillStyle = TextField.toColorString format.color
+    @_context.font = format.toStyleSheet()
+    @_context.textAlign = format.align
+    @_context.textBaseline = format.baseline
+    @_context.fillStyle = TextField.toColorString format.color
     lineHeight = format.size + format.leading
     for text, i in @_texts
-      @_cache.fillText text, 0, lineHeight * i
+      @_context.fillText text, 0, lineHeight * i
     return

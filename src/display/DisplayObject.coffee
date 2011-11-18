@@ -7,7 +7,7 @@
 # `require('display/DisplayObject')`
 
 EventDispatcher = require 'events/EventDispatcher'
-BlendMode = require 'display/blends/BlendMode'
+BlendMode = require 'display/BlendMode'
 Rectangle = require 'geom/Rectangle'
 
 _RADIAN_PER_DEGREE = Math.PI / 180
@@ -39,8 +39,8 @@ module.exports = class DisplayObject extends EventDispatcher
     @_alpha = 1
     @blendMode = BlendMode.NORMAL
     @filters = []
-    @_cache = document.createElement('canvas').getContext('2d')
-    @_cache.canvas.width = @_cache.canvas.height = 0
+    @_context = document.createElement('canvas').getContext('2d')
+    @_context.canvas.width = @_context.canvas.height = 0
     @_stacks = []
     @_drawn = false
 
@@ -92,7 +92,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'width', -> @_width
   DisplayObject::__defineSetter__ 'width', (value) ->
     @_width = value
-    @_scaleX = value / @_cache.canvas.width unless @_cache.canvas.width is 0
+    @_scaleX = value / @_context.canvas.width unless @_context.canvas.width is 0
     @_requestRender false
     return
 
@@ -101,7 +101,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'height', -> @_height
   DisplayObject::__defineSetter__ 'height', (value) ->
     @_height = value
-    @_scaleY = value / @_cache.canvas.height unless @_cache.canvas.height is 0
+    @_scaleY = value / @_context.canvas.height unless @_context.canvas.height is 0
     @_requestRender false
     return
 
@@ -110,7 +110,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'scaleX', -> @_scaleX
   DisplayObject::__defineSetter__ 'scaleX', (value) ->
     @_scaleX = value
-    @_width = @_cache.canvas.width * value
+    @_width = @_context.canvas.width * value
     @_requestRender false
     return
 
@@ -119,7 +119,7 @@ module.exports = class DisplayObject extends EventDispatcher
   DisplayObject::__defineGetter__ 'scaleY', -> @_scaleY
   DisplayObject::__defineSetter__ 'scaleY', (value) ->
     @_scaleY = value
-    @_height = @_cache.canvas.height * value
+    @_height = @_context.canvas.height * value
     @_requestRender false
     return
 
@@ -150,43 +150,47 @@ module.exports = class DisplayObject extends EventDispatcher
   # ### _render():*void*
   # [private] Renders this object.
   _render: ->
-    if @_drawn
-      @_drawn = false
+    @_drawn = false
+    @_measureSize()
+    @_applySize()
+    @_execStacks()
+    @_applyFilters()
+    @_drawBounds()
 
-      rect = new Rectangle()
-      delta = 0
-      for stack in @_stacks
-        rect.union stack.rect if stack.rect?
-        delta = _max delta, stack.delta if stack.delta?
-      @_bounds = rect.clone()
-      offset = _ceil delta / 2
-      delta = offset * 2
-      offset *= -1
-      @_bounds.offset offset, offset
-      @_bounds.inflate delta, delta
+  _measureSize: ->
+    rect = new Rectangle()
+    delta = 0
+    for stack in @_stacks
+      rect.union stack.rect if stack.rect?
+      delta = _max delta, stack.delta if stack.delta?
+    @_bounds = rect.clone()
+    offset = _ceil delta / 2
+    delta = offset * 2
+    offset *= -1
+    @_bounds.offset offset, offset
+    @_bounds.inflate delta, delta
 
-      console.log @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height
+  _applySize: ->
+    @_context.canvas.width = @_width = @_bounds.width
+    @_context.canvas.height = @_height = @_bounds.height
 
-      #radius = _ceil @_bounds.measureFarDistance(0, 0)
-      #@_bounds.x = @_bounds.y = -radius
-      #@_bounds.width = @_bounds.height = radius * 2
+  _execStacks: ->
+    @_context.translate -@_bounds.x, -@_bounds.y
+    @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
+    @_context.setTransform 1, 0, 0, 1, 0, 0
 
-      @_cache.canvas.width = @_width = @_bounds.width
-      @_cache.canvas.height = @_height = @_bounds.height
-
-      @_cache.strokeStyle = 'rgba(0, 0, 255, .8)'
-      @_cache.lineWidth = 1
-      @_cache.strokeRect 0, 0, @_width, @_height
-
-      @_cache.translate -@_bounds.x, -@_bounds.y
-      @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
-
-      if (@filters.length > 0)
-        imageData = @_cache.getImageData @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height
-        newImageData = @_cache.createImageData @_bounds.width, @_bounds.height
-        filter.scan imageData, newImageData for filter in @filters
-        @_cache.putImageData newImageData, @_bounds.x, @_bounds.y
+  _applyFilters: ->
+    if (@filters.length > 0)
+      imageData = @_context.getImageData @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height
+      newImageData = @_context.createImageData @_bounds.width, @_bounds.height
+      filter.scan imageData, newImageData for filter in @filters
+      @_context.putImageData newImageData, @_bounds.x, @_bounds.y
     return
+
+  _drawBounds: ->
+    @_context.strokeStyle = 'rgba(0, 0, 255, .8)'
+    @_context.lineWidth = 1
+    @_context.strokeRect 0, 0, @_width, @_height
 
   # ### _requestRender():*DisplayObject*
   # [private] Requests rendering to parent.
