@@ -63,9 +63,6 @@ module.exports = class Sprite extends Shape
       bounds.x += child.x
       bounds.y += child.y
       @_bounds.union bounds
-    radius = _ceil @_bounds.measureFarDistance(0, 0)
-    @_bounds.x = @_bounds.y = -radius
-    @_bounds.width = @_bounds.height = radius * 2
 
   _drawBounds: ->
     @_context.strokeStyle = 'rgba(255, 0, 0, .8)'
