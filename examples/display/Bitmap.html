@@ -24,7 +24,7 @@
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
-bitmap.draw('_images/lena.png');</pre>
+bitmap.draw('resources/lena.png');</pre>
     <canvas></canvas>
   </div>
   
@@ -34,7 +34,7 @@ bitmap.draw('_images/lena.png');</pre>
 var bitmap = new Bitmap();
 stage.addChild(bitmap);
 var img = new Image();
-img.src = '_images/opaque_dst.png';
+img.src = 'resources/opaque_dst.png';
 bitmap.draw(img);</pre>
     <canvas></canvas>
   </div>
@@ -49,7 +49,7 @@ var img = new Image();
 img.addEventListener('load', function () {
   bitmap.draw(img);
 }, false);
-img.src = '_images/lena.png';</pre>
+img.src = 'resources/lena.png';</pre>
     <canvas></canvas>
   </div>
 </section>
