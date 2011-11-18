@@ -181,10 +181,10 @@ module.exports = class DisplayObject extends EventDispatcher
 
   _applyFilters: ->
     if (@filters.length > 0)
-      imageData = @_context.getImageData @_bounds.x, @_bounds.y, @_bounds.width, @_bounds.height
+      imageData = @_context.getImageData 0, 0, @_bounds.width, @_bounds.height
       newImageData = @_context.createImageData @_bounds.width, @_bounds.height
       filter.scan imageData, newImageData for filter in @filters
-      @_context.putImageData newImageData, @_bounds.x, @_bounds.y
+      @_context.putImageData newImageData, 0, 0
     return
 
   _drawBounds: ->
