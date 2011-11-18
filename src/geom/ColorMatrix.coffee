@@ -4,7 +4,7 @@
 # Author: Mario Klingemann
 # http:#www.quasimondo.com
 
-StringUtil = require 'StringUtil'
+StringUtil = require 'utils/StringUtil'
 
 # RGB to Luminance conversion constants as found on
 # Charles A. Poynton's colorspace-faq:
@@ -53,7 +53,7 @@ module.exports = class ColorMatrix
     for y in [0...tmp.length] by 1
       tmp[y] = tmp[y].join ', '
       tmp[y] += ',' if y != tmp.length - 1
-    tmp.join('\n')
+    tmp.join '\n'
 
   clone: ->
     new ColorMatrix @matrix
@@ -84,28 +84,28 @@ module.exports = class ColorMatrix
     iglum = -s * _LUMA_G
     iblum = -s * _LUMA_B
     ++s
-    @concat([
+    @concat [
       irlum + s, iglum, iblum, 0, 0
       irlum, iglum + s, iblum, 0, 0
       irlum, iglum, iblum + s, 0, 0
       0, 0, 0, 1, 0
-    ])
+    ]
 
   adjustContrast: (r, g = r, b = r) ->
-    @concat([
+    @concat [
       1 + r, 0, 0, 0, -0x80 * r
       0, 1 + g, 0, 0, -0x80 * g
       0, 0, 1 + b, 0, -0x80 * b
       0, 0, 0, 1, 0
-    ])
+    ]
 
   adjustBrightness: (r, g = r, b = r) ->
-    @concat([
+    @concat [
       1, 0, 0, 0, 0xff * r
       0, 1, 0, 0, 0xff * g
       0, 0, 1, 0, 0xff * b
       0, 0, 0, 1, 0
-    ])
+    ]
 
   adjustHue: (degree) ->
     R = _LUMA_R
@@ -117,12 +117,12 @@ module.exports = class ColorMatrix
     l = 1 - c
     m = l - s
     n = l + s
-    @concat([
+    @concat [
       R * m + c, G * m, B * m + s, 0, 0
       R * l + s * 0.143, G * l + c + s * 0.14, B * l + s * -0.283, 0, 0
       R * n - s, G * n, B * n + c, 0, 0
       0, 0, 0, 1, 0
-    ])
+    ]
 
   rotateHue: (degree) ->
     @_initHue()
@@ -131,20 +131,20 @@ module.exports = class ColorMatrix
     @concat @_postHue.matrix
 
   luminance2Alpha: ->
-    @concat([
+    @concat [
       0, 0, 0, 0, 0xff
       0, 0, 0, 0, 0xff
       0, 0, 0, 0, 0xff
       _LUMA_R, _LUMA_G, _LUMA_B, 0, 0
-    ])
+    ]
 
   adjustAlphaContrast: (amount) ->
-    @concat([
+    @concat [
       1, 0, 0, 0, 0
       0, 1, 0, 0, 0
       0, 0, 1, 0, 0
       0, 0, 0, amount + 1, -0x80 * amount
-    ])
+    ]
 
   colorize: (rgb, amount = 1) ->
     R = _LUMA_R
@@ -154,12 +154,12 @@ module.exports = class ColorMatrix
     g = ((rgb >> 8) & 0xFF) / 0xFF
     b = (rgb & 0xFF) / 0xFF
     invAmount = 1 - amount
-    @concat([
+    @concat [
       invAmount + amount * r * R, amount * r * G, amount * r * B, 0, 0,
       amount * g * R, invAmount + amount * g * G, amount * g * B, 0, 0,
       amount * b * R, amount * b * G, invAmount + amount * b * B, 0, 0,
       0, 0, 0, 1, 0
-    ])
+    ]
 
   setChannels: (r = 1, g = 2, b = 4, a = 8) ->
     rf = (if ((r & 1) is 1) then 1 else 0) + (if ((r & 2) is 2) then 1 else 0) + (if ((r & 4) is 4) then 1 else 0) + (if ((r & 8) is 8) then 1 else 0)
@@ -170,47 +170,47 @@ module.exports = class ColorMatrix
     bf = (1 / bf) if bf > 0
     af = (if ((a & 1) is 1) then 1 else 0) + (if ((a & 2) is 2) then 1 else 0) + (if ((a & 4) is 4) then 1 else 0) + (if ((a & 8) is 8) then 1 else 0)
     af = (1 / af) if af > 0
-    @concat([
-      if ((r & 1) is 1) then rf else 0, if ((r & 2) is 2) then rf else 0, if ((r & 4) is 4) then rf else 0, if ((r & 8) is 8) then rf else 0, 0
-      if ((g & 1) is 1) then gf else 0, if ((g & 2) is 2) then gf else 0, if ((g & 4) is 4) then gf else 0, if ((g & 8) is 8) then gf else 0, 0
-      if ((b & 1) is 1) then bf else 0, if ((b & 2) is 2) then bf else 0, if ((b & 4) is 4) then bf else 0, if ((b & 8) is 8) then bf else 0, 0
-      if ((a & 1) is 1) then af else 0, if ((a & 2) is 2) then af else 0, if ((a & 4) is 4) then af else 0, if ((a & 8) is 8) then af else 0, 0
-    ])
+    @concat [
+      (if ((r & 1) is 1) then rf else 0), (if ((r & 2) is 2) then rf else 0), (if ((r & 4) is 4) then rf else 0), (if ((r & 8) is 8) then rf else 0), 0
+      (if ((g & 1) is 1) then gf else 0), (if ((g & 2) is 2) then gf else 0), (if ((g & 4) is 4) then gf else 0), (if ((g & 8) is 8) then gf else 0), 0
+      (if ((b & 1) is 1) then bf else 0), (if ((b & 2) is 2) then bf else 0), (if ((b & 4) is 4) then bf else 0), (if ((b & 8) is 8) then bf else 0), 0
+      (if ((a & 1) is 1) then af else 0), (if ((a & 2) is 2) then af else 0), (if ((a & 4) is 4) then af else 0), (if ((a & 8) is 8) then af else 0), 0
+    ]
 
   blend: (matrix, amount) ->
     for v, i in matrix.matrix
       @matrix[i] = @matrix[i] * (1 - amount) + v * amount
 
   average: (r = _ONETHIRD, g = _ONETHIRD, b = _ONETHIRD) ->
-    @concat([
+    @concat [
       r, g, b, 0, 0
       r, g, b, 0, 0
       r, g, b, 0, 0
       0, 0, 0, 1, 0
-    ])
+    ]
 
   threshold: (threshold, factor = 0x100) ->
     R = factor * _LUMA_R
     G = factor * _LUMA_G
     B = factor * _LUMA_B
     t = -factor * threshold
-    @concat([
+    @concat [
       R, G, B, 0, t
       R, G, B, 0, t
       R, G, B, 0, t
       0, 0, 0, 1, 0
-    ])
+    ]
 
   desaturate: ->
     R = _LUMA_R
     G = _LUMA_G
     B = _LUMA_B
-    @concat([
+    @concat [
       R, G, B, 0, 0
       R, G, B, 0, 0
       R, G, B, 0, 0
       0, 0, 0, 1, 0
-    ])
+    ]
 
   randomize: (amount = 1) ->
     inv_amount = (1 - amount)
@@ -226,20 +226,20 @@ module.exports = class ColorMatrix
     g3 = (amount * (Math.random() - Math.random()))
     b3 = (inv_amount + (amount * (Math.random() - Math.random())))
     o3 = ((amount * 0xFF) * (Math.random() - Math.random()))
-    @concat([
+    @concat [
       r1, g1, b1, 0, o1
       r2, g2, b2, 0, o2
       r3, g3, b3, 0, o3
       0, 0, 0, 1, 0
-    ])
+    ]
 
   setMultiplicators: (r = 1, g = 1, b = 1, a = 1) ->
-    @concat([
+    @concat [
       r, 0, 0, 0, 0
       0, g, 0, 0, 0
       0, 0, b, 0, 0
       0, 0, 0, a, 0
-    ])
+    ]
 
   clearChannels: (r = false, g = false, b = false, a = false) ->
     @matrix[0] = @matrix[1] = @matrix[2] = @matrix[3] = @matrix[4] = 0 if r
@@ -248,44 +248,44 @@ module.exports = class ColorMatrix
     @matrix[15] = @matrix[16] = @matrix[17] = @matrix[18] = @matrix[19] = 0 if a
 
   thresholdAlpha: (threshold, factor = 0x100) ->
-    @concat([
+    @concat [
       1, 0, 0, 0, 0
       0, 1, 0, 0, 0
       0, 0, 1, 0, 0
       0, 0, 0, factor, -factor * threshold
-    ])
+    ]
 
   averageRGB2Alpha: ->
-    @concat([
+    @concat [
       0, 0, 0, 0, 0xff
       0, 0, 0, 0, 0xff
       0, 0, 0, 0, 0xff
       _ONETHIRD, _ONETHIRD, _ONETHIRD, 0, 0
-    ])
+    ]
 
   invertAlpha: ->
-    @concat([
+    @concat [
       1, 0, 0, 0, 0
       0, 1, 0, 0, 0
       0, 0, 1, 0, 0
       0, 0, 0, -1, 0xff
-    ])
+    ]
 
   rgb2Alpha: (r, g, b) ->
-    @concat([
+    @concat [
       0, 0, 0, 0, 0xff
       0, 0, 0, 0, 0xff
       0, 0, 0, 0, 0xff
       r, g, b, 0, 0
-    ])
+    ]
 
   setAlpha: (alpha) ->
-    @concat([
+    @concat [
       1, 0, 0, 0, 0
       0, 1, 0, 0, 0
       0, 0, 1, 0, 0
       0, 0, 0, alpha, 0
-    ])
+    ]
 
   rotateRed: (degree) ->
     @_rotateColor degree, 2, 1
@@ -323,68 +323,68 @@ module.exports = class ColorMatrix
     # the values of this method are copied from http:#www.nofunc.com/Color_Matrix_Library/
     switch type
       when 'Protanopia'
-        @concat([
+        @concat [
           .567, .433, .0, .0, .0
           .558, .442, .0, .0, .0
           .0, .242, .758, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Protanomaly'
-        @concat([
+        @concat [
           .817, .183, .0, .0, .0
           .333, .667, .0, .0, .0
           .0, .125, .875, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Deuteranopia'
-        @concat([
+        @concat [
           .625, .375, .0, .0, .0
           .7, .3, .0, .0, .0
           .0, .3, .7, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Deuteranomaly'
-        @concat([
+        @concat [
           .8, .2, .0, .0, .0,
           .258, .742, .0, .0, .0
           .0, .142, .858, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Tritanopia'
-        @concat([
+        @concat [
           .95, .05, .0, .0, .0
           .0, .433, .567, .0, .0
           .0, .475, .525, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Tritanomaly'
-        @concat([
+        @concat [
           .967, .033, .0, .0, .0
           .0, .733, .267, .0, .0
           .0, .183, .817, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Achromatopsia'
-        @concat([
+        @concat [
           .299, .587, .114, .0, .0
           .299, .587, .114, .0, .0
           .299, .587, .114, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
       when 'Achromatomaly'
-        @concat([
+        @concat [
           .618, .320, .062, .0, .0
           .163, .775, .062, .0, .0
           .163, .320, .516, .0, .0
           .0, .0, .0, 1.0, .0
-        ])
+        ]
         break
 
   applyMatrix: (rgba) ->
