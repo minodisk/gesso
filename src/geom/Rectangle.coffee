@@ -36,6 +36,12 @@ module.exports = class Rectangle
     @height = rect.height
     @
 
+  contains: (x, y) ->
+    @x < x < @x + @width and @y < y < @y + @height
+
+  containsPoint: (point) ->
+    @x < point.x < @x + @width and @y < point.y < @y + @height
+
   # ## offset(dx:*Number*, dy:*Number*):*Rectangle*
   # Add x and y to this object.
   offset: (dx, dy) ->
