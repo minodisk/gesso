@@ -1,5 +1,6 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Sprite* > *Stage*<br/>
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* → *Sprite* →
+# *Sprite* → *Stage*<br/>
 # **Subclasses:** -
 #
 # The *Stage* class represents the root drawing area.<br/>
@@ -8,12 +9,9 @@
 
 Sprite = require 'display/Sprite'
 Rectangle = require 'geom/Rectangle'
-Capabilities = require 'system/Capabilities'
 TextField = require 'text/TextField'
 TextFormat = require 'text/TextFormat'
 
-_ceil = Math.ceil
-_round = Math.round
 _tick = do ->
   @requestAnimationFrame or
   @webkitRequestAnimationFrame or
@@ -29,7 +27,6 @@ module.exports = class Stage extends Sprite
   # Creates a new *Stage* object.
   constructor: (canvasOrWidth, height = null) ->
     super 'Stage'
-    throw new Error "Canvas isn't supported" unless Capabilities.supports.canvas
     if canvasOrWidth instanceof HTMLCanvasElement
       canvas = canvasOrWidth
       @_width = canvas.width
@@ -39,13 +36,14 @@ module.exports = class Stage extends Sprite
       @_width = canvas.width = canvasOrWidth
       @_height = canvas.height = height
     else
-      throw new TypeError()
+      throw new TypeError ''
     @_context = canvas.getContext '2d'
     @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
     @_frameRate = 60
     _tick @_enterFrame
+    canvas.addEventListener 'mousemove', @_onMouseMove, false
     return
 
   # ### frameRate:*Number*
@@ -75,8 +73,7 @@ module.exports = class Stage extends Sprite
   # ### _render():*void*
   # [private] Renders children, then draws children on this object.
   _render: ->
-    for child in @_children when child._drawn
-      child._render()
+    child._render() for child in @_children when child._drawn
     @_context.canvas.width = @_width
     @_drawChildren()
     return
@@ -86,3 +83,6 @@ module.exports = class Stage extends Sprite
   _requestRender: ->
     @_drawn = true
     return
+
+  _onMouseMove: (e) =>
+    @_onMouseMoveAt e.offsetX, e.offsetY

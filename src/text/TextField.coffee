@@ -1,5 +1,5 @@
 # **Package:** *text*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* >
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* →
 # *TextField*<br/>
 # **Subclasses:** -
 #

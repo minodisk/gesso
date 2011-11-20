@@ -1,5 +1,5 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject*<br/>
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject*<br/>
 # **Subclasses:** *Bitmap*, *Shape*, *TextField*
 #
 # The base class for all objects that can be placed on the display list.<br/>
@@ -9,12 +9,6 @@
 EventDispatcher = require 'events/EventDispatcher'
 BlendMode = require 'display/BlendMode'
 Rectangle = require 'geom/Rectangle'
-
-_RADIAN_PER_DEGREE = Math.PI / 180
-_max = Math.max
-_min = Math.min
-_ceil = Math.ceil
-_sqrt = Math.sqrt
 
 module.exports = class DisplayObject extends EventDispatcher
 
@@ -145,7 +139,6 @@ module.exports = class DisplayObject extends EventDispatcher
   # ### get_bounds():*DisplayObject*
   # Calculates a rectangle that defines the area of this object object relative
   # to target coordinate space.
-  get_bounds: (targetCoordinateSpace) ->
 
   # ### _render():*void*
   # [private] Renders this object.
@@ -155,30 +148,38 @@ module.exports = class DisplayObject extends EventDispatcher
     @_applySize()
     @_execStacks()
     @_applyFilters()
-    @_drawBounds()
+    #@_drawBounds()
 
+  # ### _measureSize():*void*
+  # [private] Measures the bounds of this object.
   _measureSize: ->
     rect = new Rectangle()
     delta = 0
     for stack in @_stacks
       rect.union stack.rect if stack.rect?
-      delta = _max delta, stack.delta if stack.delta?
+      delta = Math.max delta, stack.delta if stack.delta?
     @_bounds = rect.clone()
-    offset = _ceil delta / 2
+    offset = Math.ceil delta / 2
     delta = offset * 2
     offset *= -1
     @_bounds.offset offset, offset
     @_bounds.inflate delta, delta
 
+  # ### _applySize():*void*
+  # [private] Applies the bounds to internal canvas of this object.
   _applySize: ->
     @_context.canvas.width = @_width = @_bounds.width
     @_context.canvas.height = @_height = @_bounds.height
 
+  # ### _execStacks():*void*
+  # [private] Executes the stacks to this object.
   _execStacks: ->
     @_context.translate -@_bounds.x, -@_bounds.y
     @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
     @_context.setTransform 1, 0, 0, 1, 0, 0
 
+  # ### _applyFilters():*void*
+  # [private] Applies the filters to this object.
   _applyFilters: ->
     if (@filters.length > 0)
       imageData = @_context.getImageData 0, 0, @_bounds.width, @_bounds.height
@@ -187,6 +188,8 @@ module.exports = class DisplayObject extends EventDispatcher
       @_context.putImageData newImageData, 0, 0
     return
 
+  # ### _drawBounds():*void*
+  # [private] Draws the bounds of this object for debug.
   _drawBounds: ->
     @_context.strokeStyle = 'rgba(0, 0, 255, .8)'
     @_context.lineWidth = 1

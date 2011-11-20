@@ -1,5 +1,6 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Shape* > *Sprite*<br/>
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* → *Shape* →
+# *Sprite*<br/>
 # **Subclasses:** *Stage*
 #
 # The *Sprite* can contain children.<br/>
@@ -12,20 +13,34 @@ BlendMode = require('display/BlendMode')
 Rectangle = require('geom/Rectangle')
 
 _RADIAN_PER_DEGREE = Math.PI / 180
-_ceil = Math.ceil
 
 module.exports = class Sprite extends Shape
-
-  Sprite::__defineSetter__ '_stage', (value) ->
-    child._stage = value for child in @_children
-    @__stage = value
-    return
 
   # ### new Sprite()
   # Creates a new *Sprite* object.
   constructor: ->
     super 'Sprite'
     @_children = []
+    @_mouseEnabled = true
+    @_mouseChildren = true
+    @_buttonMode = false
+
+  Sprite::__defineSetter__ '_stage', (value) ->
+    child._stage = value for child in @_children
+    @__stage = value
+    return
+
+  Sprite::__defineGetter__ 'mouseEnabled', -> @_mouseEnabled
+  Sprite::__defineSetter__ 'mouseEnabled', (value) ->
+    @_mouseEnabled = value
+
+  Sprite::__defineGetter__ 'mouseChildren', -> @_mouseChildren
+  Sprite::__defineSetter__ 'mouseChildren', (value) ->
+    @_mouseChildren = value
+
+  Sprite::__defineGetter__ 'buttonMode', -> @_buttonMode
+  Sprite::__defineSetter__ 'buttonMode', (value) ->
+    @_buttonMode = value
 
   # ### addChild(children...:*DisplayObject*):*Sprite*
   # Adds a child *DisplayObject* object to this object.
@@ -55,6 +70,8 @@ module.exports = class Sprite extends Shape
     @_applyFilters()
     @_drawBounds()
 
+  # ### _measureSize():*void*
+  # [private] Measures the bounds of this object.
   _measureSize: ->
     super()
     for child in @_children
@@ -64,6 +81,8 @@ module.exports = class Sprite extends Shape
       bounds.y += child.y
       @_bounds.union bounds
 
+  # ### _drawBounds():*void*
+  # [private] Draws the bounds of this object for debug.
   _drawBounds: ->
     @_context.strokeStyle = 'rgba(255, 0, 0, .8)'
     @_context.lineWidth = 1
@@ -73,13 +92,49 @@ module.exports = class Sprite extends Shape
   # [private] Draws children on this object.
   _drawChildren: ->
     for child in @_children
-      if child.blendMode is BlendMode.NORMAL
-        if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
-          throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
-          @_context.translate child._x, child._y
-          @_context.scale child._scaleX, child._scaleY
-          @_context.rotate child._rotation * _RADIAN_PER_DEGREE
-          @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
+      if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
+        throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
+        @_context.translate child._x, child._y
+        @_context.scale child._scaleX, child._scaleY
+        @_context.rotate child._rotation * _RADIAN_PER_DEGREE
+        @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
+        if child.blendMode is BlendMode.NORMAL
           @_context.drawImage child._context.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
-          @_context.setTransform 1, 0, 0, 1, 0, 0
+        else
+          src = @_context.getImageData child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y, child._bounds.width, child._bounds.height
+          dst = child._context.getImageData 0, 0, child._bounds.width, child._bounds.height
+          @_context.putImageData Blend.scan(src, dst, child.blendMode), child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
+        @_context.setTransform 1, 0, 0, 1, 0, 0
     return
+
+  _onMouseMoveAt: (x, y) ->
+    if @_mouseEnabled
+      bounds = @_bounds.clone().offset @x, @y
+      hit = false
+      if bounds.contains x, y
+        hit = @_context.isPointInPath x - bounds.x, y - bounds.y
+        if hit is false and @_mouseChildren
+          i = @_children.length
+          while i--
+            child = @_children[i]
+            hit |= child._onMouseMoveAt x - @x, y - @y
+            break if hit
+      if hit
+        @dispatchEvent 'mouseMove', { x: x, y: y }
+      hit
+    else
+      false
+
+  hitTest: (x, y) ->
+    bounds = @_bounds.clone().offset @x, @y
+    hit = false
+    if bounds.contains x, y
+      hit = @_context.isPointInPath x - bounds.x, y - bounds.y
+      unless hit
+        i = @_children.length
+        while i--
+          child = @_children[i]
+          hit |= child.hitTest x - @x, y - @y
+          break if hit
+    hit
+

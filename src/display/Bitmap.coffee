@@ -1,7 +1,7 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* >
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* →
 # *Bitmap*<br/>
-# **Subclasses:**
+# **Subclasses:** -
 #
 # The *Bitmap* class represents bitmap images.<br/>
 # You can access this module by doing:<br/>

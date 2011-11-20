@@ -1,5 +1,5 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* > *EventDispatcher* > *DisplayObject* > *Shape*<br/>
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* → *Shape*<br/>
 # **Subclasses:** *Sprite*
 #
 # The *Shape* can draw a vector shape.
@@ -204,3 +204,12 @@ module.exports = class Shape extends DisplayObject
     gradient = @_context.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
     gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
     gradient
+
+  hitTest: (x, y) ->
+    bounds = @_bounds.clone().offset @x, @y
+    if bounds.contains x, y
+      @_context.isPointInPath x - bounds.x, y - bounds.y
+    else
+      false
+
+  _onMouseMoveAt: Shape::hitTest
