@@ -17,8 +17,10 @@
 
 <section>
   <h2>translate</h2>
+
   <div class="execute">
-    <pre>
+    <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50);
@@ -34,14 +36,15 @@ stage.addEventListener('enterFrame', function (e) {
   }
   shape.x += direction * 1;
 });</pre>
-    <canvas></canvas>
   </div>
 </section>
 
 <section>
   <h2>alpha</h2>
+
   <div class="execute">
-    <pre>
+    <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50);
@@ -58,14 +61,15 @@ stage.addEventListener('enterFrame', function (e) {
   }
   shape.alpha += 0.01 * direction;
 });</pre>
-    <canvas></canvas>
   </div>
 </section>
 
 <section>
   <h2>rotation</h2>
+
   <div class="execute">
-    <pre>
+    <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50);
@@ -76,14 +80,15 @@ stage.addChild(shape);
 stage.addEventListener('enterFrame', function (e) {
   shape.rotation++;
 });</pre>
-    <canvas></canvas>
   </div>
 </section>
 
 <section>
   <h2>scale</h2>
+
   <div class="execute">
-    <pre>
+    <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 shape.drawRegularStar(0, 0, 50);
@@ -107,7 +112,6 @@ stage.addEventListener('enterFrame', function (e) {
   shape.scaleX += 0.01 * xDirection;
   shape.scaleY += 0.01 * yDirection;
 });</pre>
-    <canvas></canvas>
   </div>
 </section>
 

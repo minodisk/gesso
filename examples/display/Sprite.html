@@ -18,7 +18,8 @@
 <section>
   <h2>translate</h2>
   <div class="execute">
-    <pre>
+        <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
 sprite.drawRegularStar(0, 0, 80);
@@ -36,7 +37,10 @@ sprite.addChild(red);
 sprite.x = 75;
 sprite.y = 75;
 stage.addChild(sprite);
-var direction = 1;
+sprite.addEventListener('mouseMove', function() {
+  console.log(arguments);
+});
+/*var direction = 1;
 stage.addEventListener('enterFrame', function (e) {
   if (sprite.x <= 75) {
     direction = 1;
@@ -44,15 +48,15 @@ stage.addEventListener('enterFrame', function (e) {
     direction = -1
   }
   sprite.x += direction * 1;
-});</pre>
-    <canvas></canvas>
+});*/</pre>
   </div>
 </section>
 
 <section>
   <h2>alpha</h2>
   <div class="execute">
-    <pre>
+        <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
 sprite.drawRegularStar(0, 0, 80);
@@ -80,14 +84,14 @@ stage.addEventListener('enterFrame', function (e) {
   }
   sprite.alpha += 0.01 * direction;
 });</pre>
-    <canvas></canvas>
   </div>
 </section>
 
 <section>
   <h2>rotation</h2>
   <div class="execute">
-    <pre>
+        <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
 sprite.drawRegularStar(0, 0, 80);
@@ -109,14 +113,14 @@ stage.addEventListener('enterFrame', function (e) {
   sprite.rotation++;
 });
     </pre>
-    <canvas></canvas>
   </div>
 </section>
 
 <section>
   <h2>scale</h2>
   <div class="execute">
-    <pre>
+        <canvas></canvas>
+<pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
 sprite.drawRegularStar(0, 0, 80);
@@ -151,7 +155,6 @@ stage.addEventListener('enterFrame', function (e) {
   sprite.scaleY += 0.01 * yDirection;
 });
     </pre>
-    <canvas></canvas>
   </div>
 </section>
 

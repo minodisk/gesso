@@ -19,7 +19,8 @@
   <h2>baseline</h2>
 
   <div class="execute">
-    <pre>
+    <canvas width="280" height="210"></canvas>
+<pre>
 var stage = new Stage(canvas);
 (new Shape()).drawLine(30, 30, 250, 30).stroke(1, 0xff0000)
              .drawCircle(30, 30, 3).stroke(1, 0xff0000)
@@ -78,7 +79,6 @@ textField = new TextField('baseline = "bottom"', format);
 textField.x = 30;
 textField.y = 180;
 stage.addChild(textField);</pre>
-    <canvas width="280" height="210"></canvas>
   </div>
 </section>
 
@@ -86,7 +86,8 @@ stage.addChild(textField);</pre>
   <h2>multiline</h2>
 
   <div class="execute">
-    <pre>
+    <canvas width="400" height="100"></canvas>
+<pre>
 var stage = new Stage(canvas);
 var textField = new TextField();
 textField.text = "I thought what I'd do was,\nI'd pretend I was one of those deaf-mutes.";
@@ -94,7 +95,6 @@ textField.format = new TextFormat('serif');
 textField.x = 30;
 textField.y = 30;
 stage.addChild(textField);</pre>
-    <canvas width="400" height="100"></canvas>
   </div>
 </section>
 

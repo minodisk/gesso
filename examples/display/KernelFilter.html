@@ -29,6 +29,7 @@
   <h2>Laplacian Filter</h2>
 
   <div class="execute">
+    <canvas rel="laplacian" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -36,7 +37,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new LaplacianFilter(true)];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="laplacian" width="512" height="480"></canvas>
   </div>
   <img src="resources/lenna-y-lap8.gif"/>
 </section>
@@ -45,6 +45,7 @@ stage.addChild(bitmap);
   <h2>Unsharp Mask Filter</h2>
 
   <div class="execute">
+    <canvas rel="unsharpMask" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -52,7 +53,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new UnsharpMaskFilter(2, 2)];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="unsharpMask" width="512" height="480"></canvas>
   </div>
 </section>
 
@@ -60,6 +60,7 @@ stage.addChild(bitmap);
   <h2>Blur Filter</h2>
 
   <div class="execute">
+    <canvas rel="blur" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -67,7 +68,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new BlurFilter(2, 2)];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="blur" width="512" height="480"></canvas>
   </div>
 </section>
 
@@ -75,6 +75,7 @@ stage.addChild(bitmap);
   <h2>Gaussian Filter</h2>
 
   <div class="execute">
+    <canvas rel="gaussian" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -82,7 +83,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new GaussianFilter(2, 2, 1)];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="gaussian" width="512" height="480"></canvas>
   </div>
 </section>
 
@@ -90,6 +90,7 @@ stage.addChild(bitmap);
   <h2>Median Filter</h2>
 
   <div class="execute">
+    <canvas rel="median" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -97,7 +98,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new MedianFilter(2, 2)];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="median" width="512" height="480"></canvas>
   </div>
 </section>
 
@@ -105,6 +105,7 @@ stage.addChild(bitmap);
   <h2>Bilateral Filter</h2>
 
   <div class="execute">
+    <canvas rel="bilateral" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -112,7 +113,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new BilateralFilter(2, 2, 2)];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="bilateral" width="512" height="480"></canvas>
   </div>
 </section>
 
@@ -120,6 +120,7 @@ stage.addChild(bitmap);
   <h2>Prewitt Filter</h2>
 
   <div class="execute">
+    <canvas rel="prewitt" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -127,7 +128,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new PrewittFilter()];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="prewitt" width="512" height="480"></canvas>
   </div>
   <img src="resources/lenna-y-prewitt.gif"/>
 </section>
@@ -136,6 +136,7 @@ stage.addChild(bitmap);
   <h2>Sobel Filter</h2>
 
   <div class="execute">
+    <canvas rel="sobel" width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var bitmap = new Bitmap();
@@ -143,7 +144,6 @@ bitmap.draw('resources/lenna-y.gif');
 bitmap.filters = [new SobelFilter()];
 stage.addChild(bitmap);
 </pre>
-    <canvas rel="sobel" width="512" height="480"></canvas>
   </div>
   <img src="resources/lenna-y-sobel.gif"/>
 </section>

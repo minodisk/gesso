@@ -3,6 +3,7 @@
   window.Stage = require('display/Stage');
   window.DisplayObject = require('display/DisplayObject');
   window.Bitmap = require('display/Bitmap');
+  window.BlendMode = require('display/BlendMode');
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
   window.ColorMatrixFilter = require('filters/ColorMatrixFilter');
@@ -20,12 +21,19 @@
   window.TextFormat = require('text/TextFormat');
   window.TextFormatBaseline = require('text/TextFormatBaseline');
   window.addEventListener('DOMContentLoaded', function (e) {
-    var executes = document.querySelectorAll('.execute');
-    ArrayUtil.forEach(executes, function (elem) {
-      var children = ArrayUtil.filter(elem.childNodes, function (elem) {
-        return !(elem instanceof Text);
-      });
-      (new Function('canvas', children[0].textContent))(children[1]);
-    });
+    var executes, i, len0, execute, j, len1, child, script, canvas;
+    executes = Array.prototype.slice.call(document.querySelectorAll('.execute'));
+    for (i = 0, len0 = executes.length; i < len0; i++) {
+      execute = executes[i];
+      for (j = 0, len1 = execute.childNodes.length; j < len1; j++) {
+        child = execute.childNodes[j];
+        if (child instanceof HTMLPreElement) {
+          script = child.textContent;
+        } else if (child instanceof HTMLCanvasElement) {
+          canvas = child;
+        }
+      }
+      (new Function('canvas', script))(canvas);
+    }
   }, false);
 })(window, require);

@@ -3,7 +3,8 @@ pre {
 }
 
 canvas {
-  background : url('../../resources/check.png') repeat 0 0;
+  /*background : url('../../resources/check.png') repeat 0 0;*/
+  background: #ffffff;
 }
 
 .matrix {
@@ -15,4 +16,19 @@ canvas {
   white-space      : pre;
   font-size        : 12px;
   font-family      : 'Consolas', 'Inconsolate', 'Courier', monospace;
+}
+
+.execute canvas {
+  float: left;
+}
+
+.execute pre {
+  float: left;
+  margin-left: 18px;
+}
+
+.execute:after {
+  content: '';
+  display: block;
+  clear: both;
 }
