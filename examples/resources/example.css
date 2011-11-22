@@ -1,10 +1,10 @@
 pre {
-  margin-bottom: 15px;
+  margin-bottom : 15px;
 }
 
 canvas {
   /*background : url('../../resources/check.png') repeat 0 0;*/
-  background: #ffffff;
+  background : #ffffff;
 }
 
 .matrix {
@@ -19,16 +19,16 @@ canvas {
 }
 
 .execute canvas {
-  float: left;
+  float        : left;
+  margin-right : 18px;
 }
 
 .execute pre {
-  float: left;
-  margin-left: 18px;
+  float      : left;
 }
 
 .execute:after {
-  content: '';
-  display: block;
-  clear: both;
+  content : '';
+  display : block;
+  clear   : both;
 }

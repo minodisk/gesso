@@ -20,6 +20,9 @@
   window.TextField = require('text/TextField');
   window.TextFormat = require('text/TextFormat');
   window.TextFormatBaseline = require('text/TextFormatBaseline');
+  window.Event = require('events/Event');
+  window.MouseEvent = require('events/MouseEvent');
+  window.KeyboardEvent = require('events/KeyboardEvent');
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes, i, len0, execute, j, len1, child, script, canvas;
     executes = Array.prototype.slice.call(document.querySelectorAll('.execute'));

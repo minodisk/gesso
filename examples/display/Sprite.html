@@ -15,10 +15,41 @@
   <h1>display/Sprite</h1>
 </header>
 
-<section>
+<section class="execute">
+  <h2>MouseEvent</h2>
+  <canvas width="300" height="300"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var container = new Sprite();
+  container.name = 'containerSprite';
+  container.drawRect(0, -50, 200, 150);
+  container.fill(0xff0000);
+  container.x = 50;
+  container.y = 125;
+    stage.addChild(container);
+var star = new Sprite();
+  star.name = 'starSprite';
+  star.drawRegularStar(10, 20, 60);
+  star.fill(0x0581d2);
+  star.x = 10;
+  star.y = -40;
+    container.addChild(star);
+  var circle = new Shape();
+  circle.name = 'circleShape';
+  circle.drawCircle(40, 10, 50);
+  circle.fill(0x00ff00);
+  circle.x = 150;
+  circle.y = 80;
+  container.addChild(circle);
+container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
+  console.log(e.target.name, e.currentTarget.name, e.eventPhase, 'stage = (', e.stageX, ',', e.stageY, ') local = (', e.localX, ',', e.localY, ')');
+});
+</pre>
+</section>
+
+<section class="execute">
   <h2>translate</h2>
-  <div class="execute">
-        <canvas></canvas>
+  <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
@@ -35,12 +66,9 @@ red.fill(0xff0000, 0.5);
 red.x = red.y = 20;
 sprite.addChild(red);
 sprite.x = 75;
-sprite.y = 75;
+sprite.y = 150;
 stage.addChild(sprite);
-sprite.addEventListener('mouseMove', function() {
-  console.log(arguments);
-});
-/*var direction = 1;
+var direction = 1;
 stage.addEventListener('enterFrame', function (e) {
   if (sprite.x <= 75) {
     direction = 1;
@@ -48,14 +76,13 @@ stage.addEventListener('enterFrame', function (e) {
     direction = -1
   }
   sprite.x += direction * 1;
-});*/</pre>
-  </div>
+});
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>alpha</h2>
-  <div class="execute">
-        <canvas></canvas>
+  <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
@@ -72,7 +99,7 @@ red.fill(0xff0000, 0.5);
 red.x = red.y = 20;
 sprite.addChild(red);
 sprite.x = 150;
-sprite.y = 75;
+sprite.y = 150;
 sprite.alpha = .5;
 stage.addChild(sprite);
 var direction = -1;
@@ -87,10 +114,9 @@ stage.addEventListener('enterFrame', function (e) {
   </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>rotation</h2>
-  <div class="execute">
-        <canvas></canvas>
+  <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
@@ -107,7 +133,7 @@ red.fill(0xff0000, 0.5);
 red.x = red.y = 20;
 sprite.addChild(red);
 sprite.x = 150;
-sprite.y = 75;
+sprite.y = 150;
 stage.addChild(sprite);
 stage.addEventListener('enterFrame', function (e) {
   sprite.rotation++;
@@ -116,10 +142,9 @@ stage.addEventListener('enterFrame', function (e) {
   </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>scale</h2>
-  <div class="execute">
-        <canvas></canvas>
+  <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var sprite = new Sprite();
@@ -136,7 +161,7 @@ red.fill(0xff0000, 0.5);
 red.x = red.y = 20;
 sprite.addChild(red);
 sprite.x = 150;
-sprite.y = 75;
+sprite.y = 150;
 stage.addChild(sprite);
 var xDirection = 1;
 var yDirection = -1;
@@ -154,8 +179,7 @@ stage.addEventListener('enterFrame', function (e) {
   sprite.scaleX += 0.01 * xDirection;
   sprite.scaleY += 0.01 * yDirection;
 });
-    </pre>
-  </div>
+</pre>
 </section>
 
 </body>
