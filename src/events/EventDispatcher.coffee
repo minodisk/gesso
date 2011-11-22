@@ -1,20 +1,21 @@
 module.exports = class EventDispatcher
 
-  constructor:->
+  constructor: ->
     @_events = {}
 
-  addEventListener:(type, listener, args)->
+  addEventListener: (type, listener) ->
     throw new Error '' if typeof listener isnt 'function'
     @_events[type] = [] unless @_events[type]?
-    @_events[type].push ()=>
-      listener.apply(@, args)
-      return
+    @_events[type].push listener
     @
 
-  dispatchEvent:(type)->
-    handlers = @_events[type]
+  dispatchEvent: (event) ->
+    event.currentTarget = @
+    handlers = @_events[event.type]
     if handlers?
-      handler() for handler in handlers
+      for handler in handlers
+        handler event
+        break if event._isPropagationStoppedImmediately
     return
 
   EventDispatcher::addListener = EventDispatcher::on = @addEventListener
