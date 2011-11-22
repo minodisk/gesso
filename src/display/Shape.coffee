@@ -11,6 +11,7 @@ DisplayObject = require('display/DisplayObject')
 GradientType = require('display/GradientType')
 CapsStyle = require('display/CapsStyle')
 JointStyle = require('display/JointStyle')
+Point = require('geom/Point')
 Rectangle = require('geom/Rectangle')
 
 _PI = Math.PI
@@ -205,11 +206,13 @@ module.exports = class Shape extends DisplayObject
     gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
     gradient
 
+  hitTestPoint: (point) ->
+    @hitTest point.x, point.y
   hitTest: (x, y) ->
-    bounds = @_bounds.clone().offset @x, @y
-    if bounds.contains x, y
-      @_context.isPointInPath x - bounds.x, y - bounds.y
+    local = @globalToLocal x, y
+    if @_bounds.containsPoint local
+      @_hitTest local.x, local.y
     else
       false
-
-  _onMouseMoveAt: Shape::hitTest
+  _hitTest: (localX, localY) ->
+    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y

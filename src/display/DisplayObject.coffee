@@ -8,6 +8,7 @@
 
 EventDispatcher = require 'events/EventDispatcher'
 BlendMode = require 'display/BlendMode'
+Point = require 'geom/Point'
 Rectangle = require 'geom/Rectangle'
 
 module.exports = class DisplayObject extends EventDispatcher
@@ -201,3 +202,21 @@ module.exports = class DisplayObject extends EventDispatcher
     @_drawn = true if drawn
     @_parent._requestRender true if @_parent?
     @
+
+  hitTestPoint: (point) ->
+    @hitTest point.x, point.y
+  hitTest: (stageX, stageY) ->
+    local = @globalToLocal stageX, stageY
+    @_hitTest local.x, local.y
+  _hitTest: (localX, localY) ->
+    @_bounds.containsPoint localX, localY
+
+  globalToLocalPoint: (point) ->
+    @globalToLocal point.x, point.y
+  globalToLocal: (x, y) ->
+    displayObject = @
+    while displayObject
+      x -= displayObject.x
+      y -= displayObject.y
+      displayObject = displayObject._parent
+    new Point x, y

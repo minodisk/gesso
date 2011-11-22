@@ -8,6 +8,9 @@
 # `require('display/Stage')`
 
 Sprite = require 'display/Sprite'
+Event = require 'events/Event'
+EventPhase = require 'events/EventPhase'
+MouseEvent = require 'events/MouseEvent'
 Rectangle = require 'geom/Rectangle'
 TextField = require 'text/TextField'
 TextFormat = require 'text/TextFormat'
@@ -43,6 +46,7 @@ module.exports = class Stage extends Sprite
     @currentFrame = 0
     @_frameRate = 60
     _tick @_enterFrame
+    canvas.addEventListener 'click', @_onClick, false
     canvas.addEventListener 'mousemove', @_onMouseMove, false
     return
 
@@ -63,7 +67,7 @@ module.exports = class Stage extends Sprite
     if (@currentFrame % 30) is 0
       @_frameRate = (300000 / (time - @_time) >> 0) / 10
       @_time = time
-    @dispatchEvent 'enterFrame'
+    @dispatchEvent new Event(Event.ENTER_FRAME)
     if @_drawn
       @_drawn = false
       @_render()
@@ -84,5 +88,12 @@ module.exports = class Stage extends Sprite
     @_drawn = true
     return
 
+  _onClick: (e) =>
+    new MouseEvent MouseEvent.CLICK, false, false, e.offsetX, e.offsetY
+
   _onMouseMove: (e) =>
-    @_onMouseMoveAt e.offsetX, e.offsetY
+    event = new MouseEvent ''
+    event.eventPhase = EventPhase.CAPTURING_PHASE
+    event.stageX = event.localX = e.offsetX
+    event.stageY = event.localY = e.offsetY
+    @_propagateMouseEvent event

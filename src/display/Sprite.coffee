@@ -7,10 +7,13 @@
 # You can access this module by doing:<br/>
 # `require('display/Sprite')`
 
-Shape = require('display/Shape')
-Blend = require('display/Blend')
-BlendMode = require('display/BlendMode')
-Rectangle = require('geom/Rectangle')
+Shape = require 'display/Shape'
+Blend = require 'display/Blend'
+BlendMode = require 'display/BlendMode'
+EventPhase = require 'events/EventPhase'
+MouseEvent = require 'events/MouseEvent'
+Point = require 'geom/Point'
+Rectangle = require 'geom/Rectangle'
 
 _RADIAN_PER_DEGREE = Math.PI / 180
 
@@ -107,25 +110,44 @@ module.exports = class Sprite extends Shape
         @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
-  _onMouseMoveAt: (x, y) ->
-    if @_mouseEnabled
-      bounds = @_bounds.clone().offset @x, @y
-      hit = false
-      if bounds.contains x, y
-        hit = @_context.isPointInPath x - bounds.x, y - bounds.y
-        if hit is false and @_mouseChildren
+  _propagateMouseEvent: (event) ->
+    if @_mouseEnabled and event._isPropagationStopped is false
+      event = event.clone()
+      event.localX -= @x
+      event.localY -= @y
+
+      if @_bounds.contains event.localX, event.localY
+        hitChildren = false
+
+        if @_mouseChildren
           i = @_children.length
           while i--
             child = @_children[i]
-            hit |= child._onMouseMoveAt x - @x, y - @y
-            break if hit
-      if hit
-        @dispatchEvent 'mouseMove', { x: x, y: y }
-      hit
-    else
-      false
+            if child._propagateMouseEvent? event
+              return true
+            if child._hitTest? event.localX - child.x, event.localY - child.y
+              hitChildren = true
 
-  hitTest: (x, y) ->
+        if hitChildren or @_context.isPointInPath event.localX - @_bounds.x, event.localY - @_bounds.y
+          event = event.clone()
+          event.type = MouseEvent.MOUSE_MOVE
+          event.eventPhase = EventPhase.AT_TARGET
+          event.target = event.currentTarget = @
+          @dispatchEvent event
+          @_parent?._bubbleMouseEvent event
+          return true
+
+    return false
+
+  _bubbleMouseEvent: (event) ->
+    event = event.clone()
+    event.eventPhase = EventPhase.BUBBLING_PHASE
+    event.currentTarget = @
+    @dispatchEvent event
+    @_parent?._bubbleMouseEvent event
+    return
+
+  hitTestPoint: (x, y) ->
     bounds = @_bounds.clone().offset @x, @y
     hit = false
     if bounds.contains x, y
@@ -134,7 +156,7 @@ module.exports = class Sprite extends Shape
         i = @_children.length
         while i--
           child = @_children[i]
-          hit |= child.hitTest x - @x, y - @y
+          hit |= child.hitTestPoint x - @x, y - @y
           break if hit
     hit
 
