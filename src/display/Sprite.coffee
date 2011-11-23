@@ -110,7 +110,7 @@ module.exports = class Sprite extends Shape
         @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
-  _captureMouseEvent: (event) ->
+  _propagateMouseEvent: (event) ->
     if @_mouseEnabled and event._isPropagationStopped is false
       event = event.clone()
       event.localX -= @x
@@ -123,18 +123,27 @@ module.exports = class Sprite extends Shape
           i = @_children.length
           while i--
             child = @_children[i]
-            if child._captureMouseEvent? event
-              return true
             if child._hitTest? event.localX - child.x, event.localY - child.y
+              if child instanceof Sprite
+                event = child._propagateMouseEvent event
+                if event
+                  @_captureMouseEvent event
+                return
               hitChildren = true
 
         if hitChildren or @_hitTest event.localX, event.localY
-          event.type = MouseEvent.MOUSE_MOVE
           event = @_targetMouseEvent event
           @_parent?._bubbleMouseEvent event
-          return true
+          return event
 
-    return false
+    return
+
+  _captureMouseEvent: (event) ->
+    event = event.clone()
+    event.eventPhase = EventPhase.CAPTURING_PHASE
+    event.currentTarget = @
+    @dispatchEvent event
+    event
 
   _targetMouseEvent: (event) ->
     event = event.clone()

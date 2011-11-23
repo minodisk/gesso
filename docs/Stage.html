@@ -76,13 +76,15 @@ You can access this module by doing:<br/>
     <span class="k">return</span>
 
   <span class="nv">_onClick: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
-    <span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
-
-  <span class="nv">_onMouseMove: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
-    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="s1">&#39;&#39;</span>
-    <span class="nv">event.eventPhase = </span><span class="nx">EventPhase</span><span class="p">.</span><span class="nx">CAPTURING_PHASE</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span>
     <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
     <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
-    <span class="nx">@_captureMouseEvent</span> <span class="nx">event</span>
+    <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
+
+  <span class="nv">_onMouseMove: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_MOVE</span>
+    <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
+    <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
+    <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

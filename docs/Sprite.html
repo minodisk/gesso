@@ -94,7 +94,7 @@ You can access this module by doing:<br/>
         <span class="nx">@_context</span><span class="p">.</span><span class="nx">setTransform</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
     <span class="k">return</span>
 
-  <span class="nv">_captureMouseEvent: </span><span class="nf">(event) -&gt;</span>
+  <span class="nv">_propagateMouseEvent: </span><span class="nf">(event) -&gt;</span>
     <span class="k">if</span> <span class="nx">@_mouseEnabled</span> <span class="o">and</span> <span class="nx">event</span><span class="p">.</span><span class="nx">_isPropagationStopped</span> <span class="o">is</span> <span class="kc">false</span>
       <span class="nv">event = </span><span class="nx">event</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
       <span class="nx">event</span><span class="p">.</span><span class="nx">localX</span> <span class="o">-=</span> <span class="nx">@x</span>
@@ -107,18 +107,27 @@ You can access this module by doing:<br/>
           <span class="nv">i = </span><span class="nx">@_children</span><span class="p">.</span><span class="nx">length</span>
           <span class="k">while</span> <span class="nx">i</span><span class="o">--</span>
             <span class="nv">child = </span><span class="nx">@_children</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
-            <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_captureMouseEvent</span><span class="o">?</span> <span class="nx">event</span>
-              <span class="k">return</span> <span class="kc">true</span>
             <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_hitTest</span><span class="o">?</span> <span class="nx">event</span><span class="p">.</span><span class="nx">localX</span> <span class="o">-</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">localY</span> <span class="o">-</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span>
+              <span class="k">if</span> <span class="nx">child</span> <span class="k">instanceof</span> <span class="nx">Sprite</span>
+                <span class="nv">event = </span><span class="nx">child</span><span class="p">.</span><span class="nx">_propagateMouseEvent</span> <span class="nx">event</span>
+                <span class="k">if</span> <span class="nx">event</span>
+                  <span class="nx">@_captureMouseEvent</span> <span class="nx">event</span>
+                <span class="k">return</span>
               <span class="nv">hitChildren = </span><span class="kc">true</span>
 
         <span class="k">if</span> <span class="nx">hitChildren</span> <span class="o">or</span> <span class="nx">@_hitTest</span> <span class="nx">event</span><span class="p">.</span><span class="nx">localX</span><span class="p">,</span> <span class="nx">event</span><span class="p">.</span><span class="nx">localY</span>
-          <span class="nv">event.type = </span><span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_MOVE</span>
           <span class="nv">event = </span><span class="nx">@_targetMouseEvent</span> <span class="nx">event</span>
           <span class="nx">@_parent</span><span class="o">?</span><span class="p">.</span><span class="nx">_bubbleMouseEvent</span> <span class="nx">event</span>
-          <span class="k">return</span> <span class="kc">true</span>
+          <span class="k">return</span> <span class="nx">event</span>
 
-    <span class="k">return</span> <span class="kc">false</span>
+    <span class="k">return</span>
+
+  <span class="nv">_captureMouseEvent: </span><span class="nf">(event) -&gt;</span>
+    <span class="nv">event = </span><span class="nx">event</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+    <span class="nv">event.eventPhase = </span><span class="nx">EventPhase</span><span class="p">.</span><span class="nx">CAPTURING_PHASE</span>
+    <span class="nv">event.currentTarget = </span><span class="err">@</span>
+    <span class="nx">@dispatchEvent</span> <span class="nx">event</span>
+    <span class="nx">event</span>
 
   <span class="nv">_targetMouseEvent: </span><span class="nf">(event) -&gt;</span>
     <span class="nv">event = </span><span class="nx">event</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>

@@ -89,11 +89,13 @@ module.exports = class Stage extends Sprite
     return
 
   _onClick: (e) =>
-    new MouseEvent MouseEvent.CLICK, false, false, e.offsetX, e.offsetY
-
-  _onMouseMove: (e) =>
-    event = new MouseEvent ''
-    event.eventPhase = EventPhase.CAPTURING_PHASE
+    event = new MouseEvent MouseEvent.CLICK
     event.stageX = event.localX = e.offsetX
     event.stageY = event.localY = e.offsetY
-    @_captureMouseEvent event
+    @_propagateMouseEvent event
+
+  _onMouseMove: (e) =>
+    event = new MouseEvent MouseEvent.MOUSE_MOVE
+    event.stageX = event.localX = e.offsetX
+    event.stageY = event.localY = e.offsetY
+    @_propagateMouseEvent event

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS Examples | MouseEvent</title>
+  <link rel="stylesheet" href="../../resources/paige.css"/>
+  <link rel="stylesheet" href="../resources/example.css"/>
+  <script src="../../lib/graphics.js"></script>
+  <script src="../resources/execute.js"></script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>MouseEvent</h1>
+</header>
+
+<section class="execute">
+  <h2>useCapture = false</h2>
+  <canvas width="300" height="300"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var container = new Sprite();
+container.name = 'box';
+container.drawRect(0, -50, 200, 130);
+container.fill(0xff0000);
+container.x = 50;
+container.y = 160;
+stage.addChild(container);
+var star = new Sprite();
+star.name = 'star';
+star.drawRegularStar(10, 20, 60);
+star.fill(0x0581d2);
+star.x = 10;
+star.y = -40;
+container.addChild(star);
+var circle = new Shape();
+circle.name = 'circle';
+circle.drawCircle(40, 10, 50);
+circle.fill(0x00ff00);
+circle.x = 150;
+circle.y = 70;
+container.addChild(circle);
+var textField = new TextField();
+stage.addChild(textField);
+container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
+  textField.text = [
+    'target:', e.target.name,
+    '\ncurrentTarget:', e.currentTarget.name,
+    '\neventPhase:', e.eventPhase,
+    '\nstage:', e.stageX, e.stageY,
+    '\nlocal:', e.localX, e.localY,
+  ].join(' ');
+});
+</pre>
+</section>
+
+<section class="execute">
+  <h2>useCapture = true</h2>
+  <canvas width="300" height="300"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var container = new Sprite();
+container.name = 'box';
+container.drawRect(0, -50, 200, 130);
+container.fill(0xff0000);
+container.x = 50;
+container.y = 160;
+stage.addChild(container);
+var star = new Sprite();
+star.name = 'star';
+star.drawRegularStar(10, 20, 60);
+star.fill(0x0581d2);
+star.x = 10;
+star.y = -40;
+container.addChild(star);
+var circle = new Shape();
+circle.name = 'circle';
+circle.drawCircle(40, 10, 50);
+circle.fill(0x00ff00);
+circle.x = 150;
+circle.y = 70;
+container.addChild(circle);
+var textField = new TextField();
+stage.addChild(textField);
+container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
+  textField.text = [
+    'target:', e.target.name,
+    '\ncurrentTarget:', e.currentTarget.name,
+    '\neventPhase:', e.eventPhase,
+    '\nstage:', e.stageX, e.stageY,
+    '\nlocal:', e.localX, e.localY,
+  ].join(' ');
+}, true);
+</pre>
+</section>
+
+<section class="execute">
+  <h2>priority</h2>
+  <canvas width="300" height="300"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var sprite = new Sprite();
+sprite.drawRect(0, 0, 100, 30);
+sprite.fill(0xff0000);
+stage.addChild(sprite);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('2');
+}, false, 2);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('3');
+}, false, 3);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('0-0');
+}, false, 0);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('1-0');
+}, false, 1);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('none-1');
+}, false);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('0-2');
+}, false, 0);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('4');
+}, false, 4);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('1-1');
+}, false, 1);
+sprite.addEventListener(MouseEvent.CLICK, function (e) {
+  console.log('5');
+}, false, 5);
+</pre>
+</section>
+
+</body>
+</html>
