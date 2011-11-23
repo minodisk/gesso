@@ -128,9 +128,9 @@ module.exports = class Sprite extends Shape
             if child._hitTest? event.localX - child.x, event.localY - child.y
               hitChildren = true
 
-        if hitChildren or @_context.isPointInPath event.localX - @_bounds.x, event.localY - @_bounds.y
+        if hitChildren or @_hitTest event.localX, event.localY
           event.type = MouseEvent.MOUSE_MOVE
-          @_targetMouseEvent event
+          event = @_targetMouseEvent event
           @_parent?._bubbleMouseEvent event
           return true
 
@@ -141,16 +141,15 @@ module.exports = class Sprite extends Shape
     event.eventPhase = EventPhase.AT_TARGET
     event.target = event.currentTarget = @
     @dispatchEvent event
-    return
+    event
 
   _bubbleMouseEvent: (event) ->
     event = event.clone()
     event.eventPhase = EventPhase.BUBBLING_PHASE
     event.currentTarget = @
     @dispatchEvent event
-
     @_parent?._bubbleMouseEvent event
-    return
+    event
 
   hitTestPoint: (x, y) ->
     bounds = @_bounds.clone().offset @x, @y
