@@ -24,11 +24,11 @@ module.exports = class TextField extends DisplayObject
     @_measure()
     @_requestRender true
 
-  # ### format:*TextFormat*
+  # ### textFormat:*TextFormat*
   # The *TextFormat* applied to this *TextField*.
-  TextField::__defineGetter__ 'format', () -> @_format
-  TextField::__defineSetter__ 'format', (format) ->
-    @_format = @_stacks[0].arguments[1] = format
+  TextField::__defineGetter__ 'textFormat', () -> @_textFormat
+  TextField::__defineSetter__ 'textFormat', (textFormat) ->
+    @_textFormat = @_stacks[0].arguments[1] = textFormat
     @_measure()
     @_requestRender true
 
@@ -41,7 +41,7 @@ module.exports = class TextField extends DisplayObject
 
   # ### new TextField()
   # Creates a new *TextField* object.
-  constructor: (text = '', format = new TextFormat) ->
+  constructor: (text = '', textFormat = new TextFormat) ->
     super 'TextField'
     @rect = new Rectangle()
     @_stacks.push
@@ -49,30 +49,30 @@ module.exports = class TextField extends DisplayObject
       arguments: []
       rect     : @rect
     @text = text
-    @format = format
+    @textFormat = textFormat
 
   # ### _measure():*void*
   # [private] Computes the size of this object.
   _measure: ->
-    if @_texts? and @_format?
-      @_context.font = @_format.toStyleSheet()
+    if @_texts? and @_textFormat?
+      @_context.font = @_textFormat.toStyleSheet()
       width = 0
       for text in @_texts
         width = Math.max width, (@_context.measureText text).width
-      height = (@_format.size + @_format.leading) * @_texts.length
+      height = (@_textFormat.size + @_textFormat.leading) * @_texts.length
       @rect.y = -height * 2
       @rect.width = width
       @rect.height = height * 4
     return
 
-  # ### _drawText(texts:*Array*, format:*TextFormat*):*void*
+  # ### _drawText(texts:*Array*, textFormat:*TextFormat*):*void*
   # [private] Draws text onto this object.
-  _drawText: (texts, format) ->
-    @_context.font = format.toStyleSheet()
-    @_context.textAlign = format.align
-    @_context.textBaseline = format.baseline
-    @_context.fillStyle = TextField.toColorString format.color
-    lineHeight = format.size + format.leading
+  _drawText: (texts, textFormat) ->
+    @_context.font = textFormat.toStyleSheet()
+    @_context.textAlign = textFormat.align
+    @_context.textBaseline = textFormat.baseline
+    @_context.fillStyle = TextField.toColorString textFormat.color
+    lineHeight = textFormat.size + textFormat.leading
     for text, i in @_texts
       @_context.fillText text, 0, lineHeight * i
     return
