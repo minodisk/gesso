@@ -16,6 +16,46 @@
 </header>
 
 <section class="execute">
+  <h2>types</h2>
+  <canvas width="300" height="300"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var sprite = new Sprite();
+  sprite.drawRoundRect(0, 0, 140, 40, 10);
+  sprite.fill(0xff0000);
+  sprite.x = 80;
+  sprite.y = 220;
+stage.addChild(sprite);
+var textField = new TextField();
+  textField.textFormat = new TextFormat('monospace');
+  stage.addChild(textField);
+var texts = [];
+sprite.addEventListener(MouseEvent.CLICK, onMouseEvent);
+sprite.addEventListener(MouseEvent.CONTEXT_MENU, onMouseEvent);
+sprite.addEventListener(MouseEvent.DOUBLE_CLICK, onMouseEvent);
+sprite.addEventListener(MouseEvent.MIDDLE_CLICK, onMouseEvent);
+sprite.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMouseEvent);
+sprite.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMouseEvent);
+sprite.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
+sprite.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
+sprite.addEventListener(MouseEvent.MOUSE_OUT, onMouseEvent);
+sprite.addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
+sprite.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
+sprite.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseEvent);
+sprite.addEventListener(MouseEvent.RIGHT_CLICK, onMouseEvent);
+sprite.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onMouseEvent);
+sprite.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onMouseEvent);
+sprite.addEventListener(MouseEvent.ROLL_OUT, onMouseEvent);
+sprite.addEventListener(MouseEvent.ROLL_OVER, onMouseEvent);
+function onMouseEvent(e) {
+  texts.push(e.type + ' at (' + e.localX + ', ' + e.localY + ')');
+  texts = texts.slice(-10);
+  textField.text = texts.join('\n');
+}
+</pre>
+</section>
+
+<section class="execute">
   <h2>useCapture = false</h2>
   <canvas width="300" height="300"></canvas>
 <pre>
@@ -42,6 +82,8 @@ circle.x = 150;
 circle.y = 70;
 container.addChild(circle);
 var textField = new TextField();
+textField.textFormat = new TextFormat('monospace');
+textField.text = 'Move mouse on objects.';
 stage.addChild(textField);
 container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
   textField.text = [
@@ -82,6 +124,8 @@ circle.x = 150;
 circle.y = 70;
 container.addChild(circle);
 var textField = new TextField();
+textField.textFormat = new TextFormat('monospace');
+textField.text = 'Move mouse on objects.';
 stage.addChild(textField);
 container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
   textField.text = [
@@ -103,33 +147,42 @@ var stage = new Stage(canvas);
 var sprite = new Sprite();
 sprite.drawRect(0, 0, 100, 30);
 sprite.fill(0xff0000);
+sprite.x = 100;
+sprite.y = 250;
 stage.addChild(sprite);
+var textField = new TextField();
+textField.textFormat = new TextFormat('Monaco');
+textField.text = 'Click red box.';
+stage.addChild(textField);
+var text;
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('2');
+  text += 'priority:2 (0)\n';
 }, false, 2);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('3');
+  text += 'priority:3 (1)\n';
 }, false, 3);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('0-0');
+  text += 'priority:0 (2)\n';
 }, false, 0);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('1-0');
+  text += 'priority:1 (3)\n';
 }, false, 1);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('none-1');
+  text += 'priority:- (4)\n';
 }, false);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('0-2');
+  text += 'priority:0 (5)\n';
+  textField.text = text;
 }, false, 0);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('4');
+  text += 'priority:4 (6)\n';
 }, false, 4);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('1-1');
+  text += 'priority:1 (7)\n';
 }, false, 1);
 sprite.addEventListener(MouseEvent.CLICK, function (e) {
-  console.log('5');
+  text = '';
+  text += 'priority:5 (8)\n';
 }, false, 5);
 </pre>
 </section>
