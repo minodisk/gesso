@@ -96,4 +96,4 @@ module.exports = class Stage extends Sprite
     event.eventPhase = EventPhase.CAPTURING_PHASE
     event.stageX = event.localX = e.offsetX
     event.stageY = event.localY = e.offsetY
-    @_propagateMouseEvent event
+    @_captureMouseEvent event
