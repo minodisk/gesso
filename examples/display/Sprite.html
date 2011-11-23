@@ -16,35 +16,7 @@
 </header>
 
 <section class="execute">
-  <h2>MouseEvent</h2>
-  <canvas width="300" height="300"></canvas>
-<pre>
-var stage = new Stage(canvas);
-var container = new Sprite();
-  container.name = 'containerSprite';
-  container.drawRect(0, -50, 200, 150);
-  container.fill(0xff0000);
-  container.x = 50;
-  container.y = 125;
-    stage.addChild(container);
-var star = new Sprite();
-  star.name = 'starSprite';
-  star.drawRegularStar(10, 20, 60);
-  star.fill(0x0581d2);
-  star.x = 10;
-  star.y = -40;
-    container.addChild(star);
-  var circle = new Shape();
-  circle.name = 'circleShape';
-  circle.drawCircle(40, 10, 50);
-  circle.fill(0x00ff00);
-  circle.x = 150;
-  circle.y = 80;
-  container.addChild(circle);
-container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
-  console.log(e.target.name, e.currentTarget.name, e.eventPhase, 'stage = (', e.stageX, ',', e.stageY, ') local = (', e.localX, ',', e.localY, ')');
-});
-</pre>
+  <h2><a href="MouseEvent.html">MouseEvent</a></h2>
 </section>
 
 <section class="execute">
