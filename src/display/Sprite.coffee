@@ -27,6 +27,7 @@ module.exports = class Sprite extends Shape
     @_mouseEnabled = true
     @_mouseChildren = true
     @_buttonMode = false
+    @_mouseIn = false
 
   Sprite::__defineSetter__ '_stage', (value) ->
     child._stage = value for child in @_children
@@ -116,25 +117,44 @@ module.exports = class Sprite extends Shape
       event.localX -= @x
       event.localY -= @y
 
-      if @_bounds.contains event.localX, event.localY
-        hitChildren = false
+      hit = @_hitTest event.localX, event.localY
+      if hit is true and @_mouseIn is false
+        e = event.clone()
+        e.type = MouseEvent.MOUSE_OVER
+        @_targetMouseEvent e
 
-        if @_mouseChildren
-          i = @_children.length
-          while i--
-            child = @_children[i]
-            if child._hitTest? event.localX - child.x, event.localY - child.y
-              if child instanceof Sprite
-                event = child._propagateMouseEvent event
-                if event
-                  @_captureMouseEvent event
-                return
-              hitChildren = true
+        e = event.clone()
+        e.type = MouseEvent.ROLL_OVER
+        e.bubbles = false
+        @_targetMouseEvent e
 
-        if hitChildren or @_hitTest event.localX, event.localY
-          event = @_targetMouseEvent event
-          @_parent?._bubbleMouseEvent event
-          return event
+        @_mouseIn = true
+      else if hit is false and @_mouseIn is true
+        e = event.clone()
+        e.type = MouseEvent.MOUSE_OUT
+        @_targetMouseEvent e
+
+        e = event.clone()
+        e.type = MouseEvent.ROLL_OUT
+        e.bubbles = false
+        @_targetMouseEvent e
+
+        @_mouseIn = false
+
+      if @_mouseChildren
+        i = @_children.length
+        while i--
+          child = @_children[i]
+          if child._propagateMouseEvent?
+            e = child._propagateMouseEvent event
+            if e?
+              @_captureMouseEvent e
+              return
+          if child._hitTest? event.localX - child.x, event.localY - child.y
+            hit = true
+
+      if hit
+        return @_targetMouseEvent event
 
     return
 
@@ -150,6 +170,8 @@ module.exports = class Sprite extends Shape
     event.eventPhase = EventPhase.AT_TARGET
     event.target = event.currentTarget = @
     @dispatchEvent event
+    if event.bubbles
+      @_parent?._bubbleMouseEvent event
     event
 
   _bubbleMouseEvent: (event) ->
