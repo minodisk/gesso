@@ -24,6 +24,17 @@ module.exports = class Shape extends DisplayObject
   constructor:->
     super 'Shape'
 
+  hitTestPoint: (point) ->
+    @hitTest point.x, point.y
+  hitTest: (x, y) ->
+    local = @globalToLocal x, y
+    if @_bounds.containsPoint local
+      @_hitTest local.x, local.y
+    else
+      false
+  _hitTest: (localX, localY) ->
+    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
+
   drawLine:(coords...)->
     minX = minY = Number.MAX_VALUE
     maxX = maxY = -Number.MAX_VALUE
@@ -205,14 +216,3 @@ module.exports = class Shape extends DisplayObject
     gradient = @_context.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
     gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
     gradient
-
-  hitTestPoint: (point) ->
-    @hitTest point.x, point.y
-  hitTest: (x, y) ->
-    local = @globalToLocal x, y
-    if @_bounds.containsPoint local
-      @_hitTest local.x, local.y
-    else
-      false
-  _hitTest: (localX, localY) ->
-    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
