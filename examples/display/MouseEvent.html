@@ -20,35 +20,42 @@
   <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var sprite = new Sprite();
-  sprite.drawRoundRect(0, 0, 140, 40, 10);
-  sprite.fill(0xff0000);
-  sprite.x = 80;
-  sprite.y = 220;
-stage.addChild(sprite);
+stage.overrideMouseWheel = true;
+var container = new Sprite();
+container.drawRoundRect(0, 0, 140, 100, 10);
+container.fill(0xff0000);
+container.x = 80;
+container.y = 180;
+stage.addChild(container);
+var inner = new Sprite();
+inner.drawRoundRect(0, 0, 100, 60, 10);
+inner.fill(0x0000ff);
+inner.x = inner.y = 20;
+container.addChild(inner);
 var textField = new TextField();
-  textField.textFormat = new TextFormat('monospace');
-  stage.addChild(textField);
+textField.textFormat = new TextFormat('monospace');
+stage.addChild(textField);
 var texts = [];
-sprite.addEventListener(MouseEvent.CLICK, onMouseEvent);
-sprite.addEventListener(MouseEvent.CONTEXT_MENU, onMouseEvent);
-sprite.addEventListener(MouseEvent.DOUBLE_CLICK, onMouseEvent);
-sprite.addEventListener(MouseEvent.MIDDLE_CLICK, onMouseEvent);
-sprite.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMouseEvent);
-sprite.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMouseEvent);
-sprite.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
-sprite.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
-sprite.addEventListener(MouseEvent.MOUSE_OUT, onMouseEvent);
-sprite.addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
-sprite.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
-sprite.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseEvent);
-sprite.addEventListener(MouseEvent.RIGHT_CLICK, onMouseEvent);
-sprite.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onMouseEvent);
-sprite.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onMouseEvent);
-sprite.addEventListener(MouseEvent.ROLL_OUT, onMouseEvent);
-sprite.addEventListener(MouseEvent.ROLL_OVER, onMouseEvent);
+container.addEventListener(MouseEvent.CLICK, onMouseEvent);
+container.addEventListener(MouseEvent.CONTEXT_MENU, onMouseEvent);
+container.addEventListener(MouseEvent.DOUBLE_CLICK, onMouseEvent);
+container.addEventListener(MouseEvent.MIDDLE_CLICK, onMouseEvent);
+container.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMouseEvent);
+container.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMouseEvent);
+container.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
+container.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
+container.addEventListener(MouseEvent.MOUSE_OUT, onMouseEvent);
+container.addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
+container.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
+container.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseEvent);
+container.addEventListener(MouseEvent.RIGHT_CLICK, onMouseEvent);
+container.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onMouseEvent);
+container.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onMouseEvent);
+container.addEventListener(MouseEvent.ROLL_OUT, onMouseEvent);
+container.addEventListener(MouseEvent.ROLL_OVER, onMouseEvent);
 function onMouseEvent(e) {
-  texts.push(e.type + ' at (' + e.localX + ', ' + e.localY + ')');
+  texts.push(e.eventPhase + ' ' + e.type +
+    ' at (' + e.localX + ', ' + e.localY + ')');
   texts = texts.slice(-10);
   textField.text = texts.join('\n');
 }

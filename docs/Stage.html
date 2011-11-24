@@ -39,12 +39,16 @@ You can access this module by doing:<br/>
       <span class="k">throw</span> <span class="k">new</span> <span class="nx">TypeError</span> <span class="s1">&#39;&#39;</span>
     <span class="vi">@_context = </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">getContext</span> <span class="s1">&#39;2d&#39;</span>
     <span class="vi">@_bounds = </span><span class="k">new</span> <span class="nx">Rectangle</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span>
+    <span class="vi">@overrideMouseWheel = </span><span class="kc">false</span>
     <span class="vi">@_startTime = @_time = </span><span class="p">(</span><span class="k">new</span> <span class="nb">Date</span><span class="p">()).</span><span class="nx">getTime</span><span class="p">()</span>
     <span class="vi">@currentFrame = </span><span class="mi">0</span>
     <span class="vi">@_frameRate = </span><span class="mi">60</span>
     <span class="nx">_tick</span> <span class="nx">@_enterFrame</span>
     <span class="nx">canvas</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="nx">@_onClick</span><span class="p">,</span> <span class="kc">false</span>
+    <span class="nx">canvas</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;mousedown&#39;</span><span class="p">,</span> <span class="nx">@_onMouseDown</span><span class="p">,</span> <span class="kc">false</span>
+    <span class="nx">canvas</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;mouseup&#39;</span><span class="p">,</span> <span class="nx">@_onMouseUp</span><span class="p">,</span> <span class="kc">false</span>
     <span class="nx">canvas</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;mousemove&#39;</span><span class="p">,</span> <span class="nx">@_onMouseMove</span><span class="p">,</span> <span class="kc">false</span>
+    <span class="nx">canvas</span><span class="p">.</span><span class="nx">addEventListener</span> <span class="s1">&#39;mousewheel&#39;</span><span class="p">,</span> <span class="nx">@_onMouseWheel</span><span class="p">,</span> <span class="kc">false</span>
     <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>frameRate:<em>Number</em></h3>
 
 <p>Effective frame rate rounded off to one decimal places, in fps.
@@ -76,15 +80,36 @@ You can access this module by doing:<br/>
     <span class="k">return</span>
 
   <span class="nv">_onClick: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
-    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="p">,</span> <span class="kc">true</span>
+    <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
+    <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
+    <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
+
+  <span class="nv">_onMouseDown: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_DOWN</span><span class="p">,</span> <span class="kc">true</span>
+    <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
+    <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
+    <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
+
+  <span class="nv">_onMouseUp: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_UP</span><span class="p">,</span> <span class="kc">true</span>
     <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
     <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
     <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
 
   <span class="nv">_onMouseMove: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
-    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_MOVE</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_MOVE</span><span class="p">,</span> <span class="kc">true</span>
     <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
     <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
+    <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
+
+  <span class="nv">_onMouseWheel: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="k">if</span> <span class="nx">@overrideMouseWheel</span>
+      <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
+    <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_WHEEL</span><span class="p">,</span> <span class="kc">true</span>
+    <span class="nv">event.stageX = event.localX = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetX</span>
+    <span class="nv">event.stageY = event.localY = </span><span class="nx">e</span><span class="p">.</span><span class="nx">offsetY</span>
+    <span class="nv">event.delta = </span><span class="k">if</span> <span class="nx">e</span><span class="p">.</span><span class="nx">wheelDelta</span><span class="o">?</span> <span class="k">then</span> <span class="nx">e</span><span class="p">.</span><span class="nx">wheelDelta</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span><span class="o">?</span> <span class="k">then</span> <span class="nx">e</span><span class="p">.</span><span class="nx">detail</span> <span class="k">else</span> <span class="mi">0</span>
     <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
 
 </pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

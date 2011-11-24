@@ -20,7 +20,7 @@ module.exports = class MouseEvent extends Event
   @ROLL_OUT = 'rollOut'
   @ROLL_OVER = 'rollOver'
 
-  constructor: (type, bubbles = true, cancelable = false, @localX = NaN, @localY = NaN, @relatedObject = null, ctrlKey = false, altKey = false, shiftKey = false, buttonDown = false, delta = 0, commandKey = false, controlKey = false, clickCount = 0) ->
+  constructor: (type, bubbles = false, cancelable = false, @localX = NaN, @localY = NaN, @relatedObject = null, ctrlKey = false, altKey = false, shiftKey = false, buttonDown = false, delta = 0, commandKey = false, controlKey = false, clickCount = 0) ->
     super type, bubbles, cancelable
 
   clone: ->

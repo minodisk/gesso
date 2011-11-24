@@ -42,12 +42,16 @@ module.exports = class Stage extends Sprite
       throw new TypeError ''
     @_context = canvas.getContext '2d'
     @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
+    @overrideMouseWheel = false
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
     @_frameRate = 60
     _tick @_enterFrame
     canvas.addEventListener 'click', @_onClick, false
+    canvas.addEventListener 'mousedown', @_onMouseDown, false
+    canvas.addEventListener 'mouseup', @_onMouseUp, false
     canvas.addEventListener 'mousemove', @_onMouseMove, false
+    canvas.addEventListener 'mousewheel', @_onMouseWheel, false
     return
 
   # ### frameRate:*Number*
@@ -89,13 +93,34 @@ module.exports = class Stage extends Sprite
     return
 
   _onClick: (e) =>
-    event = new MouseEvent MouseEvent.CLICK
+    event = new MouseEvent MouseEvent.CLICK, true
+    event.stageX = event.localX = e.offsetX
+    event.stageY = event.localY = e.offsetY
+    @_propagateMouseEvent event
+
+  _onMouseDown: (e) =>
+    event = new MouseEvent MouseEvent.MOUSE_DOWN, true
+    event.stageX = event.localX = e.offsetX
+    event.stageY = event.localY = e.offsetY
+    @_propagateMouseEvent event
+
+  _onMouseUp: (e) =>
+    event = new MouseEvent MouseEvent.MOUSE_UP, true
     event.stageX = event.localX = e.offsetX
     event.stageY = event.localY = e.offsetY
     @_propagateMouseEvent event
 
   _onMouseMove: (e) =>
-    event = new MouseEvent MouseEvent.MOUSE_MOVE
+    event = new MouseEvent MouseEvent.MOUSE_MOVE, true
     event.stageX = event.localX = e.offsetX
     event.stageY = event.localY = e.offsetY
+    @_propagateMouseEvent event
+
+  _onMouseWheel: (e) =>
+    if @overrideMouseWheel
+      e.preventDefault()
+    event = new MouseEvent MouseEvent.MOUSE_WHEEL, true
+    event.stageX = event.localX = e.offsetX
+    event.stageY = event.localY = e.offsetY
+    event.delta = if e.wheelDelta? then e.wheelDelta else if e.detail? then e.detail else 0
     @_propagateMouseEvent event
