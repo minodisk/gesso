@@ -3,7 +3,7 @@ do (window, document)->
   Shape = require 'display/Shape'
   TextField = require 'text/TextField'
   TextFormat = require 'text/TextFormat'
-  BlendMode = require 'display/blends/BlendMode'
+  BlendMode = require 'display/BlendMode'
   MathUtil = require 'utils/MathUtil'
 
   canvas = document.querySelector('canvas')
