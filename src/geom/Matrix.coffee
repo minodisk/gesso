@@ -1,16 +1,18 @@
 # **Package:** *geom*<br/>
-# **Inheritance:** *Object* > *Matrix*<br/>
+# **Inheritance:** *Object* → *Matrix*<br/>
 # **Subclasses:** -
 #
 # The *Matrix* is 3 x 3 matrix. You can translate, scale, rotate, and skew
 # display object.<br/>
 #
-#              |a c x|
-#     Matrix = |b d y|
-#              |0 0 1|
+#              |xx yx ox|
+#     Matrix = |xy yy oy|
+#              |0  0  1 |
 #
 # You can access this module by doing:<br/>
 # `require('geom/Matrix')`
+
+StringUtil = require 'utils/StringUtil'
 
 _sin = Math.sin
 _cos = Math.cos
@@ -45,42 +47,57 @@ module.exports = class Matrix
 
   # ### new Matrix(a:*Number* = 1, b:*Number* = 0, c:*Number* = 0, d:*Number* = 1, x:*Number* = 0, y:*Number* = 0)
   # Creates a new Matrix object.
-  constructor: (@a = 1, @b = 0, @c = 0, @d = 1, @x = 0, @y = 0) ->
+  constructor: (@xx = 1, @xy = 0, @yx = 0, @yy = 1, @ox = 0, @oy = 0) ->
 
   # ### clone():*Matrix*
   # Copies this object.
   clone: ->
-    new Matrix @a, @b, @c, @d, @x, @y
+    new Matrix @xx, @xy, @yx, @yy, @ox, @oy
+
+  toString: ->
+    "#{ @xx } #{ @yx } #{ @ox }\n
+#{ @xy } #{ @yy } #{ @oy }\n
+0 0 1"
 
   # ### apply(matrix:*Matrix*):*void*
   # Applies the properties of specified *Matrix* object to this object.
   apply: (matrix) ->
-    @_apply matrix.a, matrix.b, matrix.c, matrix.d, matrix.x, matrix.y
-  _apply: (a, b, c, d, x, y) ->
-    @a = a
-    @b = b
-    @c = c
-    @d = d
-    @x = x
-    @y = y
+    @_apply matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
+  _apply: (xx, xy, yx, yy, ox, oy) ->
+    @xx = xx
+    @xy = xy
+    @yx = yx
+    @yy = yy
+    @ox = ox
+    @oy = oy
     @
 
   # ### setTo(context:*CanvasRenderingContext2D*):*void*
   # Sets transform to specified *CanvasRenderingContext2D* object.
   setTo: (context) ->
-    context.setTransform @a, @b, @c, @d, @x, @y
+    context.setTransform @xx, @xy, @yx, @yy, @ox, @oy
 
   # ### concat(matrix:*Matrix*):*Matrix*
   # Concatenates the specified *Matrix* to this object.
+  #
+  #     |@xx @yx @ox||xx yx ox|   |@xx*xx+@yx*xy @xx*yx+@yx*yy @xx*ox+@yx*oy+@ox|
+  #     |@xy @yy @oy||xy yy oy| = |@xy*xx+@yy*xy @xy*yx+@yy*yy @xy*ox+@yy*oy+@oy|
+  #     |0   0   1  ||0  0  1 |   |0             0             1                |
   concat: (matrix) ->
-    @_concat matrix.a, matrix.b, matrix.c, matrix.d, matrix.x, matrix.y
-  _concat:(a, b, c, d, x, y)->
-    @a = @a * a + @c * b + @x * 0
-    @b = @b * a + @d * b + @y * 0
-    @c = @a * c + @c * d + @x * 0
-    @d = @b * c + @d * d + @y * 0
-    @x = @a * x + @c * y + @x * 1
-    @y = @b * x + @d * y + @y * 1
+    @_concat matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
+  _concat:(xx, xy, yx, yy, ox, oy)->
+    _xx = @xx
+    _xy = @xy
+    _yx = @yx
+    _yy = @yy
+    _ox = @ox
+    _oy = @oy
+    @xx = _xx * xx + _yx * xy
+    @xy = _xy * xx + _yy * xy
+    @yx = _xx * yx + _yx * yy
+    @yy = _xy * yx + _yy * yy
+    @ox = _xx * ox + _yx * oy + _ox
+    @oy = _xy * ox + _yy * oy + _oy
     @
 
   # ### translate(tx:*Number*, ty:*Number*):*Matrix*
