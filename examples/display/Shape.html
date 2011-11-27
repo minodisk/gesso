@@ -15,11 +15,9 @@
   <h1>display/Shape</h1>
 </header>
 
-<section>
+<section class="execute">
   <h2>drawRect/drawRectangle</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
@@ -29,15 +27,13 @@ shape.fill(0xff0000, .5);
 shape.drawRect(200, 50, 50, 100);
 shape.fill(0x00ff00, .5);
 shape.drawRectangle(new Rectangle(300, 50, 150, 100));
-shape.fill(0x0000ff, .5);</pre>
-  </div>
+shape.fill(0x0000ff, .5);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>drawRoundRect/drawRoundRectangle</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
@@ -47,15 +43,13 @@ shape.fill(0xff0000, .5);
 shape.drawRoundRect(200, 50, 50, 100, 10, 50);
 shape.fill(0x00ff00, .5);
 shape.drawRoundRectangle(new Rectangle(300, 50, 150, 100), 50, 50);
-shape.fill(0x0000ff, .5);</pre>
-  </div>
+shape.fill(0x0000ff, .5);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>drawCircle/drawEllipse</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
@@ -65,15 +59,13 @@ shape.fill(0xff0000, .5);
 shape.drawEllipse(200, 50, 50, 100);
 shape.fill(0x00ff00, .5);
 shape.drawEllipse(300, 50, 150, 100);
-shape.fill(0x0000ff, .5);</pre>
-  </div>
+shape.fill(0x0000ff, .5);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>drawRegularPolygon</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
@@ -83,15 +75,13 @@ shape.fill(0xff0000, .5);
 shape.drawRegularPolygon(250, 100, 60, 6);
 shape.fill(0x00ff00, .5);
 shape.drawRegularPolygon(400, 100, 60, 12);
-shape.fill(0x0000ff, .5);</pre>
-  </div>
+shape.fill(0x0000ff, .5);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>drawStar/drawRegularStar</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
@@ -101,15 +91,13 @@ shape.fill(0xff0000, .5);
 shape.drawStar(250, 100, 60, 35, 5);
 shape.fill(0x00ff00, .5);
 shape.drawRegularStar(400, 100, 60, 5);
-shape.fill(0x0000ff, .5);</pre>
-  </div>
+shape.fill(0x0000ff, .5);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>fill/stroke</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
@@ -126,15 +114,13 @@ shape.drawRegularPolygon(290, 120, 60, 5);
 shape.fill(0xffff00, .75);
 shape.drawRegularStar(400, 100, 90, 8);
 shape.fill(0x0000ff, .5);
-shape.stroke(5, 0xff00ff, 1);</pre>
-  </div>
+shape.stroke(5, 0xff00ff, 1);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>method chain</h2>
-
-  <div class="execute">
-    <canvas width="500" height="200"></canvas>
+  <canvas width="500" height="200"></canvas>
 <pre>
 (new Shape()).drawRect(20, 30, 150, 100)
              .fill()
@@ -150,7 +136,6 @@ shape.stroke(5, 0xff00ff, 1);</pre>
              .fill(0x0000ff, .5)
              .stroke(5, 0xff00ff, 1)
              .addTo(new Stage(canvas));</pre>
-  </div>
 </section>
 
 </body>

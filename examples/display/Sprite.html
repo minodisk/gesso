@@ -40,6 +40,10 @@ sprite.addChild(red);
 sprite.x = 75;
 sprite.y = 150;
 stage.addChild(sprite);
+console.log(sprite.width, sprite.height);
+setTimeout(function () {
+  console.log(sprite.width, sprite.height);
+}, 1000);
 var direction = 1;
 stage.addEventListener('enterFrame', function (e) {
   if (sprite.x <= 75) {

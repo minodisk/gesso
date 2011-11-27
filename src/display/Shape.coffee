@@ -35,7 +35,7 @@ module.exports = class Shape extends DisplayObject
   _hitTest: (localX, localY) ->
     @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
 
-  drawLine:(coords...)->
+  drawLine: (coords, closePath = false) ->
     minX = minY = Number.MAX_VALUE
     maxX = maxY = -Number.MAX_VALUE
     max = Math.ceil coords.length / 2
@@ -49,17 +49,18 @@ module.exports = class Shape extends DisplayObject
       maxY = Math.max maxY, y
     @_stacks.push
       method   : 'drawLine'
-      arguments: coords
+      arguments: [coords, closePath]
       rect     : new Rectangle minX, minY, maxX - minX, maxY - minY
     @_requestRender true
-  _drawLine:(coords...)->
+  _drawLine: (coords, closePath) ->
     @_context.beginPath()
     @_context.moveTo coords[0], coords[1]
     max = Math.ceil coords.length / 2
     for i in [1...max] by 1
       j = i * 2
       @_context.lineTo coords[j], coords[j + 1]
-    #@_context.closePath()
+    if closePath
+      @_context.closePath()
     return
 
   drawRectangle:(rect) ->
@@ -133,40 +134,24 @@ module.exports = class Shape extends DisplayObject
     return
 
   drawRegularPolygon:(x, y, radius, length = 3) ->
-    @_stacks.push
-      method:'drawRegularPolygon'
-      arguments:[x, y, radius, length]
-      rect:new Rectangle x - radius, y - radius, radius * 2, radius * 2
-    @_requestRender true
-  _drawRegularPolygon:(x, y, radius, length) ->
     u = _PI_2 / length
-    @_context.beginPath()
-    @_context.moveTo x, y - radius
+    coords = [x, y - radius]
     for i in [1..length]
       r = -_PI_1_2 + u * i
-      @_context.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
-    @_context.closePath()
-    return
+      coords.push x + radius * Math.cos(r), y + radius * Math.sin(r)
+    @drawLine coords, true
 
   drawRegularStar:(x, y, outer, length = 5)->
     c = Math.cos _PI / length
     @drawStar x, y, outer, outer * (2 * c - 1 / c), length
   drawStar:(x, y, outer, inner, length = 5)->
-    @_stacks.push
-      method:'drawStar'
-      arguments:[x, y, outer, inner, length]
-      rect:new Rectangle x - outer, y - outer, outer * 2, outer * 2
-    @_requestRender true
-  _drawStar:(x, y, outer, inner, length)->
-    @_context.beginPath()
-    @_context.moveTo x, y - outer
     u = _PI / length
+    coords = [x, y - outer]
     for i in [1..length * 2] by 1
       radius = if (i & 1) is 0 then outer else inner
       r = -_PI_1_2 + u * i
-      @_context.lineTo x + radius * Math.cos(r), y + radius * Math.sin(r)
-    @_context.closePath()
-    return
+      coords.push x + radius * Math.cos(r), y + radius * Math.sin(r)
+    @drawLine coords, true
 
   clip:() ->
     @_stacks.push

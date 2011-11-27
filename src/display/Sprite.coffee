@@ -67,7 +67,7 @@ module.exports = class Sprite extends Shape
   # [private] Renders this object.
   _render: ->
     @_drawn = false
-    @_measureSize()
+    #@_measureSize()
     @_applySize()
     @_execStacks()
     @_drawChildren()
@@ -78,12 +78,23 @@ module.exports = class Sprite extends Shape
   # [private] Measures the bounds of this object.
   _measureSize: ->
     super()
+
+    rect = @_rect
+    bounds = @_bounds
+
     for child in @_children
-      child._render() if child._drawn
-      bounds = child._bounds.clone()
-      bounds.x += child.x
-      bounds.y += child.y
-      @_bounds.union bounds
+      rect.union child._rect
+      b = child._bounds.clone()
+      b.x += child.x
+      b.y += child.y
+      bounds.union b
+
+    @_width = rect.width
+    @_height = rect.height
+    @_rect = rect
+    @_bounds = bounds
+
+    return
 
   # ### _drawBounds():*void*
   # [private] Draws the bounds of this object for debug.
@@ -91,6 +102,7 @@ module.exports = class Sprite extends Shape
     @_context.strokeStyle = 'rgba(255, 0, 0, .8)'
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_width, @_height
+    return
 
   # ### _render():*void*
   # [private] Draws children on this object.
@@ -102,6 +114,7 @@ module.exports = class Sprite extends Shape
         #@_context.translate child._x, child._y
         #@_context.scale child._scaleX, child._scaleY
         #@_context.rotate child._rotation * _RADIAN_PER_DEGREE
+        child._render() if child._drawn
         child._getTransform().setTo(@_context)
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
 

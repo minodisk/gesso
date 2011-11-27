@@ -154,30 +154,48 @@ module.exports = class DisplayObject extends EventDispatcher
   # Calculates a rectangle that defines the area of this object object relative
   # to target coordinate space.
 
+  # ### _requestRender():*DisplayObject*
+  # [private] Requests rendering to parent.
+  _requestRender: (drawn = false) ->
+    @_drawn |= drawn
+    @_measureSize()
+    @_parent._requestRender true if @_parent?
+    @
+
   # ### _render():*void*
   # [private] Renders this object.
   _render: ->
     @_drawn = false
-    @_measureSize()
+    #@_measureSize()
     @_applySize()
     @_execStacks()
     @_applyFilters()
-    #@_drawBounds()
+    @_drawBounds()
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
   _measureSize: ->
-    rect = new Rectangle()
     delta = 0
     for stack in @_stacks
-      rect.union stack.rect if stack.rect?
+      if stack.rect?
+        unless rect?
+          rect = stack.rect.clone()
+        else
+          rect.union stack.rect if stack.rect?
       delta = Math.max delta, stack.delta if stack.delta?
-    @_bounds = rect.clone()
+    unless rect?
+      rect = new Rectangle
+    @_width = rect.width
+    @_height = rect.height
+    @_rect = rect
+
+    bounds = rect.clone()
     offset = Math.ceil delta / 2
     delta = offset * 2
     offset *= -1
-    @_bounds.offset offset, offset
-    @_bounds.inflate delta, delta
+    bounds.offset offset, offset
+    bounds.inflate delta, delta
+    @_bounds = bounds
 
   # ### _applySize():*void*
   # [private] Applies the bounds to internal canvas of this object.
@@ -208,13 +226,6 @@ module.exports = class DisplayObject extends EventDispatcher
     @_context.strokeStyle = 'rgba(0, 0, 255, .8)'
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_width, @_height
-
-  # ### _requestRender():*DisplayObject*
-  # [private] Requests rendering to parent.
-  _requestRender: (drawn) ->
-    @_drawn = true if drawn
-    @_parent._requestRender true if @_parent?
-    @
 
   hitTestPoint: (point) ->
     @hitTest point.x, point.y
