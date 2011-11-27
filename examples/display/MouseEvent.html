@@ -59,6 +59,9 @@ function onMouseEvent(e) {
   texts = texts.slice(-10);
   textField.text = texts.join('\n');
 }
+stage.addEventListener(Event.ENTER_FRAME, function (e) {
+  container.rotation++;
+});
 </pre>
 </section>
 

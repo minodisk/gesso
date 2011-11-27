@@ -15,7 +15,9 @@
   window.GaussianFilter = require('filters/GaussianFilter');
   window.MedianFilter = require('filters/MedianFilter');
   window.BilateralFilter = require('filters/BilateralFilter');
+  window.Point = require('geom/Point');
   window.Rectangle = require('geom/Rectangle');
+  window.Matrix = require('geom/Matrix');
   window.ColorMatrix = require('geom/ColorMatrix');
   window.TextField = require('text/TextField');
   window.TextFormat = require('text/TextFormat');

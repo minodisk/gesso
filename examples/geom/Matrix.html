@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>graphicsJS Examples | Matrix</title>
+  <link rel="stylesheet" href="../../resources/paige.css"/>
+  <link rel="stylesheet" href="../resources/example.css"/>
+  <script src="../../lib/graphics.js"></script>
+  <script src="../resources/execute.js"></script>
+</head>
+<body>
+
+<header>
+  <a href="../">index</a>
+
+  <h1>Matrix</h1>
+</header>
+
+<section>
+  <h2>Transform</h2>
+  <div class="execute">
+    <canvas width="500" height="500"></canvas>
+<pre>
+var img = new Image();
+img.src = '../resources/graph.png';
+img.addEventListener('load', function () {
+  var bitmap = new Bitmap();
+  var stage = new Stage(canvas);
+  bitmap.draw(img);
+  stage.addChild(bitmap);
+  var origin = new Sprite();
+  origin.drawCircle(0, 0, 5);
+  origin.fill(0x000000);
+  origin.x = origin.y = 150;
+  stage.addChild(origin);
+  var anchorX = new Sprite();
+  anchorX.drawCircle(0, 0, 5);
+  anchorX.fill(0xff0000);
+  anchorX.x = 350;
+  anchorX.y = 150;
+  stage.addChild(anchorX);
+  var anchorY = new Sprite();
+  anchorY.drawCircle(0, 0, 5);
+  anchorY.fill(0x00ff00);
+  anchorY.x = 150;
+  anchorY.y = 350;
+  stage.addChild(anchorY);
+  onMouseMove();
+  origin.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+  anchorX.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+  anchorY.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
+  function onMouseDown(e) {
+    anchor = e.currentTarget;
+    anchor.startDrag();
+    stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+    stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+  }
+  function onMouseMove(e) {
+    var ptO = new Point(origin.x, origin.y);
+    var ptX = new Point(anchorX.x, anchorX.y);
+    var ptY = new Point(anchorY.x, anchorY.y);
+    var scaleX = ptX.distance(ptO) / 200;
+    var scaleY = ptY.distance(ptO) / 200;
+    ptX.subtract(ptO).normalize(scaleX);
+    ptY.subtract(ptO).normalize(scaleY);
+    bitmap.matrix = new Matrix(ptX.x, ptX.y, ptY.x, ptY.y, ptO.x, ptO.y);
+  }
+  function onMouseUp(e) {
+    stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+    stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+    anchor.stopDrag();
+  }
+});
+</pre>
+  </div>
+</section>
+
+</body>
+</html>
