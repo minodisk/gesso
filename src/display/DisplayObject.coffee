@@ -196,6 +196,7 @@ module.exports = class DisplayObject extends EventDispatcher
     bounds.offset offset, offset
     bounds.inflate delta, delta
     @_bounds = bounds
+    return
 
   # ### _applySize():*void*
   # [private] Applies the bounds to internal canvas of this object.
