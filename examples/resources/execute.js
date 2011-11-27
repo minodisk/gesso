@@ -4,6 +4,7 @@
   window.DisplayObject = require('display/DisplayObject');
   window.Bitmap = require('display/Bitmap');
   window.BlendMode = require('display/BlendMode');
+  window.Loader = require('display/Loader');
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
   window.ColorMatrixFilter = require('filters/ColorMatrixFilter');
