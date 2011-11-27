@@ -23,12 +23,12 @@
         <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.invert();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
       </li>
     </ul>
@@ -41,36 +41,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustSaturation(-.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustSaturation(.0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustSaturation(.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -83,36 +83,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustContrast(-.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustContrast(.0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustContrast(.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -125,36 +125,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustBrightness(-.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustBrightness(.0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustBrightness(.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -167,36 +167,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustHue(90);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustHue(180);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustHue(270);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -209,36 +209,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateHue(90);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateHue(180);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateHue(270);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -251,12 +251,12 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.luminance2Alpha();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -268,36 +268,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustAlphaContrast(-1.0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustAlphaContrast(0.0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.adjustAlphaContrast(1.0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -310,36 +310,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.colorize(0xff0000);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.colorize(0x00ff00);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.colorize(0x0000ff);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -352,36 +352,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setChannels(1, 0, 0, 8);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setChannels(0, 2, 0, 8);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setChannels(0, 0, 4, 8);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -394,36 +394,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.average(1, 0, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.average(0, 1, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.average(0, 0, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -436,36 +436,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.threshold(64);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.threshold(128);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.threshold(192);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -478,12 +478,12 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.desaturate();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -496,36 +496,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.randomize();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.randomize();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.randomize();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -538,36 +538,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setMultiplicators(1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setMultiplicators(2);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setMultiplicators(3);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -580,36 +580,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.clearChannels(true, false, false, false);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.clearChannels(false, true, false, false);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.clearChannels(false, false, true, false);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -621,36 +621,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.thresholdAlpha(.25);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.thresholdAlpha(.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.thresholdAlpha(1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
   </ul>
@@ -663,12 +663,12 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.averageRGB2Alpha();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -680,12 +680,12 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.invertAlpha();
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -697,36 +697,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rgb2Alpha(1, 0, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rgb2Alpha(0, 1, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rgb2Alpha(0, 0, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -738,36 +738,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setAlpha(.25);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setAlpha(.5);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.setAlpha(.75);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -779,36 +779,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateRed(90);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateRed(180);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateRed(270);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -820,36 +820,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateGreen(90);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateGreen(180);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateGreen(270);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -861,36 +861,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateBlue(90);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateBlue(180);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.rotateBlue(270);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -902,36 +902,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearRed(1, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearRed(0, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearRed(1, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -943,36 +943,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearGreen(1, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearGreen(0, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearGreen(1, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
@@ -984,36 +984,36 @@ bitmap.draw('resources/lena.png');
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearBlue(1, 0);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearBlue(0, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
     <li class="execute">
       <canvas width="256" height="128"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-stage.addChild(bitmap);
+var loader = new Loader();
+stage.addChild(loader);
 var colorMatrix = new ColorMatrix();
 colorMatrix.shearBlue(1, 1);
-bitmap.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
-bitmap.draw('resources/lena.png');
+loader.filters = [new ColorMatrixFilter(colorMatrix.matrix)];
+loader.load('resources/lena.png');
 </pre>
     </li>
 </section>
