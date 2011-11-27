@@ -90,9 +90,9 @@ You can access this module by doing:<br/>
 <p>[private] Draws children on this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_drawChildren: </span><span class="o">-&gt;</span>
     <span class="k">for</span> <span class="nx">child</span> <span class="k">in</span> <span class="nx">@_children</span>
       <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="o">?</span> <span class="o">and</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="o">and</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">height</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s1">&#39;invalid position&#39;</span> <span class="k">if</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">y</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>@<em>context.translate child.</em>x, child.<em>y
-@</em>context.scale child.<em>scaleX, child.</em>scaleY
-@<em>context.rotate child.</em>rotation * <em>RADIAN</em>PER_DEGREE</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nx">child</span><span class="p">.</span><span class="nx">_render</span><span class="p">()</span> <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_drawn</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span> <span class="s1">&#39;invalid position&#39;</span> <span class="k">if</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">x</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">y</span> <span class="o">or</span> <span class="nb">isNaN</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_bounds</span><span class="p">.</span><span class="nx">y</span>
+
+        <span class="nx">child</span><span class="p">.</span><span class="nx">_render</span><span class="p">()</span> <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_drawn</span>
         <span class="nx">child</span><span class="p">.</span><span class="nx">_getTransform</span><span class="p">().</span><span class="nx">setTo</span><span class="p">(</span><span class="nx">@_context</span><span class="p">)</span>
         <span class="vi">@_context.globalAlpha = </span><span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_alpha</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">then</span> <span class="mi">0</span> <span class="k">else</span> <span class="k">if</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_alpha</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">then</span> <span class="mi">1</span> <span class="k">else</span> <span class="nx">child</span><span class="p">.</span><span class="nx">_alpha</span>
 
@@ -123,6 +123,8 @@ You can access this module by doing:<br/>
         <span class="nx">@_targetMouseEvent</span> <span class="nx">e</span>
 
         <span class="vi">@_mouseIn = </span><span class="kc">true</span>
+        <span class="k">if</span> <span class="nx">@_buttonMode</span>
+          <span class="vi">@__stage._canvas.style.cursor = </span><span class="s1">&#39;pointer&#39;</span>
       <span class="k">else</span> <span class="k">if</span> <span class="nx">hit</span> <span class="o">is</span> <span class="kc">false</span> <span class="o">and</span> <span class="nx">@_mouseIn</span> <span class="o">is</span> <span class="kc">true</span>
         <span class="nv">e = </span><span class="nx">event</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
         <span class="nv">e.type = </span><span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_OUT</span>
@@ -134,6 +136,8 @@ You can access this module by doing:<br/>
         <span class="nx">@_targetMouseEvent</span> <span class="nx">e</span>
 
         <span class="vi">@_mouseIn = </span><span class="kc">false</span>
+        <span class="k">if</span> <span class="err">@</span> <span class="o">isnt</span> <span class="nx">@__stage</span>
+          <span class="vi">@__stage._canvas.style.cursor = </span><span class="s1">&#39;default&#39;</span>
 
       <span class="k">if</span> <span class="nx">@_mouseChildren</span>
         <span class="nv">i = </span><span class="nx">@_children</span><span class="p">.</span><span class="nx">length</span>

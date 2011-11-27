@@ -153,7 +153,8 @@ to target coordinate space.</p>             </td>             <td class="code"> 
     <span class="nx">offset</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="nx">bounds</span><span class="p">.</span><span class="nx">offset</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">offset</span>
     <span class="nx">bounds</span><span class="p">.</span><span class="nx">inflate</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">delta</span>
-    <span class="vi">@_bounds = </span><span class="nx">bounds</span></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h3>_applySize():<em>void</em></h3>
+    <span class="vi">@_bounds = </span><span class="nx">bounds</span>
+    <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h3>_applySize():<em>void</em></h3>
 
 <p>[private] Applies the bounds to internal canvas of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_applySize: </span><span class="o">-&gt;</span>
     <span class="vi">@_context.canvas.width = @_width = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span>

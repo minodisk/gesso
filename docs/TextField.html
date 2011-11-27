@@ -17,13 +17,11 @@ You can access this module by doing:<br/>
 <p>The text in this <em>TextField</em>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">TextField</span><span class="o">::</span><span class="nx">__defineGetter__</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="nf">() -&gt;</span> <span class="nx">@_texts</span><span class="p">.</span><span class="nx">join</span> <span class="s1">&#39;\n&#39;</span>
   <span class="nx">TextField</span><span class="o">::</span><span class="nx">__defineSetter__</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="nf">(text) -&gt;</span>
     <span class="vi">@_texts = </span><span class="nx">@_stacks</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">text</span><span class="p">.</span><span class="nx">split</span> <span class="nx">_R_BREAK</span>
-    <span class="nx">@_measure</span><span class="p">()</span>
     <span class="nx">@_requestRender</span> <span class="kc">true</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>textFormat:<em>TextFormat</em></h3>
 
 <p>The <em>TextFormat</em> applied to this <em>TextField</em>.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">TextField</span><span class="o">::</span><span class="nx">__defineGetter__</span> <span class="s1">&#39;textFormat&#39;</span><span class="p">,</span> <span class="nf">() -&gt;</span> <span class="nx">@_textFormat</span>
   <span class="nx">TextField</span><span class="o">::</span><span class="nx">__defineSetter__</span> <span class="s1">&#39;textFormat&#39;</span><span class="p">,</span> <span class="nf">(textFormat) -&gt;</span>
     <span class="vi">@_textFormat = </span><span class="nx">@_stacks</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">textFormat</span>
-    <span class="nx">@_measure</span><span class="p">()</span>
     <span class="nx">@_requestRender</span> <span class="kc">true</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h3>maxWidth:<em>Number</em></h3>
 
 <p>The max width of the text, in pixels.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">TextField</span><span class="o">::</span><span class="nx">__defineGetter__</span> <span class="s1">&#39;maxWidth&#39;</span><span class="p">,</span> <span class="nf">() -&gt;</span> <span class="nx">@_maxWidth</span>
@@ -33,24 +31,28 @@ You can access this module by doing:<br/>
 
 <p>Creates a new <em>TextField</em> object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">constructor: </span><span class="nf">(text = &#39;&#39;, textFormat = new TextFormat) -&gt;</span>
     <span class="k">super</span> <span class="s1">&#39;TextField&#39;</span>
-    <span class="vi">@rect = </span><span class="k">new</span> <span class="nx">Rectangle</span><span class="p">()</span>
     <span class="nx">@_stacks</span><span class="p">.</span><span class="nx">push</span>
       <span class="nv">method   : </span><span class="s1">&#39;drawText&#39;</span>
       <span class="nv">arguments: </span><span class="p">[]</span>
-      <span class="nv">rect     : </span><span class="nx">@rect</span>
     <span class="vi">@text = </span><span class="nx">text</span>
-    <span class="vi">@textFormat = </span><span class="nx">textFormat</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h3>_measure():<em>void</em></h3>
+    <span class="vi">@textFormat = </span><span class="nx">textFormat</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h3>_measureSize():<em>void</em></h3>
 
-<p>[private] Computes the size of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_measure: </span><span class="o">-&gt;</span>
+<p>[private] Measures the bounds of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_measureSize: </span><span class="o">-&gt;</span>
     <span class="k">if</span> <span class="nx">@_texts</span><span class="o">?</span> <span class="o">and</span> <span class="nx">@_textFormat</span><span class="o">?</span>
+      <span class="nv">rect = </span><span class="k">new</span> <span class="nx">Rectangle</span>
       <span class="vi">@_context.font = </span><span class="nx">@_textFormat</span><span class="p">.</span><span class="nx">toStyleSheet</span><span class="p">()</span>
-      <span class="nv">width = </span><span class="mi">0</span>
       <span class="k">for</span> <span class="nx">text</span> <span class="k">in</span> <span class="nx">@_texts</span>
-        <span class="nv">width = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span> <span class="nx">width</span><span class="p">,</span> <span class="p">(</span><span class="nx">@_context</span><span class="p">.</span><span class="nx">measureText</span> <span class="nx">text</span><span class="p">).</span><span class="nx">width</span>
-      <span class="nv">height = </span><span class="p">(</span><span class="nx">@_textFormat</span><span class="p">.</span><span class="nx">size</span> <span class="o">+</span> <span class="nx">@_textFormat</span><span class="p">.</span><span class="nx">leading</span><span class="p">)</span> <span class="o">*</span> <span class="nx">@_texts</span><span class="p">.</span><span class="nx">length</span>
-      <span class="vi">@rect.y = </span><span class="o">-</span><span class="nx">height</span> <span class="o">*</span> <span class="mi">2</span>
-      <span class="vi">@rect.width = </span><span class="nx">width</span>
-      <span class="vi">@rect.height = </span><span class="nx">height</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="nv">rect.width = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span> <span class="nx">rect</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="p">(</span><span class="nx">@_context</span><span class="p">.</span><span class="nx">measureText</span> <span class="nx">text</span><span class="p">).</span><span class="nx">width</span>
+      <span class="nv">rect.height = </span><span class="p">(</span><span class="nx">@_textFormat</span><span class="p">.</span><span class="nx">size</span> <span class="o">+</span> <span class="nx">@_textFormat</span><span class="p">.</span><span class="nx">leading</span><span class="p">)</span> <span class="o">*</span> <span class="nx">@_texts</span><span class="p">.</span><span class="nx">length</span>
+
+      <span class="vi">@_width = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">width</span>
+      <span class="vi">@_height = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">height</span>
+      <span class="vi">@_rect = </span><span class="nx">rect</span>
+
+      <span class="nv">bounds = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+      <span class="nv">bounds.y = </span><span class="o">-</span><span class="nx">bounds</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="mi">2</span>
+      <span class="nx">bounds</span><span class="p">.</span><span class="nx">height</span> <span class="o">*=</span> <span class="mi">4</span>
+      <span class="vi">@_bounds = </span><span class="nx">bounds</span>
     <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h3>_drawText(texts:<em>Array</em>, textFormat:<em>TextFormat</em>):<em>void</em></h3>
 
 <p>[private] Draws text onto this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_drawText: </span><span class="nf">(texts, textFormat) -&gt;</span>
