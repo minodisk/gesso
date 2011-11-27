@@ -21,7 +21,6 @@ module.exports = class TextField extends DisplayObject
   TextField::__defineGetter__ 'text', () -> @_texts.join '\n'
   TextField::__defineSetter__ 'text', (text) ->
     @_texts = @_stacks[0].arguments[0] = text.split _R_BREAK
-    @_measure()
     @_requestRender true
 
   # ### textFormat:*TextFormat*
@@ -29,7 +28,6 @@ module.exports = class TextField extends DisplayObject
   TextField::__defineGetter__ 'textFormat', () -> @_textFormat
   TextField::__defineSetter__ 'textFormat', (textFormat) ->
     @_textFormat = @_stacks[0].arguments[1] = textFormat
-    @_measure()
     @_requestRender true
 
   # ### maxWidth:*Number*
@@ -43,26 +41,30 @@ module.exports = class TextField extends DisplayObject
   # Creates a new *TextField* object.
   constructor: (text = '', textFormat = new TextFormat) ->
     super 'TextField'
-    @rect = new Rectangle()
     @_stacks.push
       method   : 'drawText'
       arguments: []
-      rect     : @rect
     @text = text
     @textFormat = textFormat
 
-  # ### _measure():*void*
-  # [private] Computes the size of this object.
-  _measure: ->
+  # ### _measureSize():*void*
+  # [private] Measures the bounds of this object.
+  _measureSize: ->
     if @_texts? and @_textFormat?
+      rect = new Rectangle
       @_context.font = @_textFormat.toStyleSheet()
-      width = 0
       for text in @_texts
-        width = Math.max width, (@_context.measureText text).width
-      height = (@_textFormat.size + @_textFormat.leading) * @_texts.length
-      @rect.y = -height * 2
-      @rect.width = width
-      @rect.height = height * 4
+        rect.width = Math.max rect.width, (@_context.measureText text).width
+      rect.height = (@_textFormat.size + @_textFormat.leading) * @_texts.length
+
+      @_width = rect.width
+      @_height = rect.height
+      @_rect = rect
+
+      bounds = rect.clone()
+      bounds.y = -bounds.height * 2
+      bounds.height *= 4
+      @_bounds = bounds
     return
 
   # ### _drawText(texts:*Array*, textFormat:*TextFormat*):*void*
