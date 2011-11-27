@@ -3,14 +3,12 @@ do (window, document)->
   Shape = require 'display/Shape'
   TextField = require 'text/TextField'
   TextFormat = require 'text/TextFormat'
-  BlendMode = require 'display/BlendMode'
   MathUtil = require 'utils/MathUtil'
 
   canvas = document.querySelector('canvas')
   stage = new Stage canvas
   tf = new TextField()
-  tf.format = new TextFormat('monospace', 13, 0xffffff)
-  tf.format.textBaseline = 'top'
+  tf.textFormat = new TextFormat 'monospace', 13, 0xffffff
   stage.addChild tf
   circles = []
   isRender = false
