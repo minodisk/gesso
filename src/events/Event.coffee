@@ -1,6 +1,7 @@
 module.exports = class Event
 
   @ENTER_FRAME: 'enterFrame'
+  @COMPLETE: 'complete'
 
   constructor: (@type, @bubbles = false, @cancelable = false) ->
     @_isPropagationStopped = false
