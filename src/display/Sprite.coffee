@@ -111,9 +111,6 @@ module.exports = class Sprite extends Shape
       if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
         throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
 
-        #@_context.translate child._x, child._y
-        #@_context.scale child._scaleX, child._scaleY
-        #@_context.rotate child._rotation * _RADIAN_PER_DEGREE
         child._render() if child._drawn
         child._getTransform().setTo(@_context)
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
@@ -145,6 +142,8 @@ module.exports = class Sprite extends Shape
         @_targetMouseEvent e
 
         @_mouseIn = true
+        if @_buttonMode
+          @__stage._canvas.style.cursor = 'pointer'
       else if hit is false and @_mouseIn is true
         e = event.clone()
         e.type = MouseEvent.MOUSE_OUT
@@ -156,6 +155,8 @@ module.exports = class Sprite extends Shape
         @_targetMouseEvent e
 
         @_mouseIn = false
+        if @ isnt @__stage
+          @__stage._canvas.style.cursor = 'default'
 
       if @_mouseChildren
         i = @_children.length

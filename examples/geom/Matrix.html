@@ -33,6 +33,7 @@ function onLoadComplete(e) {
   height = loader.height;
 
   origin = new Sprite();
+  origin.buttonMode = true;
   origin.drawCircle(0, 0, 5);
   origin.fill(0x0581d2);
   origin.x = (stage.width - width) / 2;
@@ -40,6 +41,7 @@ function onLoadComplete(e) {
   stage.addChild(origin);
 
   anchorX = new Sprite();
+  anchorX.buttonMode = true;
   anchorX.drawCircle(0, 0, 5);
   anchorX.fill(0x0581d2);
   anchorX.x = origin.x + width;
@@ -47,6 +49,7 @@ function onLoadComplete(e) {
   stage.addChild(anchorX);
 
   anchorY = new Sprite();
+  anchorY.buttonMode = true;
   anchorY.drawCircle(0, 0, 5);
   anchorY.fill(0x0581d2);
   anchorY.x = origin.x;
