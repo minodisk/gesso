@@ -50,7 +50,7 @@ module.exports = class Sprite extends Shape
   # Adds a child *DisplayObject* object to this object.
   addChild: (children...) ->
     for child in children
-      child._stage = @_stage
+      child._stage = @__stage
       child._parent = @
       @_children.push child
     @_requestRender true
@@ -72,7 +72,7 @@ module.exports = class Sprite extends Shape
     @_execStacks()
     @_drawChildren()
     @_applyFilters()
-    @_drawBounds()
+    #@_drawBounds()
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
@@ -98,10 +98,13 @@ module.exports = class Sprite extends Shape
     for child in @_children
       if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
         throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
-        @_context.translate child._x, child._y
-        @_context.scale child._scaleX, child._scaleY
-        @_context.rotate child._rotation * _RADIAN_PER_DEGREE
+
+        #@_context.translate child._x, child._y
+        #@_context.scale child._scaleX, child._scaleY
+        #@_context.rotate child._rotation * _RADIAN_PER_DEGREE
+        child._getTransform().setTo(@_context)
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
+
         if child.blendMode is BlendMode.NORMAL
           @_context.drawImage child._context.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
         else
@@ -195,3 +198,12 @@ module.exports = class Sprite extends Shape
           break if hit
     hit
 
+  startDrag: (lockCenter = false) ->
+    @__stage.addEventListener MouseEvent.MOUSE_MOVE, @_drag
+
+  _drag: (e) =>
+    @x = e.stageX
+    @y = e.stageY
+
+  stopDrag: ->
+    @__stage.removeEventListener MouseEvent.MOUSE_MOVE, @_drag

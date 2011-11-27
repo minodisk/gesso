@@ -8,8 +8,11 @@
 
 EventDispatcher = require 'events/EventDispatcher'
 BlendMode = require 'display/BlendMode'
+Matrix = require 'geom/Matrix'
 Point = require 'geom/Point'
 Rectangle = require 'geom/Rectangle'
+
+_RADIAN_PER_DEGREE = Math.PI / 180
 
 module.exports = class DisplayObject extends EventDispatcher
 
@@ -32,6 +35,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @_scaleY = 1
     @_rotation = 0
     @_alpha = 1
+    @_matrix = new Matrix
     @blendMode = BlendMode.NORMAL
     @filters = []
     @_context = document.createElement('canvas').getContext('2d')
@@ -117,6 +121,15 @@ module.exports = class DisplayObject extends EventDispatcher
     @_height = @_context.canvas.height * value
     @_requestRender false
     return
+
+  DisplayObject::__defineGetter__ 'matrix', -> @_matrix
+  DisplayObject::__defineSetter__ 'matrix', (matrix) ->
+    @_matrix = matrix
+    @_requestRender false
+    return
+
+  _getTransform: ->
+    @_matrix.clone().translate(@_x, @_y).scale(@_scaleX, @_scaleY).rotate(@_rotation * _RADIAN_PER_DEGREE)
 
   # ### set():*DisplayObject*
   # Sets property to this object. Returns self for method chain.
@@ -209,7 +222,7 @@ module.exports = class DisplayObject extends EventDispatcher
     local = @globalToLocal stageX, stageY
     @_hitTest local.x, local.y
   _hitTest: (localX, localY) ->
-    @_bounds.containsPoint localX, localY
+    @_bounds.contains localX, localY
 
   globalToLocalPoint: (point) ->
     @globalToLocal point.x, point.y

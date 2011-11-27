@@ -40,6 +40,8 @@ module.exports = class Stage extends Sprite
       @_height = canvas.height = height
     else
       throw new TypeError ''
+    @_canvas = canvas
+    @__stage = @
     @_context = canvas.getContext '2d'
     @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
     @overrideMouseWheel = false
@@ -62,7 +64,7 @@ module.exports = class Stage extends Sprite
   # ### getTimer():*int*
   # Computes elapsed time since *Stage* constructed, in milliseconds.
   getTimer: ->
-    (new Date()).getTime() - @_startTime
+    new Date().getTime() - @_startTime
 
   # ### _enterFrame(time:*int*):*void*
   # [private] The handler of enter frame.
@@ -92,35 +94,38 @@ module.exports = class Stage extends Sprite
     @_drawn = true
     return
 
+  _hitTest: (localX, localY) ->
+    @_bounds.contains localX, localY
+
   _onClick: (e) =>
     event = new MouseEvent MouseEvent.CLICK, true
-    event.stageX = event.localX = e.offsetX
-    event.stageY = event.localY = e.offsetY
+    @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseDown: (e) =>
     event = new MouseEvent MouseEvent.MOUSE_DOWN, true
-    event.stageX = event.localX = e.offsetX
-    event.stageY = event.localY = e.offsetY
+    @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseUp: (e) =>
     event = new MouseEvent MouseEvent.MOUSE_UP, true
-    event.stageX = event.localX = e.offsetX
-    event.stageY = event.localY = e.offsetY
+    @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseMove: (e) =>
     event = new MouseEvent MouseEvent.MOUSE_MOVE, true
-    event.stageX = event.localX = e.offsetX
-    event.stageY = event.localY = e.offsetY
+    @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseWheel: (e) =>
     if @overrideMouseWheel
       e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_WHEEL, true
-    event.stageX = event.localX = e.offsetX
-    event.stageY = event.localY = e.offsetY
+    @_setMousePosition event, e
     event.delta = if e.wheelDelta? then e.wheelDelta else if e.detail? then e.detail else 0
     @_propagateMouseEvent event
+
+  _setMousePosition: (event, nativeEvent) ->
+    event.stageX = event.localX = if nativeEvent.offsetX? then nativeEvent.offsetX else nativeEvent.pageX - @_canvas.offsetLeft
+    event.stageY = event.localY = if nativeEvent.offsetY? then nativeEvent.offsetY else nativeEvent.pageY - @_canvas.offsetTop
+
