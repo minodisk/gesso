@@ -14,5 +14,4 @@ module.exports = class Loader extends Sprite
       bitmap.draw img
       @content = bitmap
       @addChild @content
-      console.log @width, @height
       @dispatchEvent new Event(Event.COMPLETE)

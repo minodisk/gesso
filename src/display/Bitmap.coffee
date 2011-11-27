@@ -21,21 +21,10 @@ module.exports = class Bitmap extends DisplayObject
   # Draws the source *Image*, *HTMLImageElement*, *HTMLCanvasElement*,
   # *HTMLVideoElement*, or *DisplayObject* object onto this object.
   draw: (data, x = 0, y = 0) ->
-    if typeof data is 'string'
-      img = new Image()
-      img.src = data
-    else if data instanceof Image or data instanceof HTMLImageElement
-      img = data
-    if img?
-      if img.complete
-        @drawImage img, x, y
-      else
-        img.addEventListener 'load', ((e) => @drawImage img, x, y), false
-      return img
-
     if data instanceof DisplayObject
       data = data._context.canvas
-    if data instanceof HTMLCanvasElement or data instanceof HTMLVideoElement
+    if data instanceof Image or data instanceof HTMLImageElement or
+       data instanceof HTMLCanvasElement or data instanceof HTMLVideoElement
       @drawImage data, x, y
       return
 
