@@ -20,56 +20,67 @@
   <div class="execute">
     <canvas width="500" height="500"></canvas>
 <pre>
-var img = new Image();
-img.src = '../resources/graph.png';
-img.addEventListener('load', function () {
-  var bitmap = new Bitmap();
-  var stage = new Stage(canvas);
-  bitmap.draw(img);
-  stage.addChild(bitmap);
-  var origin = new Sprite();
+var stage = new Stage(canvas);
+var loader = new Loader();
+loader.load('../resources/lena_256.png');
+loader.addEventListener(Event.COMPLETE, onLoadComplete);
+stage.addChild(loader);
+
+var width, height, origin, anchorX, anchorY;
+
+function onLoadComplete(e) {
+  width = loader.width;
+  height = loader.height;
+
+  origin = new Sprite();
   origin.drawCircle(0, 0, 5);
-  origin.fill(0x000000);
-  origin.x = origin.y = 150;
+  origin.fill(0x0581d2);
+  origin.x = (stage.width - width) / 2;
+  origin.y = (stage.height - height) / 2;
   stage.addChild(origin);
-  var anchorX = new Sprite();
+
+  anchorX = new Sprite();
   anchorX.drawCircle(0, 0, 5);
-  anchorX.fill(0xff0000);
-  anchorX.x = 350;
-  anchorX.y = 150;
+  anchorX.fill(0x0581d2);
+  anchorX.x = origin.x + width;
+  anchorX.y = origin.y;
   stage.addChild(anchorX);
-  var anchorY = new Sprite();
+
+  anchorY = new Sprite();
   anchorY.drawCircle(0, 0, 5);
-  anchorY.fill(0x00ff00);
-  anchorY.x = 150;
-  anchorY.y = 350;
+  anchorY.fill(0x0581d2);
+  anchorY.x = origin.x;
+  anchorY.y = origin.y + height;
   stage.addChild(anchorY);
+
   onMouseMove();
   origin.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
   anchorX.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
   anchorY.addEventListener(MouseEvent.MOUSE_DOWN, onMouseDown);
-  function onMouseDown(e) {
-    anchor = e.currentTarget;
-    anchor.startDrag();
-    stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-    stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-  }
-  function onMouseMove(e) {
-    var ptO = new Point(origin.x, origin.y);
-    var ptX = new Point(anchorX.x, anchorX.y);
-    var ptY = new Point(anchorY.x, anchorY.y);
-    var scaleX = ptX.distance(ptO) / 200;
-    var scaleY = ptY.distance(ptO) / 200;
-    ptX.subtract(ptO).normalize(scaleX);
-    ptY.subtract(ptO).normalize(scaleY);
-    bitmap.matrix = new Matrix(ptX.x, ptX.y, ptY.x, ptY.y, ptO.x, ptO.y);
-  }
-  function onMouseUp(e) {
-    stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
-    stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
-    anchor.stopDrag();
-  }
-});
+}
+
+function onMouseDown(e) {
+  anchor = e.currentTarget;
+  anchor.startDrag();
+  stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+  stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+}
+
+function onMouseMove(e) {
+  var ptO = new Point(origin.x, origin.y);
+  var ptX = new Point(anchorX.x, anchorX.y);
+  var ptY = new Point(anchorY.x, anchorY.y);
+  var scaleX = ptX.distance(ptO) / width;
+  var scaleY = ptY.distance(ptO) / height;
+  ptX.subtract(ptO).normalize(scaleX);
+  ptY.subtract(ptO).normalize(scaleY);
+  loader.matrix = new Matrix(ptX.x, ptX.y, ptY.x, ptY.y, ptO.x, ptO.y);
+}
+function onMouseUp(e) {
+  stage.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+  stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
+  anchor.stopDrag();
+}
 </pre>
   </div>
 </section>
