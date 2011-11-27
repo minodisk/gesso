@@ -85,21 +85,25 @@ You can access this module by doing:<br/>
     <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">contains</span> <span class="nx">localX</span><span class="p">,</span> <span class="nx">localY</span>
 
   <span class="nv">_onClick: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
     <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">CLICK</span><span class="p">,</span> <span class="kc">true</span>
     <span class="nx">@_setMousePosition</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">e</span>
     <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
 
   <span class="nv">_onMouseDown: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
     <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_DOWN</span><span class="p">,</span> <span class="kc">true</span>
     <span class="nx">@_setMousePosition</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">e</span>
     <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
 
   <span class="nv">_onMouseUp: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
     <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_UP</span><span class="p">,</span> <span class="kc">true</span>
     <span class="nx">@_setMousePosition</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">e</span>
     <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>
 
   <span class="nv">_onMouseMove: </span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
     <span class="nv">event = </span><span class="k">new</span> <span class="nx">MouseEvent</span> <span class="nx">MouseEvent</span><span class="p">.</span><span class="nx">MOUSE_MOVE</span><span class="p">,</span> <span class="kc">true</span>
     <span class="nx">@_setMousePosition</span> <span class="nx">event</span><span class="p">,</span> <span class="nx">e</span>
     <span class="nx">@_propagateMouseEvent</span> <span class="nx">event</span>

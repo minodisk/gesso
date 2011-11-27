@@ -98,21 +98,25 @@ module.exports = class Stage extends Sprite
     @_bounds.contains localX, localY
 
   _onClick: (e) =>
+    e.preventDefault()
     event = new MouseEvent MouseEvent.CLICK, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseDown: (e) =>
+    e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_DOWN, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseUp: (e) =>
+    e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_UP, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
   _onMouseMove: (e) =>
+    e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_MOVE, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
