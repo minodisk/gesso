@@ -14,14 +14,7 @@ MouseEvent = require 'events/MouseEvent'
 Rectangle = require 'geom/Rectangle'
 TextField = require 'text/TextField'
 TextFormat = require 'text/TextFormat'
-
-_tick = do ->
-  @requestAnimationFrame or
-  @webkitRequestAnimationFrame or
-  @mozRequestAnimationFrame or
-  @oRequestAnimationFrame or
-  @msRequestAnimationFrame or
-  (callback) -> setTimeout (()->callback((new Date()).getTime())), 1000 / 60
+Ticker = require 'timers/Ticker'
 
 module.exports = class Stage extends Sprite
 
@@ -56,7 +49,8 @@ module.exports = class Stage extends Sprite
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
     @_frameRate = 60
-    _tick @_enterFrame
+
+    Ticker.getInstance().addHandler @_enterFrame
     canvas.addEventListener 'click', @_onClick, false
     canvas.addEventListener 'mousedown', @_onMouseDown, false
     canvas.addEventListener 'mouseup', @_onMouseUp, false
@@ -79,7 +73,6 @@ module.exports = class Stage extends Sprite
     if @_drawn
       @_drawn = false
       @_render()
-    _tick @_enterFrame
     return
 
   # ### _render():*void*
@@ -134,4 +127,3 @@ module.exports = class Stage extends Sprite
   _setMousePosition: (event, nativeEvent) ->
     event.stageX = event.localX = if nativeEvent.offsetX? then nativeEvent.offsetX else nativeEvent.pageX - @_canvas.offsetLeft
     event.stageY = event.localY = if nativeEvent.offsetY? then nativeEvent.offsetY else nativeEvent.pageY - @_canvas.offsetTop
-

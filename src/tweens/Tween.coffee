@@ -1,11 +1,17 @@
+Ticker = require 'timers/Ticker'
 Easing = require 'tweens/Easing'
 
 module.exports = class Tween
 
   @tween: (target, src, dst, duration = 1, easing = Easing.linear) ->
-    new Tween target, dst, src, duration, easing
+    new Tween target, src, dst, duration, easing
 
-  constructor: (@target, @src, @dst, @duration, @easing) ->
+  @to: (target, dst, duration = 1, easing = Easing.linear) ->
+    new Tween target, null, dst, duration, easing
+
+  constructor: (@target, @src, @dst, duration, @easing) ->
+    @duration = duration * 1000
+    @_ticker = Ticker.getInstance()
 
   play: ->
     target = @target
@@ -27,7 +33,11 @@ module.exports = class Tween
           changer[i] = target[name]
     @changers = changers
 
-  update: (time) ->
+    @_time = new Date().getTime()
+    @_ticker.addHandler @update
+
+  update: (time) =>
+    time -= @_time
     if complete = time >= @duration
       factor = 1
     else
