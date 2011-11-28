@@ -4,11 +4,6 @@
   <title>graphicsJS Examples | KernelFilter</title>
   <link rel="stylesheet" href="../../resources/paige.css"/>
   <link rel="stylesheet" href="../resources/example.css"/>
-  <style>
-    canvas {
-      background : url('../../resources/check.png') repeat 0 0;
-    }
-  </style>
   <script type="text/javascript" src="../../lib/graphics.js"></script>
   <script type="text/javascript" src="../resources/execute.js"></script>
 </head>
@@ -25,126 +20,102 @@
   <img src="resources/lenna-y.gif"/>
 </section>
 
-<section>
+<section class="execute">
   <h2>Laplacian Filter</h2>
-
-  <div class="execute">
-    <canvas rel="laplacian" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new LaplacianFilter(true)];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new LaplacianFilter(true)];
+stage.addChild(loader);
 </pre>
-  </div>
   <img src="resources/lenna-y-lap8.gif"/>
 </section>
 
-<section>
+<section class="execute">
   <h2>Unsharp Mask Filter</h2>
-
-  <div class="execute">
-    <canvas rel="unsharpMask" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new UnsharpMaskFilter(2, 2)];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new UnsharpMaskFilter(2, 2)];
+stage.addChild(loader);
 </pre>
-  </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>Blur Filter</h2>
-
-  <div class="execute">
-    <canvas rel="blur" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new BlurFilter(2, 2)];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new BlurFilter(2, 2)];
+stage.addChild(loader);
 </pre>
-  </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>Gaussian Filter</h2>
-
-  <div class="execute">
-    <canvas rel="gaussian" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new GaussianFilter(2, 2, 1)];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new GaussianFilter(2, 2, 1)];
+stage.addChild(loader);
 </pre>
-  </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>Median Filter</h2>
-
-  <div class="execute">
-    <canvas rel="median" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new MedianFilter(2, 2)];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new MedianFilter(2, 2)];
+stage.addChild(loader);
 </pre>
-  </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>Bilateral Filter</h2>
-
-  <div class="execute">
-    <canvas rel="bilateral" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new BilateralFilter(2, 2, 2)];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new BilateralFilter(2, 2, 2)];
+stage.addChild(loader);
 </pre>
-  </div>
 </section>
 
-<section>
+<section class="execute">
   <h2>Prewitt Filter</h2>
-
-  <div class="execute">
-    <canvas rel="prewitt" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new PrewittFilter()];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new PrewittFilter()];
+stage.addChild(loader);
 </pre>
-  </div>
   <img src="resources/lenna-y-prewitt.gif"/>
 </section>
 
-<section>
+<section class="execute">
   <h2>Sobel Filter</h2>
-
-  <div class="execute">
-    <canvas rel="sobel" width="512" height="480"></canvas>
+  <canvas width="512" height="480"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var bitmap = new Bitmap();
-bitmap.draw('resources/lenna-y.gif');
-bitmap.filters = [new SobelFilter()];
-stage.addChild(bitmap);
+var loader = new Loader();
+loader.load('resources/lenna-y.gif');
+loader.filters = [new SobelFilter()];
+stage.addChild(loader);
 </pre>
-  </div>
   <img src="resources/lenna-y-sobel.gif"/>
 </section>
 
