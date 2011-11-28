@@ -117,6 +117,14 @@ module.exports = class Matrix
     s = _sin angle
     @_concat c, s, -s, c, 0, 0
 
+  #     |1 0 tx||sx 0  0||c -s 0|   |sx 0  tx||c -s 0|   |sx*c -sx*s tx|
+  #     |0 1 ty||0  sy 0||s c  0| = |0  sy ty||s c  0| = |sy*s sy*c  ty|
+  #     |0 0 1 ||0  0  1||0 0  1|   |0  0  1 ||0 0  1|   |0    0     1 |
+  transform: (tx, ty, sx, sy, angle) ->
+    c = _cos angle
+    s = _sin angle
+    @_concat sx * c, sy * s, -sx * s, sy * c, tx, ty
+
   # ### skew(skewX:*Number*, skewY:*Number*):*Matrix*
   # Applies a skewing transformation to this object.
   skew:(skewX, skewY)->
