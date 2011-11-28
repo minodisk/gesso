@@ -1,6 +1,7 @@
+Klass = require 'core/Klass'
 EventPhase = require 'events/EventPhase'
 
-module.exports = class EventDispatcher
+module.exports = class EventDispatcher extends Klass
 
   constructor: ->
     @_events = {}
@@ -14,6 +15,10 @@ module.exports = class EventDispatcher
       priority: priority
     @_events[type].sort @_sortOnPriorityInDescendingOrder
     @
+  _sortOnPriorityInDescendingOrder: (a, b) ->
+    b.priority - a.priority
+  addListener: @addEventListener
+  on: @addEventListener
 
   removeEventListener: (type, listener) ->
     if storage = @_events[type]
@@ -24,9 +29,6 @@ module.exports = class EventDispatcher
       if storage.length is 0
         delete @_events[type]
     @
-
-  _sortOnPriorityInDescendingOrder: (a, b) ->
-    b.priority - a.priority
 
   dispatchEvent: (event) ->
     event.currentTarget = @
@@ -40,6 +42,4 @@ module.exports = class EventDispatcher
             ), 0)
           break if event._isPropagationStoppedImmediately
     !event._isDefaultPrevented
-
-  EventDispatcher::addListener = EventDispatcher::on = @addEventListener
-  EventDispatcher::emit = @dispatchEvent
+  emit: @dispatchEvent

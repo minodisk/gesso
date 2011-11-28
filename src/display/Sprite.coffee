@@ -22,29 +22,38 @@ module.exports = class Sprite extends Shape
   # ### new Sprite()
   # Creates a new *Sprite* object.
   constructor: ->
-    super 'Sprite'
+    super()
+
+    @defineProperty '_stage'
+      , null
+      , (value) ->
+        child._stage = value for child in @_children
+        @__stage = value
+        return
+
+    @defineProperty 'mouseEnabled'
+      , ->
+        @_mouseEnabled
+      , (value) ->
+        @_mouseEnabled = value
+
+    @defineProperty 'mouseChildren'
+      , ->
+        @_mouseChildren
+      , (value) ->
+        @_mouseChildren = value
+
+    @defineProperty 'buttonMode'
+      , ->
+        @_buttonMode
+      , (value) ->
+        @_buttonMode = value
+
     @_children = []
     @_mouseEnabled = true
     @_mouseChildren = true
     @_buttonMode = false
     @_mouseIn = false
-
-  Sprite::__defineSetter__ '_stage', (value) ->
-    child._stage = value for child in @_children
-    @__stage = value
-    return
-
-  Sprite::__defineGetter__ 'mouseEnabled', -> @_mouseEnabled
-  Sprite::__defineSetter__ 'mouseEnabled', (value) ->
-    @_mouseEnabled = value
-
-  Sprite::__defineGetter__ 'mouseChildren', -> @_mouseChildren
-  Sprite::__defineSetter__ 'mouseChildren', (value) ->
-    @_mouseChildren = value
-
-  Sprite::__defineGetter__ 'buttonMode', -> @_buttonMode
-  Sprite::__defineSetter__ 'buttonMode', (value) ->
-    @_buttonMode = value
 
   # ### addChild(children...:*DisplayObject*):*Sprite*
   # Adds a child *DisplayObject* object to this object.

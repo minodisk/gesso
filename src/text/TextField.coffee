@@ -16,31 +16,38 @@ _R_BREAK = /\r?\n/
 
 module.exports = class TextField extends DisplayObject
 
-  # ### text:*String*
-  # The text in this *TextField*.
-  TextField::__defineGetter__ 'text', () -> @_texts.join '\n'
-  TextField::__defineSetter__ 'text', (text) ->
-    @_texts = @_stacks[0].arguments[0] = text.split _R_BREAK
-    @_requestRender true
-
-  # ### textFormat:*TextFormat*
-  # The *TextFormat* applied to this *TextField*.
-  TextField::__defineGetter__ 'textFormat', () -> @_textFormat
-  TextField::__defineSetter__ 'textFormat', (textFormat) ->
-    @_textFormat = @_stacks[0].arguments[1] = textFormat
-    @_requestRender true
-
-  # ### maxWidth:*Number*
-  # The max width of the text, in pixels.
-  TextField::__defineGetter__ 'maxWidth', () -> @_maxWidth
-  TextField::__defineSetter__ 'maxWidth', (maxWidth) ->
-    @_maxWidth = @_stacks[0].arguments[2] = value
-    @_requestRender true
-
   # ### new TextField()
   # Creates a new *TextField* object.
   constructor: (text = '', textFormat = new TextFormat) ->
-    super 'TextField'
+    super()
+
+    # ### text:*String*
+    # The text in this *TextField*.
+    @defineProperty 'text'
+      , ->
+        @_texts.join '\n'
+      , (text) ->
+        @_texts = @_stacks[0].arguments[0] = text.split _R_BREAK
+        @_requestRender true
+
+    # ### textFormat:*TextFormat*
+    # The *TextFormat* applied to this *TextField*.
+    @defineProperty 'textFormat'
+      , ->
+        @_textFormat
+      , (textFormat) ->
+        @_textFormat = @_stacks[0].arguments[1] = textFormat
+        @_requestRender true
+
+    # ### maxWidth:*Number*
+    # The max width of the text, in pixels.
+    @defineProperty 'maxWidth'
+      , ->
+        @_maxWidth
+      , (maxWidth) ->
+        @_maxWidth = @_stacks[0].arguments[2] = value
+        @_requestRender true
+
     @_stacks.push
       method   : 'drawText'
       arguments: []

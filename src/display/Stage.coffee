@@ -29,7 +29,15 @@ module.exports = class Stage extends Sprite
   # ### new Stage(width:*int*, height:*int*)
   # Creates a new *Stage* object.
   constructor: (canvasOrWidth, height = null) ->
-    super 'Stage'
+    super()
+
+    # ### frameRate:*Number*
+    # Effective frame rate rounded off to one decimal places, in fps.
+    # *Stage* updates `frameRate` once in every 30 frames.
+    @defineProperty 'frameRate'
+      , ->
+        @_frameRate
+
     if canvasOrWidth instanceof HTMLCanvasElement
       canvas = canvasOrWidth
       @_width = canvas.width
@@ -54,12 +62,6 @@ module.exports = class Stage extends Sprite
     canvas.addEventListener 'mouseup', @_onMouseUp, false
     canvas.addEventListener 'mousemove', @_onMouseMove, false
     canvas.addEventListener 'mousewheel', @_onMouseWheel, false
-    return
-
-  # ### frameRate:*Number*
-  # Effective frame rate rounded off to one decimal places, in fps.
-  # *Stage* updates `frameRate` once in every 30 frames.
-  Stage::__defineGetter__ 'frameRate', -> @_frameRate
 
   # ### getTimer():*int*
   # Computes elapsed time since *Stage* constructed, in milliseconds.
