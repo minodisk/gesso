@@ -15,7 +15,7 @@
   <h1>display/Sprite</h1>
 </header>
 
-<section class="execute">
+<section>
   <h2><a href="MouseEvent.html">MouseEvent</a></h2>
 </section>
 
@@ -40,10 +40,6 @@ sprite.addChild(red);
 sprite.x = 75;
 sprite.y = 150;
 stage.addChild(sprite);
-console.log(sprite.width, sprite.height);
-setTimeout(function () {
-  console.log(sprite.width, sprite.height);
-}, 1000);
 var direction = 1;
 stage.addEventListener('enterFrame', function (e) {
   if (sprite.x <= 75) {
