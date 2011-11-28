@@ -26,12 +26,17 @@ container.drawRoundRect(0, 0, 140, 100, 10);
 container.fill(0xff0000);
 container.x = 80;
 container.y = 180;
+container.rotation = 30;
 stage.addChild(container);
 var inner = new Sprite();
 inner.drawRoundRect(0, 0, 100, 60, 10);
 inner.fill(0x0000ff);
 inner.x = inner.y = 20;
 container.addChild(inner);
+var pointer = new Shape();
+pointer.drawCircle(0, 0, 5);
+pointer.stroke(1, 0x00ff00);
+container.addChild(pointer);
 var textField = new TextField();
 textField.textFormat = new TextFormat('monospace');
 stage.addChild(textField);
@@ -56,12 +61,14 @@ container.addEventListener(MouseEvent.ROLL_OVER, onMouseEvent);
 function onMouseEvent(e) {
   texts.push(e.eventPhase + ' ' + e.type +
     ' at (' + e.localX + ', ' + e.localY + ')');
+  pointer.x = e.localX;
+  pointer.y = e.localY;
   texts = texts.slice(-10);
   textField.text = texts.join('\n');
 }
-stage.addEventListener(Event.ENTER_FRAME, function (e) {
+/*stage.addEventListener(Event.ENTER_FRAME, function (e) {
   container.rotation++;
-});
+});*/
 </pre>
 </section>
 
