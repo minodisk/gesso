@@ -7,6 +7,9 @@
   window.Loader = require('display/Loader');
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
+  window.Event = require('events/Event');
+  window.MouseEvent = require('events/MouseEvent');
+  window.KeyboardEvent = require('events/KeyboardEvent');
   window.ColorMatrixFilter = require('filters/ColorMatrixFilter');
   window.PrewittFilter = require('filters/PrewittFilter');
   window.SobelFilter = require('filters/SobelFilter');
@@ -20,12 +23,12 @@
   window.Rectangle = require('geom/Rectangle');
   window.Matrix = require('geom/Matrix');
   window.ColorMatrix = require('geom/ColorMatrix');
+  window.TextFormatBaseline = require('text/TextFormatBaseline');
   window.TextField = require('text/TextField');
   window.TextFormat = require('text/TextFormat');
-  window.TextFormatBaseline = require('text/TextFormatBaseline');
-  window.Event = require('events/Event');
-  window.MouseEvent = require('events/MouseEvent');
-  window.KeyboardEvent = require('events/KeyboardEvent');
+  window.Tween = require('tweens/Tween');
+  window.Easing = require('tweens/Easing');
+
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes, i, len0, execute, j, len1, child, script, canvas;
     executes = Array.prototype.slice.call(document.querySelectorAll('.execute'));
