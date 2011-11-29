@@ -35,6 +35,26 @@ module.exports = class Shape extends DisplayObject
   _hitTest: (localX, localY) ->
     @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
 
+  moveTo: (x, y) ->
+    @_stacks.push
+      method   : 'moveTo'
+      arguments: [x, y]
+      rect     : new Rectangle x, y, 0, 0
+    @_requestRender true
+  _moveTo: (x, y) ->
+    @_context.moveTo x, y
+    return
+
+  lineTo: (x, y) ->
+    @_stacks.push
+      method   : 'lineTo'
+      arguments: [x, y]
+      rect     : new Rectangle x, y, 0, 0
+    @_requestRender true
+  _lineTo: (x, y) ->
+    @_context.lineTo x, y
+    return
+
   drawLine: (coords, closePath = false) ->
     minX = minY = Number.MAX_VALUE
     maxX = maxY = -Number.MAX_VALUE
@@ -186,6 +206,7 @@ module.exports = class Shape extends DisplayObject
       arguments:[thickness, color, alpha, capsStyle, jointStyle, miterLimit]
       delta:thickness
     @_requestRender true
+  lineStyle: Shape::stroke
   _stroke:(thickness, color, alpha, capsStyle, jointStyle, miterLimit) ->
     @_context.lineWidth = thickness
     @_context.strokeStyle = Shape.toColorString color, alpha
