@@ -1,6 +1,6 @@
 module.exports = class Point
 
-  constructor: (@x, @y) ->
+  constructor: (@x = 0, @y = 0) ->
 
   clone: ->
     new Point @x, @y
