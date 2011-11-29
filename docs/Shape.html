@@ -33,6 +33,26 @@
   <span class="nv">_hitTest: </span><span class="nf">(localX, localY) -&gt;</span>
     <span class="nx">@_context</span><span class="p">.</span><span class="nx">isPointInPath</span> <span class="nx">localX</span> <span class="o">-</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">localY</span> <span class="o">-</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">y</span>
 
+  <span class="nv">moveTo: </span><span class="nf">(x, y) -&gt;</span>
+    <span class="nx">@_stacks</span><span class="p">.</span><span class="nx">push</span>
+      <span class="nv">method   : </span><span class="s1">&#39;moveTo&#39;</span>
+      <span class="nv">arguments: </span><span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span>
+      <span class="nv">rect     : </span><span class="k">new</span> <span class="nx">Rectangle</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="nx">@_requestRender</span> <span class="kc">true</span>
+  <span class="nv">_moveTo: </span><span class="nf">(x, y) -&gt;</span>
+    <span class="nx">@_context</span><span class="p">.</span><span class="nx">moveTo</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span>
+    <span class="k">return</span>
+
+  <span class="nv">lineTo: </span><span class="nf">(x, y) -&gt;</span>
+    <span class="nx">@_stacks</span><span class="p">.</span><span class="nx">push</span>
+      <span class="nv">method   : </span><span class="s1">&#39;lineTo&#39;</span>
+      <span class="nv">arguments: </span><span class="p">[</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">]</span>
+      <span class="nv">rect     : </span><span class="k">new</span> <span class="nx">Rectangle</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="nx">@_requestRender</span> <span class="kc">true</span>
+  <span class="nv">_lineTo: </span><span class="nf">(x, y) -&gt;</span>
+    <span class="nx">@_context</span><span class="p">.</span><span class="nx">lineTo</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span>
+    <span class="k">return</span>
+
   <span class="nv">drawLine: </span><span class="nf">(coords, closePath = false) -&gt;</span>
     <span class="nv">minX = minY = </span><span class="nb">Number</span><span class="p">.</span><span class="nx">MAX_VALUE</span>
     <span class="nv">maxX = maxY = </span><span class="o">-</span><span class="nb">Number</span><span class="p">.</span><span class="nx">MAX_VALUE</span>
@@ -184,6 +204,7 @@
       <span class="nx">arguments</span><span class="o">:</span><span class="p">[</span><span class="nx">thickness</span><span class="p">,</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">alpha</span><span class="p">,</span> <span class="nx">capsStyle</span><span class="p">,</span> <span class="nx">jointStyle</span><span class="p">,</span> <span class="nx">miterLimit</span><span class="p">]</span>
       <span class="nx">delta</span><span class="o">:</span><span class="nx">thickness</span>
     <span class="nx">@_requestRender</span> <span class="kc">true</span>
+  <span class="nv">lineStyle: </span><span class="nx">Shape</span><span class="o">::</span><span class="nx">stroke</span>
   <span class="nx">_stroke</span><span class="o">:</span><span class="nf">(thickness, color, alpha, capsStyle, jointStyle, miterLimit) -&gt;</span>
     <span class="vi">@_context.lineWidth = </span><span class="nx">thickness</span>
     <span class="vi">@_context.strokeStyle = </span><span class="nx">Shape</span><span class="p">.</span><span class="nx">toColorString</span> <span class="nx">color</span><span class="p">,</span> <span class="nx">alpha</span>
