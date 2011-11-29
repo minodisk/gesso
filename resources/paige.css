@@ -4,16 +4,16 @@ body {
   background  : #fff url("bg.png");
   color       : #252519;
   font-family : "Palatino Linotype", "Book Antiqua", Palatino, FreeSerif, serif;
-  padding     : 0 0 50px 50px;
+  padding     : 0 0 50px 0;
 }
 
 div.container {
-  width  : 720px;
+  /*width  : 720px;*/
   margin : 50px 0 50px 50px;
 }
 
 p {
-  width : 550px;
+  /*width : 550px;*/
 }
 
 #documentation p {
@@ -34,7 +34,7 @@ a:active, a:hover {
 
 h1, h2, h3, h4, h5, h6 {
   margin-top  : 40px;
-  width       : 550px;
+  /*width       : 550px;*/
   line-height : 1.25em;
 }
 
@@ -63,7 +63,7 @@ ul {
 }
 
 li {
-  width         : 500px;
+  /*width         : 500px;*/
   margin-bottom : 10px;
 }
 
