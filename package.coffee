@@ -1,4 +1,5 @@
-stitch = require 'stitch'
+stitch = require './node_modules/stitch'
+paige = require './node_modules/paige'
 fs = require 'fs'
 filewatcher = require 'filewatcher'
 child_process = require 'child_process'
@@ -6,7 +7,6 @@ child_process = require 'child_process'
 SRC_DIR = 'src'
 DST_DIR = 'lib'
 DST_FILENAME = 'graphics.js'
-PAIGE_CONFIG = 'paige_config.json'
 
 sources = []
 
@@ -29,7 +29,7 @@ compile = (callback) ->
         if err
           console.log "#{ timeStamp() } File Stream Error: #{ err }"
         else
-          console.log "#{ timeStamp() } Compiled compile to: #{ DST_DIR }/#{ DST_FILENAME }"
+          console.log "#{ timeStamp() } Complete compile: #{ DST_DIR }/#{ DST_FILENAME }"
           callback() if callback?
 
 generateDocs = ->
@@ -37,15 +37,16 @@ generateDocs = ->
   fs.readdir SRC_DIR, (err, files) ->
     findFiles files, SRC_DIR
     config =
-      title: 'graphicsJS Docs'
+      title: 'graphicsJS Documentation'
       content_file: 'README.md'
       include_index: true
       docco_files: sources
-      header: 'graphicsJS Docs'
+      header: 'graphicsJS Documentation'
       subheader: 'The wrapper of API for drawing on the canvas.'
       background: 'diagonal-noise'
-    fs.writeFile PAIGE_CONFIG, JSON.stringify(config), (err) ->
-      child_process.spawn 'paige', [ PAIGE_CONFIG ]
+      output: 'docs'
+    fs.writeFile 'paige.config', JSON.stringify(config), (err) ->
+      paige.run()
 
 findFiles = (files, parentDir) ->
   for file in files
