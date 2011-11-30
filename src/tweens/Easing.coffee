@@ -35,22 +35,20 @@ module.exports = class Easing
     -c * t * (t - 2) + b
 
   @easeInOutQuad:(t, b, c, d) ->
-    t /= d / 2
-    c /= 2
+    t *= 2 / d
     if t < 1
-      c * t * t + b
+      c / 2 * t * t + b
     else
       t--
-      -c * (t * (t - 2) - 1) + b
+      -c / 2 * (t * (t - 2) - 1) + b
 
   @easeOutInQuad:(t, b, c, d) ->
-    t = t * 2 / d
-    c /= 2
+    t *= 2 / d
     if t < 1
-      -c * t * (t - 2) + b
+      -c / 2 * t * (t - 2) + b
     else
       t--
-      c * (t * t + 1) + b
+      c / 2 * (t * t + 1) + b
 
   @easeInCubic:(t, b, c, d) ->
     t /= d
@@ -61,7 +59,7 @@ module.exports = class Easing
     c * (t * t * t + 1) + b
 
   @easeInOutCubic:(t, b, c, d) ->
-    t /= d / 2
+    t *= 2 / d
     if t < 1
       c / 2 * t * t * t + b
     else
@@ -81,7 +79,7 @@ module.exports = class Easing
     -c * (t * t * t * t - 1) + b
 
   @easeInOutQuart:(t, b, c, d) ->
-    t /= d / 2
+    t *= 2 / d
     if t < 1
       c / 2 * t * t * t * t + b
     else
@@ -104,7 +102,7 @@ module.exports = class Easing
     c * (t * t * t * t * t + 1) + b
 
   @easeInOutQuint:(t, b, c, d) ->
-    t /= d / 2
+    t *= 2 / d
     if t < 1
       c / 2 * t * t * t * t * t + b
     else
@@ -162,7 +160,7 @@ module.exports = class Easing
     c * _sqrt(1 - t * t) + b
 
   @easeInOutCirc:(t, b, c, d) ->
-    t /= d / 2
+    t *= 2 / d
     if t < 1
       -c / 2 * (_sqrt(1 - t * t) - 1) + b
     else
@@ -193,7 +191,7 @@ module.exports = class Easing
   @easeInOutBackWith:(s = 1.70158) ->
     (t, b, c, d) ->
       _s = s * 1.525
-      t /= d / 2
+      t *= 2 / d
       if t < 1
         c / 2 * (t * t * ((_s + 1) * t - _s)) + b
       else
@@ -213,88 +211,88 @@ module.exports = class Easing
 
   @easeInBounce:(t, b, c, d) ->
     t = 1 - t / d
-    if t < 4 / 11
+    if t < 0.36363636363636365   # 4 / 11
       -c * (7.5625 * t * t - 1) + b
-    else if t < 8 / 11
-      t -= 6 / 11
+    else if t < 0.7272727272727273   # 8 / 11
+      t -= 0.5454545454545454   # 6 / 11
       -c * (7.5625 * t * t - 0.25) + b
-    else if t < 10 / 11
-      t -= 9 / 11
+    else if t < 0.9090909090909091   # 10 / 11
+      t -= 0.8181818181818182   # 9 / 11
       -c * (7.5625 * t * t  - 0.0625) + b
     else
-      t -= 10.5 / 11
+      t -= 0.9545454545454546   # 10.5 / 11
       -c * (7.5625 * t * t - 0.015625) + b
 
   @easeOutBounce:(t, b, c, d) ->
     t /= d
-    if t < 4 / 11
+    if t < 0.36363636363636365   # 4 / 11
       c * (7.5625 * t * t) + b
-    else if t < 8 / 11
-      t -= 6 / 11
+    else if t < 0.7272727272727273   # 8 / 11
+      t -= 0.5454545454545454   # 6 / 11
       c * (7.5625 * t * t + 0.75) + b
-    else if t < 10 / 11
-      t -= 9 / 11
+    else if t < 0.9090909090909091   # 10 / 11
+      t -= 0.8181818181818182   # 9 / 11
       c * (7.5625 * t * t + 0.9375) + b
     else
-      t -= 10.5 / 11
+      t -= 0.9545454545454546   # 10.5 / 11
       c * (7.5625 * t * t + 0.984375) + b
 
   @easeInOutBounce:(t, b, c, d) ->
     t *= 2 / d
     if t < 1
       t = 1 - t
-      if t < 4 / 11
+      if t < 0.36363636363636365   # 4 / 11
         -c / 2 * (7.5625 * t * t - 1) + b
-      else if t < 8 / 11
-        t -= 6 / 11
+      else if t < 0.7272727272727273   # 8 / 11
+        t -= 0.5454545454545454   # 6 / 11
         -c / 2 * (7.5625 * t * t - 0.25) + b
-      else if t < 10 / 11
-        t -= 9 / 11
+      else if t < 0.9090909090909091   # 10 / 11
+        t -= 0.8181818181818182   # 9 / 11
         -c / 2 * (7.5625 * t * t - 0.0625) + b
       else
-        t -= 10.5 / 11
+        t -= 0.9545454545454546   # 10.5 / 11
         -c / 2 * (7.5625 * t * t - 0.015625) + b
     else
       t -= 1
-      if t < 4 / 11
+      if t < 0.36363636363636365   # 4 / 11
         c / 2 * (7.5625 * t * t + 1) + b
-      else if t < 8 / 11
-        t -= 6 / 11
+      else if t < 0.7272727272727273   # 8 / 11
+        t -= 0.5454545454545454   # 6 / 11
         c / 2 * (7.5625 * t * t + 1.75) + b
-      else if t < 10 / 11
-        t -= 9 / 11
+      else if t < 0.9090909090909091   # 10 / 11
+        t -= 0.8181818181818182   # 9 / 11
         c / 2 * (7.5625 * t * t + 1.9375) + b
       else
-        t -= 10.5 / 11
+        t -= 0.9545454545454546   # 10.5 / 11
         c / 2 * (7.5625 * t * t + 1.984375) + b
 
 
   @easeOutInBounce:(t, b, c, d) ->
     t *= 2 / d
     if t < 1
-      if t < 4 / 11
+      if t < 0.36363636363636365   # 4 / 11
         c / 2 * (7.5625 * t * t) + b
-      else if t < 8 / 11
-        t -= 6 / 11
+      else if t < 0.7272727272727273   # 8 / 11
+        t -= 0.5454545454545454   # 6 / 11
         c / 2 * (7.5625 * t * t + 0.75) + b
-      else if t < 10 / 11
-        t -= 9 / 11
+      else if t < 0.9090909090909091   # 10 / 11
+        t -= 0.8181818181818182   # 9 / 11
         c / 2 * (7.5625 * t * t + 0.9375) + b
       else
-        t -= 10.5 / 11
+        t -= 0.9545454545454546   # 10.5 / 11
         c / 2 * (7.5625 * t * t + 0.984375) + b
     else
       t = 2 - t
-      if t < 4 / 11
+      if t < 0.36363636363636365   # 4 / 11
         -c / 2 * (7.5625 * t * t - 2) + b
-      else if t < 8 / 11
-        t -= 6 / 11
+      else if t < 0.7272727272727273   # 8 / 11
+        t -= 0.5454545454545454   # 6 / 11
         -c / 2 * (7.5625 * t * t - 1.25) + b
-      else if t < 10 / 11
-        t -= 9 / 11
+      else if t < 0.9090909090909091   # 10 / 11
+        t -= 0.8181818181818182   # 9 / 11
         -c / 2 * (7.5625 * t * t - 1.0625) + b
       else
-        t -= 10.5 / 11
+        t -= 0.9545454545454546   # 10.5 / 11
         -c / 2 * (7.5625 * t * t - 1.015625) + b
 
   @easeInElasticWith:(a = 0, p = 0) ->
@@ -333,7 +331,7 @@ module.exports = class Easing
       _p = p
       t = t * 2 / d - 1
       if _p is 0
-        _p = d * (0.3 * 1.5)
+        _p = d * 0.45
       if _a is 0 or _a < _abs(c)
         _a = c
         s = _p / 4
