@@ -1,5 +1,4 @@
 stitch = require './node_modules/stitch'
-paige = require './node_modules/paige'
 fs = require 'fs'
 filewatcher = require 'filewatcher'
 child_process = require 'child_process'
@@ -15,7 +14,7 @@ package = stitch.createPackage
 
 watch = ->
   filewatcher.watch 'src', (err, callback) ->
-    compile ()->
+    compile ->
       generateDocs()
       callback()
 
@@ -46,7 +45,7 @@ generateDocs = ->
       background: 'diagonal-noise'
       output: 'docs'
     fs.writeFile 'paige.config', JSON.stringify(config), (err) ->
-      paige.run()
+      #paige.generate()
 
 findFiles = (files, parentDir) ->
   for file in files
