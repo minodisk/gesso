@@ -2,7 +2,7 @@
 # **Inheritance:** *Object* → *Easing*<br/>
 # **Subclasses:** -
 #
-# Easing curve definition.<br/>
+# Easing type definition.<br/>
 # see [EasingCurve](EasingCurve.html)<br/>
 # You can access this module by doing:<br/>
 # `require('tweens/Easing')`
