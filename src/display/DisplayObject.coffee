@@ -194,7 +194,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @_applySize()
     @_execStacks()
     @_applyFilters()
-    @_drawBounds()
+    #@_drawBounds()
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.

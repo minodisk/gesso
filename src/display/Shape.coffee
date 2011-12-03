@@ -45,7 +45,6 @@ module.exports = class Shape extends DisplayObject
     lineCounter = 0
     for stack, i in @_stacks
       method = stack.method
-      console.log '---', i, method
 
       if method.indexOf('draw') is 0
         if drawCounter is 0
@@ -138,14 +137,15 @@ module.exports = class Shape extends DisplayObject
       switch command
         when 0
           @_context.moveTo data[j++], data[j++]
-          console.log 'moveTo', data[j - 2], data[j - 1]
+          #console.log 'moveTo', data[j - 2], data[j - 1]
         when 1
           @_context.lineTo data[j++], data[j++]
-          console.log 'lineTo', data[j - 2], data[j - 1]
+          #console.log 'lineTo', data[j - 2], data[j - 1]
         when 2
           @_context.quadraticCurveTo data[j++], data[j++], data[j++], data[j++]
-          console.log 'quadraticCurveTo', data[j - 4], data[j - 3], data[j - 2], data[j - 1]
-        when 3 then @_context.bezierCurveTo data[j++], data[j++], data[j++], data[j++], data[j++], data[j++]
+          #console.log 'quadraticCurveTo', data[j - 4], data[j - 3], data[j - 2], data[j - 1]
+        when 3
+          @_context.bezierCurveTo data[j++], data[j++], data[j++], data[j++], data[j++], data[j++]
     console.log data[0], data[data.length - 2], data[1], data[data.length - 1]
     if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
       @_context.closePath()

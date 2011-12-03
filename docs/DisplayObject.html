@@ -158,30 +158,36 @@ to target coordinate space.</p>             </td>             <td class="code"> 
 <p>[private] Measures the bounds of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_measureSize: </span><span class="o">-&gt;</span>
     <span class="nv">delta = </span><span class="mi">0</span>
     <span class="k">for</span> <span class="nx">stack</span> <span class="k">in</span> <span class="nx">@_stacks</span>
+      <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">delta</span><span class="o">?</span>
+        <span class="nv">delta = </span><span class="nx">stack</span><span class="p">.</span><span class="nx">delta</span>
       <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="o">?</span>
         <span class="nx">unless</span> <span class="nx">rect</span><span class="o">?</span>
           <span class="nv">rect = </span><span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
         <span class="k">else</span>
-          <span class="nx">rect</span><span class="p">.</span><span class="nx">union</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span> <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="o">?</span>
-      <span class="nv">delta = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">delta</span> <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">delta</span><span class="o">?</span>
+          <span class="nx">rect</span><span class="p">.</span><span class="nx">union</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span>
+        <span class="nv">b = </span><span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="nx">b</span><span class="p">.</span><span class="nx">offset</span> <span class="o">-</span><span class="nx">delta</span> <span class="sr">/ 2, -delta /</span> <span class="mi">2</span>
+        <span class="nx">b</span><span class="p">.</span><span class="nx">inflate</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">delta</span>
+        <span class="nx">unless</span> <span class="nx">bounds</span><span class="o">?</span>
+          <span class="nv">bounds = </span><span class="nx">b</span>
+        <span class="k">else</span>
+          <span class="nx">bounds</span><span class="p">.</span><span class="nx">union</span> <span class="nx">b</span>
     <span class="nx">unless</span> <span class="nx">rect</span><span class="o">?</span>
       <span class="nv">rect = </span><span class="k">new</span> <span class="nx">Rectangle</span>
+    <span class="nx">unless</span> <span class="nx">bounds</span><span class="o">?</span>
+      <span class="nv">bounds = </span><span class="k">new</span> <span class="nx">Rectangle</span>
+    <span class="k">else</span>
+      <span class="nx">bounds</span><span class="p">.</span><span class="nx">adjustOuter</span><span class="p">()</span>
+
     <span class="vi">@_width = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">width</span>
     <span class="vi">@_height = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">height</span>
     <span class="vi">@_rect = </span><span class="nx">rect</span>
-
-    <span class="nv">bounds = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
-    <span class="nv">offset = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">ceil</span> <span class="nx">delta</span> <span class="err">/ 2</span>
-    <span class="nv">delta = </span><span class="nx">offset</span> <span class="o">*</span> <span class="mi">2</span>
-    <span class="nx">offset</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="nx">bounds</span><span class="p">.</span><span class="nx">offset</span> <span class="nx">offset</span><span class="p">,</span> <span class="nx">offset</span>
-    <span class="nx">bounds</span><span class="p">.</span><span class="nx">inflate</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">delta</span>
     <span class="vi">@_bounds = </span><span class="nx">bounds</span>
     <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h3>_applySize():<em>void</em></h3>
 
 <p>[private] Applies the bounds to internal canvas of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_applySize: </span><span class="o">-&gt;</span>
-    <span class="vi">@_context.canvas.width = @_width = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span>
-    <span class="vi">@_context.canvas.height = @_height = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">height</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <h3>_execStacks():<em>void</em></h3>
+    <span class="vi">@_context.canvas.width = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span>
+    <span class="vi">@_context.canvas.height = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">height</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <h3>_execStacks():<em>void</em></h3>
 
 <p>[private] Executes the stacks to this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_execStacks: </span><span class="o">-&gt;</span>
     <span class="nx">@_context</span><span class="p">.</span><span class="nx">translate</span> <span class="o">-</span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="o">-</span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">y</span>
