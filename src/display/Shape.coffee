@@ -38,55 +38,36 @@ module.exports = class Shape extends DisplayObject
   # ### _execStacks():*void*
   # [private] Executes the stacks to this object.
   _execStacks: ->
-    @_clockwise = false
     @_context.translate -@_bounds.x, -@_bounds.y
     @_context.fillStyle = @_context.strokeStyle = 'rgba(0,0,0,0)'
-    drawCounter = 0
-    lineCounter = 0
+    
+    drawingCounter = 0
     for stack, i in @_stacks
       method = stack.method
 
-      if method.indexOf('draw') is 0
-        if drawCounter is 0
-          @_context.beginPath()
-        drawCounter++
-        @_continuousFill = drawCounter > 1
-        @_winding = if drawCounter % 2 is 1 then 1 else -1
-        @_clockwise = !@_clockwise
-      else if drawCounter isnt 0
-        @_context.closePath()
-        @_context.fill()
-        @_continuousFill = false
-        @_winding = 1
-        @_clockwise = false
-        for j in [i - drawCounter...i] by 1
-          s = @_stacks[j]
-          @_context.beginPath()
-          @["_#{ s.method }"].apply @, s.arguments
-          @_context.stroke()
-        drawCounter = 0
-
-      if method is 'moveTo'
-        if lineCounter is 0
-          @_context.beginPath()
-      else if method is 'lineTo' or
+      isDrawing = method.indexOf('draw') is 0
+      if method is 'moveTo' or
+         method is 'lineTo' or
          method is 'quadraticCurveTo' or
-         method is 'cubicCurveTo'
-        lineCounter++
-      else if lineCounter isnt 0
-        drawCounter = 0
+         method is 'cubicCurveTo' or
+         isDrawing
+        drawingCounter++
+      else if drawingCounter isnt 0
+        drawingCounter = 0
+        if isDrawing
+          @_context.closePath()
         @_context.fill()
         @_context.stroke()
 
+      @_clockwise = if drawingCounter is 1 then 1 else -1
+      if drawingCounter is 1
+        @_context.beginPath()
       @["_#{ stack.method }"].apply @, stack.arguments
 
-    if drawCounter isnt 0
-      drawCounter = 0
-      @_context.closePath()
-      @_context.fill()
-      @_clockwise = false
-    if lineCounter isnt 0
-      lineCounter = 0
+    if drawingCounter isnt 0
+      drawingCounter = 0
+      if isDrawing
+        @_context.closePath()
       @_context.fill()
       @_context.stroke()
 
@@ -108,32 +89,31 @@ module.exports = class Shape extends DisplayObject
     gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
     gradient
 
-  drawPath:(commands, data, winding = 0) ->
+  drawPath:(commands, data, clockwise = 0) ->
     rect = new Rectangle data[0], data[1], 0, 0
     for i in [1...data.length / 2] by 1
       j = i * 2
       rect.contain data[j], data[j + 1]
-      console.log j, j + 1, data[j], data[j + 1], rect.x, rect.width
     @_stacks.push
       method   : 'drawPath'
-      arguments: [commands, data, winding]
+      arguments: [commands, data, clockwise]
       rect     : rect
     @_requestRender true
-  _drawPath:(commands, data, winding) ->
-    if winding is 0
-      winding = @_winding
-    if winding < 0
-      commands = commands.slice().reverse()
-      data = data.slice()
-      reversed = []
+  _drawPath:(commands, data, clockwise) ->
+    if clockwise is 0
+      clockwise = @_clockwise
+    if clockwise < 0
+      commands = commands.slice()
+      c = commands.shift()
+      commands.reverse()
+      commands.unshift c
+      rData = []
       j = 0
-      for command, i in commands
-        reversed.unshift data[j++], data[j++]
-      data = reversed
+      for command in commands
+        rData.unshift data[j++], data[j++]
+      data = rData
     j = 0
     for command, i in commands
-      if command is 0 and @_continuousFill
-        command = 1
       switch command
         when 0
           @_context.moveTo data[j++], data[j++]
@@ -146,7 +126,7 @@ module.exports = class Shape extends DisplayObject
           #console.log 'quadraticCurveTo', data[j - 4], data[j - 3], data[j - 2], data[j - 1]
         when 3
           @_context.bezierCurveTo data[j++], data[j++], data[j++], data[j++], data[j++], data[j++]
-    console.log data[0], data[data.length - 2], data[1], data[data.length - 1]
+          #console.log 'quadraticCurveTo', data[j - 6], data[j - 5], data[j - 4], data[j - 3], data[j - 2], data[j - 1]
     if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
       @_context.closePath()
 
@@ -224,36 +204,6 @@ module.exports = class Shape extends DisplayObject
     @_context.bezierCurveTo x1, y1, x2, y2, x3, y3
   bezierCurveTo: Shape::cubicCurveTo
 
-  drawLine: (coords, closePath = false) ->
-    minX = minY = Number.MAX_VALUE
-    maxX = maxY = -Number.MAX_VALUE
-    max = Math.ceil coords.length / 2
-    for i in [0...max] by 1
-      j = i * 2
-      x = coords[j]
-      y = coords[j + 1]
-      minX = Math.min minX, x
-      minY = Math.min minY, y
-      maxX = Math.max maxX, x
-      maxY = Math.max maxY, y
-    @_stacks.push
-      method   : 'drawLine'
-      arguments: [coords, closePath]
-      rect     : new Rectangle minX, minY, maxX - minX, maxY - minY
-    @_requestRender true
-  _drawLine: (coords, closePath) ->
-    @_context.beginPath()
-    @_context.moveTo coords[0], coords[1]
-    max = Math.ceil coords.length / 2
-    for i in [1...max] by 1
-      j = i * 2
-      @_context.lineTo coords[j], coords[j + 1]
-    if closePath
-      @_context.closePath()
-    @_context.fill()
-    @_context.stroke()
-    return
-
   drawRectangle:(rect) ->
     @drawRect rect.x, rect.y, rect.width, rect.height
   drawRect:(x, y, width, height = width) ->
@@ -276,17 +226,15 @@ module.exports = class Shape extends DisplayObject
       , x, y, x + ellipseW, y]
       , 0
 
-  drawCircle:(x, y, radius, startAngle, endAngle, anticlockwise) ->
+  drawCircle:(x, y, radius) ->
     @_stacks.push
       method   : 'drawCircle'
-      arguments: [x, y, radius, startAngle, endAngle, anticlockwise]
+      arguments: [x, y, radius]
       rect     : new Rectangle x - radius, y - radius, radius * 2, radius * 2
     @_requestRender true
   _drawCircle:(x, y, radius) ->
-    if @_clockwise
-      @_context.arc x, y, radius, 0, _PI_2, false
-    else
-      @_context.arc x, y, radius, 0, _PI_2, true
+    @_context.moveTo x + radius, y
+    @_context.arc x, y, radius, 0, _PI_2, @_clockwise < 0
     return
 
   drawEllipse:(x, y, width, height) ->

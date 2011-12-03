@@ -12,7 +12,7 @@
 <header>
   <a href="../">index</a>
 
-  <h1>display/Shape</h1>
+  <h1>Shape</h1>
 </header>
 
 <section class="execute">
@@ -48,7 +48,7 @@ shape.endFill();
 </section>
 
 <section class="execute">
-  <h2>Auto Winding</h2>
+  <h2>Auto Clockwise</h2>
   <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
@@ -58,44 +58,18 @@ stage.addChild(shape);
 shape.lineStyle(1, 0x0000ff);
 shape.beginFill(0xff0000, 0.5);
 shape.drawCircle(100, 100, 80);
-shape.drawCircle(100, 100, 40);
+shape.drawCircle(100,  90, 40);
+shape.drawCircle( 90, 110, 40);
+shape.drawCircle(110, 110, 40);
 shape.endFill();
 
 shape.lineStyle(1, 0x00ff00);
 shape.beginFill(0xff0000, 0.5);
 shape.drawRect(220, 20, 160);
-shape.drawRect(260, 60, 80);
+shape.drawRect(260, 50, 80);
+shape.drawRect(250, 60, 80);
+shape.drawRect(270, 70, 80);
 shape.endFill();
-</pre>
-</section>
-
-<section class="execute">
-  <h2>moveTo/lineTo</h2>
-  <canvas width="400" height="200"></canvas>
-<pre>
-var context = canvas.getContext('2d');
-context.strokeStyle = '#000000';
-
-context.beginPath();
-context.lineWidth = 1;
-context.moveTo(10, 10.5);
-context.lineTo(290, 10.5);
-context.stroke();
-
-context.beginPath();
-context.lineWidth = 2;
-context.moveTo(10, 20);
-context.lineTo(290, 20);
-context.stroke();
-
-context.beginPath();
-context.lineWidth = 3;
-context.moveTo(10, 30.5);
-context.lineTo(290, 30.5);
-context.stroke();
-
-context.lineWidth = 1;
-context.strokeRect(10.5, 40.5, 280, 10);
 </pre>
 </section>
 
