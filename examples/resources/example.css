@@ -3,8 +3,7 @@ pre {
 }
 
 canvas {
-  /*background : url('../../resources/check.png') repeat 0 0;*/
-  background : #ffffff;
+  background : url('../../resources/check.png') repeat 0 0;
 }
 
 .matrix {

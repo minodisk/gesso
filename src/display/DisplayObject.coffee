@@ -194,39 +194,45 @@ module.exports = class DisplayObject extends EventDispatcher
     @_applySize()
     @_execStacks()
     @_applyFilters()
-    #@_drawBounds()
+    @_drawBounds()
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
   _measureSize: ->
     delta = 0
     for stack in @_stacks
+      if stack.delta?
+        delta = stack.delta
       if stack.rect?
         unless rect?
           rect = stack.rect.clone()
         else
-          rect.union stack.rect if stack.rect?
-      delta = Math.max delta, stack.delta if stack.delta?
+          rect.union stack.rect
+        b = stack.rect.clone()
+        b.offset -delta / 2, -delta / 2
+        b.inflate delta, delta
+        unless bounds?
+          bounds = b
+        else
+          bounds.union b
     unless rect?
       rect = new Rectangle
+    unless bounds?
+      bounds = new Rectangle
+    else
+      bounds.adjustOuter()
+
     @_width = rect.width
     @_height = rect.height
     @_rect = rect
-
-    bounds = rect.clone()
-    offset = Math.ceil delta / 2
-    delta = offset * 2
-    offset *= -1
-    bounds.offset offset, offset
-    bounds.inflate delta, delta
     @_bounds = bounds
     return
 
   # ### _applySize():*void*
   # [private] Applies the bounds to internal canvas of this object.
   _applySize: ->
-    @_context.canvas.width = @_width = @_bounds.width
-    @_context.canvas.height = @_height = @_bounds.height
+    @_context.canvas.width = @_bounds.width
+    @_context.canvas.height = @_bounds.height
 
   # ### _execStacks():*void*
   # [private] Executes the stacks to this object.

@@ -42,6 +42,19 @@ module.exports = class Rectangle
   containsPoint: (point) ->
     @x < point.x < @x + @width and @y < point.y < @y + @height
 
+  contain: (x, y) ->
+    if x < @x
+      @width += @x - x
+      @x = x
+    else if x > @x + @width
+      @width = x - @x
+    if y < @y
+      @height += @y - y
+      @y = y
+    else if y > @y + @height
+      @height = y - @y
+    @
+
   # ## offset(dx:*Number*, dy:*Number*):*Rectangle*
   # Add x and y to this object.
   offset: (dx, dy) ->
@@ -129,3 +142,15 @@ module.exports = class Rectangle
     db = db * db
     min = _max dl + dt, dr + dt, dr + db, dl + db
     _sqrt min
+
+  adjustOuter: ->
+    x = Math.floor @x
+    y = Math.floor @y
+    if x isnt @x
+      @width++
+    if y isnt @y
+      @height++
+    @x = x
+    @y = y
+    @width = Math.ceil @width
+    @height = Math.ceil @height

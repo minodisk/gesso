@@ -98,8 +98,17 @@ module.exports = class Sprite extends Shape
       b.y += child.y
       bounds.union b
 
-    @_width = rect.width
-    @_height = rect.height
+    x = Math.floor bounds.x
+    if x isnt bounds.x
+      bounds.width++
+    y = Math.floor bounds.y
+    if y isnt bounds.y
+      bounds.height++
+    bounds.x = x
+    bounds.y = y
+    bounds.width = Math.ceil bounds.width
+    bounds.height = Math.ceil bounds.height
+
     @_rect = rect
     @_bounds = bounds
 

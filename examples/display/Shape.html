@@ -16,126 +16,238 @@
 </header>
 
 <section class="execute">
-  <h2>drawRect/drawRectangle</h2>
-  <canvas width="500" height="200"></canvas>
+  <h2>moveTo/lineTo</h2>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
-shape.drawRect(50, 50, 100);
-shape.fill(0xff0000, .5);
-shape.drawRect(200, 50, 50, 100);
-shape.fill(0x00ff00, .5);
-shape.drawRectangle(new Rectangle(300, 50, 150, 100));
-shape.fill(0x0000ff, .5);
+
+shape.lineStyle(1, 0x000000);
+shape.moveTo(10, 10.5);
+shape.lineTo(290, 10.5);
+
+shape.lineStyle(2, 0x000000);
+shape.moveTo(10, 20);
+shape.lineTo(290, 20);
+
+shape.lineStyle(3, 0x000000);
+shape.moveTo(10, 30.5);
+shape.lineTo(290, 30.5);
+
+shape.lineStyle(3, 0x00ff00, 0.2);
+shape.beginFill(0x0000ff, 0.2);
+shape.moveTo(10, 40);
+shape.lineTo(290, 40);
+shape.lineTo(150, 120);
+shape.lineTo(150, 80);
+shape.lineTo(120, 120);
+shape.lineTo(120, 80);
+shape.endFill();
+</pre>
+</section>
+
+<section class="execute">
+  <h2>Auto Winding</h2>
+  <canvas width="400" height="200"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+
+shape.lineStyle(1, 0x0000ff);
+shape.beginFill(0xff0000, 0.5);
+shape.drawCircle(100, 100, 80);
+shape.drawCircle(100, 100, 40);
+shape.endFill();
+
+shape.lineStyle(1, 0x00ff00);
+shape.beginFill(0xff0000, 0.5);
+shape.drawRect(220, 20, 160);
+shape.drawRect(260, 60, 80);
+shape.endFill();
+</pre>
+</section>
+
+<section class="execute">
+  <h2>moveTo/lineTo</h2>
+  <canvas width="400" height="200"></canvas>
+<pre>
+var context = canvas.getContext('2d');
+context.strokeStyle = '#000000';
+
+context.beginPath();
+context.lineWidth = 1;
+context.moveTo(10, 10.5);
+context.lineTo(290, 10.5);
+context.stroke();
+
+context.beginPath();
+context.lineWidth = 2;
+context.moveTo(10, 20);
+context.lineTo(290, 20);
+context.stroke();
+
+context.beginPath();
+context.lineWidth = 3;
+context.moveTo(10, 30.5);
+context.lineTo(290, 30.5);
+context.stroke();
+
+context.lineWidth = 1;
+context.strokeRect(10.5, 40.5, 280, 10);
+</pre>
+</section>
+
+<section class="execute">
+  <h2>drawRect/drawRectangle</h2>
+  <canvas width="400" height="200"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+shape.beginFill(0xff0000, .5);
+shape.drawRect(20, 50, 100);
+shape.endFill();
+shape.beginFill(0x00ff00, .5);
+shape.drawRect(150, 50, 50, 100);
+shape.endFill();
+shape.beginFill(0x0000ff, .5);
+shape.drawRectangle(new Rectangle(230, 50, 150, 100));
+shape.endFill();
 </pre>
 </section>
 
 <section class="execute">
   <h2>drawRoundRect/drawRoundRectangle</h2>
-  <canvas width="500" height="200"></canvas>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
-shape.drawRoundRect(50, 50, 100, 100, 10);
-shape.fill(0xff0000, .5);
-shape.drawRoundRect(200, 50, 50, 100, 10, 50);
-shape.fill(0x00ff00, .5);
-shape.drawRoundRectangle(new Rectangle(300, 50, 150, 100), 50, 50);
-shape.fill(0x0000ff, .5);
+shape.lineStyle(1, 0x000000);
+shape.beginFill(0xff0000, .5);
+shape.drawRoundRect(20, 50, 100, 100, 10);
+shape.endFill();
+shape.beginFill(0x00ff00, .5);
+shape.drawRoundRect(150, 50, 50, 100, 10, 50);
+shape.endFill();
+shape.beginFill(0x0000ff, .5);
+shape.drawRoundRectangle(new Rectangle(230, 50, 150, 100), 50, 50);
+shape.endFill();
 </pre>
 </section>
 
 <section class="execute">
   <h2>drawCircle/drawEllipse</h2>
-  <canvas width="500" height="200"></canvas>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
-shape.drawCircle(100, 100, 50);
-shape.fill(0xff0000, .5);
-shape.drawEllipse(200, 50, 50, 100);
-shape.fill(0x00ff00, .5);
-shape.drawEllipse(300, 50, 150, 100);
-shape.fill(0x0000ff, .5);
+
+shape.beginFill(0xff0000, .5);
+shape.drawCircle(70, 100, 50);
+shape.endFill();
+
+shape.beginFill(0x00ff00, .5);
+shape.drawEllipse(150, 50, 50, 100);
+shape.endFill();
+
+shape.beginFill(0x0000ff, .5);
+shape.drawEllipse(230, 50, 150, 100);
+shape.endFill();
 </pre>
 </section>
 
 <section class="execute">
   <h2>drawRegularPolygon</h2>
-  <canvas width="500" height="200"></canvas>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
-shape.drawRegularPolygon(100, 100, 60, 3);
-shape.fill(0xff0000, .5);
-shape.drawRegularPolygon(250, 100, 60, 6);
-shape.fill(0x00ff00, .5);
-shape.drawRegularPolygon(400, 100, 60, 12);
-shape.fill(0x0000ff, .5);
+shape.beginFill(0xff0000, .5);
+shape.drawRegularPolygon(70, 100, 60, 3);
+shape.endFill();
+shape.beginFill(0x00ff00, .5);
+shape.drawRegularPolygon(190, 100, 60, 6);
+shape.endFill();
+shape.beginFill(0x0000ff, .5);
+shape.drawRegularPolygon(320, 100, 60, 12);
+shape.endFill();
 </pre>
 </section>
 
 <section class="execute">
   <h2>drawStar/drawRegularStar</h2>
-  <canvas width="500" height="200"></canvas>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
-shape.drawStar(100, 100, 60, 15, 5);
-shape.fill(0xff0000, .5);
-shape.drawStar(250, 100, 60, 35, 5);
-shape.fill(0x00ff00, .5);
-shape.drawRegularStar(400, 100, 60, 5);
-shape.fill(0x0000ff, .5);
+shape.beginFill(0xff0000, .5);
+shape.drawStar(70, 100, 60, 15, 5);
+shape.endFill();
+shape.beginFill(0x00ff00, .5);
+shape.drawStar(200, 100, 60, 35, 5);
+shape.endFill();
+shape.beginFill(0x0000ff, .5);
+shape.drawRegularStar(330, 100, 60, 5);
+shape.endFill();
 </pre>
 </section>
 
 <section class="execute">
-  <h2>fill/stroke</h2>
-  <canvas width="500" height="200"></canvas>
+  <h2>fill/lineStyle</h2>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
+shape.lineStyle(10, 0xffff00);
+shape.beginFill();
 shape.drawRect(20, 30, 150, 100);
-shape.fill();
-shape.stroke(10, 0xffff00);
-shape.drawRoundRect(150, 50, 100, 100, 10);
-shape.fill(0x00ff00, .5);
-shape.stroke(5, 0xff0000, 1);
-shape.drawCircle(250, 125, 60);
-shape.stroke(1, 0x000000, 1);
-shape.drawRegularPolygon(290, 120, 60, 5);
-shape.fill(0xffff00, .75);
-shape.drawRegularStar(400, 100, 90, 8);
-shape.fill(0x0000ff, .5);
-shape.stroke(5, 0xff00ff, 1);
+shape.endFill();
+shape.lineStyle(5, 0xff0000, 1);
+shape.beginFill(0x00ff00, .5);
+shape.drawRoundRect(50, 50, 100, 100, 10);
+shape.endFill();
+shape.lineStyle(1, 0x000000, 1);
+shape.beginFill(0xffff00, .75);
+shape.drawCircle(150, 125, 60);
+shape.drawRegularPolygon(190, 120, 60, 5);
+shape.endFill();
+shape.lineStyle(5, 0xff00ff, 1);
+shape.beginFill(0x0000ff, .5);
+shape.drawRegularStar(300, 100, 90, 8);
+shape.endFill();
 </pre>
 </section>
 
 <section class="execute">
   <h2>method chain</h2>
-  <canvas width="500" height="200"></canvas>
+  <canvas width="400" height="200"></canvas>
 <pre>
-(new Shape()).drawRect(20, 30, 150, 100)
-             .fill()
-             .stroke(10, 0xffff00)
-             .drawRoundRect(150, 50, 100, 100, 10)
-             .fill(0x00ff00, .5)
-             .stroke(5, 0xff0000, 1)
-             .drawCircle(250, 125, 60)
-             .stroke(1, 0x000000, 1)
-             .drawRegularPolygon(290, 120, 60, 5)
-             .fill(0xffff00, .75)
-             .drawRegularStar(400, 100, 90, 8)
-             .fill(0x0000ff, .5)
-             .stroke(5, 0xff00ff, 1)
-             .addTo(new Stage(canvas));</pre>
+(new Shape()).lineStyle(10, 0xffff00)
+             .beginFill()
+             .drawRect(20, 30, 150, 100)
+             .endFill()
+             .lineStyle(5, 0xff0000, 1)
+             .beginFill(0x00ff00, .5)
+             .drawRoundRect(50, 50, 100, 100, 10)
+             .endFill()
+             .lineStyle(1, 0x000000, 1)
+             .beginFill(0xffff00, .75)
+             .drawCircle(150, 125, 60)
+             .drawRegularPolygon(190, 120, 60, 5)
+             .endFill()
+             .lineStyle(5, 0xff00ff, 1)
+             .beginFill(0x0000ff, .5)
+             .drawRegularStar(300, 100, 90, 8)
+             .endFill()
+             .addTo(new Stage(canvas));
+</pre>
 </section>
 
 </body>
