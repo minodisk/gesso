@@ -109,9 +109,10 @@ module.exports = class Sprite extends Shape
     bounds.width = Math.ceil bounds.width
     bounds.height = Math.ceil bounds.height
 
+    @_width = rect.width
+    @_height = rect.height
     @_rect = rect
     @_bounds = bounds
-
     return
 
   # ### _drawBounds():*void*

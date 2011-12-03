@@ -38,9 +38,9 @@ module.exports = class Shape extends DisplayObject
   # ### _execStacks():*void*
   # [private] Executes the stacks to this object.
   _execStacks: ->
-    @_context.translate -@_bounds.x, -@_bounds.y
     @_context.fillStyle = @_context.strokeStyle = 'rgba(0,0,0,0)'
-    
+
+    @_context.translate -@_bounds.x, -@_bounds.y
     drawingCounter = 0
     for stack, i in @_stacks
       method = stack.method
@@ -170,7 +170,6 @@ module.exports = class Shape extends DisplayObject
       rect     : new Rectangle x, y, 0, 0
     @_requestRender true
   _moveTo: (x, y) ->
-    @_context.beginPath()
     @_context.moveTo x, y
     return
 
