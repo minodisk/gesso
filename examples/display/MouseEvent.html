@@ -21,72 +21,99 @@
 <pre>
 var stage = new Stage(canvas);
 stage.overrideMouseWheel = true;
-var container = new Sprite();
-container.beginFill(0xff0000);
-container.drawRoundRect(0, 0, 140, 100, 10);
-container.endFill();
-container.x = 80;
-container.y = 180;
-container.rotation = 30;
-stage.addChild(container);
+
+var outer = new Sprite();
+outer.name = 'outer';
+outer.beginFill(0xff0000, 0.5);
+outer.drawRoundRect(0, 0, 140, 100, 10);
+outer.endFill();
+outer.x = 120;
+outer.y = 140;
+outer.rotation = 30;
+stage.addChild(outer);
 var inner = new Sprite();
-inner.beginFill(0x0000ff);
+inner.name = 'inner';
+inner.beginFill(0x0000ff, 0.5);
 inner.drawRoundRect(0, 0, 100, 60, 10);
 inner.endFill();
 inner.x = inner.y = 20;
-container.addChild(inner);
-var pointer = new Shape();
-pointer.lineStyle(1, 0x00ff00);
-pointer.drawCircle(0, 0, 5);
-container.addChild(pointer);
+outer.addChild(inner);
+
+var dummyOuter = new Sprite();
+dummyOuter.mouseChildren = false;
+dummyOuter.x = 120;
+dummyOuter.y = 140;
+dummyOuter.rotation = 30;
+stage.addChild(dummyOuter, 0);
+dummyOuter.pointer = new Shape();
+dummyOuter.pointer.lineStyle(3, 0xffffff);
+dummyOuter.pointer.beginFill(0xff0000);
+dummyOuter.pointer.drawCircle(0, 0, 5);
+dummyOuter.pointer.endFill();
+dummyOuter.addChild(dummyOuter.pointer);
+var dummyInner = new Sprite();
+dummyInner.x = dummyInner.y = 20;
+dummyOuter.addChild(dummyInner);
+dummyInner.pointer = new Shape();
+dummyInner.pointer.lineStyle(3, 0xffffff);
+dummyInner.pointer.beginFill(0x0000ff);
+dummyInner.pointer.drawCircle(0, 0, 5);
+dummyInner.pointer.endFill();
+dummyInner.addChild(dummyInner.pointer);
+
 var textField = new TextField();
 textField.textFormat = new TextFormat('monospace');
 stage.addChild(textField);
 var texts = [];
-container.addEventListener(MouseEvent.CLICK, onMouseEvent);
-container.addEventListener(MouseEvent.CONTEXT_MENU, onMouseEvent);
-container.addEventListener(MouseEvent.DOUBLE_CLICK, onMouseEvent);
-container.addEventListener(MouseEvent.MIDDLE_CLICK, onMouseEvent);
-container.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMouseEvent);
-container.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMouseEvent);
-container.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
-container.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
-container.addEventListener(MouseEvent.MOUSE_OUT, onMouseEvent);
-container.addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
-container.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
-container.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseEvent);
-container.addEventListener(MouseEvent.RIGHT_CLICK, onMouseEvent);
-container.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onMouseEvent);
-container.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onMouseEvent);
-container.addEventListener(MouseEvent.ROLL_OUT, onMouseEvent);
-container.addEventListener(MouseEvent.ROLL_OVER, onMouseEvent);
+outer.addEventListener(MouseEvent.CLICK, onMouseEvent);
+outer.addEventListener(MouseEvent.CONTEXT_MENU, onMouseEvent);
+outer.addEventListener(MouseEvent.DOUBLE_CLICK, onMouseEvent);
+outer.addEventListener(MouseEvent.MIDDLE_CLICK, onMouseEvent);
+outer.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMouseEvent);
+outer.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMouseEvent);
+outer.addEventListener(MouseEvent.MOUSE_DOWN, onMouseEvent);
+outer.addEventListener(MouseEvent.MOUSE_MOVE, onMouseEvent);
+outer.addEventListener(MouseEvent.MOUSE_OUT, onMouseEvent);
+outer.addEventListener(MouseEvent.MOUSE_OVER, onMouseEvent);
+outer.addEventListener(MouseEvent.MOUSE_UP, onMouseEvent);
+outer.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseEvent);
+outer.addEventListener(MouseEvent.RIGHT_CLICK, onMouseEvent);
+outer.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onMouseEvent);
+outer.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onMouseEvent);
+outer.addEventListener(MouseEvent.ROLL_OUT, onMouseEvent);
+outer.addEventListener(MouseEvent.ROLL_OVER, onMouseEvent);
 function onMouseEvent(e) {
   texts.push(e.eventPhase + ' ' + e.type +
-    ' at (' + e.localX + ', ' + e.localY + ')');
-  pointer.x = e.localX;
-  pointer.y = e.localY;
-  texts = texts.slice(-10);
+    ' at (' + Math.round(e.localX) + ', ' + Math.round(e.localY) + ')');
+  var container = (e.target.name === 'outer') ? dummyOuter :
+                  (e.target.name === 'inner') ? dummyInner :
+                  null;
+  if (container) {
+    container.pointer.x = e.localX;
+    container.pointer.y = e.localY;
+  }
+  texts = texts.slice(-8);
   textField.text = texts.join('\n');
 }
 /*stage.addEventListener(Event.ENTER_FRAME, function (e) {
-  container.rotation++;
+  outer.rotation++;
 });*/
 </pre>
 </section>
-
+<!--
 <section class="execute">
   <h2>useCapture = false</h2>
   <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var container = new Sprite();
-container.name = 'box';
-container.beginFill(0xff0000);
-container.drawRect(0, -50, 200, 130);
-container.endFill();
-container.x = 50;
-container.y = 160;
-stage.addChild(container);
+var outer = new Sprite();
+outer.name = 'box';
+outer.beginFill(0xff0000);
+outer.drawRect(0, -50, 200, 130);
+outer.endFill();
+outer.x = 50;
+outer.y = 160;
+stage.addChild(outer);
 var star = new Sprite();
 star.name = 'star';
 star.beginFill(0x0581d2);
@@ -94,7 +121,7 @@ star.drawRegularStar(10, 20, 60);
 star.endFill();
 star.x = 10;
 star.y = -40;
-container.addChild(star);
+outer.addChild(star);
 var circle = new Shape();
 circle.name = 'circle';
 circle.beginFill(0x00ff00);
@@ -102,12 +129,12 @@ circle.drawCircle(40, 10, 50);
 circle.endFill();
 circle.x = 150;
 circle.y = 70;
-container.addChild(circle);
+outer.addChild(circle);
 var textField = new TextField();
 textField.textFormat = new TextFormat('monospace');
 textField.text = 'Move mouse on objects.';
 stage.addChild(textField);
-container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
+outer.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
   textField.text = [
     'target:', e.target.name,
     '\ncurrentTarget:', e.currentTarget.name,
@@ -124,14 +151,14 @@ container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
   <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var container = new Sprite();
-container.name = 'box';
-container.beginFill(0xff0000);
-container.drawRect(0, -50, 200, 130);
-container.endFill();
-container.x = 50;
-container.y = 160;
-stage.addChild(container);
+var outer = new Sprite();
+outer.name = 'box';
+outer.beginFill(0xff0000);
+outer.drawRect(0, -50, 200, 130);
+outer.endFill();
+outer.x = 50;
+outer.y = 160;
+stage.addChild(outer);
 var star = new Sprite();
 star.name = 'star';
 star.beginFill(0x0581d2);
@@ -139,7 +166,7 @@ star.drawRegularStar(10, 20, 60);
 star.endFill();
 star.x = 10;
 star.y = -40;
-container.addChild(star);
+outer.addChild(star);
 var circle = new Shape();
 circle.name = 'circle';
 circle.beginFill(0x00ff00);
@@ -147,12 +174,12 @@ circle.drawCircle(40, 10, 50);
 circle.endFill();
 circle.x = 150;
 circle.y = 70;
-container.addChild(circle);
+outer.addChild(circle);
 var textField = new TextField();
 textField.textFormat = new TextFormat('monospace');
 textField.text = 'Move mouse on objects.';
 stage.addChild(textField);
-container.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
+outer.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
   textField.text = [
     'target:', e.target.name,
     '\ncurrentTarget:', e.currentTarget.name,

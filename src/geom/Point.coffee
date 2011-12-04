@@ -5,6 +5,9 @@ module.exports = class Point
   clone: ->
     new Point @x, @y
 
+  toString: ->
+    "(#{ @x }, #{ @y })"
+
   equals: (pt) ->
     @x is pt.x and @y is pt.y
 

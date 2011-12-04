@@ -12,6 +12,7 @@
 # You can access this module by doing:<br/>
 # `require('geom/Matrix')`
 
+Point = require 'geom/Point'
 StringUtil = require 'utils/StringUtil'
 
 _sin = Math.sin
@@ -80,9 +81,9 @@ module.exports = class Matrix
   # ### concat(matrix:*Matrix*):*Matrix*
   # Concatenates the specified *Matrix* to this object.
   #
-  #     |@xx @yx @ox||xx yx ox|   |@xx*xx+@yx*xy @xx*yx+@yx*yy @xx*ox+@yx*oy+@ox|
-  #     |@xy @yy @oy||xy yy oy| = |@xy*xx+@yy*xy @xy*yx+@yy*yy @xy*ox+@yy*oy+@oy|
-  #     |0   0   1  ||0  0  1 |   |0             0             1                |
+  #     |xx yx ox||@xx @yx @ox|   |xx*@xx+yx*@xy xx*@yx+yx*@yy xx*@ox+yx*@oy+ox|
+  #     |xy yy oy||@xy @yy @oy| = |xy*@xx+yy*@xy xy*@yx+yy*@yy xy*@ox+yy*@oy+oy|
+  #     |0  0  1 ||0   0   1  |   |0             0             1                |
   concat: (matrix) ->
     @_concat matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
   _concat:(xx, xy, yx, yy, ox, oy)->
@@ -92,12 +93,12 @@ module.exports = class Matrix
     _yy = @yy
     _ox = @ox
     _oy = @oy
-    @xx = _xx * xx + _yx * xy
-    @xy = _xy * xx + _yy * xy
-    @yx = _xx * yx + _yx * yy
-    @yy = _xy * yx + _yy * yy
-    @ox = _xx * ox + _yx * oy + _ox
-    @oy = _xy * ox + _yy * oy + _oy
+    @xx = xx * _xx + yx * _xy
+    @xy = xy * _xx + yy * _xy
+    @yx = xx * _yx + yx * _yy
+    @yy = xy * _yx + yy * _yy
+    @ox = xx * _ox + yx * _oy + ox
+    @oy = xy * _ox + yy * _oy + oy
     @
 
   # ### translate(tx:*Number*, ty:*Number*):*Matrix*
@@ -129,3 +130,28 @@ module.exports = class Matrix
   # Applies a skewing transformation to this object.
   skew:(skewX, skewY)->
     @_concat 0, _tan(skewY), _tan(skewX), 0, 0, 0
+
+  #     d = xx*yy - xy*yx
+  #     |xx yx ox|-1   |yy/d  -yx/d (yx*oy-yy*ox)/d|
+  #     |xy yy oy|   = |-xy/d xx/d  (xy*ox-xx*oy)/d|
+  #     |0  0  1 |     |0     0     1              |
+  invert: ->
+    xx = @xx
+    xy = @xy
+    yx = @yx
+    yy = @yy
+    ox = @ox
+    oy = @oy
+    d = xx * yy - xy * yx
+    @xx = yy / d
+    @xy = -xy / d
+    @yx = -yx / d
+    @yy = xx / d
+    @ox = (yx * oy - yy * ox) / d
+    @oy = (xy * ox - xx * oy) / d
+    @
+
+  transformPoint: (pt) ->
+    m = new Matrix 1, 0, 0, 1, pt.x, pt.y
+    m.concat @
+    new Point m.ox, m.oy

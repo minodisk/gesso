@@ -64,6 +64,11 @@ module.exports = class Sprite extends Shape
       @_children.push child
     @_requestRender true
 
+  addChildAt: (child, index) ->
+    throw new TypeError "index is out of range" if index < 0 or index > @_children.length
+    @_children.splice index, 0, child
+    @_requestRender true
+
   # ### removeChild(children...:*DisplayObject*):*Sprite*
   # Removes the specified child *DisplayObject* from this object.
   removeChild: (children...) ->
@@ -146,8 +151,9 @@ module.exports = class Sprite extends Shape
   _propagateMouseEvent: (event) ->
     if @_mouseEnabled and event._isPropagationStopped is false
       event = event.clone()
-      event.localX -= @x
-      event.localY -= @y
+      pt = @_getTransform().invert().transformPoint(new Point(event.localX, event.localY))
+      event.localX = pt.x
+      event.localY = pt.y
 
       hit = @_hitTest event.localX, event.localY
       if hit is true and @_mouseIn is false

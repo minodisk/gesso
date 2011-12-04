@@ -121,9 +121,9 @@ module.exports = class Stage extends Sprite
       e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_WHEEL, true
     @_setMousePosition event, e
-    event.delta = if e.wheelDelta? then e.wheelDelta else if e.detail? then e.detail else 0
     @_propagateMouseEvent event
 
   _setMousePosition: (event, nativeEvent) ->
     event.stageX = event.localX = if nativeEvent.offsetX? then nativeEvent.offsetX else nativeEvent.pageX - @_canvas.offsetLeft
     event.stageY = event.localY = if nativeEvent.offsetY? then nativeEvent.offsetY else nativeEvent.pageY - @_canvas.offsetTop
+    event.delta = if nativeEvent.wheelDelta? then nativeEvent.wheelDelta else if nativeEvent.detail? then nativeEvent.detail else 0
