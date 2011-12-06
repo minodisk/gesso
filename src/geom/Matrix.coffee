@@ -21,31 +21,6 @@ _tan = Math.tan
 
 module.exports = class Matrix
 
-  # ### createGradientBox(x:*Number*, y:*Number*, width:*Number*, height:*Number*, rotation:*Number*):*Matrix*
-  # Creates the gradient style of *Matrix* expected by the `beginGradientFill()
-  # and `lineGradientFill()` methods of *Shape* object.
-  @createGradationBox: (x, y, width, height, rotation)->
-    threshold = height / width
-    tan = Math.tan rotation
-    width1_2 = width / 2
-    height1_2 = height / 2
-    centerX = x + width1_2
-    centerY = y + height1_2
-    if tan > -threshold and tan < threshold
-      dx = width1_2 * (if Math.cos(rotation) < 0 then -1 else 1)
-      dxt = dx * tan
-      x0:centerX - dx
-      y0:centerY - dxt
-      x1:centerX + dx
-      y1:centerY + dxt
-    else
-      dy = height1_2 * (if Math.sin(rotation) < 0 then -1 else 1)
-      dyt = dy / tan
-      x0:centerX - dyt
-      y0:centerY - dy
-      x1:centerX + dyt
-      y1:centerY + dy
-
   # ### new Matrix(a:*Number* = 1, b:*Number* = 0, c:*Number* = 0, d:*Number* = 1, x:*Number* = 0, y:*Number* = 0)
   # Creates a new Matrix object.
   constructor: (@xx = 1, @xy = 0, @yx = 0, @yy = 1, @ox = 0, @oy = 0) ->
@@ -125,6 +100,12 @@ module.exports = class Matrix
     c = _cos angle
     s = _sin angle
     @_concat sx * c, sy * s, -sx * s, sy * c, tx, ty
+    # @xx = sx * c
+    # @xy = sy * s
+    # @yx = -sx * s
+    # @yy = sy * c
+    # @ox = tx
+    # @oy = ty
 
   # ### skew(skewX:*Number*, skewY:*Number*):*Matrix*
   # Applies a skewing transformation to this object.
@@ -152,6 +133,16 @@ module.exports = class Matrix
     @
 
   transformPoint: (pt) ->
-    m = new Matrix 1, 0, 0, 1, pt.x, pt.y
-    m.concat @
-    new Point m.ox, m.oy
+    #m = new Matrix 1, 0, 0, 1, pt.x, pt.y
+    #m.concat @
+    #new Point m.ox, m.oy
+    new Point @xx * pt.x + @yx * pt.y + @ox, @xy * pt.x + @yy * pt.y + @oy
+
+  deltaTransformPoint: (pt)->
+    new Point @xx * pt.x + @yx * pt.y, @xy * pt.x + @yy * pt.y
+
+  # ### createGradientBox(x:*Number*, y:*Number*, width:*Number*, height:*Number*, rotation:*Number*):*Matrix*
+  # Creates the gradient style of *Matrix* expected by the `beginGradientFill()
+  # and `lineGradientFill()` methods of *Shape* object.
+  createGradientBox: (width, height, rotation, x, y)->
+    @transform x + width / 2, y + height / 2, width / 1638.4, height / 1638.4, rotation
