@@ -82,13 +82,6 @@ module.exports = class Shape extends DisplayObject
     @_context.clip()
     return
 
-  _createLinearGradient:(colors, alphas, ratios, gradientBox) ->
-    len = colors.length
-    throw new TypeError 'Invalid length of colors, alphas or ratios.' if alphas.length isnt len || ratios.length isnt len
-    gradient = @_context.createLinearGradient gradientBox.x0, gradientBox.y0, gradientBox.x1, gradientBox.y1
-    gradient.addColorStop ratios[i], Shape.toColorString(colors[i], alphas[i]) for color, i in colors
-    gradient
-
   drawPath:(commands, data, clockwise = 0) ->
     rect = new Rectangle data[0], data[1], 0, 0
     for i in [1...data.length / 2] by 1
@@ -151,8 +144,33 @@ module.exports = class Shape extends DisplayObject
     @_requestRender true
   _beginFill:(color, alpha) ->
     @_context.fillStyle = Shape.toColorString color, alpha
-    @_filling = true
     return
+
+  beginGradientFill:(type, colors, alphas, ratios, matrix = null, spreadMethod = 'pad', interpolationMethod = 'rgb', focalPointRatio = 0)->
+    @_stacks.push
+      method   : 'beginGradientFill'
+      arguments: [type, colors, alphas, ratios, matrix, spreadMethod, interpolationMethod, focalPointRatio]
+    @_requestRender true
+  _beginGradientFill:(type, colors, alphas, ratios, matrix, spreadMethod, interpolationMethod, focalPointRatio)->
+    len = ratios.length
+    throw new TypeError 'Invalid length of colors, alphas or ratios.' if colors.length isnt len || alphas.length isnt len
+
+    cTL = matrix.transformPoint new Point(-1638.4 / 2, -1638.4 / 2)
+    cTR = matrix.transformPoint new Point(1638.4 / 2, 1638.4 / 2)
+    cBL = matrix.transformPoint new Point(-1638.4 / 2, 1638.4 / 2)
+
+    v0 = cBL.clone().subtract(cTL)
+    v1 = cTR.clone().subtract(cTL).divide(2)
+    dNormal = v1.distance * Math.abs(Math.sin(v1.angle - v0.angle))
+    vNormal = v0.clone().rotate(Math.PI / 2).normalize(dNormal)
+    cCenter = cTL.clone().add(v1)
+    cSrc = cCenter.clone().add(vNormal)
+    cDst = cCenter.clone().subtract(vNormal)
+
+    gradient = @_context.createLinearGradient cSrc.x, cSrc.y, cDst.x, cDst.y
+    for ratio, i in ratios
+      gradient.addColorStop ratio / 0xff, Shape.toColorString(colors[i], alphas[i])
+    @_context.fillStyle = gradient
 
   endFill:(color = 0x000000, alpha = 1) ->
     @_stacks.push
@@ -160,7 +178,6 @@ module.exports = class Shape extends DisplayObject
       arguments:[color, alpha]
     @_requestRender true
   _endFill:(color, alpha) ->
-    @_filling = false
     return
 
   moveTo: (x, y) ->
