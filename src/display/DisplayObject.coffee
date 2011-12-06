@@ -165,6 +165,7 @@ module.exports = class DisplayObject extends EventDispatcher
   # Clears the drawn graphics.
   clear: ->
     @_stacks = []
+    @_context.canvas.width = @_context.canvas.height = 0
     @_requestRender true
 
   # ### addTo():*DisplayObject*
@@ -256,7 +257,7 @@ module.exports = class DisplayObject extends EventDispatcher
   _drawBounds: ->
     @_context.strokeStyle = 'rgba(0, 0, 255, .8)'
     @_context.lineWidth = 1
-    @_context.strokeRect 0, 0, @_width, @_height
+    @_context.strokeRect 0, 0, @_context.canvas.width, @_context.canvas.height
 
   hitTestPoint: (point) ->
     @hitTest point.x, point.y
