@@ -15,11 +15,66 @@
   <h1>TextField</h1>
 </header>
 
-<section>
-  <h2>baseline</h2>
+<section class="execute">
+  <h2>align</h2>
+  <canvas width="400" height="210"></canvas>
+<pre>
+var stage = new Stage(canvas);
+(new Shape()).lineStyle(1, 0xff0000)
+             .moveTo(30, 30).lineTo(370, 30)
+             .drawCircle(200, 30, 3)
+             .moveTo(30, 60).lineTo(370, 60)
+             .drawCircle(200, 60, 3)
+             .moveTo(30, 90).lineTo(370, 90)
+             .drawCircle(200, 90, 3)
+             .moveTo(30, 120).lineTo(370, 120)
+             .drawCircle(200, 120, 3)
+             .moveTo(30, 150).lineTo(370, 150)
+             .drawCircle(200, 150, 3)
+             .addTo(stage);
 
-  <div class="execute">
-    <canvas width="280" height="210"></canvas>
+var format, textField;
+
+format = new TextFormat();
+format.align = TextFormatAlign.START;
+textField = new TextField('align = "start"', format);
+textField.x = 200;
+textField.y = 30;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.align = TextFormatAlign.END;
+textField = new TextField('align = "end"', format);
+textField.x = 200;
+textField.y = 60;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.align = TextFormatAlign.LEFT;
+textField = new TextField('align = "left"', format);
+textField.x = 200;
+textField.y = 90;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.align = TextFormatAlign.RIGHT;
+textField = new TextField('align = "right"', format);
+textField.x = 200;
+textField.y = 120;
+stage.addChild(textField);
+
+format = new TextFormat();
+format.align = TextFormatAlign.CENTER;
+textField = new TextField('align = "center"', format);
+textField.x = 200;
+textField.y = 150;
+stage.addChild(textField);
+</pre>
+</section>
+
+<section class="execute">
+  <h2>baseline</h2>
+  <canvas width="400" height="210"></canvas>
 <pre>
 var stage = new Stage(canvas);
 (new Shape()).lineStyle(1, 0xff0000)
@@ -79,24 +134,24 @@ format.baseline = TextFormatBaseline.BOTTOM;
 textField = new TextField('baseline = "bottom"', format);
 textField.x = 30;
 textField.y = 180;
-stage.addChild(textField);</pre>
-  </div>
+stage.addChild(textField);
+</pre>
 </section>
 
-<section>
+<section class="execute">
   <h2>multiline</h2>
-
-  <div class="execute">
-    <canvas width="400" height="100"></canvas>
+  <canvas width="400" height="100"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var textField = new TextField();
-textField.text = "I thought what I'd do was,\nI'd pretend I was one of those deaf-mutes.";
+textField.text = [
+  "I thought what I'd do was",
+  "I'd pretend I was one of those deaf-mutes."
+].join("\n");
 textField.format = new TextFormat('serif');
 textField.x = 30;
 textField.y = 30;
 stage.addChild(textField);</pre>
-  </div>
 </section>
 
 </body>

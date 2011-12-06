@@ -8,11 +8,9 @@
 # You can access this module by doing:<br/>
 # `require('text/TextField')`
 
-DisplayObject = require('display/DisplayObject')
-TextFormat = require('text/TextFormat')
-Rectangle = require('geom/Rectangle')
-
-_R_BREAK = /\r?\n/
+DisplayObject = require 'display/DisplayObject'
+TextFormat = require 'text/TextFormat'
+Rectangle = require 'geom/Rectangle'
 
 module.exports = class TextField extends DisplayObject
 
@@ -27,7 +25,7 @@ module.exports = class TextField extends DisplayObject
       , ->
         @_texts.join '\n'
       , (text) ->
-        @_texts = @_stacks[0].arguments[0] = text.split _R_BREAK
+        @_texts = @_stacks[0].arguments[0] = text.split /\r?\n/
         @_requestRender true
 
     # ### textFormat:*TextFormat*
@@ -62,15 +60,17 @@ module.exports = class TextField extends DisplayObject
       @_context.font = @_textFormat.toStyleSheet()
       for text in @_texts
         rect.width = Math.max rect.width, (@_context.measureText text).width
-      rect.height = (@_textFormat.size + @_textFormat.leading) * @_texts.length
+        rect.height += @_textFormat.size * 1.2 + @_textFormat.leading
 
       @_width = rect.width
       @_height = rect.height
       @_rect = rect
 
       bounds = rect.clone()
-      bounds.y = -bounds.height * 2
-      bounds.height *= 4
+      bounds.x = -bounds.width
+      bounds.width *= 2
+      bounds.y = -bounds.height
+      bounds.height *= 2
       @_bounds = bounds
     return
 
