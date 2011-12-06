@@ -4,65 +4,28 @@
   <title>graphicsJS Examples | GradientType</title>
   <link rel="stylesheet" href="../../resources/paige.css"/>
   <link rel="stylesheet" href="../resources/example.css"/>
-  <style>
-    canvas {
-      background : url('../../resources/check.png') repeat 0 0;
-    }
-  </style>
-  <script src="../../.old/yui-min.js"></script>
-  <script src="../../.old/swfobject.js"></script>
-  <script type="text/javascript" src="../../lib/browser/bucketz.js"></script>
+  <script src="./resources/swfobject.js"></script>
+  <script type="text/javascript" src="../../lib/graphics.js"></script>
+  <script type="text/javascript" src="../resources/execute.js"></script>
   <script type="text/javascript">
     (function (window, document) {
-      var Graphics = require('display.Graphics')
-        , Layer = require('display.Layer')
-        , GradientType = require('display.styles.GradientType')
-
-        , swf, rotation, display, layer;
-
       function embedSWF() {
         document.removeEventListener('DOMContentLoaded', embedSWF, false);
-
-        rotation = 0;
-        display = new Graphics(document.querySelector('_canvas'));
-        layer = new Layer();
-        display.addChild(layer);
-
         var flashvars = {
         };
         var params = {
-          menu: 'false',
-          scale: 'noScale',
-          allowFullscreen: 'true',
-          allowScriptAccess: 'always',
-          bgcolor: '#FFFFFF'
+          menu             :'false',
+          scale            :'noScale',
+          allowFullscreen  :'true',
+          allowScriptAccess:'always',
+          bgcolor          :'#FFFFFF'
         };
         var attributes = {
-          id: 'gradientSWF'
+          id:'gradientSWF'
         };
-        swfobject.embedSWF('images/gradient.swf', 'gradientSWF', '512px',
-          '256px', '10.0.0', 'images/expressInstall.swf',
-          flashvars, params, attributes, start);
-      }
-
-      function start(result) {
-        display.addListener('enterFrame', render);
-      }
-
-      function render() {
-        rotation += Math.PI / 180;
-        var box = Graphics.createGradientBox(0, 0, 512, 256, rotation);
-        layer.drawRect(0, 0, 512, 256);
-        layer.fillGradient(GradientType.LINEAR, [0xff0000, 0x0000ff],
-          [1, 1], [0, 1], box);
-        layer._context.lineWidth = 5;
-        layer.drawCircle(box.x0, box.y0, 8);
-        layer.stroke('#ffff00');
-        layer.drawCircle(box.x1, box.y1, 8);
-        layer.stroke('#00ffff');
-        display.render();
-
-        //swf.rotate(rotation);
+        swfobject.embedSWF('resources/gradient.swf', 'gradientSWF', '400px',
+          '200px', '10.0.0', 'resources/expressInstall.swf',
+          flashvars, params, attributes);
       }
 
       document.addEventListener('DOMContentLoaded', embedSWF, false);
@@ -73,14 +36,61 @@
 <header>
   <a href="../">index</a>
 
-  <h1>Gradient Test</h1>
+  <h1>GradientType</h1>
 </header>
-<h2>Fill</h2>
 
-<h3>canvas</h3>
-<canvas width="512" height="256"></canvas>
-<h3>swf</h3>
+<section>
+  <h2>linear</h2>
 
-<div id="gradientSWF"></div>
+  <section class="execute">
+    <h3>canvas:</h3>
+    <canvas width="400" height="200"></canvas>
+<pre>
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+var angle = 0;
+stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+function onEnterFrame(e) {
+  var matrix = new Matrix().createGradientBox(400, 200, angle, 0, 0);
+  shape.clear();
+  shape.beginGradientFill(GradientType.LINEAR, [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix);
+  shape.drawRect(0, 0, 400, 200);
+  shape.endFill();
+  angle += Math.PI / 180;
+}
+</pre>
+  </section>
+
+  <section>
+    <h3>swf:</h3>
+
+    <div id="gradientSWF"></div>
+<pre>
+public class Gradient extends Sprite {
+  private var angle:Number;
+
+  public function Gradient() {
+    stage.scaleMode = StageScaleMode.NO_SCALE;
+    stage.align = StageAlign.TOP_LEFT;
+    angle = 0;
+    addEventListener(Event.ENTER_FRAME, onEnterFrame);
+  }
+
+  private function onEnterFrame(e:Event):void {
+    var matrix:Matrix = new Matrix();
+    matrix.createGradientBox(400, 200, angle, 0, 0);
+    graphics.clear();
+    graphics.beginGradientFill(GradientType.LINEAR, [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix);
+    graphics.drawRect(0, 0, 400, 200);
+    graphics.endFill();
+    angle += Math.PI / 180;
+  }
+}
+</pre>
+  </section>
+
+</section>
+
 </body>
 </html>

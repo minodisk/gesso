@@ -4,6 +4,7 @@
   window.DisplayObject = require('display/DisplayObject');
   window.Bitmap = require('display/Bitmap');
   window.BlendMode = require('display/BlendMode');
+  window.GradientType = require('display/GradientType');
   window.Loader = require('display/Loader');
   window.Shape = require('display/Shape');
   window.Sprite = require('display/Sprite');
@@ -23,9 +24,10 @@
   window.Rectangle = require('geom/Rectangle');
   window.Matrix = require('geom/Matrix');
   window.ColorMatrix = require('geom/ColorMatrix');
-  window.TextFormatBaseline = require('text/TextFormatBaseline');
   window.TextField = require('text/TextField');
   window.TextFormat = require('text/TextFormat');
+  window.TextFormatAlign = require('text/TextFormatAlign');
+  window.TextFormatBaseline = require('text/TextFormatBaseline');
   window.Tween = require('tweens/Tween');
   window.Easing = require('tweens/Easing');
 
