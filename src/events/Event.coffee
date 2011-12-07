@@ -14,7 +14,7 @@ module.exports = class Event
     event.target = @target
     event
 
-  formatToString: (className, arguments...) ->
+  formatToString: (className, args...) ->
     ''
 
   stopPropagation: ->
