@@ -58,7 +58,7 @@ module.exports = class Matrix
   #
   #     |xx yx ox||@xx @yx @ox|   |xx*@xx+yx*@xy xx*@yx+yx*@yy xx*@ox+yx*@oy+ox|
   #     |xy yy oy||@xy @yy @oy| = |xy*@xx+yy*@xy xy*@yx+yy*@yy xy*@ox+yy*@oy+oy|
-  #     |0  0  1 ||0   0   1  |   |0             0             1                |
+  #     |0  0  1 ||0   0   1  |   |0             0             1               |
   concat: (matrix) ->
     @_concat matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
   _concat:(xx, xy, yx, yy, ox, oy)->
@@ -93,20 +93,6 @@ module.exports = class Matrix
     s = _sin angle
     @_concat c, s, -s, c, 0, 0
 
-  #     |1 0 tx||sx 0  0||c -s 0|   |sx 0  tx||c -s 0|   |sx*c -sx*s tx|
-  #     |0 1 ty||0  sy 0||s c  0| = |0  sy ty||s c  0| = |sy*s sy*c  ty|
-  #     |0 0 1 ||0  0  1||0 0  1|   |0  0  1 ||0 0  1|   |0    0     1 |
-  transform: (tx, ty, sx, sy, angle) ->
-    c = _cos angle
-    s = _sin angle
-    @_concat sx * c, sy * s, -sx * s, sy * c, tx, ty
-    # @xx = sx * c
-    # @xy = sy * s
-    # @yx = -sx * s
-    # @yy = sy * c
-    # @ox = tx
-    # @oy = ty
-
   # ### skew(skewX:*Number*, skewY:*Number*):*Matrix*
   # Applies a skewing transformation to this object.
   skew:(skewX, skewY)->
@@ -132,17 +118,25 @@ module.exports = class Matrix
     @oy = (xy * ox - xx * oy) / d
     @
 
+  #     |@xx @yx @ox||1 0 pt.x|   |@xx @yx @xx*pt.x+@yx*pt.y+@ox|
+  #     |@xy @yy @oy||0 1 pt.y| = |@xy @yy @xy*pt.x+@yy*pt.y+@oy|
+  #     |0   0   1  ||0 0 1   |   |0   0   1                    |
   transformPoint: (pt) ->
-    #m = new Matrix 1, 0, 0, 1, pt.x, pt.y
-    #m.concat @
-    #new Point m.ox, m.oy
     new Point @xx * pt.x + @yx * pt.y + @ox, @xy * pt.x + @yy * pt.y + @oy
 
   deltaTransformPoint: (pt)->
     new Point @xx * pt.x + @yx * pt.y, @xy * pt.x + @yy * pt.y
 
+  #     |1 0 tx||sx 0  0||c -s 0|   |sx 0  tx||c -s 0|   |sx*c -sx*s tx|
+  #     |0 1 ty||0  sy 0||s c  0| = |0  sy ty||s c  0| = |sy*s sy*c  ty|
+  #     |0 0 1 ||0  0  1||0 0  1|   |0  0  1 ||0 0  1|   |0    0     1 |
+  createBox: (scaleX, scaleY, rotation = 0, tx = 0, ty = 0)->
+    c = _cos rotation
+    s = _sin rotation
+    @_concat scaleX * c, scaleY * s, -scaleX * s, scaleY * c, tx, ty
+
   # ### createGradientBox(x:*Number*, y:*Number*, width:*Number*, height:*Number*, rotation:*Number*):*Matrix*
   # Creates the gradient style of *Matrix* expected by the `beginGradientFill()
   # and `lineGradientFill()` methods of *Shape* object.
-  createGradientBox: (width, height, rotation, x, y)->
-    @transform x + width / 2, y + height / 2, width / 1638.4, height / 1638.4, rotation
+  createGradientBox: (width, height, rotation = 0, x = 0, y = 0)->
+    @createBox width / 1638.4, height / 1638.4, rotation, x + width / 2, y + height / 2

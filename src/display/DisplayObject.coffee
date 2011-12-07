@@ -153,7 +153,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @_drawn = false
 
   _getTransform: ->
-    @_matrix.clone().transform(@_x, @_y, @_scaleX, @_scaleY, @_rotation * _RADIAN_PER_DEGREE)
+    @_matrix.clone().createBox(@_scaleX, @_scaleY, @_rotation * _RADIAN_PER_DEGREE, @_x, @_y)
 
   # ### set():*DisplayObject*
   # Sets property to this object. Returns self for method chain.
