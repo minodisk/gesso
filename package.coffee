@@ -1,5 +1,6 @@
 fs = require 'fs'
 path = require 'path'
+Flow = require 'nestableflow'
 stitch = require './node_modules/stitch'
 uglifyjs = require 'uglify-js'
 jsp = uglifyjs.parser
@@ -15,7 +16,6 @@ package = stitch.createPackage
 targets = [ SRC_DIR ]
 watchers = []
 targetFiles = []
-callback = compile
 requested = false
 
 
@@ -59,49 +59,49 @@ onChange = ->
     requested = true
     setTimeout (->
       requested = false
-      callback()
+      startCompile()
       startWatch()
     ), 1000
 
 timeStamp = ->
   date = new Date();
-  "#{ date.getHours() }:#{ date.getMinutes() }:#{ date.getSeconds() }"
+  "#{ padLeft date.getHours() }:#{ padLeft date.getMinutes() }:#{ padLeft date.getSeconds() }"
+
+padLeft = (num, length = 2, pad = '0')->
+  str = num.toString 10
+  while str.length < length
+    str = pad + str
+  str
 
 
-compile = (callback) ->
-  package.compile (err, source) ->
-    console.log "#{ timeStamp() } Starting compile: #{ SRC_DIR }"
-    if err?
-      console.log "#{ timeStamp() } Compile Error: #{ err }"
-    else
-      filename = "#{ DST_DIR }/#{ DST_FILENAME }"
-
-      fs.writeFile filename, source, (err) ->
-        if err
-          console.log "#{ timeStamp() } Fail to write file: #{ err }"
-        else
-          console.log "#{ timeStamp() } Complete to write file: #{ DST_DIR }/#{ DST_FILENAME }"
-
-          classNames = []
-          for file in targetFiles
-            classNames.push path.basename(file, path.extname(file))
-
-          ast = jsp.parse source
-          ast = pro.ast_mangle ast,
-            except: classNames
-          ast = pro.ast_squeeze ast
-          uglified = pro.gen_code ast
-            #beautify: true
-            #indent_start: 0
-            #indent_level: 2
-
-          filename = "#{ DST_DIR }/#{DST_FILENAME.split('.js')[0]}.min.js"
-          fs.writeFile filename, uglified, (err) ->
-            if err
-              console.log "#{ timeStamp() } Fail to write file: #{ err }"
-            else
-              callback() if callback?
-              console.log "#{ timeStamp() } Complete to write file: #{filename}"
+startCompile = ->
+  flow = Flow.serial (flow) ->
+    package.compile flow.next
+  , (flow, source)->
+    console.log "#{ timeStamp() } Start to compile: #{ SRC_DIR }"
+    flow.userData.source = source
+    flow.userData.filename = "#{ DST_DIR }/#{ DST_FILENAME }"
+    fs.writeFile flow.userData.filename, flow.userData.source, flow.next
+  , (flow)->
+    console.log "#{ timeStamp() } Complete to write file: #{ flow.userData.filename }"
+    classNames = []
+    for file in targetFiles
+      classNames.push path.basename(file, path.extname(file))
+    ast = jsp.parse flow.userData.source
+    ast = pro.ast_mangle ast,
+      except: classNames
+    ast = pro.ast_squeeze ast
+    uglified = pro.gen_code ast
+      #beautify: true
+      #indent_start: 0
+      #indent_level: 2
+    flow.userData.filename = "#{ DST_DIR }/#{DST_FILENAME.split('.js')[0]}.min.js"
+    fs.writeFile flow.userData.filename, uglified, flow.next
+  , (flow)->
+    console.log "#{ timeStamp() } Complete to write file: #{ flow.userData.filename }"
+  flow.onError = (err)->
+    console.log "Error: #{ err }"
+  flow.start()
 
 
 generateDocs = ->
@@ -119,4 +119,4 @@ generateDocs = ->
 
 
 startWatch()
-compile generateDocs
+startCompile()
