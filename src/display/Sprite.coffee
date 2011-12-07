@@ -1,23 +1,18 @@
 # **Package:** *display*<br/>
-# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* → *Shape* →
-# *Sprite*<br/>
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* →
+# *InteractiveObject* → *Sprite*<br/>
 # **Subclasses:** *Stage*
 #
 # The *Sprite* can contain children.<br/>
 # You can access this module by doing:<br/>
 # `require('display/Sprite')`
 
-Shape = require 'display/Shape'
+Graphics = require 'display/Graphics'
+InteractiveObject = require 'display/InteractiveObject'
 Blend = require 'display/Blend'
 BlendMode = require 'display/BlendMode'
-EventPhase = require 'events/EventPhase'
-MouseEvent = require 'events/MouseEvent'
-Point = require 'geom/Point'
-Rectangle = require 'geom/Rectangle'
 
-_RADIAN_PER_DEGREE = Math.PI / 180
-
-module.exports = class Sprite extends Shape
+module.exports = class Sprite extends InteractiveObject
 
   # ### new Sprite()
   # Creates a new *Sprite* object.
@@ -49,11 +44,18 @@ module.exports = class Sprite extends Shape
       , (value) ->
         @_buttonMode = value
 
+    @graphics = new Graphics @
     @_children = []
     @_mouseEnabled = true
     @_mouseChildren = true
     @_buttonMode = false
     @_mouseIn = false
+
+  # ### _execStacks():*void*
+  # [private] Executes the stacks to this object.
+  _execStacks: ->
+    @graphics._execStacks()
+    return
 
   # ### addChild(children...:*DisplayObject*):*Sprite*
   # Adds a child *DisplayObject* object to this object.
@@ -148,82 +150,7 @@ module.exports = class Sprite extends Shape
         @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
-  _propagateMouseEvent: (event) ->
-    if @_mouseEnabled and event._isPropagationStopped is false
-      event = event.clone()
-      pt = @_getTransform().invert().transformPoint(new Point(event.localX, event.localY))
-      event.localX = pt.x
-      event.localY = pt.y
-
-      hit = @_hitTest event.localX, event.localY
-      if hit is true and @_mouseIn is false
-        e = event.clone()
-        e.type = MouseEvent.MOUSE_OVER
-        @_targetMouseEvent e
-
-        e = event.clone()
-        e.type = MouseEvent.ROLL_OVER
-        e.bubbles = false
-        @_targetMouseEvent e
-
-        @_mouseIn = true
-        if @_buttonMode
-          @__stage._canvas.style.cursor = 'pointer'
-      else if hit is false and @_mouseIn is true
-        e = event.clone()
-        e.type = MouseEvent.MOUSE_OUT
-        @_targetMouseEvent e
-
-        e = event.clone()
-        e.type = MouseEvent.ROLL_OUT
-        e.bubbles = false
-        @_targetMouseEvent e
-
-        @_mouseIn = false
-        if @ isnt @__stage
-          @__stage._canvas.style.cursor = 'default'
-
-      if @_mouseChildren
-        i = @_children.length
-        while i--
-          child = @_children[i]
-          if child._propagateMouseEvent?
-            e = child._propagateMouseEvent event
-            if e?
-              @_captureMouseEvent e
-              return
-          if child._hitTest? event.localX - child.x, event.localY - child.y
-            hit = true
-
-      if hit
-        return @_targetMouseEvent event
-
-    return
-
-  _captureMouseEvent: (event) ->
-    event = event.clone()
-    event.eventPhase = EventPhase.CAPTURING_PHASE
-    event.currentTarget = @
-    @dispatchEvent event
-    event
-
-  _targetMouseEvent: (event) ->
-    event = event.clone()
-    event.eventPhase = EventPhase.AT_TARGET
-    event.target = event.currentTarget = @
-    @dispatchEvent event
-    if event.bubbles
-      @_parent?._bubbleMouseEvent event
-    event
-
-  _bubbleMouseEvent: (event) ->
-    event = event.clone()
-    event.eventPhase = EventPhase.BUBBLING_PHASE
-    event.currentTarget = @
-    @dispatchEvent event
-    @_parent?._bubbleMouseEvent event
-    event
-
+  #TODO Standardize the implementation of hitTest.
   hitTestPoint: (x, y) ->
     bounds = @_bounds.clone().offset @x, @y
     hit = false
@@ -236,13 +163,3 @@ module.exports = class Sprite extends Shape
           hit |= child.hitTestPoint x - @x, y - @y
           break if hit
     hit
-
-  startDrag: (lockCenter = false) ->
-    @__stage.addEventListener MouseEvent.MOUSE_MOVE, @_drag
-
-  _drag: (e) =>
-    @x = e.stageX
-    @y = e.stageY
-
-  stopDrag: ->
-    @__stage.removeEventListener MouseEvent.MOUSE_MOVE, @_drag

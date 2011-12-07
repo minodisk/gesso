@@ -1,5 +1,5 @@
 # **Package:** *text*<br/>
-# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* →
+# **Inheritance:** *Object* → *EventDispatcher* → *DisplayObject* → *Shape* →
 # *TextField*<br/>
 # **Subclasses:** -
 #
@@ -8,11 +8,13 @@
 # You can access this module by doing:<br/>
 # `require('text/TextField')`
 
-DisplayObject = require 'display/DisplayObject'
+Graphics = require 'display/Graphics'
+InteractiveObject = require 'display/InteractiveObject'
 TextFormat = require 'text/TextFormat'
+Matrix = require 'geom/Matrix'
 Rectangle = require 'geom/Rectangle'
 
-module.exports = class TextField extends DisplayObject
+module.exports = class TextField extends InteractiveObject
 
   # ### new TextField()
   # Creates a new *TextField* object.
@@ -80,7 +82,7 @@ module.exports = class TextField extends DisplayObject
     @_context.font = textFormat.toStyleSheet()
     @_context.textAlign = textFormat.align
     @_context.textBaseline = textFormat.baseline
-    @_context.fillStyle = TextField.toColorString textFormat.color
+    @_context.fillStyle = Graphics.toColorString textFormat.color, textFormat.alpha
     lineHeight = textFormat.size + textFormat.leading
     for text, i in @_texts
       @_context.fillText text, 0, lineHeight * i

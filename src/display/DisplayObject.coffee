@@ -16,11 +16,6 @@ _RADIAN_PER_DEGREE = Math.PI / 180
 
 module.exports = class DisplayObject extends EventDispatcher
 
-  # ### toColorString():*String*
-  # [static] Generates string of color style.
-  @toColorString: (color = 0, alpha = 1) ->
-    "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
-
   # ### new DisplayObject()
   # Creates a new *DisplayObject* object.
   constructor: ->
@@ -161,13 +156,6 @@ module.exports = class DisplayObject extends EventDispatcher
     @[propertyName] = value
     @
 
-  # ### clear():*DisplayObject*
-  # Clears the drawn graphics.
-  clear: ->
-    @_stacks = []
-    @_context.canvas.width = @_context.canvas.height = 0
-    @_requestRender true
-
   # ### addTo():*DisplayObject*
   # Adds this object to *Sprite* object.
   addTo: (parent) ->
@@ -199,7 +187,7 @@ module.exports = class DisplayObject extends EventDispatcher
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
-  _measureSize: ->
+  _measureSize:->
     delta = 0
     for stack in @_stacks
       if stack.delta?
@@ -259,6 +247,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_context.canvas.width, @_context.canvas.height
 
+  #TODO Standardize the implementation of hitTest.
   hitTestPoint: (point) ->
     @hitTest point.x, point.y
   hitTest: (stageX, stageY) ->
