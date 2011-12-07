@@ -60,10 +60,10 @@
       height = 100
       paddingY = (stage.height - stage.width) / 2
       frame = new Shape
-      frame.lineStyle 1, 0x999999
-      frame.beginFill 0xffffff
-      frame.drawRect 0.5, 0.5, width - 1, height - 1
-      frame.endFill()
+      frame.graphics.lineStyle 1, 0x999999
+      frame.graphics.beginFill 0xffffff
+      frame.graphics.drawRect 0.5, 0.5, width - 1, height - 1
+      frame.graphics.endFill()
       frame.y = paddingY
       stage.addChild frame
       curve = new Shape
@@ -71,10 +71,10 @@
       curve.y = height + paddingY
       stage.addChild curve
       yList = []
-      curve.lineStyle 1, 0x0581d2
-      curve.moveTo 0, 0
+      curve.graphics.lineStyle 1, 0x0581d2
+      curve.graphics.moveTo 0, 0
       for i in [1...width]
-        curve.lineTo i, Easing[easing](i, 0, height, width)
+        curve.graphics.lineTo i, Easing[easing](i, 0, height, width)
   </script>
 </head>
 <body>

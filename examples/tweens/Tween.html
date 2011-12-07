@@ -66,12 +66,13 @@ var easingList = [
 ];
 for (var i = 0; i < easingList.length; i++) {
   shape = new Shape();
-  shape.drawCircle(0, 0, 5);
-  shape.fill(0x0581d2);
+  shape.graphics.beginFill(0x0581d2);
+  shape.graphics.drawCircle(0, 0, 5);
+  shape.graphics.endFill();
   shape.x = 20;
   shape.y = 20 * (i + 1);
   stage.addChild(shape);
-  Tween.to(shape, { x: 280 }, 1, easingList[i]).play();
+  Tween.to(shape, { x: 280 }, 1000, easingList[i]).play();
 }
 </pre>
 </section>

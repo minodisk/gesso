@@ -23,11 +23,12 @@
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
-shape.beginFill(0x0581d2);
-shape.drawRegularStar(0, 0, 50);
-shape.endFill();
 shape.x = shape.y = 75;
 stage.addChild(shape);
+var graphics = shape.graphics;
+graphics.beginFill(0x0581d2);
+graphics.drawRegularStar(0, 0, 50);
+graphics.endFill();
 var direction = 1;
 stage.addEventListener('enterFrame', function (e) {
   if (shape.x <= 75) {
@@ -48,12 +49,13 @@ stage.addEventListener('enterFrame', function (e) {
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
-shape.beginFill(0x0581d2);
-shape.drawRegularStar(0, 0, 50);
-shape.endFill();
 shape.x = 150;
 shape.y = 75;
 stage.addChild(shape);
+var graphics = shape.graphics;
+graphics.beginFill(0x0581d2);
+graphics.drawRegularStar(0, 0, 50);
+graphics.endFill();
 var direction = -1;
 stage.addEventListener('enterFrame', function (e) {
   if (shape.alpha <= 0) {
@@ -74,12 +76,13 @@ stage.addEventListener('enterFrame', function (e) {
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
-shape.beginFill(0x0581d2);
-shape.drawRegularStar(0, 0, 50);
-shape.endFill();
 shape.x = 150;
 shape.y = 75;
 stage.addChild(shape);
+var graphics = shape.graphics;
+graphics.beginFill(0x0581d2);
+graphics.drawRegularStar(0, 0, 50);
+graphics.endFill();
 stage.addEventListener('enterFrame', function (e) {
   shape.rotation++;
 });</pre>
@@ -94,12 +97,13 @@ stage.addEventListener('enterFrame', function (e) {
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
-shape.beginFill(0x0581d2);
-shape.drawRegularStar(0, 0, 50);
-shape.endFill();
 shape.x = 150;
 shape.y = 75;
 stage.addChild(shape);
+var graphics = shape.graphics;
+graphics.beginFill(0x0581d2);
+graphics.drawRegularStar(0, 0, 50);
+graphics.endFill();
 var xDirection = 1;
 var yDirection = -1;
 stage.addEventListener('enterFrame', function (e) {

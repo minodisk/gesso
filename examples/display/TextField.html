@@ -20,18 +20,19 @@
   <canvas width="400" height="210"></canvas>
 <pre>
 var stage = new Stage(canvas);
-(new Shape()).lineStyle(1, 0xff0000)
-             .moveTo(30, 30).lineTo(370, 30)
-             .drawCircle(200, 30, 3)
-             .moveTo(30, 60).lineTo(370, 60)
-             .drawCircle(200, 60, 3)
-             .moveTo(30, 90).lineTo(370, 90)
-             .drawCircle(200, 90, 3)
-             .moveTo(30, 120).lineTo(370, 120)
-             .drawCircle(200, 120, 3)
-             .moveTo(30, 150).lineTo(370, 150)
-             .drawCircle(200, 150, 3)
-             .addTo(stage);
+var shape = new Shape();
+shape.addTo(stage);
+shape.graphics.lineStyle(1, 0xff0000)
+              .moveTo(30, 30).lineTo(370, 30)
+              .drawCircle(200, 30, 3)
+              .moveTo(30, 60).lineTo(370, 60)
+              .drawCircle(200, 60, 3)
+              .moveTo(30, 90).lineTo(370, 90)
+              .drawCircle(200, 90, 3)
+              .moveTo(30, 120).lineTo(370, 120)
+              .drawCircle(200, 120, 3)
+              .moveTo(30, 150).lineTo(370, 150)
+              .drawCircle(200, 150, 3);
 
 var format, textField;
 
@@ -77,20 +78,21 @@ stage.addChild(textField);
   <canvas width="400" height="210"></canvas>
 <pre>
 var stage = new Stage(canvas);
-(new Shape()).lineStyle(1, 0xff0000)
-             .moveTo(30, 30).lineTo(250, 30)
-             .drawCircle(30, 30, 3)
-             .moveTo(30, 60).lineTo(250, 60)
-             .drawCircle(30, 60, 3)
-             .moveTo(30, 90).lineTo(250, 90)
-             .drawCircle(30, 90, 3)
-             .moveTo(30, 120).lineTo(250, 120)
-             .drawCircle(30, 120, 3)
-             .moveTo(30, 150).lineTo(250, 150)
-             .drawCircle(30, 150, 3)
-             .moveTo(30, 180).lineTo(250, 180)
-             .drawCircle(30, 180, 3)
-             .addTo(stage);
+var shape = new Shape();
+shape.addTo(stage);
+shape.graphics.lineStyle(1, 0xff0000)
+              .moveTo(30, 30).lineTo(250, 30)
+              .drawCircle(30, 30, 3)
+              .moveTo(30, 60).lineTo(250, 60)
+              .drawCircle(30, 60, 3)
+              .moveTo(30, 90).lineTo(250, 90)
+              .drawCircle(30, 90, 3)
+              .moveTo(30, 120).lineTo(250, 120)
+              .drawCircle(30, 120, 3)
+              .moveTo(30, 150).lineTo(250, 150)
+              .drawCircle(30, 150, 3)
+              .moveTo(30, 180).lineTo(250, 180)
+              .drawCircle(30, 180, 3);
 
 var format, textField;
 

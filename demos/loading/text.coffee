@@ -9,34 +9,34 @@ TextFormatBaseline = require 'text/TextFormatBaseline'
 
 NUMBERS = [
   'zero'
-, 'one'
-, 'two'
-, 'three'
-, 'four'
-, 'five'
-, 'six'
-, 'seven'
-, 'eight'
-, 'nine'
-, 'ten'
-, 'eleven'
-, 'twelve'
-, 'thirteen'
-, 'fourteen'
-, 'fifteen'
-, 'sixteen'
-, 'seventeen'
-, 'eighteen'
-, 'nineteen'
-, 'twenty'
-, 'thirty'
-, 'forty'
-, 'fifty'
-, 'sixty'
-, 'seventy'
-, 'eighty'
-, 'ninety'
-, 'hundred'
+  'one'
+  'two'
+  'three'
+  'four'
+  'five'
+  'six'
+  'seven'
+  'eight'
+  'nine'
+  'ten'
+  'eleven'
+  'twelve'
+  'thirteen'
+  'fourteen'
+  'fifteen'
+  'sixteen'
+  'seventeen'
+  'eighteen'
+  'nineteen'
+  'twenty'
+  'thirty'
+  'forty'
+  'fifty'
+  'sixty'
+  'seventy'
+  'eighty'
+  'ninety'
+  'hundred'
 ]
 
 class Loading
@@ -48,11 +48,11 @@ class Loading
     @textContainer.y = @stage.height / 2 >> 0
     @stage.addChild @textContainer
     @percentTextField = new TextField
-    @percentTextField.textFormat = new TextFormat 'sans-serif', 24, 0x000000, true, false, false, TextFormatAlign.RIGHT, TextFormatBaseline.MIDDLE, 0
+    @percentTextField.textFormat = new TextFormat 'sans-serif', 24, 0x000000, 1, true, false, false, TextFormatAlign.RIGHT, TextFormatBaseline.MIDDLE, 0
     @textContainer.addChild @percentTextField
     @unitTextField = new TextField
     @unitTextField.text = 'percent'
-    @unitTextField.textFormat = new TextFormat 'sans-serif', 24, 0x000000, false, false, false, TextFormatAlign.LEFT, TextFormatBaseline.MIDDLE, 0
+    @unitTextField.textFormat = new TextFormat 'sans-serif', 24, 0x000000, 1, false, false, false, TextFormatAlign.LEFT, TextFormatBaseline.MIDDLE, 0
     @textContainer.addChild @unitTextField
     @running = false
 

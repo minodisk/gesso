@@ -34,27 +34,27 @@ function onLoadComplete(e) {
 
   origin = new Sprite();
   origin.buttonMode = true;
-  origin.beginFill(0x0581d2);
-  origin.drawCircle(0, 0, 5);
-  origin.endFill();
+  origin.graphics.beginFill(0x0581d2);
+  origin.graphics.drawCircle(0, 0, 5);
+  origin.graphics.endFill();
   origin.x = (stage.width - width) / 2;
   origin.y = (stage.height - height) / 2;
   stage.addChild(origin);
 
   anchorX = new Sprite();
   anchorX.buttonMode = true;
-  anchorX.beginFill(0x0581d2);
-  anchorX.drawCircle(0, 0, 5);
-  anchorX.endFill();
+  anchorX.graphics.beginFill(0x0581d2);
+  anchorX.graphics.drawCircle(0, 0, 5);
+  anchorX.graphics.endFill();
   anchorX.x = origin.x + width;
   anchorX.y = origin.y;
   stage.addChild(anchorX);
 
   anchorY = new Sprite();
   anchorY.buttonMode = true;
-  anchorY.beginFill(0x0581d2);
-  anchorY.drawCircle(0, 0, 5);
-  anchorY.endFill();
+  anchorY.graphics.beginFill(0x0581d2);
+  anchorY.graphics.drawCircle(0, 0, 5);
+  anchorY.graphics.endFill();
   anchorY.x = origin.x;
   anchorY.y = origin.y + height;
   stage.addChild(anchorY);
@@ -76,8 +76,8 @@ function onMouseMove(e) {
   var ptO = new Point(origin.x, origin.y);
   var ptX = new Point(anchorX.x, anchorX.y);
   var ptY = new Point(anchorY.x, anchorY.y);
-  var scaleX = ptX.distance(ptO) / width;
-  var scaleY = ptY.distance(ptO) / height;
+  var scaleX = ptX.distanceFrom(ptO) / width;
+  var scaleY = ptY.distanceFrom(ptO) / height;
   ptX.subtract(ptO).normalize(scaleX);
   ptY.subtract(ptO).normalize(scaleY);
   loader.matrix = new Matrix(ptX.x, ptX.y, ptY.x, ptY.y, ptO.x, ptO.y);
