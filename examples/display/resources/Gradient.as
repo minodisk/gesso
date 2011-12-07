@@ -20,14 +20,16 @@ public class Gradient extends Sprite {
     stage.scaleMode = StageScaleMode.NO_SCALE;
     stage.align = StageAlign.TOP_LEFT;
     angle = 0;
+    onEnterFrame();
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
   }
 
-  private function onEnterFrame(e:Event):void {
+  private function onEnterFrame(e:Event = null):void {
     var matrix:Matrix = new Matrix();
-    matrix.createGradientBox(400, 200, angle, 0, 0);
+    matrix.createGradientBox(400, 400, angle, 0, -100);
     graphics.clear();
-    graphics.beginGradientFill(GradientType.LINEAR, [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix);
+    graphics.beginGradientFill(GradientType.LINEAR,
+      [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix, 'pad', 'rgb', 1);
     graphics.drawRect(0, 0, 400, 200);
     graphics.endFill();
     angle += Math.PI / 180;

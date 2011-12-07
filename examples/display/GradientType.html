@@ -27,8 +27,7 @@
           '200px', '10.0.0', 'resources/expressInstall.swf',
           flashvars, params, attributes);
       }
-
-      document.addEventListener('DOMContentLoaded', embedSWF, false);
+      //document.addEventListener('DOMContentLoaded', embedSWF, false);
     })(window, document);
   </script>
 </head>
@@ -39,58 +38,53 @@
   <h1>GradientType</h1>
 </header>
 
-<section>
+<section class="execute">
   <h2>linear</h2>
-
-  <section class="execute">
-    <h3>canvas:</h3>
-    <canvas width="400" height="200"></canvas>
+  <canvas width="400" height="200"></canvas>
 <pre>
 var stage = new Stage(canvas);
 var shape = new Shape();
 stage.addChild(shape);
 var angle = 0;
+onEnterFrame();
 stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 function onEnterFrame(e) {
-  var matrix = new Matrix().createGradientBox(400, 200, angle, 0, 0);
+  var matrix = new Matrix();
+  matrix.createGradientBox(400, 200, angle, 0, 0);
   shape.clear();
-  shape.beginGradientFill(GradientType.LINEAR, [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix);
+  shape.beginGradientFill(GradientType.LINEAR,
+    [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix);
   shape.drawRect(0, 0, 400, 200);
   shape.endFill();
   angle += Math.PI / 180;
 }
 </pre>
-  </section>
+</section>
 
-  <section>
-    <h3>swf:</h3>
-
-    <div id="gradientSWF"></div>
+<section class="execute">
+  <h2>radial</h2>
+  <canvas width="400" height="200"></canvas>
 <pre>
-public class Gradient extends Sprite {
-  private var angle:Number;
-
-  public function Gradient() {
-    stage.scaleMode = StageScaleMode.NO_SCALE;
-    stage.align = StageAlign.TOP_LEFT;
-    angle = 0;
-    addEventListener(Event.ENTER_FRAME, onEnterFrame);
-  }
-
-  private function onEnterFrame(e:Event):void {
-    var matrix:Matrix = new Matrix();
-    matrix.createGradientBox(400, 200, angle, 0, 0);
-    graphics.clear();
-    graphics.beginGradientFill(GradientType.LINEAR, [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix);
-    graphics.drawRect(0, 0, 400, 200);
-    graphics.endFill();
-    angle += Math.PI / 180;
-  }
+var stage = new Stage(canvas);
+var shape = new Shape();
+stage.addChild(shape);
+var angle = 0;
+onEnterFrame();
+stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+function onEnterFrame(e) {
+  var matrix = new Matrix();
+  matrix.createGradientBox(400, 400, angle, 0, -100);
+  shape.clear();
+  shape.beginGradientFill(GradientType.RADIAL,
+    [0xff0000, 0x0000ff], [1, 1], [0x00, 0xff], matrix, 0.5);
+  shape.drawRect(0, 0, 400, 200);
+  shape.endFill();
+  angle += Math.PI / 180;
 }
 </pre>
-  </section>
-
 </section>
+
+<div id="gradientSWF"></div>
 
 </body>
 </html>

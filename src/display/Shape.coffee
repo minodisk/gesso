@@ -82,47 +82,6 @@ module.exports = class Shape extends DisplayObject
     @_context.clip()
     return
 
-  drawPath:(commands, data, clockwise = 0) ->
-    rect = new Rectangle data[0], data[1], 0, 0
-    for i in [1...data.length / 2] by 1
-      j = i * 2
-      rect.contain data[j], data[j + 1]
-    @_stacks.push
-      method   : 'drawPath'
-      arguments: [commands, data, clockwise]
-      rect     : rect
-    @_requestRender true
-  _drawPath:(commands, data, clockwise) ->
-    if clockwise is 0
-      clockwise = @_clockwise
-    if clockwise < 0
-      commands = commands.slice()
-      c = commands.shift()
-      commands.reverse()
-      commands.unshift c
-      rData = []
-      j = 0
-      for command in commands
-        rData.unshift data[j++], data[j++]
-      data = rData
-    j = 0
-    for command, i in commands
-      switch command
-        when 0
-          @_context.moveTo data[j++], data[j++]
-          #console.log 'moveTo', data[j - 2], data[j - 1]
-        when 1
-          @_context.lineTo data[j++], data[j++]
-          #console.log 'lineTo', data[j - 2], data[j - 1]
-        when 2
-          @_context.quadraticCurveTo data[j++], data[j++], data[j++], data[j++]
-          #console.log 'quadraticCurveTo', data[j - 4], data[j - 3], data[j - 2], data[j - 1]
-        when 3
-          @_context.bezierCurveTo data[j++], data[j++], data[j++], data[j++], data[j++], data[j++]
-          #console.log 'quadraticCurveTo', data[j - 6], data[j - 5], data[j - 4], data[j - 3], data[j - 2], data[j - 1]
-    if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
-      @_context.closePath()
-
   lineStyle:(thickness = 1, color = 0x000000, alpha = 1, capsStyle = CapsStyle.NONE, jointStyle = JointStyle.BEVEL, miterLimit = 10) ->
     @_stacks.push
       method   : 'lineStyle'
@@ -151,23 +110,43 @@ module.exports = class Shape extends DisplayObject
       method   : 'beginGradientFill'
       arguments: [type, colors, alphas, ratios, matrix, spreadMethod, interpolationMethod, focalPointRatio]
     @_requestRender true
-  _beginGradientFill:(type, colors, alphas, ratios, matrix, spreadMethod, interpolationMethod, focalPointRatio)->
+  _beginGradientFill:(type, colors, alphas, ratios, matrix, focalPointRatio)->
     len = ratios.length
     throw new TypeError 'Invalid length of colors, alphas or ratios.' if colors.length isnt len || alphas.length isnt len
 
     cTL = matrix.transformPoint new Point(-1638.4 / 2, -1638.4 / 2)
-    cTR = matrix.transformPoint new Point(1638.4 / 2, 1638.4 / 2)
+    cBR = matrix.transformPoint new Point(1638.4 / 2, 1638.4 / 2)
     cBL = matrix.transformPoint new Point(-1638.4 / 2, 1638.4 / 2)
-
-    v0 = cBL.clone().subtract(cTL)
-    v1 = cTR.clone().subtract(cTL).divide(2)
-    dNormal = v1.distance * Math.abs(Math.sin(v1.angle - v0.angle))
-    vNormal = v0.clone().rotate(Math.PI / 2).normalize(dNormal)
+    v1 = cBR.clone().subtract(cTL).divide(2)
     cCenter = cTL.clone().add(v1)
-    cSrc = cCenter.clone().add(vNormal)
-    cDst = cCenter.clone().subtract(vNormal)
 
-    gradient = @_context.createLinearGradient cSrc.x, cSrc.y, cDst.x, cDst.y
+    switch type
+      when 'linear'
+        v0 = cBL.clone().subtract(cTL)
+        dNormal = v1.distance * Math.abs(Math.sin(v1.angle - v0.angle))
+        vNormal = v0.clone().rotate(Math.PI / 2).normalize(dNormal)
+        cSrc = cCenter.clone().add(vNormal)
+        cDst = cCenter.clone().subtract(vNormal)
+        gradient = @_context.createLinearGradient cSrc.x, cSrc.y, cDst.x, cDst.y
+      when 'radial'
+        cR = matrix.transformPoint new Point(1638.4 / 2, 0)
+        vR = cR.clone().subtract(cCenter)
+        cL = cTL.clone().add(cBL).divide(2)
+        cB = cBR.clone().add(cBL).divide(2)
+        vCL = cL.clone().subtract(cCenter)
+        vCB = cB.clone().subtract(cCenter)
+        x1p = vCL.x * vCL.x
+        y1p = vCL.y * vCL.y
+        x2p = vCB.x * vCB.x
+        y2p = vCB.y * vCB.y
+        a = Math.sqrt (y1p * x2p - x1p * y2p) / (y1p - y2p)
+        b = Math.sqrt (x1p * y2p - y1p * x2p) / (x1p - x2p)
+        long = Math.max a, b
+        focalRadius = long * focalPointRatio
+        gradient = @_context.createRadialGradient cCenter.x, cCenter.y, long, cCenter.x + focalRadius * Math.cos(vR.angle), cCenter.y + focalRadius * Math.sin(vR.angle), 0
+        ratios = ratios.slice()
+        ratios.reverse()
+
     for ratio, i in ratios
       gradient.addColorStop ratio / 0xff, Shape.toColorString(colors[i], alphas[i])
     @_context.fillStyle = gradient
@@ -200,15 +179,48 @@ module.exports = class Shape extends DisplayObject
     @_context.lineTo x, y
     return
 
+  drawPath:(commands, data, clockwise = 0) ->
+    rect = new Rectangle data[0], data[1], 0, 0
+    for i in [1...data.length / 2] by 1
+      j = i * 2
+      rect.contain data[j], data[j + 1]
+    @_stacks.push
+      method   : 'drawPath'
+      arguments: [commands, data, clockwise]
+      rect     : rect
+    @_requestRender true
+  _drawPath:(commands, data, clockwise) ->
+    if clockwise is 0
+      clockwise = @_clockwise
+    if clockwise < 0
+      commands = commands.slice()
+      c = commands.shift()
+      commands.reverse()
+      commands.unshift c
+      rData = []
+      j = 0
+      for command in commands
+        rData.unshift data[j++], data[j++]
+      data = rData
+    j = 0
+    for command, i in commands
+      switch command
+        when 0 then @_context.moveTo data[j++], data[j++]
+        when 1 then @_context.lineTo data[j++], data[j++]
+        when 2 then @_context.quadraticCurveTo data[j++], data[j++], data[j++], data[j++]
+        when 3 then @_context.bezierCurveTo data[j++], data[j++], data[j++], data[j++], data[j++], data[j++]
+    if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
+      @_context.closePath()
+
   quadraticCurveTo: (x1, y1, x2, y2) ->
     @_stacks.push
       method   : 'quadraticCurveTo'
       arguments: [x1, y1, x2, y2]
       rect     : new Rectangle(x1, y1).contain(x2, y2)
     @_requestRender true
+  curveTo: Shape::quadraticCurveTo
   _quadraticCurveTo: (x1, y1, x2, y2) ->
     @_context.quadraticCurveTo x1, y1, x2, y2
-  curveTo: Shape::quadraticCurveTo
 
   cubicCurveTo: (x1, y1, x2, y2, x3, y3) ->
     @_stacks.push
@@ -216,9 +228,9 @@ module.exports = class Shape extends DisplayObject
       arguments: [x1, y1, x2, y2, x3, y3]
       rect     : new Rectangle(x1, y1).contain(x2, y2).contain(x3, y3)
     @_requestRender true
+  bezierCurveTo: Shape::cubicCurveTo
   _cubicCurveTo: (x1, y1, x2, y2, x3, y3) ->
     @_context.bezierCurveTo x1, y1, x2, y2, x3, y3
-  bezierCurveTo: Shape::cubicCurveTo
 
   drawRectangle:(rect) ->
     @drawRect rect.x, rect.y, rect.width, rect.height
@@ -230,17 +242,17 @@ module.exports = class Shape extends DisplayObject
   drawRoundRectangle:(rect, ellipseW, ellipseH = ellipseW) ->
     @drawRoundRect rect.x, rect.y, rect.width, rect.height, ellipseW, ellipseH
   drawRoundRect:(x, y, width, height, ellipseW, ellipseH = ellipseW) ->
-    @drawPath [0, 1, 2, 1, 2, 1, 2, 1, 2]
-      ,[x + ellipseW, y
-      , x + width - ellipseW, y
-      , x + width, y, x + width, y + ellipseH
-      , x + width, y + height - ellipseH
-      , x + width, y + height, x + width - ellipseW, y + height
-      , x + ellipseW, y + height
-      , x, y + height, x, y + height - ellipseH
-      , x, y + ellipseH
-      , x, y, x + ellipseW, y]
-      , 0
+    @drawPath [0, 1, 2, 1, 2, 1, 2, 1, 2], [
+      x + ellipseW, y
+      x + width - ellipseW, y
+      x + width, y, x + width, y + ellipseH
+      x + width, y + height - ellipseH
+      x + width, y + height, x + width - ellipseW, y + height
+      x + ellipseW, y + height
+      x, y + height, x, y + height - ellipseH
+      x, y + ellipseH
+      x, y, x + ellipseW, y
+      ] , 0
 
   drawCircle:(x, y, radius) ->
     @_stacks.push
@@ -260,12 +272,13 @@ module.exports = class Shape extends DisplayObject
     y += height
     handleWidth = width * _ELLIPSE_CUBIC_BEZIER_HANDLE
     handleHeight = height * _ELLIPSE_CUBIC_BEZIER_HANDLE
-    @drawPath [0, 3, 3, 3, 3]
-      ,[x + width, y
-      , x + width, y + handleHeight, x + handleWidth, y + height, x, y + height
-      , x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
-      , x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
-      , x + handleWidth, y - height, x + width, y - handleHeight, x + width, y]
+    @drawPath [0, 3, 3, 3, 3], [
+      x + width, y
+      x + width, y + handleHeight, x + handleWidth, y + height, x, y + height
+      x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
+      x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
+      x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
+      ], 0
 
   drawRegularPolygon:(x, y, radius, length = 3) ->
     commands = []
