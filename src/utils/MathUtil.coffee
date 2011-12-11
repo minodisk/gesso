@@ -1,17 +1,46 @@
-module.exports = MathUtil =
+PI = Math.PI
+abs = Math.abs
+max = Math.max
+min = Math.min
+random = Math.random
+acos = Math.acos
 
-  DEGREE_PER_RADIAN: 180 / Math.PI
-  RADIAN_PER_DEGREE: Math.PI / 180
+module.exports = class MathUtil
 
-  nearestIn: (number, numbers) ->
+  @DPR :180 / PI
+  @RPD :PI / 180
+  @PI  :PI
+  @PI2 :PI * 2
+  @PI_2:PI / 2
+  @_PI :1 / PI
+  @_PI2:1 / @PI2
+
+  @degToRad:(degree)->
+    degree * @RPD
+
+  @wrapPi:(theta)->
+    theta += @PI
+    theta -= (theta * @_PI2 >> 0) * @PI2
+    theta -= @PI
+    theta
+
+  @safeAcos:(x)->
+    if x <= -1
+      @PI
+    else if x >= 1
+      0
+    else
+      acos x
+
+  @nearestIn:(num, nums) ->
     compared = []
-    compared.push(Math.abs(n - number)) for n in numbers
-    numbers[compared.indexOf(Math.min.apply(null, compared))]
+    compared.push(abs(n - num)) for n in nums
+    nums[compared.indexOf(min.apply(null, compared))]
 
-  randomBetween: (a, b) ->
-    a + (b - a) * Math.random()
+  @randomBetween:(a, b) ->
+    a + (b - a) * random()
 
-  convergeBetween: (number, a, b) ->
-    min = Math.min(a, b)
-    max = Math.max(a, b)
-    if number < min then min else if number > max then max else number
+  @convergeBetween:(num, a, b) ->
+    min = min(a, b)
+    max = max(a, b)
+    if num < min then min else if num > max then max else num
