@@ -4,8 +4,8 @@ do (require, exports) ->
   exports['utils/MathUtil'] =
 
     constance: (test) ->
-      test.strictEqual(MathUtil.DEGREE_PER_RADIAN, 180 / Math.PI, 'DEGREE_PER_RADIAN')
-      test.strictEqual(MathUtil.RADIAN_PER_DEGREE, Math.PI / 180, 'RADIAN_PER_DEGREE')
+      test.strictEqual(MathUtil.DPR, 180 / Math.PI, 'DPR')
+      test.strictEqual(MathUtil.RPD, Math.PI / 180, 'RPD')
       test.done()
 
     randomBetween: (test) ->
