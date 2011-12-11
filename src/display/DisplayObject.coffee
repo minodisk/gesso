@@ -30,7 +30,6 @@ module.exports = class DisplayObject extends EventDispatcher
         @__stage = value
         return
 
-
     # ### parent:*Sprite*
     # [read-only] The *Sprite* object that contains this object.
     @defineProperty 'parent'
