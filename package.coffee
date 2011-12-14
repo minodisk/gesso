@@ -99,12 +99,14 @@ startCompile = ->
     fs.writeFile flow.userData.filename, uglified, flow.next
   , (flow)->
     console.log "#{ timeStamp() } Complete to write file: #{ flow.userData.filename }"
+    flow.next()
   flow.onError = (err)->
     console.log "Error: #{ err }"
+  flow.onComplete = generatePaigeConfig
   flow.start()
 
 
-generateDocs = ->
+generatePaigeConfig = ->
   config =
     title: 'graphicsJS Documentation'
     content_file: 'README.md'
@@ -115,7 +117,7 @@ generateDocs = ->
     background: 'diagonal-noise'
     output: 'docs'
   fs.writeFile 'paige.config', JSON.stringify(config), (err) ->
-    #paige.generate()
+    console.log "#{ timeStamp() } Complete to write file: paige.cofig"
 
 
 startWatch()
