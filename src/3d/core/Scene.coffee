@@ -1,5 +1,7 @@
 # **Experimental Implementation**
 
+Matrix = require '3d/geom/Matrix'
+
 module.exports = class Scene
 
   constructor:->
@@ -15,5 +17,4 @@ module.exports = class Scene
     @_displayList.push displayObject
 
   render:->
-    for camera in @_cameraList
-      camera.snap @_displayList
+

@@ -33,6 +33,13 @@ module.exports = class Camera extends Class
 
     @position = new Vector 0, 0, 0
     @orientation = new EulerAngles 0, 0, 0
+    @up = new Vector 0, 1, 0
+    @target =
+      position: Vector.ZERO
+
+    @fov = Math.PI / 3
+    @near = 10
+    @far = 5000
     @_scene = null
     @_screenList = []
 
@@ -41,9 +48,3 @@ module.exports = class Camera extends Class
     @_screenList.push screen
 
   snap:(displayList)->
-    sceneToCamera = new Matrix
-    sceneToCamera.setupParentToLocal @position, @orientation
-    for displayObject in displayList
-      displayObject.position
-    for screen in @_screenList
-      screen.refresh displayList

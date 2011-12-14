@@ -16,7 +16,7 @@ module.exports = class Point extends Klass
         @y = radius * Math.sin angle
         return
 
-    @defineProperty 'distance'
+    @defineProperty 'DISTANCE'
       , ->
         Math.sqrt @x * @x + @y * @y
       , (distance)->

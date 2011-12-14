@@ -8,6 +8,38 @@ module.exports = class Vector
 
   @ZERO:new Vector 0, 0, 0
 
+  @equals:(a, b)->
+    a.x is b.x and a.y is b.y and a.z is b.z
+
+  @notEquals:(a, b)->
+    a.x isnt b.x or a.y isnt b.y or a.z isnt b.z
+
+  @add:(a, b)->
+    new Vector a.x + b.x, a.y + b.y, a.z + b.z
+
+  @subtract:(a, b)->
+    new Vector a.x - b.x, a.y - b.y, a.z - b.z
+
+  # Multiplication and division by scalar
+  @multiply:(m, s)->
+    new Vector m.x * s, m.y * s, m.z * s
+
+  @divide:(m, d)->
+    new Vector m.x / d, m.y / d, m.z / d
+
+  # Vector dot product.  We overload the standard
+  # multiplication symbol to do this
+  @dotProduct:(a, b)->
+    a.x * b.x + a.y * b.y + a.z * b.z
+
+  # Compute the cross product of two vectors
+  @crossProduct:(a, b)->
+    new Vector(
+      a.y * b.z - a.z * b.y
+      a.z * b.x - a.x * b.z
+      a.x * b.y - a.y * b.x
+      )
+
   # Compute the magnitude of a vector
   @magnitude:(a)->
     sqrt a.x * a.x + a.y * a.y + a.z * a.z
@@ -49,25 +81,6 @@ module.exports = class Vector
     @z = v.z
     return
 
-  equals:(v)->
-    @x is v.x and @y is v.y and @z is v.z
-
-  notEquals:(v)->
-    @x isnt v.x or @y isnt v.y or @z isnt v.z
-
-  add:(v)->
-    new Vector @x + v.x, @y + v.y, @z + v.z
-
-  subtract:(v)->
-    new Vector @x - v.x, @y - v.y, @z - v.z
-
-  # Multiplication and division by scalar
-  multiply:(s)->
-    new Vector @x * s, @y * s, @z * s
-
-  divide:(d)->
-    new Vector @x / d, @y / d, @z / d
-
   # Set the vector to zero
   zero:->
     @x = @y = @z = 0
@@ -82,23 +95,10 @@ module.exports = class Vector
 
   # Normalize the vector
   normalize:->
-    dPow = x * x + y * y + z * z
+    dPow = @x * @x + @y * @y + @z * @z
     if dPow > 0
       d = sqrt dPow
-      @a /= d
-      @b /= d
-      @c /= d
+      @x /= d
+      @y /= d
+      @z /= d
     return
-
-  # Vector dot product.  We overload the standard
-  # multiplication symbol to do this
-  innerProduct:(v)->
-    @x * v.x + @y * v.y + @z * v.z
-
-  # Compute the cross product of two vectors
-  crossProduct:(v)->
-    new Vector(
-      @y * v.z - @z * v.y
-      @z * v.x - @x * v.z
-      @x * v.y - @y * v.x
-      )

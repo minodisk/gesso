@@ -165,24 +165,22 @@ module.exports = class RotationMatrix
     @m33 = 1 - 2 * (xx + yy)
     return
 
-  # RotationMatrix::inertialToObject
-  #
+  # inertialToObject(v:*Vector*):*Vector*
   # Rotate a vector from inertial to object space
   inertialToObject:(v)->
     # Perform the matrix multiplication in the "standard" way.
     new Vector(
-      m11 * v.x + m21 * v.y + m31 * v.z
-      m12 * v.x + m22 * v.y + m32 * v.z
-      m13 * v.x + m23 * v.y + m33 * v.z
+      @m11 * v.x + @m21 * v.y + @m31 * v.z
+      @m12 * v.x + @m22 * v.y + @m32 * v.z
+      @m13 * v.x + @m23 * v.y + @m33 * v.z
       )
 
-  # RotationMatrix::objectToInertial
-  #
+  # objectToInertial(v:*Vector*):*Vector*
   # Rotate a vector from object to inertial space
   objectToInertial:(v)->
     # Multiply by the transpose
     new Vector(
-      m11 * v.x + m12 * v.y + m13 * v.z
-      m21 * v.x + m22 * v.y + m23 * v.z
-      m31 * v.x + m32 * v.y + m33 * v.z
+      @m11 * v.x + @m12 * v.y + @m13 * v.z
+      @m21 * v.x + @m22 * v.y + @m23 * v.z
+      @m31 * v.x + @m32 * v.y + @m33 * v.z
       )

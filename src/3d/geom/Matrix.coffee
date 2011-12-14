@@ -49,8 +49,91 @@ Vector = require '3d/geom/Vector'
 abs = Math.abs
 sin = Math.sin
 cos = Math.cos
+tan = Math.tan
 
 module.exports = class Matrix
+
+  @IDENTITY = new Matrix 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0
+
+  # ## multiply(a:*Vector*, b:*Matrix*):*Vector*
+  # [static]
+  # Transform the point.
+  #
+  # ## multiply(a:*Matrix*, *Matrix*):*Matrix*
+  # [static]
+  # Matrix concatenation.
+  @multiply:(a, b)->
+    unless b instanceof Matrix
+      throw new TypeError "'b' must be specified an instance of Matrix."
+
+    if a instanceof Vector
+      # Grind through the linear algebra.
+      new Vector(
+        a.x * b.m11 + a.y * b.m21 + a.z * b.m31 + b.tx
+        a.x * b.m12 + a.y * b.m22 + a.z * b.m32 + b.ty
+        a.x * b.m13 + a.y * b.m23 + a.z * b.m33 + b.tz
+        )
+    else if a instanceof Matrix
+      new Matrix(
+        # Compute the upper 3x3 (linear transformation) portion
+        a.m11 * b.m11 + a.m12 * b.m21 + a.m13 * b.m31
+        a.m11 * b.m12 + a.m12 * b.m22 + a.m13 * b.m32
+        a.m11 * b.m13 + a.m12 * b.m23 + a.m13 * b.m33
+        a.m21 * b.m11 + a.m22 * b.m21 + a.m23 * b.m31
+        a.m21 * b.m12 + a.m22 * b.m22 + a.m23 * b.m32
+        a.m21 * b.m13 + a.m22 * b.m23 + a.m23 * b.m33
+        a.m31 * b.m11 + a.m32 * b.m21 + a.m33 * b.m31
+        a.m31 * b.m12 + a.m32 * b.m22 + a.m33 * b.m32
+        a.m31 * b.m13 + a.m32 * b.m23 + a.m33 * b.m33
+        # Compute the translation portion
+        a.tx * b.m11 + a.ty * b.m21 + a.tz * b.m31 + b.tx
+        a.tx * b.m12 + a.ty * b.m22 + a.tz * b.m32 + b.ty
+        a.tx * b.m13 + a.ty * b.m23 + a.tz * b.m33 + b.tz
+        )
+    else
+      throw new TypeError "'a' must be specified an instance of Vector or Matrix."
+
+  # ## determinant(m:*Matrix*):*Number*
+  # [static]
+  # Compute the determinant of the 3x3 portion of the matrix.
+  @determinant:(m)->
+    m.m11 * (m.m22 * m.m33 - m.m23 * m.m32) +
+    m.m12 * (m.m23 * m.m31 - m.m21 * m.m33) +
+    m.m13 * (m.m21 * m.m32 - m.m22 * m.m31)
+
+  # ## inverse(m:*Matrix*):*Matrix*
+  # [static]
+  # Compute the inverse of a matrix.  We use the classical adjoint divided
+  # by the determinant method.
+  @invert:(m)->
+    # Compute the determinant
+    det = @determinant m
+    # If we're singular, then the determinant is zero and there's
+    # no inverse
+    unless abs(det) > 0.000001
+      throw new TypeError "Zero matrix doesn't have inverse matrix."
+    # Compute one over the determinant, so we divide once and
+    # can *multiply* per element
+    oneOverDet = 1 / det
+    # Compute the 3x3 portion of the inverse, by
+    # dividing the adjoint by the determinant
+    new Matrix(
+      (m.m22 * m.m33 - m.m23 * m.m32) * oneOverDet
+      (m.m13 * m.m32 - m.m12 * m.m33) * oneOverDet
+      (m.m12 * m.m23 - m.m13 * m.m22) * oneOverDet
+
+      (m.m23 * m.m31 - m.m21 * m.m33) * oneOverDet
+      (m.m11 * m.m33 - m.m13 * m.m31) * oneOverDet
+      (m.m13 * m.m21 - m.m11 * m.m23) * oneOverDet
+
+      (m.m21 * m.m32 - m.m22 * m.m31) * oneOverDet
+      (m.m12 * m.m31 - m.m11 * m.m32) * oneOverDet
+      (m.m11 * m.m22 - m.m12 * m.m21) * oneOverDet
+
+      -(m.tx * r.m11 + m.ty * r.m21 + m.tz * r.m31)
+      -(m.tx * r.m12 + m.ty * r.m22 + m.tz * r.m32)
+      -(m.tx * r.m13 + m.ty * r.m23 + m.tz * r.m33)
+      )
 
   constructor:(m11, m12, m13, m21, m22, m23, m31, m32, m33, tx, ty, tz)->
     unless @ instanceof Matrix
@@ -65,6 +148,9 @@ module.exports = class Matrix
       @m31 = m.m31
       @m32 = m.m32
       @m33 = m.m33
+      @tx = m.tx
+      @ty = m.ty
+      @tz = m.tz
     else
       @m11 = m11
       @m12 = m12
@@ -75,6 +161,64 @@ module.exports = class Matrix
       @m31 = m31
       @m32 = m32
       @m33 = m33
+      @tx = tx
+      @ty = ty
+      @tz = tz
+
+  setupView:(camera)->
+    z = Vector.subtract(camera.target.position, camera.position)
+    z.normalize()
+    x = Vector.crossProduct(camera.up, z)
+    x.normalize()
+    y = Vector.crossProduct(z, x)
+    #console.log z, x, y
+    @m11 = x.x
+    @m12 = y.x
+    @m13 = z.x
+    @m21 = x.y
+    @m22 = y.y
+    @m23 = z.y
+    @m31 = x.z
+    @m32 = y.z
+    @m33 = z.z
+    @tx = -Vector.dotProduct camera.position, x
+    @ty = -Vector.dotProduct camera.position, y
+    @tz = -Vector.dotProduct camera.position, z
+    return
+
+  setupProjection:(camera, screen)->
+    sy = 1 / tan(camera.fov / 2)
+    sx = sy * screen.screenHeight / screen.screenWidth
+    sz = camera.far / (camera.far - camera.near)
+    @m11 = sx
+    @m12 = 0
+    @m13 = 0
+    @m21 = 0
+    @m22 = sy
+    @m23 = 0
+    @m31 = 0
+    @m32 = 0
+    @m33 = sz
+    @tx = 0
+    @ty = 0
+    @tz = -sz * camera.near
+    return
+
+  setupScreen:(screen)->
+    w = screen.screenWidth / 2
+    h = screen.screenHeight / 2
+    @m11 = w
+    @m12 = 0
+    @m13 = 0
+    @m21 = 0
+    @m22 = -h
+    @m23 = 0
+    @m31 = 0
+    @m32 = 0
+    @m33 = 1
+    @tx = w
+    @ty = h
+    @tz = 0
 
   # identity():*void*
   # Set the matrix to identity
@@ -125,6 +269,8 @@ module.exports = class Matrix
     @ty = d.y
     @tz = d.z
     return
+
+
 
   # setupLocalToParent(pos:*Vector*, orient:*EulerAngles*):*void*
   # setupLocalToParent(pos:*Vector*, orient:*RotationMatrix*):*void*
@@ -510,85 +656,6 @@ module.exports = class Matrix
       # Reset the translation portion
       @tx = @ty = @tz = 0
     return
-
-  # ## multiply(a:*Vector*, b:*Matrix*):*Vector*
-  # [static]
-  # Transform the point.
-  #
-  # ## multiply(a:*Matrix*, *Matrix*):*Matrix*
-  # [static]
-  # Matrix concatenation.
-  @multiply:(a, b)->
-    unless b instanceof Matrix
-      throw new TypeError "'b' must be specified an instance of Matrix."
-    if a instanceof Vector
-      # Grind through the linear algebra.
-      new Vector(
-        a.x * b.m11 + a.y * b.m21 + a.z * b.m31 + b.tx
-        a.x * b.m12 + a.y * b.m22 + a.z * b.m32 + b.ty
-        a.x * b.m13 + a.y * b.m23 + a.z * b.m33 + b.tz
-        )
-    else if a instanceof Matrix
-      new Matrix(
-        # Compute the upper 3x3 (linear transformation) portion
-        a.m11 * b.m11 + a.m12 * b.m21 + a.m13 * b.m31
-        a.m11 * b.m12 + a.m12 * b.m22 + a.m13 * b.m32
-        a.m11 * b.m13 + a.m12 * b.m23 + a.m13 * b.m33
-        a.m21 * b.m11 + a.m22 * b.m21 + a.m23 * b.m31
-        a.m21 * b.m12 + a.m22 * b.m22 + a.m23 * b.m32
-        a.m21 * b.m13 + a.m22 * b.m23 + a.m23 * b.m33
-        a.m31 * b.m11 + a.m32 * b.m21 + a.m33 * b.m31
-        a.m31 * b.m12 + a.m32 * b.m22 + a.m33 * b.m32
-        a.m31 * b.m13 + a.m32 * b.m23 + a.m33 * b.m33
-        # Compute the translation portion
-        a.tx * b.m11 + a.ty * b.m21 + a.tz * b.m31 + b.tx
-        a.tx * b.m12 + a.ty * b.m22 + a.tz * b.m32 + b.ty
-        a.tx * b.m13 + a.ty * b.m23 + a.tz * b.m33 + b.tz
-        )
-    else
-      throw new TypeError "'a' must be specified an instance of Vector or Matrix."
-
-  # ## determinant(m:*Matrix*):*Number*
-  # [static]
-  # Compute the determinant of the 3x3 portion of the matrix.
-  @determinant:(m)->
-    m.m11 * (m.m22 * m.m33 - m.m23 * m.m32) +
-    m.m12 * (m.m23 * m.m31 - m.m21 * m.m33) +
-    m.m13 * (m.m21 * m.m32 - m.m22 * m.m31)
-
-  # ## inverse(m:*Matrix*):*Matrix*
-  # [static]
-  # Compute the inverse of a matrix.  We use the classical adjoint divided
-  # by the determinant method.
-  @invert:(m)->
-    # Compute the determinant
-    det = @determinant m
-    # If we're singular, then the determinant is zero and there's
-    # no inverse
-    unless abs(det) > 0.000001
-      throw new TypeError "Zero matrix doesn't have inverse matrix."
-    # Compute one over the determinant, so we divide once and
-    # can *multiply* per element
-    oneOverDet = 1 / det
-    # Compute the 3x3 portion of the inverse, by
-    # dividing the adjoint by the determinant
-    new Matrix(
-      (m.m22 * m.m33 - m.m23 * m.m32) * oneOverDet
-      (m.m13 * m.m32 - m.m12 * m.m33) * oneOverDet
-      (m.m12 * m.m23 - m.m13 * m.m22) * oneOverDet
-
-      (m.m23 * m.m31 - m.m21 * m.m33) * oneOverDet
-      (m.m11 * m.m33 - m.m13 * m.m31) * oneOverDet
-      (m.m13 * m.m21 - m.m11 * m.m23) * oneOverDet
-
-      (m.m21 * m.m32 - m.m22 * m.m31) * oneOverDet
-      (m.m12 * m.m31 - m.m11 * m.m32) * oneOverDet
-      (m.m11 * m.m22 - m.m12 * m.m21) * oneOverDet
-
-      -(m.tx * r.m11 + m.ty * r.m21 + m.tz * r.m31)
-      -(m.tx * r.m12 + m.ty * r.m22 + m.tz * r.m32)
-      -(m.tx * r.m13 + m.ty * r.m23 + m.tz * r.m33)
-      )
 
   # ## getTranslation(m:*Matrix*):*Vector*
   # Return the translation row of the matrix in vector form

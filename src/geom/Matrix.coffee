@@ -25,6 +25,14 @@ module.exports = class Matrix
   # Creates a new Matrix object.
   constructor: (@xx = 1, @xy = 0, @yx = 0, @yy = 1, @ox = 0, @oy = 0) ->
 
+  identity:->
+    @xx = 1
+    @xy = 0
+    @yx = 0
+    @yy = 1
+    @ox = 0
+    @oy = 0
+
   # ### clone():*Matrix*
   # Copies this object.
   clone: ->
