@@ -1,28 +1,297 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>graphicsJS Examples | Easing</title>
-  <link rel="stylesheet" href="../../resources/paige.css"/>
-  <link rel="stylesheet" href="../resources/example.css"/>
-  <script src="../../lib/graphics.js"></script>
-  <script src="../resources/execute.js"></script>
+<head><title>graphicsJS Examples | Easing</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" media="all" href="../../resources/paige.css"/>
+  <style>
+    section div.columnContainer {
+      width: 900px;
+    }
+    section div.columnContainer div {
+      float: left;
+      margin-right: 10px;
+    }
+    section div.columnContainer:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    section ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+    section ul:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+    section li {
+      float: left;
+      margin: 0 10px 0 0;
+    }
+    section p {
+      position: relative;
+      margin: 0;
+      font-size: 12px;
+      z-index: 1;
+    }
+    section canvas {
+      margin-top: -50px;
+      margin-bottom: -50px;
+    }
+  </style>
+  <script type="text/javascript" src="../../lib/graphics.js"></script>
+  <script type="text/javascript" src="../../resources/coffee-script.js"></script>
+  <script type="text/coffeescript">
+    Stage = require 'display/Stage'
+    Shape = require 'display/Shape'
+    Tween = require 'tweens/Tween'
+    Easing = require 'tweens/Easing'
+    for section in document.querySelectorAll 'li'
+      for child in section.children
+        if child.nodeName.toLowerCase() is 'p'
+          easing = child.textContent
+        if child.nodeName.toLowerCase() is 'canvas'
+          canvas = child
+      stage = new Stage canvas
+      width = stage.width
+      height = 100
+      paddingY = (stage.height - stage.width) / 2
+      frame = new Shape
+      frame.graphics.lineStyle 1, 0x999999
+      frame.graphics.beginFill 0xffffff
+      frame.graphics.drawRect 0.5, 0.5, width - 1, height - 1
+      frame.graphics.endFill()
+      frame.y = paddingY
+      stage.addChild frame
+      curve = new Shape
+      curve.scaleY = -1
+      curve.y = height + paddingY
+      stage.addChild curve
+      yList = []
+      curve.graphics.lineStyle 1, 0x0581d2
+      curve.graphics.moveTo 0, 0
+      for i in [1...width]
+        curve.graphics.lineTo i, Easing[easing](i, 0, height, width)
+  </script>
 </head>
 <body>
 
 <header>
-  <a href="../">index</a>
-
   <h1>Easing</h1>
 </header>
 
-<section class="execute">
-  <h2>Transition Types</h2>
-  <canvas width="300" height="300"></canvas>
-<pre>
-</pre>
-  <select>
-    <option>easeOutQuad</option>
-  </select>
+<section>
+  <h3>types:</h3>
+
+  <div>
+    <ul>
+      <li>
+        <p>linear</p>
+        <canvas width="100" height="200"></canvas>
+      </li>
+    </ul>
+  </div>
+
+  <div class="columnContainer">
+
+    <div>
+      <ul>
+        <li>
+          <p>easeInQuad</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutQuad</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutQuad</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInQuad</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInCubic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutCubic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutCubic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInCubic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInQuart</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutQuart</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutQuart</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInQuart</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInQuint</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutQuint</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutQuint</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInQuint</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInExpo</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutExpo</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutExpo</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInExpo</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li>
+          <p>easeInSine</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutSine</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutSine</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInSine</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInCirc</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutCirc</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutCirc</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInCirc</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInBack</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutBack</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutBack</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInBack</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInBounce</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutBounce</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutBounce</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInBounce</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+      <ul>
+        <li>
+          <p>easeInElastic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutElastic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeInOutElastic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+        <li>
+          <p>easeOutInElastic</p>
+          <canvas width="100" height="200"></canvas>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
+<footer>
+  <h6>Related pages:</h6>
+  <ul>
+    <li><a href="../../docs/Easing.html">Easing.coffee</a></li>
+    <li><a href="../../docs/Tween.html">Tween.coffee</a></li>
+  </ul>
+</footer>
 
 </body>
 </html>

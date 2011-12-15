@@ -9,7 +9,7 @@
 DisplayObject = require 'display/DisplayObject'
 EventPhase = require 'events/EventPhase'
 MouseEvent = require 'events/MouseEvent'
-Point = require 'geom/Point'
+Vector = require 'geom/Vector'
 
 _RADIAN_PER_DEGREE = Math.PI / 180
 
@@ -25,7 +25,7 @@ module.exports = class InteractiveObject extends DisplayObject
   _propagateMouseEvent: (event) ->
     if @_mouseEnabled and event._isPropagationStopped is false
       event = event.clone()
-      pt = @_getTransform().invert().transformPoint(new Point(event.localX, event.localY))
+      pt = @_getTransform().invert().transformPoint(new Vector(event.localX, event.localY))
       event.localX = pt.x
       event.localY = pt.y
 

@@ -1,12 +1,3 @@
-Stage = require 'display/Stage'
-Shape = require 'display/Shape'
-Sprite = require 'display/Sprite'
-Event = require 'events/Event'
-TextField = require 'text/TextField'
-TextFormat = require 'text/TextFormat'
-TextFormatAlign = require 'text/TextFormatAlign'
-TextFormatBaseline = require 'text/TextFormatBaseline'
-
 NUMBERS = [
   'zero'
   'one'
@@ -38,33 +29,77 @@ NUMBERS = [
   'ninety'
   'hundred'
 ]
+toRGB = (h, s, v)->
+  if s is 0
+    r = v
+    g = v
+    b = v
+  else
+    h %= 360
+    hi = h / 60 >> 0
+    f = h / 60 - hi
+    p = v * (1 - s)
+    q = v * (1 - f * s)
+    t = v * (1 - (1 - f) * s)
+    switch hi
+      when 0
+        r = v
+        g = t
+        b = p
+      when 1
+        r = q
+        g = v
+        b = p
+      when 2
+        r = p
+        g = v
+        b = t
+      when 3
+        r = p
+        g = q
+        b = v
+      when 4
+        r = t
+        g = p
+        b = v
+      when 5
+        r = v
+        g = p
+        b = q
+  r * 0xff << 16 | g * 0xff << 8 | b * 0xff
+toColorString = (color = 0, alpha = 1)->
+  "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
+ticker = do ->
+  #@requestAnimationFrame or
+  #@webkitRequestAnimationFrame or
+  #@mozRequestAnimationFrame or
+  #@oRequestAnimationFrame or
+  #@msRequestAnimationFrame or
+  (callback) -> setTimeout (()->callback((new Date()).getTime())), 1000 / 30
 
 class Loading
 
-  constructor:(canvas, @onComplete)->
-    @stage = new Stage canvas
-    @textContainer = new Sprite
-    @textContainer.x = @stage.width / 2 >> 0
-    @textContainer.y = @stage.height / 2 >> 0
-    @stage.addChild @textContainer
-    @percentTextField = new TextField
-    @percentTextField.textFormat = new TextFormat 'sans-serif', 24, 0x000000, 1, true, false, false, TextFormatAlign.RIGHT, TextFormatBaseline.MIDDLE, 0
-    @textContainer.addChild @percentTextField
-    @unitTextField = new TextField
-    @unitTextField.text = 'percent'
-    @unitTextField.textFormat = new TextFormat 'sans-serif', 24, 0x000000, 1, false, false, false, TextFormatAlign.LEFT, TextFormatBaseline.MIDDLE, 0
-    @textContainer.addChild @unitTextField
-    @running = false
+  constructor:(@canvas, @onComplete)->
+    @width = @canvas.width
+    @height = @canvas.height
+    @x = @width / 2 >> 0
+    @y = @height / 2 >> 0
+    @context = @canvas.getContext '2d'
+    @context.translate @x, @y
+    @context.textBaseline = 'alphabetic'
 
-  update:(percent)->
-    if percent is 0
-      @points = []
-      @running = true
-      @counter = 0
-      @stage.addEventListener Event.ENTER_FRAME, @onEnterFrame
-    if percent >= 100
-      setTimeout (=> @running = false), 1000
+    @updated = false
 
+  update:(ratio)->
+    @ratio = ratio
+    if @ratio is 0
+      @updated = true
+      @currentFrame = 0
+      ticker @onTicker
+    if @ratio is 1
+      @updated = false
+
+    percent = ratio * 100
     percent >>= 0
     if percent < 20
       percent = NUMBERS[percent]
@@ -77,72 +112,49 @@ class Loading
     @percent = percent
     return
 
-  onEnterFrame:(e)=>
-    @percentTextField.text =  @percent
+  onTicker:(time)=>
+    @currentFrame++
 
-  hoge:->
-    if @running
-      point = new Point 0, 0
-      point.xRadius = @x * 1 / 3 * Math.random()
-      point.angle = PI2 * Math.random()
-      point.dAngle = RPD * if Math.random() < 0.5 then -1 else 1
-      point.dy = -(2 + 4 * Math.random())
-      point.radius = 1
-      @points.push point
+    @context.fillStyle = '#ffffff'
+    @context.fillRect -@x, -@y, @canvas.width, @canvas.height
 
-    @context.translate @x, @y
-    unless @running
-      @counter++
-      if @counter > 40
-        @canvas.width = @canvas.width
+    alpha = 1
+    unless @updated
+      unless @completeFrame?
+        @completeFrame = @currentFrame
+      deltaFrame = @currentFrame - @completeFrame
+      if deltaFrame > 15
+        alpha = 1 - (deltaFrame - 15) / 8
+      if alpha <= 0
         if @onComplete?
           setTimeout @onComplete, 0
-        return
-      @context.scale 1 + 3 * @counter, 1 + 3 * @counter
-      @context.rotate Math.PI / 180 * 2 * @counter
+          return
 
-    gradation = @context.createLinearGradient -@x, 0, @width, 0
-    gradation.addColorStop 0, toColorString(0xff0000)
-    gradation.addColorStop 1, toColorString(0x0000ff)
-    @context.fillStyle = gradation
-    i = @points.length
-    while i--
-      point = @points[i]
-      point.y += point.dy
-      if point.y < -(@y+30)
-        @points.splice i, 1
-        continue
-      point.xRadius += 0.05;
-      point.angle += point.dAngle
-      point.radius += 0.03
-      @context.beginPath()
-      @context.arc point.xRadius * Math.cos(point.angle), point.y, point.radius, 0, PI2
-      @context.fill()
-    @context.font = 'bold 24px sans-serif'
+    hue = 180 + 180 * @ratio
+    gradient = @context.createLinearGradient 0, 0, @width, 0
+    maxRotation = 90
+    for rotation in [0...maxRotation]
+      gradient.addColorStop rotation / maxRotation, toColorString(toRGB(hue + rotation, 1, 1), alpha)
+
+    @context.fillStyle = gradient
+    @context.fillRect -@x, 0, @width * @ratio, 1
+    @context.font = '900 24px "Helvetica", "Arial"'
     @context.textAlign = 'right'
-    @context.textBaseline = 'middle'
-    @context.fillText @percent, 9, -3
-    @context.font = 'normal 24px sans-serif'
+    @context.fillText @percent, 0, 0
+    @context.font = '100 24px "Helvetica", "Arial"'
     @context.textAlign = 'left'
-    @context.fillText 'percent', 9, -3
+    @context.fillText 'percent', 0, 0
 
     ticker @onTicker
+    return
 
-class Point
-
-  constructor:(@x, @y)->
-
-do(document)->
+document.addEventListener 'DOMContentLoaded', (e)->
   loading = new Loading document.querySelector('canvas'), -> alert 'complete'
   counter = 0
   loading.update counter
   intervalId = setInterval (->
-    counter += Math.random()
-    counter = 100 if counter >= 100
-    loading.update counter
+    loading.update ++counter / 100
     if counter is 100
       clearInterval intervalId
   ), 50
   return
-
-console.log arguments.callee

@@ -53,6 +53,6 @@ module.exports = class Tween
     if @onUpdate?
       @onUpdate()
     if complete and @onComplete?
-      @onComplete()
+      @onComplete @
 
     return

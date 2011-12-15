@@ -1,8 +1,7 @@
-
 GradientType = require('display/GradientType')
 CapsStyle = require('display/CapsStyle')
 JointStyle = require('display/JointStyle')
-Point = require('geom/Point')
+Vector = require('geom/Vector')
 Rectangle = require('geom/Rectangle')
 
 _PI = Math.PI
@@ -91,36 +90,36 @@ module.exports = class Graphics
     @_context.fillStyle = Graphics.toColorString color, alpha
     return
 
-  beginGradientFill:(type, colors, alphas, ratios, matrix = null, spreadMethod = 'pad', interpolationMethod = 'rgb', focalPointRatio = 0)->
+  beginGradientFill:(type, colors, alphas, ratios, matrix = null, focalPointRatio = 0)->
     @_stacks.push
       method   : 'beginGradientFill'
-      arguments: [type, colors, alphas, ratios, matrix, spreadMethod, interpolationMethod, focalPointRatio]
+      arguments: [type, colors, alphas, ratios, matrix, focalPointRatio]
     @_requestRender true
   _beginGradientFill:(type, colors, alphas, ratios, matrix, focalPointRatio)->
     len = ratios.length
     throw new TypeError 'Invalid length of colors, alphas or ratios.' if colors.length isnt len || alphas.length isnt len
 
-    cTL = matrix.transformPoint new Point(-1638.4 / 2, -1638.4 / 2)
-    cBR = matrix.transformPoint new Point(1638.4 / 2, 1638.4 / 2)
-    cBL = matrix.transformPoint new Point(-1638.4 / 2, 1638.4 / 2)
-    v1 = cBR.clone().subtract(cTL).divide(2)
-    cCenter = cTL.clone().add(v1)
+    cTL = matrix.transformPoint new Vector(-1638.4 / 2, -1638.4 / 2)
+    cBR = matrix.transformPoint new Vector(1638.4 / 2, 1638.4 / 2)
+    cBL = matrix.transformPoint new Vector(-1638.4 / 2, 1638.4 / 2)
+    v1 = cBR.subtract(cTL).divide(2)
+    cCenter = cTL.add(v1)
 
     switch type
       when 'linear'
-        v0 = cBL.clone().subtract(cTL)
-        dNormal = v1.distance * Math.abs(Math.sin(v1.angle - v0.angle))
-        vNormal = v0.clone().rotate(Math.PI / 2).normalize(dNormal)
-        cSrc = cCenter.clone().add(vNormal)
-        cDst = cCenter.clone().subtract(vNormal)
+        v0 = cBL.subtract(cTL)
+        dNormal = v1.magnitude * Math.abs(Math.sin(v1.direction - v0.direction))
+        vNormal = v0.rotate(Math.PI / 2).normalize(dNormal)
+        cSrc = cCenter.add(vNormal)
+        cDst = cCenter.subtract(vNormal)
         gradient = @_context.createLinearGradient cSrc.x, cSrc.y, cDst.x, cDst.y
       when 'radial'
-        cR = matrix.transformPoint new Point(1638.4 / 2, 0)
-        vR = cR.clone().subtract(cCenter)
-        cL = cTL.clone().add(cBL).divide(2)
-        cB = cBR.clone().add(cBL).divide(2)
-        vCL = cL.clone().subtract(cCenter)
-        vCB = cB.clone().subtract(cCenter)
+        cR = matrix.transformPoint new Vector(1638.4 / 2, 0)
+        vR = cR.subtract(cCenter)
+        cL = cTL.add(cBL).divide(2)
+        cB = cBR.add(cBL).divide(2)
+        vCL = cL.subtract(cCenter)
+        vCB = cB.subtract(cCenter)
         x1p = vCL.x * vCL.x
         y1p = vCL.y * vCL.y
         x2p = vCB.x * vCB.x
@@ -129,7 +128,7 @@ module.exports = class Graphics
         b = Math.sqrt (x1p * y2p - y1p * x2p) / (x1p - x2p)
         long = Math.max a, b
         focalRadius = long * focalPointRatio
-        gradient = @_context.createRadialGradient cCenter.x, cCenter.y, long, cCenter.x + focalRadius * Math.cos(vR.angle), cCenter.y + focalRadius * Math.sin(vR.angle), 0
+        gradient = @_context.createRadialGradient cCenter.x, cCenter.y, long, cCenter.x + focalRadius * Math.cos(vR.direction), cCenter.y + focalRadius * Math.sin(vR.direction), 0
         ratios = ratios.slice()
         ratios.reverse()
 

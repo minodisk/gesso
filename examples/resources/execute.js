@@ -20,7 +20,7 @@
   window.GaussianFilter = require('filters/GaussianFilter');
   window.MedianFilter = require('filters/MedianFilter');
   window.BilateralFilter = require('filters/BilateralFilter');
-  window.Point = require('geom/Point');
+  window.Vector = require('geom/Vector');
   window.Rectangle = require('geom/Rectangle');
   window.Matrix = require('geom/Matrix');
   window.ColorMatrix = require('geom/ColorMatrix');

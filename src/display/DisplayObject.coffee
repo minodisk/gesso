@@ -9,7 +9,7 @@
 EventDispatcher = require 'events/EventDispatcher'
 BlendMode = require 'display/BlendMode'
 Matrix = require 'geom/Matrix'
-Point = require 'geom/Point'
+Vector = require 'geom/Vector'
 Rectangle = require 'geom/Rectangle'
 
 _RADIAN_PER_DEGREE = Math.PI / 180
@@ -263,4 +263,4 @@ module.exports = class DisplayObject extends EventDispatcher
       x -= displayObject.x
       y -= displayObject.y
       displayObject = displayObject._parent
-    new Point x, y
+    new Vector x, y
