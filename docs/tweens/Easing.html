@@ -1,0 +1,361 @@
+<!DOCTYPE html> <html> <head>   <title>Easing.coffee</title>   <meta charset="UTF-8">   <link rel="stylesheet" media="all" href="../../resources/rocco.css" /> </head> <body> <div id="navbar">     <h3>graphicsJS Documentation - The wrapper of API for drawing on the canvas.<em></em></h3>   </div>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">           <a class="source" href="index.html">Index</a>                                           <a class="source" href="Camera.html">                 Camera.coffee               </a>                                           <a class="source" href="Renderer.html">                 Renderer.coffee               </a>                                           <a class="source" href="Scene.html">                 Scene.coffee               </a>                                           <a class="source" href="Screen.html">                 Screen.coffee               </a>                                           <a class="source" href="DisplayObject.html">                 DisplayObject.coffee               </a>                                           <a class="source" href="Dot.html">                 Dot.coffee               </a>                                           <a class="source" href="Line.html">                 Line.coffee               </a>                                           <a class="source" href="Plane.html">                 Plane.coffee               </a>                                           <a class="source" href="Sphere.html">                 Sphere.coffee               </a>                                           <a class="source" href="AABB.html">                 AABB.coffee               </a>                                           <a class="source" href="EulerAngles.html">                 EulerAngles.coffee               </a>                                           <a class="source" href="Matrix.html">                 Matrix.coffee               </a>                                           <a class="source" href="Quaternion.html">                 Quaternion.coffee               </a>                                           <a class="source" href="RotationMatrix.html">                 RotationMatrix.coffee               </a>                                           <a class="source" href="Vector.html">                 Vector.coffee               </a>                                           <a class="source" href="Klass.html">                 Klass.coffee               </a>                                           <a class="source" href="Bitmap.html">                 Bitmap.coffee               </a>                                           <a class="source" href="Blend.html">                 Blend.coffee               </a>                                           <a class="source" href="BlendMode.html">                 BlendMode.coffee               </a>                                           <a class="source" href="CapsStyle.html">                 CapsStyle.coffee               </a>                                           <a class="source" href="DisplayObject.html">                 DisplayObject.coffee               </a>                                           <a class="source" href="GradientType.html">                 GradientType.coffee               </a>                                           <a class="source" href="Graphics.html">                 Graphics.coffee               </a>                                           <a class="source" href="InteractiveObject.html">                 InteractiveObject.coffee               </a>                                           <a class="source" href="JointStyle.html">                 JointStyle.coffee               </a>                                           <a class="source" href="Loader.html">                 Loader.coffee               </a>                                           <a class="source" href="Shape.html">                 Shape.coffee               </a>                                           <a class="source" href="Sprite.html">                 Sprite.coffee               </a>                                           <a class="source" href="Stage.html">                 Stage.coffee               </a>                                           <a class="source" href="Event.html">                 Event.coffee               </a>                                           <a class="source" href="EventDispatcher.html">                 EventDispatcher.coffee               </a>                                           <a class="source" href="EventPhase.html">                 EventPhase.coffee               </a>                                           <a class="source" href="KeyboardEvent.html">                 KeyboardEvent.coffee               </a>                                           <a class="source" href="MouseEvent.html">                 MouseEvent.coffee               </a>                                           <a class="source" href="BilateralFilter.html">                 BilateralFilter.coffee               </a>                                           <a class="source" href="BlurFilter.html">                 BlurFilter.coffee               </a>                                           <a class="source" href="ColorMatrixFilter.html">                 ColorMatrixFilter.coffee               </a>                                           <a class="source" href="DeficiencyType.html">                 DeficiencyType.coffee               </a>                                           <a class="source" href="DoubleFilter.html">                 DoubleFilter.coffee               </a>                                           <a class="source" href="Filter.html">                 Filter.coffee               </a>                                           <a class="source" href="GaussianFilter.html">                 GaussianFilter.coffee               </a>                                           <a class="source" href="KernelFilter.html">                 KernelFilter.coffee               </a>                                           <a class="source" href="LaplacianFilter.html">                 LaplacianFilter.coffee               </a>                                           <a class="source" href="MedianFilter.html">                 MedianFilter.coffee               </a>                                           <a class="source" href="PrewittFilter.html">                 PrewittFilter.coffee               </a>                                           <a class="source" href="SobelFilter.html">                 SobelFilter.coffee               </a>                                           <a class="source" href="UnsharpMaskFilter.html">                 UnsharpMaskFilter.coffee               </a>                                           <a class="source" href="ColorMatrix.html">                 ColorMatrix.coffee               </a>                                           <a class="source" href="Matrix.html">                 Matrix.coffee               </a>                                           <a class="source" href="Quadtree.html">                 Quadtree.coffee               </a>                                           <a class="source" href="QuadtreeSpace.html">                 QuadtreeSpace.coffee               </a>                                           <a class="source" href="Rectangle.html">                 Rectangle.coffee               </a>                                           <a class="source" href="Vector.html">                 Vector.coffee               </a>                                           <a class="source" href="DateFormat.html">                 DateFormat.coffee               </a>                                           <a class="source" href="JSON.html">                 JSON.coffee               </a>                                           <a class="source" href="QueryString.html">                 QueryString.coffee               </a>                                           <a class="source" href="Capabilities.html">                 Capabilities.coffee               </a>                                           <a class="source" href="TextField.html">                 TextField.coffee               </a>                                           <a class="source" href="TextFormat.html">                 TextFormat.coffee               </a>                                           <a class="source" href="TextFormatAlign.html">                 TextFormatAlign.coffee               </a>                                           <a class="source" href="TextFormatBaseline.html">                 TextFormatBaseline.coffee               </a>                                           <a class="source" href="TextFormatFont.html">                 TextFormatFont.coffee               </a>                                           <a class="source" href="Stopwatch.html">                 Stopwatch.coffee               </a>                                           <a class="source" href="Ticker.html">                 Ticker.coffee               </a>                                           <a class="source" href="Timer.html">                 Timer.coffee               </a>                                           <a class="source" href="Easing.html">                 Easing.coffee               </a>                                           <a class="source" href="Tween.html">                 Tween.coffee               </a>                                           <a class="source" href="ArrayUtil.html">                 ArrayUtil.coffee               </a>                                           <a class="source" href="MathUtil.html">                 MathUtil.coffee               </a>                                           <a class="source" href="ObjectUtil.html">                 ObjectUtil.coffee               </a>                                           <a class="source" href="StringUtil.html">                 StringUtil.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               Easing.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p><strong>Package:</strong> <em>tweens</em><br/>
+<strong>Inheritance:</strong> <em>Object</em> → <em>Easing</em><br/>
+<strong>Subclasses:</strong> -</p>
+
+<p>Easing type definition.<br/>
+see <a href="EasingCurve.html">EasingCurve</a><br/>
+You can access this module by doing:<br/>
+<code>require('tweens/Easing')</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">_PI = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span>
+<span class="nv">_PI_2 = </span><span class="nx">_PI</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="nv">_PI_1_2 = </span><span class="nx">_PI</span> <span class="err">/ 2</span>
+<span class="nv">_abs = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span>
+<span class="nv">_pow = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">pow</span>
+<span class="nv">_sqrt = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span>
+<span class="nv">_sin = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span>
+<span class="nv">_cos = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span>
+<span class="nv">_asin = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">asin</span>
+
+<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">Easing</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>t: current time
+b: begin value
+c: change value
+d: duration</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">@linear</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="err">/ d + b</span>
+
+  <span class="nx">@easeInQuad</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutQuad</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeInOutQuad</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 * t * t + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span><span class="o">--</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (t * (t - 2) - 1) + b</span>
+
+  <span class="nx">@easeOutInQuad</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * t * (t - 2) + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span><span class="o">--</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (t * t + 1) + b</span>
+
+  <span class="nx">@easeInCubic</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutCubic</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="err">/ d - 1</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeInOutCubic</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 * t * t * t + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mi">2</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (t * t * t + 2) + b</span>
+
+  <span class="nx">@easeOutInCubic</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="nx">c</span> <span class="err">/ 2 * (t * t * t + 1) + b</span>
+
+  <span class="nx">@easeInQuart</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutQuart</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="err">/ d - 1</span>
+    <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeInOutQuart</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 * t * t * t * t + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mi">2</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (t * t * t * t - 2) + b</span>
+
+  <span class="nx">@easeOutInQuart</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">0</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (t * t * t * t - 1) + b</span>
+    <span class="k">else</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (t * t * t * t + 1) + b</span>
+
+  <span class="nx">@easeInQuint</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutQuint</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="err">/ d - 1</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeInOutQuint</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 * t * t * t * t * t + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mi">2</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (t * t * t * t * t + 2) + b</span>
+
+  <span class="nx">@easeOutInQuint</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="nx">c</span> <span class="err">/ 2 * (t * t * t * t * t + 1) + b</span>
+
+  <span class="nx">@easeInExpo</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">_pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span> <span class="err">/ d - 1)) + b</span>
+
+  <span class="nx">@easeOutExpo</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">_pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">t</span> <span class="err">/ d)) + b</span>
+
+  <span class="nx">@easeInOutExpo</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">0</span>
+      <span class="nx">c</span> <span class="err">/ 2 * _pow(2, 10 * t) + b</span>
+    <span class="k">else</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (2 - _pow(2, -10 * t)) + b</span>
+
+  <span class="nx">@easeOutInExpo</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">is</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 + b</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (1 - _pow(2, -10 * t)) + b</span>
+    <span class="k">else</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (1 + _pow(2, 10 * (t - 2))) + b</span>
+
+  <span class="nx">@easeInSine</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="nx">_cos</span><span class="p">(</span><span class="nx">t</span> <span class="err">/ d * _PI_1_2) - 1) + b</span>
+
+  <span class="nx">@easeOutSine</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">_sin</span><span class="p">(</span><span class="nx">t</span> <span class="err">/ d * _PI_1_2) + b</span>
+
+  <span class="nx">@easeInOutSine</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="o">-</span><span class="nx">c</span> <span class="sr">/ 2 * (_cos(_PI * t /</span> <span class="nx">d</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutInSine</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nx">c</span> <span class="err">/ 2 * _sin(t * _PI_1_2) + b</span>
+    <span class="k">else</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (_cos((t - 1) * _PI_1_2) - 2) + b</span>
+
+  <span class="nx">@easeInCirc</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="nx">_sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutCirc</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="err">/ d - 1</span>
+    <span class="nx">c</span> <span class="o">*</span> <span class="nx">_sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeInOutCirc</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (_sqrt(1 - t * t) - 1) + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mi">2</span>
+      <span class="nx">c</span> <span class="err">/ 2 * (_sqrt(1 - t * t) + 1) + b</span>
+
+  <span class="nx">@easeOutInCirc</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">0</span>
+      <span class="nx">c</span> <span class="err">/ 2 * _sqrt(1 - t * t) + b</span>
+    <span class="k">else</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (_sqrt(1 - t * t) - 2) + b</span>
+
+  <span class="nx">@easeInBackWith</span><span class="o">:</span><span class="nf">(s = 1.70158) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_s = </span><span class="nx">s</span>
+      <span class="nx">t</span> <span class="err">/= d</span>
+      <span class="nx">c</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="p">((</span><span class="nx">_s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">-</span> <span class="nx">_s</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+  <span class="nx">@easeInBack</span>    <span class="o">:</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">easeInBackWith</span><span class="p">()</span>
+
+  <span class="nx">@easeOutBackWith</span><span class="o">:</span><span class="nf">(s = 1.70158) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_s = </span><span class="nx">s</span>
+      <span class="nv">t = </span><span class="nx">t</span> <span class="err">/ d - 1</span>
+      <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="p">((</span><span class="nx">_s</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="nx">_s</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+  <span class="nx">@easeOutBack</span>    <span class="o">:</span><span class="nx">@easeOutBackWith</span><span class="p">()</span>
+
+  <span class="nx">@easeInOutBackWith</span><span class="o">:</span><span class="nf">(s = 1.70158) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_s = </span><span class="nx">s</span> <span class="o">*</span> <span class="mf">1.525</span>
+      <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (t * t * ((_s + 1) * t - _s)) + b</span>
+      <span class="k">else</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mi">2</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (t * t * ((_s + 1) * t + _s) + 2) + b</span>
+  <span class="nx">@easeInOutBack</span>    <span class="o">:</span><span class="nx">@easeInOutBackWith</span><span class="p">()</span>
+
+  <span class="nx">@easeOutInBackWith</span><span class="o">:</span><span class="nf">(s = 1.70158) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_s = </span><span class="nx">s</span>
+      <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (t * t * ((_s + 1) * t + _s) + 1) + b</span>
+      <span class="k">else</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (t * t * ((_s + 1) * t - _s) + 1) + b</span>
+  <span class="nx">@easeOutInBack</span>    <span class="o">:</span><span class="nx">@easeOutInBackWith</span><span class="p">()</span>
+
+  <span class="nx">@easeInBounce</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nv">t = </span><span class="mi">1</span> <span class="o">-</span> <span class="nx">t</span> <span class="err">/ d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.36363636363636365</span>   <span class="c1"># 4 / 11</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.7272727272727273</span>   <span class="c1"># 8 / 11</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.5454545454545454</span>   <span class="c1"># 6 / 11</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">-</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.9090909090909091</span>   <span class="c1"># 10 / 11</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.8181818181818182</span>   <span class="c1"># 9 / 11</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span>  <span class="o">-</span> <span class="mf">0.0625</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.9545454545454546</span>   <span class="c1"># 10.5 / 11</span>
+      <span class="o">-</span><span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">-</span> <span class="mf">0.015625</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeOutBounce</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="err">/= d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.36363636363636365</span>   <span class="c1"># 4 / 11</span>
+      <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.7272727272727273</span>   <span class="c1"># 8 / 11</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.5454545454545454</span>   <span class="c1"># 6 / 11</span>
+      <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="mf">0.75</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.9090909090909091</span>   <span class="c1"># 10 / 11</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.8181818181818182</span>   <span class="c1"># 9 / 11</span>
+      <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="mf">0.9375</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.9545454545454546</span>   <span class="c1"># 10.5 / 11</span>
+      <span class="nx">c</span> <span class="o">*</span> <span class="p">(</span><span class="mf">7.5625</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">*</span> <span class="nx">t</span> <span class="o">+</span> <span class="mf">0.984375</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+
+  <span class="nx">@easeInOutBounce</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="nv">t = </span><span class="mi">1</span> <span class="o">-</span> <span class="nx">t</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.36363636363636365</span>   <span class="c1"># 4 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 1) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.7272727272727273</span>   <span class="c1"># 8 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.5454545454545454</span>   <span class="c1"># 6 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 0.25) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.9090909090909091</span>   <span class="c1"># 10 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.8181818181818182</span>   <span class="c1"># 9 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 0.0625) + b</span>
+      <span class="k">else</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.9545454545454546</span>   <span class="c1"># 10.5 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 0.015625) + b</span>
+    <span class="k">else</span>
+      <span class="nx">t</span> <span class="o">-=</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.36363636363636365</span>   <span class="c1"># 4 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 1) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.7272727272727273</span>   <span class="c1"># 8 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.5454545454545454</span>   <span class="c1"># 6 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 1.75) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.9090909090909091</span>   <span class="c1"># 10 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.8181818181818182</span>   <span class="c1"># 9 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 1.9375) + b</span>
+      <span class="k">else</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.9545454545454546</span>   <span class="c1"># 10.5 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 1.984375) + b</span>
+
+
+  <span class="nx">@easeOutInBounce</span><span class="o">:</span><span class="nf">(t, b, c, d) -&gt;</span>
+    <span class="nx">t</span> <span class="o">*=</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+    <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.36363636363636365</span>   <span class="c1"># 4 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.7272727272727273</span>   <span class="c1"># 8 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.5454545454545454</span>   <span class="c1"># 6 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 0.75) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.9090909090909091</span>   <span class="c1"># 10 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.8181818181818182</span>   <span class="c1"># 9 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 0.9375) + b</span>
+      <span class="k">else</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.9545454545454546</span>   <span class="c1"># 10.5 / 11</span>
+        <span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t + 0.984375) + b</span>
+    <span class="k">else</span>
+      <span class="nv">t = </span><span class="mi">2</span> <span class="o">-</span> <span class="nx">t</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.36363636363636365</span>   <span class="c1"># 4 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 2) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.7272727272727273</span>   <span class="c1"># 8 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.5454545454545454</span>   <span class="c1"># 6 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 1.25) + b</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mf">0.9090909090909091</span>   <span class="c1"># 10 / 11</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.8181818181818182</span>   <span class="c1"># 9 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 1.0625) + b</span>
+      <span class="k">else</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mf">0.9545454545454546</span>   <span class="c1"># 10.5 / 11</span>
+        <span class="o">-</span><span class="nx">c</span> <span class="err">/ 2 * (7.5625 * t * t - 1.015625) + b</span>
+
+  <span class="nx">@easeInElasticWith</span><span class="o">:</span><span class="nf">(a = 0, p = 0) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_a = </span><span class="nx">a</span>
+      <span class="nv">_p = </span><span class="nx">p</span>
+      <span class="nv">t = </span><span class="nx">t</span> <span class="err">/ d - 1</span>
+      <span class="k">if</span> <span class="nx">_p</span> <span class="o">is</span> <span class="mi">0</span>
+        <span class="nv">_p = </span><span class="nx">d</span> <span class="o">*</span> <span class="mf">0.3</span>
+      <span class="k">if</span> <span class="nx">_a</span> <span class="o">is</span> <span class="mi">0</span> <span class="o">or</span> <span class="nx">_a</span> <span class="o">&lt;</span> <span class="nx">_abs</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+        <span class="nv">_a = </span><span class="nx">c</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="err">/ 4</span>
+      <span class="k">else</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="sr">/ _PI_2 * _asin(c /</span> <span class="nx">_a</span><span class="p">)</span>
+      <span class="o">-</span><span class="nx">_a</span> <span class="o">*</span> <span class="nx">_pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_sin</span><span class="p">((</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">d</span> <span class="o">-</span> <span class="nx">s</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_PI_2</span> <span class="err">/ _p) + b</span>
+  <span class="nx">@easeInElastic</span>    <span class="o">:</span><span class="nx">@easeInElasticWith</span><span class="p">()</span>
+
+  <span class="nx">@easeOutElasticWith</span><span class="o">:</span><span class="nf">(a = 0, p = 0) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_a = </span><span class="nx">a</span>
+      <span class="nv">_p = </span><span class="nx">p</span>
+      <span class="nx">t</span> <span class="err">/= d</span>
+      <span class="k">if</span> <span class="nx">_p</span> <span class="o">is</span> <span class="mi">0</span>
+        <span class="nv">_p = </span><span class="nx">d</span> <span class="o">*</span> <span class="mf">0.3</span>
+      <span class="k">if</span> <span class="nx">_a</span> <span class="o">is</span> <span class="mi">0</span> <span class="o">or</span> <span class="nx">_a</span> <span class="o">&lt;</span> <span class="nx">_abs</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+        <span class="nv">_a = </span><span class="nx">c</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="err">/ 4</span>
+      <span class="k">else</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="sr">/ _PI_2 * _asin(c /</span> <span class="nx">_a</span><span class="p">)</span>
+      <span class="nx">_a</span> <span class="o">*</span> <span class="nx">_pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_sin</span><span class="p">((</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">d</span> <span class="o">-</span> <span class="nx">s</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_PI_2</span> <span class="err">/ _p) + b + c</span>
+  <span class="nx">@easeOutElastic</span>    <span class="o">:</span><span class="nx">@easeOutElasticWith</span><span class="p">()</span>
+
+  <span class="nx">@easeInOutElasticWith</span><span class="o">:</span><span class="nf">(a = 0, p = 0) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_a = </span><span class="nx">a</span>
+      <span class="nv">_p = </span><span class="nx">p</span>
+      <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">if</span> <span class="nx">_p</span> <span class="o">is</span> <span class="mi">0</span>
+        <span class="nv">_p = </span><span class="nx">d</span> <span class="o">*</span> <span class="mf">0.45</span>
+      <span class="k">if</span> <span class="nx">_a</span> <span class="o">is</span> <span class="mi">0</span> <span class="o">or</span> <span class="nx">_a</span> <span class="o">&lt;</span> <span class="nx">_abs</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+        <span class="nv">_a = </span><span class="nx">c</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="err">/ 4</span>
+      <span class="k">else</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="sr">/ _PI_2 * _asin(c /</span> <span class="nx">_a</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">0</span>
+        <span class="o">-</span><span class="nx">_a</span> <span class="sr">/ 2 * _pow(2, 10 * t) * _sin((t * d - s) * _PI_2 /</span> <span class="nx">_p</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span>
+      <span class="k">else</span>
+        <span class="nx">_a</span> <span class="sr">/ 2 * _pow(2, -10 * t) * _sin((t * d - s) * _PI_2 /</span> <span class="nx">_p</span><span class="p">)</span> <span class="o">+</span> <span class="nx">b</span> <span class="o">+</span> <span class="nx">c</span>
+  <span class="nx">@easeInOutElastic</span>    <span class="o">:</span><span class="nx">@easeInOutElasticWith</span><span class="p">()</span>
+
+  <span class="nx">@easeOutInElasticWith</span><span class="o">:</span><span class="nf">(a = 0, p = 0) -&gt;</span>
+    <span class="nf">(t, b, c, d) -&gt;</span>
+      <span class="nv">_a = </span><span class="nx">a</span>
+      <span class="nv">_p = </span><span class="nx">p</span>
+      <span class="nv">t = </span><span class="nx">t</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">/</span> <span class="nx">d</span>
+      <span class="nx">c</span> <span class="err">/= 2</span>
+      <span class="k">if</span> <span class="nx">_p</span> <span class="o">is</span> <span class="mi">0</span>
+        <span class="nv">_p = </span><span class="nx">d</span> <span class="o">*</span> <span class="mf">0.3</span>
+      <span class="k">if</span> <span class="nx">_a</span> <span class="o">is</span> <span class="mi">0</span> <span class="o">or</span> <span class="nx">_a</span> <span class="o">&lt;</span> <span class="nx">_abs</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span>
+        <span class="nv">_a = </span><span class="nx">c</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="err">/ 4</span>
+      <span class="k">else</span>
+        <span class="nv">s = </span><span class="nx">_p</span> <span class="sr">/ _PI_2 * _asin(c /</span> <span class="nx">_a</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nx">t</span> <span class="o">&lt;</span> <span class="mi">1</span>
+        <span class="nx">_a</span> <span class="o">*</span> <span class="nx">_pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_sin</span><span class="p">((</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">d</span> <span class="o">-</span> <span class="nx">s</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_PI_2</span> <span class="err">/ _p) + b + c</span>
+      <span class="k">else</span>
+        <span class="nx">t</span> <span class="o">-=</span> <span class="mi">2</span>
+        <span class="o">-</span><span class="nx">_a</span> <span class="o">*</span> <span class="nx">_pow</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span> <span class="o">*</span> <span class="nx">t</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_sin</span><span class="p">((</span><span class="nx">t</span> <span class="o">*</span> <span class="nx">d</span> <span class="o">-</span> <span class="nx">s</span><span class="p">)</span> <span class="o">*</span> <span class="nx">_PI_2</span> <span class="err">/ _p) + b + c</span>
+  <span class="nx">@easeOutInElastic</span>    <span class="o">:</span><span class="nx">@easeOutInElasticWith</span><span class="p">()</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

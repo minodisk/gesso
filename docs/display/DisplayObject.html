@@ -1,0 +1,219 @@
+<!DOCTYPE html> <html> <head>   <title>DisplayObject.coffee</title>   <meta charset="UTF-8">   <link rel="stylesheet" media="all" href="../../resources/rocco.css" /> </head> <body> <div id="navbar">     <h3>graphicsJS Documentation - The wrapper of API for drawing on the canvas.<em></em></h3>   </div>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">           <a class="source" href="index.html">Index</a>                                           <a class="source" href="Camera.html">                 Camera.coffee               </a>                                           <a class="source" href="Renderer.html">                 Renderer.coffee               </a>                                           <a class="source" href="Scene.html">                 Scene.coffee               </a>                                           <a class="source" href="Screen.html">                 Screen.coffee               </a>                                           <a class="source" href="DisplayObject.html">                 DisplayObject.coffee               </a>                                           <a class="source" href="Dot.html">                 Dot.coffee               </a>                                           <a class="source" href="Line.html">                 Line.coffee               </a>                                           <a class="source" href="Plane.html">                 Plane.coffee               </a>                                           <a class="source" href="Sphere.html">                 Sphere.coffee               </a>                                           <a class="source" href="AABB.html">                 AABB.coffee               </a>                                           <a class="source" href="EulerAngles.html">                 EulerAngles.coffee               </a>                                           <a class="source" href="Matrix.html">                 Matrix.coffee               </a>                                           <a class="source" href="Quaternion.html">                 Quaternion.coffee               </a>                                           <a class="source" href="RotationMatrix.html">                 RotationMatrix.coffee               </a>                                           <a class="source" href="Vector.html">                 Vector.coffee               </a>                                           <a class="source" href="Klass.html">                 Klass.coffee               </a>                                           <a class="source" href="Bitmap.html">                 Bitmap.coffee               </a>                                           <a class="source" href="Blend.html">                 Blend.coffee               </a>                                           <a class="source" href="BlendMode.html">                 BlendMode.coffee               </a>                                           <a class="source" href="CapsStyle.html">                 CapsStyle.coffee               </a>                                           <a class="source" href="DisplayObject.html">                 DisplayObject.coffee               </a>                                           <a class="source" href="GradientType.html">                 GradientType.coffee               </a>                                           <a class="source" href="Graphics.html">                 Graphics.coffee               </a>                                           <a class="source" href="InteractiveObject.html">                 InteractiveObject.coffee               </a>                                           <a class="source" href="JointStyle.html">                 JointStyle.coffee               </a>                                           <a class="source" href="Loader.html">                 Loader.coffee               </a>                                           <a class="source" href="Shape.html">                 Shape.coffee               </a>                                           <a class="source" href="Sprite.html">                 Sprite.coffee               </a>                                           <a class="source" href="Stage.html">                 Stage.coffee               </a>                                           <a class="source" href="Event.html">                 Event.coffee               </a>                                           <a class="source" href="EventDispatcher.html">                 EventDispatcher.coffee               </a>                                           <a class="source" href="EventPhase.html">                 EventPhase.coffee               </a>                                           <a class="source" href="KeyboardEvent.html">                 KeyboardEvent.coffee               </a>                                           <a class="source" href="MouseEvent.html">                 MouseEvent.coffee               </a>                                           <a class="source" href="BilateralFilter.html">                 BilateralFilter.coffee               </a>                                           <a class="source" href="BlurFilter.html">                 BlurFilter.coffee               </a>                                           <a class="source" href="ColorMatrixFilter.html">                 ColorMatrixFilter.coffee               </a>                                           <a class="source" href="DeficiencyType.html">                 DeficiencyType.coffee               </a>                                           <a class="source" href="DoubleFilter.html">                 DoubleFilter.coffee               </a>                                           <a class="source" href="Filter.html">                 Filter.coffee               </a>                                           <a class="source" href="GaussianFilter.html">                 GaussianFilter.coffee               </a>                                           <a class="source" href="KernelFilter.html">                 KernelFilter.coffee               </a>                                           <a class="source" href="LaplacianFilter.html">                 LaplacianFilter.coffee               </a>                                           <a class="source" href="MedianFilter.html">                 MedianFilter.coffee               </a>                                           <a class="source" href="PrewittFilter.html">                 PrewittFilter.coffee               </a>                                           <a class="source" href="SobelFilter.html">                 SobelFilter.coffee               </a>                                           <a class="source" href="UnsharpMaskFilter.html">                 UnsharpMaskFilter.coffee               </a>                                           <a class="source" href="ColorMatrix.html">                 ColorMatrix.coffee               </a>                                           <a class="source" href="Matrix.html">                 Matrix.coffee               </a>                                           <a class="source" href="Quadtree.html">                 Quadtree.coffee               </a>                                           <a class="source" href="QuadtreeSpace.html">                 QuadtreeSpace.coffee               </a>                                           <a class="source" href="Rectangle.html">                 Rectangle.coffee               </a>                                           <a class="source" href="Vector.html">                 Vector.coffee               </a>                                           <a class="source" href="DateFormat.html">                 DateFormat.coffee               </a>                                           <a class="source" href="JSON.html">                 JSON.coffee               </a>                                           <a class="source" href="QueryString.html">                 QueryString.coffee               </a>                                           <a class="source" href="Capabilities.html">                 Capabilities.coffee               </a>                                           <a class="source" href="TextField.html">                 TextField.coffee               </a>                                           <a class="source" href="TextFormat.html">                 TextFormat.coffee               </a>                                           <a class="source" href="TextFormatAlign.html">                 TextFormatAlign.coffee               </a>                                           <a class="source" href="TextFormatBaseline.html">                 TextFormatBaseline.coffee               </a>                                           <a class="source" href="TextFormatFont.html">                 TextFormatFont.coffee               </a>                                           <a class="source" href="Stopwatch.html">                 Stopwatch.coffee               </a>                                           <a class="source" href="Ticker.html">                 Ticker.coffee               </a>                                           <a class="source" href="Timer.html">                 Timer.coffee               </a>                                           <a class="source" href="Easing.html">                 Easing.coffee               </a>                                           <a class="source" href="Tween.html">                 Tween.coffee               </a>                                           <a class="source" href="ArrayUtil.html">                 ArrayUtil.coffee               </a>                                           <a class="source" href="MathUtil.html">                 MathUtil.coffee               </a>                                           <a class="source" href="ObjectUtil.html">                 ObjectUtil.coffee               </a>                                           <a class="source" href="StringUtil.html">                 StringUtil.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               DisplayObject.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p><strong>Package:</strong> <em>display</em><br/>
+<strong>Inheritance:</strong> <em>Object</em> → <em>EventDispatcher</em> → <em>DisplayObject</em><br/>
+<strong>Subclasses:</strong> <em>Bitmap</em>, <em>Shape</em>, <em>TextField</em></p>
+
+<p>The base class for all objects that can be placed on the display list.<br/>
+You can access this module by doing:<br/>
+<code>require('display/DisplayObject')</code></p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">EventDispatcher = </span><span class="nx">require</span> <span class="s1">&#39;events/EventDispatcher&#39;</span>
+<span class="nv">BlendMode = </span><span class="nx">require</span> <span class="s1">&#39;display/BlendMode&#39;</span>
+<span class="nv">Matrix = </span><span class="nx">require</span> <span class="s1">&#39;geom/Matrix&#39;</span>
+<span class="nv">Vector = </span><span class="nx">require</span> <span class="s1">&#39;geom/Vector&#39;</span>
+<span class="nv">Rectangle = </span><span class="nx">require</span> <span class="s1">&#39;geom/Rectangle&#39;</span>
+
+<span class="nv">_RADIAN_PER_DEGREE = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="err">/ 180</span>
+
+<span class="nv">module.exports = </span><span class="k">class</span> <span class="nx">DisplayObject</span> <span class="k">extends</span> <span class="nx">EventDispatcher</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>new DisplayObject()</h3>
+
+<p>Creates a new <em>DisplayObject</em> object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">constructor: </span><span class="o">-&gt;</span>
+    <span class="k">super</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>stage:<em>Stage</em></h3>
+
+<p>[read-only] The <em>Stage</em> of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;stage&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@__stage</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@__stage = </span><span class="nx">value</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <h3>parent:<em>Sprite</em></h3>
+
+<p>[read-only] The <em>Sprite</em> object that contains this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;parent&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_parent</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h3>x:<em>Number</em></h3>
+
+<p>The x coordinate of this object relative to parent coordinate space.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;x&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_x</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_x = </span><span class="nx">value</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <h3>y:<em>Number</em></h3>
+
+<p>The y coordinate of this object relative to parent coordinate space.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;y&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_y</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_y = </span><span class="nx">value</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <h3>alpha:<em>Number</em></h3>
+
+<p>The alpha transparency value of this object, between 0.0 and 1.0.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;alpha&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_alpha</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_alpha = </span><span class="nx">value</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <h3>rotation:<em>Number</em></h3>
+
+<p>The rotation of this object, in degrees.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;rotation&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_rotation</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_rotation = </span><span class="nx">value</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <h3>width:<em>Number</em></h3>
+
+<p>The width of this object, in pixels.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;width&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_width</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_width = </span><span class="nx">value</span>
+        <span class="vi">@_scaleX = </span><span class="nx">value</span> <span class="err">/ @_context.canvas.width unless @_context.canvas.width is 0</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h3>height:<em>Number</em></h3>
+
+<p>The height of this object, in pixels.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;height&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_height</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_height = </span><span class="nx">value</span>
+        <span class="vi">@_scaleY = </span><span class="nx">value</span> <span class="err">/ @_context.canvas.height unless @_context.canvas.height is 0</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <h3>scaleX:<em>Number</em></h3>
+
+<p>The horizontal scale of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;scaleX&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_scaleX</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_scaleX = </span><span class="nx">value</span>
+        <span class="vi">@_width = </span><span class="nx">@_context</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span> <span class="o">*</span> <span class="nx">value</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <h3>scaleY:<em>Number</em></h3>
+
+<p>The vertical scale of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@defineProperty</span> <span class="s1">&#39;scaleY&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_scaleY</span>
+      <span class="p">,</span> <span class="nf">(value) -&gt;</span>
+        <span class="vi">@_scaleY = </span><span class="nx">value</span>
+        <span class="vi">@_height = </span><span class="nx">@_context</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span> <span class="o">*</span> <span class="nx">value</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span>
+
+    <span class="nx">@defineProperty</span> <span class="s1">&#39;matrix&#39;</span>
+      <span class="p">,</span> <span class="o">-&gt;</span>
+        <span class="nx">@_matrix</span>
+      <span class="p">,</span> <span class="nf">(matrix) -&gt;</span>
+        <span class="vi">@_matrix = </span><span class="nx">matrix</span>
+        <span class="nx">@_requestRender</span> <span class="kc">false</span>
+        <span class="k">return</span>
+
+    <span class="vi">@__stage = </span><span class="kc">null</span>
+    <span class="vi">@_parent = </span><span class="kc">null</span>
+    <span class="vi">@_x = </span><span class="mi">0</span>
+    <span class="vi">@_y = </span><span class="mi">0</span>
+    <span class="vi">@_width = </span><span class="mi">0</span>
+    <span class="vi">@_height = </span><span class="mi">0</span>
+    <span class="vi">@_scaleX = </span><span class="mi">1</span>
+    <span class="vi">@_scaleY = </span><span class="mi">1</span>
+    <span class="vi">@_rotation = </span><span class="mi">0</span>
+    <span class="vi">@_alpha = </span><span class="mi">1</span>
+    <span class="vi">@_matrix = </span><span class="k">new</span> <span class="nx">Matrix</span>
+    <span class="vi">@blendMode = </span><span class="nx">BlendMode</span><span class="p">.</span><span class="nx">NORMAL</span>
+    <span class="vi">@filters = </span><span class="p">[]</span>
+    <span class="vi">@_context = </span><span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;canvas&#39;</span><span class="p">).</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">)</span>
+    <span class="vi">@_context.canvas.width = @_context.canvas.height = </span><span class="mi">0</span>
+    <span class="vi">@_stacks = </span><span class="p">[]</span>
+    <span class="vi">@_drawn = </span><span class="kc">false</span>
+
+  <span class="nv">_getTransform: </span><span class="o">-&gt;</span>
+    <span class="nx">@_matrix</span><span class="p">.</span><span class="nx">clone</span><span class="p">().</span><span class="nx">createBox</span><span class="p">(</span><span class="nx">@_scaleX</span><span class="p">,</span> <span class="nx">@_scaleY</span><span class="p">,</span> <span class="nx">@_rotation</span> <span class="o">*</span> <span class="nx">_RADIAN_PER_DEGREE</span><span class="p">,</span> <span class="nx">@_x</span><span class="p">,</span> <span class="nx">@_y</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <h3>set():<em>DisplayObject</em></h3>
+
+<p>Sets property to this object. Returns self for method chain.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">set: </span><span class="nf">(propertyName, value) -&gt;</span>
+    <span class="err">@</span><span class="p">[</span><span class="nx">propertyName</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span>
+    <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <h3>addTo():<em>DisplayObject</em></h3>
+
+<p>Adds this object to <em>Sprite</em> object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">addTo: </span><span class="nf">(parent) -&gt;</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nx">TypeError</span> <span class="s2">&quot;parent #{ parent } isn&#39;t display object container&quot;</span> <span class="nx">unless</span> <span class="nx">parent</span> <span class="k">instanceof</span> <span class="nx">Sprite</span>
+    <span class="nx">parent</span><span class="p">.</span><span class="nx">addChild</span><span class="p">(</span><span class="err">@</span><span class="p">)</span>
+    <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <h3>get_bounds():<em>DisplayObject</em></h3>
+
+<p>Calculates a rectangle that defines the area of this object object relative
+to target coordinate space.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <h3>_requestRender():<em>DisplayObject</em></h3>
+
+<p>[private] Requests rendering to parent.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_requestRender: </span><span class="nf">(drawn = false) -&gt;</span>
+    <span class="nx">@_drawn</span> <span class="o">|=</span> <span class="nx">drawn</span>
+    <span class="nx">@_measureSize</span><span class="p">()</span>
+    <span class="nx">@_parent</span><span class="p">.</span><span class="nx">_requestRender</span> <span class="kc">true</span> <span class="k">if</span> <span class="nx">@_parent</span><span class="o">?</span>
+    <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <h3>_render():<em>void</em></h3>
+
+<p>[private] Renders this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_render: </span><span class="o">-&gt;</span>
+    <span class="vi">@_drawn = </span><span class="kc">false</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>@_measureSize()</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@_applySize</span><span class="p">()</span>
+    <span class="nx">@_execStacks</span><span class="p">()</span>
+    <span class="nx">@_applyFilters</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>@_drawBounds()</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <h3>_measureSize():<em>void</em></h3>
+
+<p>[private] Measures the bounds of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nx">_measureSize</span><span class="o">:-&gt;</span>
+    <span class="nv">delta = </span><span class="mi">0</span>
+    <span class="k">for</span> <span class="nx">stack</span> <span class="k">in</span> <span class="nx">@_stacks</span>
+      <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">delta</span><span class="o">?</span>
+        <span class="nv">delta = </span><span class="nx">stack</span><span class="p">.</span><span class="nx">delta</span>
+      <span class="k">if</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="o">?</span>
+        <span class="nx">unless</span> <span class="nx">rect</span><span class="o">?</span>
+          <span class="nv">rect = </span><span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="k">else</span>
+          <span class="nx">rect</span><span class="p">.</span><span class="nx">union</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span>
+        <span class="nv">b = </span><span class="nx">stack</span><span class="p">.</span><span class="nx">rect</span><span class="p">.</span><span class="nx">clone</span><span class="p">()</span>
+        <span class="nx">b</span><span class="p">.</span><span class="nx">offset</span> <span class="o">-</span><span class="nx">delta</span> <span class="sr">/ 2, -delta /</span> <span class="mi">2</span>
+        <span class="nx">b</span><span class="p">.</span><span class="nx">inflate</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">delta</span>
+        <span class="nx">unless</span> <span class="nx">bounds</span><span class="o">?</span>
+          <span class="nv">bounds = </span><span class="nx">b</span>
+        <span class="k">else</span>
+          <span class="nx">bounds</span><span class="p">.</span><span class="nx">union</span> <span class="nx">b</span>
+    <span class="nx">unless</span> <span class="nx">rect</span><span class="o">?</span>
+      <span class="nv">rect = </span><span class="k">new</span> <span class="nx">Rectangle</span>
+    <span class="nx">unless</span> <span class="nx">bounds</span><span class="o">?</span>
+      <span class="nv">bounds = </span><span class="k">new</span> <span class="nx">Rectangle</span>
+    <span class="k">else</span>
+      <span class="nx">bounds</span><span class="p">.</span><span class="nx">adjustOuter</span><span class="p">()</span>
+
+    <span class="vi">@_width = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">width</span>
+    <span class="vi">@_height = </span><span class="nx">rect</span><span class="p">.</span><span class="nx">height</span>
+    <span class="vi">@_rect = </span><span class="nx">rect</span>
+    <span class="vi">@_bounds = </span><span class="nx">bounds</span>
+    <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <h3>_applySize():<em>void</em></h3>
+
+<p>[private] Applies the bounds to internal canvas of this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_applySize: </span><span class="o">-&gt;</span>
+    <span class="vi">@_context.canvas.width = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span>
+    <span class="vi">@_context.canvas.height = </span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">height</span></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <h3>_execStacks():<em>void</em></h3>
+
+<p>[private] Executes the stacks to this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_execStacks: </span><span class="o">-&gt;</span>
+    <span class="nx">@_context</span><span class="p">.</span><span class="nx">translate</span> <span class="o">-</span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="o">-</span><span class="nx">@_bounds</span><span class="p">.</span><span class="nx">y</span>
+    <span class="err">@</span><span class="p">[</span><span class="s2">&quot;_#{ stack.method }&quot;</span><span class="p">].</span><span class="nx">apply</span> <span class="err">@</span><span class="p">,</span> <span class="nx">stack</span><span class="p">.</span><span class="nx">arguments</span> <span class="k">for</span> <span class="nx">stack</span> <span class="k">in</span> <span class="nx">@_stacks</span>
+    <span class="nx">@_context</span><span class="p">.</span><span class="nx">setTransform</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <h3>_applyFilters():<em>void</em></h3>
+
+<p>[private] Applies the filters to this object.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_applyFilters: </span><span class="o">-&gt;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">@filters</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+      <span class="nv">imageData = </span><span class="nx">@_context</span><span class="p">.</span><span class="nx">getImageData</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">height</span>
+      <span class="nv">newImageData = </span><span class="nx">@_context</span><span class="p">.</span><span class="nx">createImageData</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">height</span>
+      <span class="nx">filter</span><span class="p">.</span><span class="nx">scan</span> <span class="nx">imageData</span><span class="p">,</span> <span class="nx">newImageData</span> <span class="k">for</span> <span class="nx">filter</span> <span class="k">in</span> <span class="nx">@filters</span>
+      <span class="nx">@_context</span><span class="p">.</span><span class="nx">putImageData</span> <span class="nx">newImageData</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">return</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <h3>_drawBounds():<em>void</em></h3>
+
+<p>[private] Draws the bounds of this object for debug.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_drawBounds: </span><span class="o">-&gt;</span>
+    <span class="vi">@_context.strokeStyle = </span><span class="s1">&#39;rgba(0, 0, 255, .8)&#39;</span>
+    <span class="vi">@_context.lineWidth = </span><span class="mi">1</span>
+    <span class="nx">@_context</span><span class="p">.</span><span class="nx">strokeRect</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">@_context</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">width</span><span class="p">,</span> <span class="nx">@_context</span><span class="p">.</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">height</span></pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>TODO Standardize the implementation of hitTest.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">hitTestPoint: </span><span class="nf">(point) -&gt;</span>
+    <span class="nx">@hitTest</span> <span class="nx">point</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">point</span><span class="p">.</span><span class="nx">y</span>
+  <span class="nv">hitTest: </span><span class="nf">(stageX, stageY) -&gt;</span>
+    <span class="nv">local = </span><span class="nx">@globalToLocal</span> <span class="nx">stageX</span><span class="p">,</span> <span class="nx">stageY</span>
+    <span class="nx">@_hitTest</span> <span class="nx">local</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">local</span><span class="p">.</span><span class="nx">y</span>
+  <span class="nv">_hitTest: </span><span class="nf">(localX, localY) -&gt;</span>
+    <span class="nx">@_bounds</span><span class="p">.</span><span class="nx">contains</span> <span class="nx">localX</span><span class="p">,</span> <span class="nx">localY</span>
+
+  <span class="nv">globalToLocalPoint: </span><span class="nf">(point) -&gt;</span>
+    <span class="nx">@globalToLocal</span> <span class="nx">point</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span> <span class="nx">point</span><span class="p">.</span><span class="nx">y</span>
+  <span class="nv">globalToLocal: </span><span class="nf">(x, y) -&gt;</span>
+    <span class="nv">displayObject = </span><span class="err">@</span>
+    <span class="k">while</span> <span class="nx">displayObject</span>
+      <span class="nx">x</span> <span class="o">-=</span> <span class="nx">displayObject</span><span class="p">.</span><span class="nx">x</span>
+      <span class="nx">y</span> <span class="o">-=</span> <span class="nx">displayObject</span><span class="p">.</span><span class="nx">y</span>
+      <span class="nv">displayObject = </span><span class="nx">displayObject</span><span class="p">.</span><span class="nx">_parent</span>
+    <span class="k">new</span> <span class="nx">Vector</span> <span class="nx">x</span><span class="p">,</span> <span class="nx">y</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
