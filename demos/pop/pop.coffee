@@ -30,19 +30,22 @@ do (window, document)->
           circles.splice i, 1
           stage.removeChild circle
 
-      if circles.length < 120
-        circle = new Shape()
-        ran = Math.random()
-        inv = 1 - ran
-        circle.drawRegularStar 0, 0, 10 + 20 * ran
-        circle.fill 0xffffff * Math.random()
-        circle.speedX = MathUtil.randomBetween -3, 3
-        circle.speedY = 5 + 5 * inv
-        circle.speedRotation = MathUtil.randomBetween -1, 1
-        circle.x = stage.width / 2
-        circle.y = stage.height
-        stage.addChild circle
-        circles.push circle
+      if circles.length < 220
+        i = 2
+        while i--
+          circle = new Shape()
+          ran = Math.random()
+          inv = 1 - ran
+          circle.graphics.beginFill 0xffffff * Math.random()
+          circle.graphics.drawRegularStar 0, 0, 10 + 20 * ran
+          circle.graphics.endFill()
+          circle.speedX = MathUtil.randomBetween -3, 3
+          circle.speedY = 5 + 5 * inv
+          circle.speedRotation = MathUtil.randomBetween -1, 1
+          circle.x = stage.width / 2
+          circle.y = stage.height
+          stage.addChild circle
+          circles.push circle
 
     tf.text = "fps: #{ stage.frameRate }\nlength: #{ circles.length }"
 

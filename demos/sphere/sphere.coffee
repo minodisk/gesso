@@ -47,7 +47,7 @@ scene.addChild zAxis
 #dot.position.z = DISTANCE
 #scene.addChild dot
 
-sphere = new Sphere 100, 20, 10
+sphere = new Sphere 100, 20, 20
 scene.addChild sphere
 
 camera.position.x = RADIUS

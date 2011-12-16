@@ -23,6 +23,7 @@ module.exports = class Ticker
 
     @_handlers = []
     @_continuous = false
+    @_counter = 0
 
   addHandler: (handler) ->
     @_handlers.push handler
@@ -38,9 +39,11 @@ module.exports = class Ticker
     return
 
   _onAnimationFrame: (time) =>
-    for handler in @_handlers
-      do (handler) ->
-        setTimeout (-> handler time), 0
+    @_counter++
+    if @_counter % 2 is 0
+      for handler in @_handlers
+        do (handler) ->
+          setTimeout (-> handler time), 0
     if @_continuous is true
       _ticker @_onAnimationFrame
     return

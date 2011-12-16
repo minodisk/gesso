@@ -90,11 +90,15 @@ module.exports = class Rectangle
     @
 
   union: (rect) ->
-    l = _min @x, rect.x
-    r = _max @x + @width, rect.x + rect.width
+    l = if @x < rect.x then @x else rect.x
+    r1 = @x + @width
+    r2 = rect.x + rect.width
+    r = if r1 > r2 then r1 else r2
     w = r - l
-    t = _min @y, rect.y
-    b = _max @y + @height, rect.y + rect.height
+    t = if @y < rect.y then @y else rect.y
+    b1 = @y + @height
+    b2 = rect.y + rect.height
+    b = if b1 > b2 then b1 else b2
     h = b - t
     @x = l
     @y = t

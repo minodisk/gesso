@@ -41,7 +41,5 @@ module.exports = class Sphere extends DisplayObject
 
   drawAt:(screen, vertices)->
     graphics = screen.graphics
-    graphics.lineStyle 1, @color
-    graphics.beginFill 0, 0
     for vertex, i in vertices
-      graphics.drawCircle vertex.x, vertex.y, 0.5
+      graphics.drawRect vertex.x, vertex.y, 1, 1
