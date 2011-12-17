@@ -13,7 +13,7 @@ module.exports = class Graphics
 
   # ### toColorString():*String*
   # [static] Generates string of color style.
-  @toColorString: (color = 0, alpha = 1) ->
+  @toColorString:(color = 0, alpha = 1)->
     "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
 
   constructor:(@_displayObject)->
@@ -45,7 +45,6 @@ module.exports = class Graphics
         @_context.fill()
         @_context.stroke()
 
-      @_clockwise = if drawingCounter is 1 then 1 else -1
       if drawingCounter is 1
         @_context.beginPath()
       @["_#{ stack.method }"].apply @, stack.arguments
@@ -67,13 +66,13 @@ module.exports = class Graphics
     @_context.canvas.width = @_context.canvas.height = 0
     @_requestRender true
 
-  lineStyle:(thickness = 1, color = 0x000000, alpha = 1, capsStyle = CapsStyle.NONE, jointStyle = JointStyle.BEVEL, miterLimit = 10) ->
+  lineStyle:(thickness = 1, color = 0x000000, alpha = 1, capsStyle = CapsStyle.NONE, jointStyle = JointStyle.BEVEL, miterLimit = 10)->
     @_stacks.push
       method   : 'lineStyle'
       arguments: [thickness, color, alpha, capsStyle, jointStyle, miterLimit]
       delta    : thickness
     @_requestRender true
-  _lineStyle:(thickness, color, alpha, capsStyle, jointStyle, miterLimit) ->
+  _lineStyle:(thickness, color, alpha, capsStyle, jointStyle, miterLimit)->
     @_context.lineWidth = thickness
     @_context.strokeStyle = Graphics.toColorString color, alpha
     @_context.lineCaps = capsStyle
@@ -81,7 +80,7 @@ module.exports = class Graphics
     @_context.miterLimit = miterLimit
     return
 
-  beginFill:(color = 0x000000, alpha = 1) ->
+  beginFill:(color = 0x000000, alpha = 1)->
     @_stacks.push
       method   :'beginFill'
       arguments:[color, alpha]
@@ -136,35 +135,35 @@ module.exports = class Graphics
       gradient.addColorStop ratio / 0xff, Graphics.toColorString(colors[i], alphas[i])
     @_context.fillStyle = gradient
 
-  endFill:(color = 0x000000, alpha = 1) ->
+  endFill:(color = 0x000000, alpha = 1)->
     @_stacks.push
       method   :'endFill'
       arguments:[color, alpha]
     @_requestRender true
-  _endFill:(color, alpha) ->
+  _endFill:(color, alpha)->
     return
 
-  moveTo: (x, y) ->
+  moveTo:(x, y)->
     @_stacks.push
       method   : 'moveTo'
       arguments: [x, y]
       rect     : new Rectangle x, y, 0, 0
     @_requestRender true
-  _moveTo: (x, y) ->
+  _moveTo:(x, y)->
     @_context.moveTo x, y
     return
 
-  lineTo: (x, y, thickness) ->
+  lineTo:(x, y, thickness)->
     @_stacks.push
       method   : 'lineTo'
       arguments: [x, y]
       rect     : new Rectangle x, y, 0, 0
     @_requestRender true
-  _lineTo: (x, y) ->
+  _lineTo:(x, y)->
     @_context.lineTo x, y
     return
 
-  drawPath:(commands, data, clockwise = 0) ->
+  drawPath:(commands, data, clockwise = 0)->
     rect = new Rectangle data[0], data[1], 0, 0
     for i in [1...data.length / 2] by 1
       j = i * 2
@@ -174,27 +173,36 @@ module.exports = class Graphics
       arguments: [commands, data, clockwise]
       rect     : rect
     @_requestRender true
-  _drawPath:(commands, data, clockwise) ->
-    if clockwise is 0
-      clockwise = @_clockwise
+  _drawPath:(commands, data, clockwise)->
+    console.log commands, data, clockwise
     if clockwise < 0
+      d = []
+      i = 0
+      for command in commands
+        switch command
+          when 0, 1 then d.unshift data[i++], data[i++]
+          when 2
+            i += 4
+            d.unshift data[i - 2], data[i - 1], data[i - 4], data[i - 3]
+          when 3
+            i += 6
+            d.unshift data[i - 2], data[i - 1], data[i - 4], data[i - 3], data[i - 6], data[i - 5]
+      data = d
+
       commands = commands.slice()
       c = commands.shift()
       commands.reverse()
       commands.unshift c
-      rData = []
-      j = 0
-      for command in commands
-        rData.unshift data[j++], data[j++]
-      data = rData
-    j = 0
-    for command, i in commands
+    i = 0
+    for command in commands
       switch command
-        when 0 then @_context.moveTo data[j++], data[j++]
-        when 1 then @_context.lineTo data[j++], data[j++]
-        when 2 then @_context.quadraticCurveTo data[j++], data[j++], data[j++], data[j++]
-        when 3 then @_context.bezierCurveTo data[j++], data[j++], data[j++], data[j++], data[j++], data[j++]
+        when 0 then @_context.moveTo data[i++], data[i++]
+        when 1 then @_context.lineTo data[i++], data[i++]
+        when 2 then @_context.quadraticCurveTo data[i++], data[i++], data[i++], data[i++]
+        when 3 then @_context.bezierCurveTo data[i++], data[i++], data[i++], data[i++], data[i++], data[i++]
+    # If the ending point of path is equal with the starting point of path,
     if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
+      # close path.
       @_context.closePath()
 
   quadraticCurveTo: (x1, y1, x2, y2) ->
@@ -217,16 +225,26 @@ module.exports = class Graphics
   _cubicCurveTo: (x1, y1, x2, y2, x3, y3) ->
     @_context.bezierCurveTo x1, y1, x2, y2, x3, y3
 
-  drawRectangle:(rect) ->
-    @drawRect rect.x, rect.y, rect.width, rect.height
-  drawRect:(x, y, width, height = width) ->
-    r = x + width
-    b = y + height
-    @drawPath [0, 1, 1, 1, 1], [x, y, r, y, r, b, x, b, x, y], 0
+  drawRectangle:(rect, clockwise = 0) ->
+    @drawRect rect.x, rect.y, rect.width, rect.height, clockwise
+  drawRect:(x, y, width, height = width, clockwise = 0) ->
+    if clockwise is 0
+      @_stacks.push
+        method   : 'drawRect'
+        arguments: [x, y, width, height]
+        rect     : new Rectangle x, y, width, height
+      @_requestRender true
+    else
+      r = x + width
+      b = y + height
+      @drawPath [0, 1, 1, 1, 1], [x, y, r, y, r, b, x, b, x, y], clockwise
+  _drawRect:(x, y, width, height)->
+    @_context.fillRect x, y, width, height
+    @_context.strokeRect x, y, width, height
 
-  drawRoundRectangle:(rect, ellipseW, ellipseH = ellipseW) ->
-    @drawRoundRect rect.x, rect.y, rect.width, rect.height, ellipseW, ellipseH
-  drawRoundRect:(x, y, width, height, ellipseW, ellipseH = ellipseW) ->
+  drawRoundRectangle:(rect, ellipseW, ellipseH = ellipseW, clockwise = 0)->
+    @drawRoundRect rect.x, rect.y, rect.width, rect.height, ellipseW, ellipseH, clockwise
+  drawRoundRect:(x, y, width, height, ellipseW, ellipseH = ellipseW, clockwise = 0)->
     @drawPath [0, 1, 2, 1, 2, 1, 2, 1, 2], [
       x + ellipseW, y
       x + width - ellipseW, y
@@ -237,20 +255,20 @@ module.exports = class Graphics
       x, y + height, x, y + height - ellipseH
       x, y + ellipseH
       x, y, x + ellipseW, y
-      ] , 0
+      ], clockwise
 
-  drawCircle:(x, y, radius) ->
+  drawCircle:(x, y, radius, clockwise = 0)->
     @_stacks.push
       method   : 'drawCircle'
-      arguments: [x, y, radius]
+      arguments: [x, y, radius, clockwise]
       rect     : new Rectangle x - radius, y - radius, radius * 2, radius * 2
     @_requestRender true
-  _drawCircle:(x, y, radius) ->
+  _drawCircle:(x, y, radius, clockwise)->
     @_context.moveTo x + radius, y
-    @_context.arc x, y, radius, 0, _PI_2, @_clockwise < 0
+    @_context.arc x, y, radius, 0, _PI_2, clockwise < 0
     return
 
-  drawEllipse:(x, y, width, height) ->
+  drawEllipse:(x, y, width, height, clockwise = 0) ->
     width /= 2
     height /= 2
     x += width
@@ -263,9 +281,9 @@ module.exports = class Graphics
       x - handleWidth, y + height, x - width, y + handleHeight, x - width, y
       x - width, y - handleHeight, x - handleWidth, y - height, x, y - height
       x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
-      ], 0
+      ], clockwise
 
-  drawRegularPolygon:(x, y, radius, length = 3) ->
+  drawRegularPolygon:(x, y, radius, length = 3, clockwise = 0) ->
     commands = []
     data = []
     unitRotation = _PI_2 / length
@@ -273,12 +291,12 @@ module.exports = class Graphics
       commands.push if i is 0 then 0 else 1
       rotation = -_PI_1_2 + unitRotation * i
       data.push x + radius * Math.cos(rotation), y + radius * Math.sin(rotation)
-    @drawPath commands, data, 0
+    @drawPath commands, data, clockwise
 
-  drawRegularStar:(x, y, outer, length = 5)->
+  drawRegularStar:(x, y, outer, length = 5, clockwise = 0)->
     cos = Math.cos _PI / length
-    @drawStar x, y, outer, outer * (2 * cos - 1 / cos), length
-  drawStar:(x, y, outer, inner, length = 5)->
+    @drawStar x, y, outer, outer * (2 * cos - 1 / cos), length, clockwise
+  drawStar:(x, y, outer, inner, length = 5, clockwise = 0)->
     commands = []
     data = []
     unitRotation = _PI / length
@@ -287,4 +305,4 @@ module.exports = class Graphics
       radius = if (i & 1) is 0 then outer else inner
       rotation = -_PI_1_2 + unitRotation * i
       data.push x + radius * Math.cos(rotation), y + radius * Math.sin(rotation)
-    @drawPath commands, data, 0
+    @drawPath commands, data, clockwise

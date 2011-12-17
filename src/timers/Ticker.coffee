@@ -40,10 +40,9 @@ module.exports = class Ticker
 
   _onAnimationFrame: (time) =>
     @_counter++
-    if @_counter % 2 is 0
-      for handler in @_handlers
-        do (handler) ->
-          setTimeout (-> handler time), 0
+    for handler in @_handlers
+      do (handler) ->
+        setTimeout (-> handler time), 0
     if @_continuous is true
       _ticker @_onAnimationFrame
     return

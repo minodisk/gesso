@@ -187,28 +187,8 @@ module.exports = class DisplayObject extends EventDispatcher
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
   _measureSize:->
-    delta = 0
-    for stack in @_stacks
-      if stack.delta?
-        delta = stack.delta
-      if stack.rect?
-        unless rect?
-          rect = stack.rect.clone()
-        else
-          rect.union stack.rect
-        b = stack.rect.clone()
-        b.offset -delta / 2, -delta / 2
-        b.inflate delta, delta
-        unless bounds?
-          bounds = b
-        else
-          bounds.union b
-    unless rect?
-      rect = new Rectangle
-    unless bounds?
-      bounds = new Rectangle
-    else
-      bounds.adjustOuter()
+    rect = new Rectangle -500, -500, 1000, 1000
+    bounds = new Rectangle -500, -500, 1000, 1000
 
     @_width = rect.width
     @_height = rect.height

@@ -1,27 +1,41 @@
+canvas = document.querySelector 'canvas'
+context = canvas.getContext '2d'
+
+i = 1000
+t = new Date().getTime()
+while i--
+  context.fillStyle = '#ff0000'
+  context.beginPath()
+  context.arc 100 + i, 100, 100, 0, Math.PI * 2, false
+  context.fill()
+console.log new Date().getTime() - t
+
+i = 1000
+t = new Date().getTime()
+can = document.createElement 'canvas'
+can.width = can.height = 200
+con = can.getContext '2d'
+con.fillStyle = '#00ff00'
+con.beginPath()
+con.arc 100, 100, 100, 0, Math.PI * 2, false
+con.fill()
+#while i--
+context.drawImage can, i, 100
+console.log new Date().getTime() - t
+
 Stage = require 'display/Stage'
-Bitmap = require 'display/Bitmap'
 Shape = require 'display/Shape'
-Event = require 'events/Event'
-Easing = require 'tweens/Easing'
-Tween = require 'tweens/Tween'
 
-onEnterFrame = (e) ->
-  bitmap.draw shape, shape.x, shape.y
-
-stage = new Stage document.querySelector('canvas')
-stage.addEventListener Event.ENTER_FRAME, onEnterFrame
-bitmap = new Bitmap stage.width, stage.height
-stage.addChild bitmap
+i = 1000
+t = new Date().getTime()
+stage = new Stage canvas
 shape = new Shape
-shape.lineStyle 1, 0x0581d2
-shape.moveTo 0, -50
-shape.lineTo 0, 50
-shape.y = 50
+shape.graphics.beginFill 0x0000ff
+shape.graphics.drawCircle 0, 0, 100
+shape.graphics.endFill()
 stage.addChild shape
-t = Tween.to shape, {
-  x: 300,
-  y: 100,
-  scaleY: 0.2,
-  rotation: 60
-}, 1000, Easing.easeOutQuad
-t.play()
+#while i--
+shape.x = 100 + i
+shape.y = 300
+console.log new Date().getTime() - t
+

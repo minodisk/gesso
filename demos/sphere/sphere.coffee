@@ -8,6 +8,7 @@ Line = require '3d/display/Line'
 Sphere = require '3d/display/Sphere'
 Vector = require '3d/geom/Vector'
 TextField = require 'text/TextField'
+TextFormat = require 'text/TextFormat'
 MathUtil = require 'utils/MathUtil'
 
 stage = new Stage document.querySelector('canvas')
@@ -16,12 +17,14 @@ scene = new Scene
 camera = new Camera
 scene.addCamera camera
 screen = new Screen
+screen.screenWidth = stage.width
+screen.screenHeight = stage.height
 camera.addScreen screen
 stage.addChild screen
 renderer = new Renderer scene
 
-DISTANCE = 100
-RADIUS = 300
+DISTANCE = 150
+RADIUS = 400
 
 xAxis = new Line
 xAxis.color = 0xff0000
@@ -47,7 +50,7 @@ scene.addChild zAxis
 #dot.position.z = DISTANCE
 #scene.addChild dot
 
-sphere = new Sphere 100, 20, 20
+sphere = new Sphere DISTANCE, 60, 30
 scene.addChild sphere
 
 camera.position.x = RADIUS
@@ -56,6 +59,8 @@ camera.position.z = 0
 renderer.render()
 
 tf = new TextField
+tf.textFormat = new TextFormat()
+tf.textFormat.color = 0xffffff
 stage.addChild tf
 
 rotation = 0

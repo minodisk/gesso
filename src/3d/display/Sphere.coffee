@@ -10,12 +10,10 @@ module.exports = class Sphere extends DisplayObject
 
   constructor:(radius = 100, lngSeg = 8, latSeg = 6)->
     super()
-
     @_radius = radius
     @_lngSeg = lngSeg
     @_latSeg = latSeg
     @_updateVertices()
-
     @defineProperty 'radius'
       , ->
         @_radius
@@ -29,7 +27,6 @@ module.exports = class Sphere extends DisplayObject
     lngUnitAngle = PI2 / @_lngSeg
     latUnitAngle = PI / @_latSeg
     for lat in [0..@_latSeg] by 1
-      console.log lat
       latAngle = latUnitAngle * lat - PI_2
       radius = @_radius * Math.cos latAngle
       y = @_radius * Math.sin latAngle
@@ -41,5 +38,7 @@ module.exports = class Sphere extends DisplayObject
 
   drawAt:(screen, vertices)->
     graphics = screen.graphics
+    graphics.lineStyle 0, 0xffffff, 0
+    graphics.beginFill 0xffffff
     for vertex, i in vertices
-      graphics.drawRect vertex.x, vertex.y, 1, 1
+      graphics.drawRect vertex.x - 1 >> 0, vertex.y - 1 >> 0, 1, 1
