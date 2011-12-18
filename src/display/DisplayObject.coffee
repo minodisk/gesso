@@ -236,6 +236,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @_context.translate -@_bounds.x, -@_bounds.y
     @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
     @_context.setTransform 1, 0, 0, 1, 0, 0
+    return
 
   # ### _applyFilters():*void*
   # [private] Applies the filters to this object.
