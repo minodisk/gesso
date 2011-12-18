@@ -108,7 +108,8 @@ module.exports = class Graphics
       when 'linear'
         v0 = cBL.subtract(cTL)
         dNormal = v1.magnitude * Math.abs(Math.sin(v1.direction - v0.direction))
-        vNormal = v0.rotate(Math.PI / 2).normalize(dNormal)
+        v0.direction += Math.PI / 2
+        vNormal = v0.normalize(dNormal)
         cSrc = cCenter.add(vNormal)
         cDst = cCenter.subtract(vNormal)
         gradient = @_context.createLinearGradient cSrc.x, cSrc.y, cDst.x, cDst.y
