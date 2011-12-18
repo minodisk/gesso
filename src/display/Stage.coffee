@@ -18,6 +18,12 @@ Ticker = require 'timers/Ticker'
 
 module.exports = class Stage extends Sprite
 
+  _getWidth:->
+    @_width
+
+  _getHeight:->
+    @_height
+
   # ### new Stage(canvas:*HTMLCanvasElement*)
   # ### new Stage(width:*int*, height:*int*)
   # Creates a new *Stage* object.

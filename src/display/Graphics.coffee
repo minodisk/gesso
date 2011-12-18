@@ -1,8 +1,8 @@
-GradientType = require('display/GradientType')
-CapsStyle = require('display/CapsStyle')
-JointStyle = require('display/JointStyle')
-Vector = require('geom/Vector')
-Rectangle = require('geom/Rectangle')
+GradientType = require 'display/GradientType'
+CapsStyle = require 'display/CapsStyle'
+JointStyle = require 'display/JointStyle'
+Vector = require 'geom/Vector'
+Rectangle = require 'geom/Rectangle'
 
 _PI = Math.PI
 _PI_1_2 = _PI / 2
@@ -174,7 +174,6 @@ module.exports = class Graphics
       rect     : rect
     @_requestRender true
   _drawPath:(commands, data, clockwise)->
-    console.log commands, data, clockwise
     if clockwise < 0
       d = []
       i = 0

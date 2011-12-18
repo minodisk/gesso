@@ -24,6 +24,7 @@ startWatch = ()->
   while watchers.length
     watcher = watchers.pop()
     watcher.removeAllListeners()
+    watcher.close()
   for target in targets
     try
       stats = fs.statSync target

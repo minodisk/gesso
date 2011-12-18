@@ -16,6 +16,24 @@ _RADIAN_PER_DEGREE = Math.PI / 180
 
 module.exports = class DisplayObject extends EventDispatcher
 
+  _getWidth:->
+    @_measureSize()
+    @_width
+  _setWidth:(value)->
+    @_width = value
+    @_scaleX = value / @_context.canvas.width unless @_context.canvas.width is 0
+    @_requestRender false
+    return
+
+  _getHeight:->
+    @_measureSize()
+    @_height
+  _setHeight:(value)->
+    @_height = value
+    @_scaleY = value / @_context.canvas.height unless @_context.canvas.height is 0
+    @_requestRender false
+    return
+
   # ### new DisplayObject()
   # Creates a new *DisplayObject* object.
   constructor: ->
@@ -78,25 +96,11 @@ module.exports = class DisplayObject extends EventDispatcher
 
     # ### width:*Number*
     # The width of this object, in pixels.
-    @defineProperty 'width'
-      , ->
-        @_width
-      , (value) ->
-        @_width = value
-        @_scaleX = value / @_context.canvas.width unless @_context.canvas.width is 0
-        @_requestRender false
-        return
+    @defineProperty 'width', @_getWidth, @_setWidth
 
     # ### height:*Number*
     # The height of this object, in pixels.
-    @defineProperty 'height'
-      , ->
-        @_height
-      , (value) ->
-        @_height = value
-        @_scaleY = value / @_context.canvas.height unless @_context.canvas.height is 0
-        @_requestRender false
-        return
+    @defineProperty 'height', @_getHeight, @_setHeight
 
     # ### scaleX:*Number*
     # The horizontal scale of this object.
@@ -145,6 +149,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @_context.canvas.width = @_context.canvas.height = 0
     @_stacks = []
     @_drawn = false
+    @_measured = false
 
   _getTransform: ->
     @_matrix.clone().createBox(@_scaleX, @_scaleY, @_rotation * _RADIAN_PER_DEGREE, @_x, @_y)
@@ -170,7 +175,8 @@ module.exports = class DisplayObject extends EventDispatcher
   # [private] Requests rendering to parent.
   _requestRender: (drawn = false) ->
     @_drawn |= drawn
-    @_measureSize()
+    #@_measureSize()
+    @_measured = false
     @_parent._requestRender true if @_parent?
     @
 
@@ -178,7 +184,7 @@ module.exports = class DisplayObject extends EventDispatcher
   # [private] Renders this object.
   _render: ->
     @_drawn = false
-    #@_measureSize()
+    @_measureSize()
     @_applySize()
     @_execStacks()
     @_applyFilters()
@@ -187,13 +193,35 @@ module.exports = class DisplayObject extends EventDispatcher
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
   _measureSize:->
-    rect = new Rectangle -500, -500, 1000, 1000
-    bounds = new Rectangle -500, -500, 1000, 1000
+    unless @_measured
+      delta = 0
+      for stack in @_stacks
+        if stack.delta?
+          delta = stack.delta
+        if stack.rect?
+          unless rect?
+            rect = stack.rect.clone()
+          else
+            rect.union stack.rect
+          b = stack.rect.clone()
+          b.offset -delta / 2, -delta / 2
+          b.inflate delta, delta
+          unless bounds?
+            bounds = b
+          else
+            bounds.union b
+      unless rect?
+        rect = new Rectangle
+      unless bounds?
+        bounds = new Rectangle
+      else
+        bounds.adjustOuter()
 
-    @_width = rect.width
-    @_height = rect.height
-    @_rect = rect
-    @_bounds = bounds
+      @_width = rect.width
+      @_height = rect.height
+      @_rect = rect
+      @_bounds = bounds
+      @_measured = true
     return
 
   # ### _applySize():*void*

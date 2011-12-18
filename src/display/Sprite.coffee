@@ -83,7 +83,7 @@ module.exports = class Sprite extends InteractiveObject
   # [private] Renders this object.
   _render: ->
     @_drawn = false
-    #@_measureSize()
+    @_measureSize()
     @_applySize()
     @_execStacks()
     @_drawChildren()
