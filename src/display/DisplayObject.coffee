@@ -183,12 +183,13 @@ module.exports = class DisplayObject extends EventDispatcher
   # ### _render():*void*
   # [private] Renders this object.
   _render: ->
-    @_drawn = false
-    @_measureSize()
-    @_applySize()
-    @_execStacks()
-    @_applyFilters()
-    #@_drawBounds()
+    if @_drawn
+      @_drawn = false
+      @_measureSize()
+      @_applySize()
+      @_execStacks()
+      @_applyFilters()
+      #@_drawBounds()
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
@@ -234,7 +235,8 @@ module.exports = class DisplayObject extends EventDispatcher
   # [private] Executes the stacks to this object.
   _execStacks: ->
     @_context.translate -@_bounds.x, -@_bounds.y
-    @["_#{ stack.method }"].apply @, stack.arguments for stack in @_stacks
+    for stack in @_stacks
+      @["_#{ stack.method }"].apply @, stack.arguments
     @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
@@ -255,18 +257,28 @@ module.exports = class DisplayObject extends EventDispatcher
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_context.canvas.width, @_context.canvas.height
 
-  #TODO Standardize the implementation of hitTest.
-  hitTestPoint: (point) ->
-    @hitTest point.x, point.y
-  hitTest: (stageX, stageY) ->
-    local = @globalToLocal stageX, stageY
+  hitTest:(x, y)->
+    if x instanceof Vector
+      pt = x
+      x = pt.x
+      y = pt.y
+    local = @globalToLocal x, y
     @_hitTest local.x, local.y
-  _hitTest: (localX, localY) ->
-    @_bounds.contains localX, localY
+  _hitTest:(localX, localY)->
+    #@_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
+    x = localX - @_bounds.x
+    y = localY - @_bounds.y
+    data = @_context.getImageData(x, y, 1, 1).data
+    data[0] + data[1] + data[2] + data[3] isnt 0
 
-  globalToLocalPoint: (point) ->
+  getPixel32:(x, y)->
+    iData = @_context.getImageData x, y, 1, 1
+    data = iData.data
+    data[3] << 24 | data[2] << 16 | data[1] << 8 | data[0]
+
+  globalToLocalPoint:(point)->
     @globalToLocal point.x, point.y
-  globalToLocal: (x, y) ->
+  globalToLocal:(x, y)->
     displayObject = @
     while displayObject
       x -= displayObject.x

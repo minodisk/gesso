@@ -18,24 +18,21 @@ module.exports = class InteractiveObject extends DisplayObject
   constructor:->
     super()
 
-  #TODO Standardize the implementation of hitTest.
-  _hitTest: (localX, localY) ->
-    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
-
-  _propagateMouseEvent: (event) ->
+  _propagateMouseEvent:(event)->
     if @_mouseEnabled and event._isPropagationStopped is false
-      event = event.clone()
+      event = new MouseEvent event
       pt = @_getTransform().invert().transformPoint(new Vector(event.localX, event.localY))
       event.localX = pt.x
       event.localY = pt.y
 
       hit = @_hitTest event.localX, event.localY
+
       if hit is true and @_mouseIn is false
-        e = event.clone()
+        e = new MouseEvent event
         e.type = MouseEvent.MOUSE_OVER
         @_targetMouseEvent e
 
-        e = event.clone()
+        e = new MouseEvent event
         e.type = MouseEvent.ROLL_OVER
         e.bubbles = false
         @_targetMouseEvent e
@@ -44,11 +41,11 @@ module.exports = class InteractiveObject extends DisplayObject
         if @_buttonMode
           @__stage._canvas.style.cursor = 'pointer'
       else if hit is false and @_mouseIn is true
-        e = event.clone()
+        e = new MouseEvent event
         e.type = MouseEvent.MOUSE_OUT
         @_targetMouseEvent e
 
-        e = event.clone()
+        e = new MouseEvent event
         e.type = MouseEvent.ROLL_OUT
         e.bubbles = false
         @_targetMouseEvent e
@@ -75,14 +72,14 @@ module.exports = class InteractiveObject extends DisplayObject
     return
 
   _captureMouseEvent: (event) ->
-    event = event.clone()
+    event = new MouseEvent event
     event.eventPhase = EventPhase.CAPTURING_PHASE
     event.currentTarget = @
     @dispatchEvent event
     event
 
   _targetMouseEvent: (event) ->
-    event = event.clone()
+    event = new MouseEvent event
     event.eventPhase = EventPhase.AT_TARGET
     event.target = event.currentTarget = @
     @dispatchEvent event
@@ -91,7 +88,7 @@ module.exports = class InteractiveObject extends DisplayObject
     event
 
   _bubbleMouseEvent: (event) ->
-    event = event.clone()
+    event = new MouseEvent event
     event.eventPhase = EventPhase.BUBBLING_PHASE
     event.currentTarget = @
     @dispatchEvent event

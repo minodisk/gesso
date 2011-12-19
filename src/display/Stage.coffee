@@ -27,7 +27,7 @@ module.exports = class Stage extends Sprite
   # ### new Stage(canvas:*HTMLCanvasElement*)
   # ### new Stage(width:*int*, height:*int*)
   # Creates a new *Stage* object.
-  constructor: (canvasOrWidth, height = null) ->
+  constructor:(canvasOrWidth, height = null) ->
     super()
 
     # ### frameRate:*Number*
@@ -41,7 +41,7 @@ module.exports = class Stage extends Sprite
       canvas = canvasOrWidth
       @_width = canvas.width
       @_height = canvas.height
-    else if not isNaN(Number canvasOrWidth) && not isNaN(Number height)
+    else if notisNaN(Number canvasOrWidth) && notisNaN(Number height)
       canvas = document.createElement 'canvas'
       @_width = canvas.width = canvasOrWidth
       @_height = canvas.height = height
@@ -65,12 +65,12 @@ module.exports = class Stage extends Sprite
 
   # ### getTimer():*int*
   # Computes elapsed time since *Stage* constructed, in milliseconds.
-  getTimer: ->
+  getTimer:->
     new Date().getTime() - @_startTime
 
   # ### _enterFrame(time:*int*):*void*
   # [private] The handler of enter frame.
-  _enterFrame: (time) =>
+  _enterFrame:(time)=>
     @currentFrame++
     if (@currentFrame % 30) is 0
       @_frameRate = (300000 / (time - @_time) >> 0) / 10
@@ -83,53 +83,51 @@ module.exports = class Stage extends Sprite
 
   # ### _render():*void*
   # [private] Renders children, then draws children on this object.
-  _render: ->
-    child._render() for child in @_children when child._drawn
+  _render:->
+    for child in @_children
+      child._render()
     @_context.canvas.width = @_width
     @_drawChildren()
     return
 
   # ### _requestRender():*void*
   # [private] Reserves rendering on next frame.
-  _requestRender: ->
+  _requestRender:->
     @_drawn = true
     return
 
-  _hitTest: (localX, localY) ->
-    @_bounds.contains localX, localY
-
-  _onClick: (e) =>
+  _onClick:(e)=>
     e.preventDefault()
     event = new MouseEvent MouseEvent.CLICK, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
-  _onMouseDown: (e) =>
+  _onMouseDown:(e)=>
     e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_DOWN, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
-  _onMouseUp: (e) =>
+  _onMouseUp:(e)=>
     e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_UP, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
-  _onMouseMove: (e) =>
+  _onMouseMove:(e)=>
     e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_MOVE, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
-  _onMouseWheel: (e) =>
+  _onMouseWheel:(e)=>
     if @overrideMouseWheel
       e.preventDefault()
     event = new MouseEvent MouseEvent.MOUSE_WHEEL, true
     @_setMousePosition event, e
     @_propagateMouseEvent event
 
-  _setMousePosition: (event, nativeEvent) ->
+  _setMousePosition:(event, nativeEvent)->
     event.stageX = event.localX = if nativeEvent.offsetX? then nativeEvent.offsetX else nativeEvent.pageX - @_canvas.offsetLeft
     event.stageY = event.localY = if nativeEvent.offsetY? then nativeEvent.offsetY else nativeEvent.pageY - @_canvas.offsetTop
     event.delta = if nativeEvent.wheelDelta? then nativeEvent.wheelDelta else if nativeEvent.detail? then nativeEvent.detail else 0

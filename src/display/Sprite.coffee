@@ -53,15 +53,16 @@ module.exports = class Sprite extends InteractiveObject
 
   # ### addChild(children...:*DisplayObject*):*Sprite*
   # Adds a child *DisplayObject* object to this object.
-  addChild: (children...) ->
-    for child in children
-      child._stage = @__stage
-      child._parent = @
-      @_children.push child
+  addChild:(child)->
+    unless child instanceof DisplayObject then throw new TypeError "Child must be specified in DisplayObject."
+    child._stage = @__stage
+    child._parent = @
+    @_children.push child
     @_requestRender true
 
-  addChildAt: (child, index) ->
-    throw new TypeError "index is out of range" if index < 0 or index > @_children.length
+  addChildAt:(child, index)->
+    unless child instanceof DisplayObject then throw new TypeError "Child must be specified in DisplayObject."
+    if index < 0 or index > @_children.length then throw new TypeError "Index is out of range."
     @_children.splice index, 0, child
     @_requestRender true
 
@@ -76,22 +77,21 @@ module.exports = class Sprite extends InteractiveObject
   # ### _render():*void*
   # [private] Renders this object.
   _render: ->
-    @_drawn = false
-    @_measureSize()
-    @_applySize()
-    @_execStacks()
-    @_drawChildren()
-    @_applyFilters()
-    #@_drawBounds()
+    if @_drawn
+      @_drawn = false
+      @_measureSize()
+      @_applySize()
+      @_execStacks()
+      @_drawChildren()
+      @_applyFilters()
+      #@_drawBounds()
 
   # ### _measureSize():*void*
   # [private] Measures the bounds of this object.
-  _measureSize: ->
+  _measureSize:->
     super()
-
     rect = @_rect
     bounds = @_bounds
-
     for child in @_children
       child._render()
       rect.union child._rect
@@ -99,7 +99,6 @@ module.exports = class Sprite extends InteractiveObject
       b.x += child.x
       b.y += child.y
       bounds.union b
-
     x = Math.floor bounds.x
     if x isnt bounds.x
       bounds.width++
@@ -110,7 +109,6 @@ module.exports = class Sprite extends InteractiveObject
     bounds.y = y
     bounds.width = Math.ceil bounds.width
     bounds.height = Math.ceil bounds.height
-
     @_width = rect.width
     @_height = rect.height
     @_rect = rect
@@ -119,9 +117,9 @@ module.exports = class Sprite extends InteractiveObject
 
   # ### _execStacks():*void*
   # [private] Executes the stacks to this object.
-  #_execStacks:->
-  #  @graphics._execStacks()
-  #  return
+  _execStacks:->
+    @graphics._execStacks()
+    return
 
   # ### _drawChildren():*void*
   # [private] Draws children in this object.
@@ -129,10 +127,8 @@ module.exports = class Sprite extends InteractiveObject
     for child in @_children
       if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
         throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
-
         child._getTransform().setTo(@_context)
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
-
         if child.blendMode is BlendMode.NORMAL
           @_context.drawImage child._context.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
         else
@@ -149,17 +145,3 @@ module.exports = class Sprite extends InteractiveObject
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_width, @_height
     return
-
-  #TODO Standardize the implementation of hitTest.
-  hitTestPoint: (x, y) ->
-    bounds = @_bounds.clone().offset @x, @y
-    hit = false
-    if bounds.contains x, y
-      hit = @_context.isPointInPath x - bounds.x, y - bounds.y
-      unless hit
-        i = @_children.length
-        while i--
-          child = @_children[i]
-          hit |= child.hitTestPoint x - @x, y - @y
-          break if hit
-    hit

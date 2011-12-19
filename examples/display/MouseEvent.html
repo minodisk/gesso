@@ -44,7 +44,7 @@ dummyOuter.mouseChildren = false;
 dummyOuter.x = 120;
 dummyOuter.y = 140;
 dummyOuter.rotation = 30;
-stage.addChild(dummyOuter, 0);
+stage.addChild(dummyOuter);
 dummyOuter.pointer = new Shape();
 dummyOuter.pointer.graphics.lineStyle(3, 0xffffff);
 dummyOuter.pointer.graphics.beginFill(0xff0000);
@@ -196,6 +196,7 @@ outer.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
   <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
+stage.name = 'stage'
 var sprite = new Sprite();
 sprite.graphics.beginFill(0xff0000);
 sprite.graphics.drawRect(0, 0, 100, 30);

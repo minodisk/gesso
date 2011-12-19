@@ -3,32 +3,37 @@ module.exports = class Event
   @ENTER_FRAME: 'enterFrame'
   @COMPLETE: 'complete'
 
-  constructor: (@type, @bubbles = false, @cancelable = false) ->
+  constructor:(type, bubbles = false, cancelable = false)->
+    unless @ instanceof Event then return new Event type, bubbles, cancelable
+    if type instanceof Event
+      event = type
+      type = event.type
+      bubbles = event.bubbles
+      cancelable = event.cancelable
+      @currentTarget = event.currentTarget
+      @target = event.target
+    @type = type
+    @bubbles = bubbles
+    @cancelable = cancelable
     @_isPropagationStopped = false
     @_isPropagationStoppedImmediately = false
     @_isDefaultPrevented = false
 
-  clone: () ->
-    event = new Event @type, @bubbles, @cancelable
-    event.currentTarget = @currentTarget
-    event.target = @target
-    event
-
-  formatToString: (className, args...) ->
+  formatToString:(className, args...)->
     ''
 
-  stopPropagation: ->
+  stopPropagation:->
     @_isPropagationStopped = true
     return
 
-  stopImmediatePropagation: ->
+  stopImmediatePropagation:->
     @_isPropagationStopped = true
     @_isPropagationStoppedImmediately = true
     return
 
-  isDefaultPrevented: ->
+  isDefaultPrevented:->
     @_isDefaultPrevented
 
-  preventDefault: ->
+  preventDefault:->
     @_isDefaultPrevented = true
     return

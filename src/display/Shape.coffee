@@ -18,27 +18,15 @@ module.exports = class Shape extends DisplayObject
 
   # ### _execStacks():*void*
   # [private] Executes the stacks to this object.
-  _execStacks: ->
+  _execStacks:->
     @graphics._execStacks()
     return
 
-  #TODO Standardize the implementation of hitTest.
-  hitTestPoint: (point) ->
-    @hitTest point.x, point.y
-  hitTest: (x, y) ->
-    local = @globalToLocal x, y
-    if @_bounds.containsPoint local
-      @_hitTest local.x, local.y
-    else
-      false
-  _hitTest: (localX, localY) ->
-    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
-
-  clip:() ->
+  clip:->
     @_stacks.push
       method   :'clip'
       arguments:ArrayUtil.toArray arguments
     @_requestRender true
-  _clip:() ->
+  _clip:->
     @_context.clip()
     return
