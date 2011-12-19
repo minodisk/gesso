@@ -34,91 +34,91 @@ module.exports = class DisplayObject extends EventDispatcher
     @_requestRender false
     return
 
-  # ### new DisplayObject()
+  # ## new DisplayObject()
   # Creates a new *DisplayObject* object.
-  constructor: ->
+  constructor:->
     super()
 
-    # ### stage:*Stage*
+    # ## stage:*Stage*
     # [read-only] The *Stage* of this object.
     @defineProperty 'stage'
       , ->
         @__stage
-      , (value) ->
+      , (value)->
         @__stage = value
         return
 
-    # ### parent:*Sprite*
+    # ## parent:*Sprite*
     # [read-only] The *Sprite* object that contains this object.
     @defineProperty 'parent'
       , ->
         @_parent
 
-    # ### x:*Number*
+    # ## x:*Number*
     # The x coordinate of this object relative to parent coordinate space.
     @defineProperty 'x'
       , ->
         @_x
-      , (value) ->
+      , (value)->
         @_x = value
         @_requestRender false
         return
 
-    # ### y:*Number*
+    # ## y:*Number*
     # The y coordinate of this object relative to parent coordinate space.
     @defineProperty 'y'
       , ->
         @_y
-      , (value) ->
+      , (value)->
         @_y = value
         @_requestRender false
         return
 
-    # ### alpha:*Number*
+    # ## alpha:*Number*
     # The alpha transparency value of this object, between 0.0 and 1.0.
     @defineProperty 'alpha'
       , ->
         @_alpha
-      , (value) ->
+      , (value)->
         @_alpha = value
         @_requestRender false
         return
 
-    # ### rotation:*Number*
+    # ## rotation:*Number*
     # The rotation of this object, in degrees.
     @defineProperty 'rotation'
       , ->
         @_rotation
-      , (value) ->
+      , (value)->
         @_rotation = value
         @_requestRender false
         return
 
-    # ### width:*Number*
+    # ## width:*Number*
     # The width of this object, in pixels.
     @defineProperty 'width', @_getWidth, @_setWidth
 
-    # ### height:*Number*
+    # ## height:*Number*
     # The height of this object, in pixels.
     @defineProperty 'height', @_getHeight, @_setHeight
 
-    # ### scaleX:*Number*
+    # ## scaleX:*Number*
     # The horizontal scale of this object.
     @defineProperty 'scaleX'
       , ->
         @_scaleX
-      , (value) ->
+      , (value)->
         @_scaleX = value
         @_width = @_context.canvas.width * value
         @_requestRender false
         return
 
-    # ### scaleY:*Number*
+    # ## scaleY:*Number*
     # The vertical scale of this object.
     @defineProperty 'scaleY'
       , ->
         @_scaleY
-      , (value) ->
+      , (value)->
         @_scaleY = value
         @_height = @_context.canvas.height * value
         @_requestRender false
@@ -127,7 +127,7 @@ module.exports = class DisplayObject extends EventDispatcher
     @defineProperty 'matrix'
       , ->
         @_matrix
-      , (matrix) ->
+      , (matrix)->
         @_matrix = matrix
         @_requestRender false
         return
@@ -151,38 +151,38 @@ module.exports = class DisplayObject extends EventDispatcher
     @_drawn = false
     @_measured = false
 
-  _getTransform: ->
+  _getTransform:->
     @_matrix.clone().createBox(@_scaleX, @_scaleY, @_rotation * _RADIAN_PER_DEGREE, @_x, @_y)
 
-  # ### set():*DisplayObject*
+  # ## set():*DisplayObject*
   # Sets property to this object. Returns self for method chain.
-  set: (propertyName, value) ->
+  set:(propertyName, value)->
     @[propertyName] = value
     @
 
-  # ### addTo():*DisplayObject*
+  # ## addTo():*DisplayObject*
   # Adds this object to *Sprite* object.
-  addTo: (parent) ->
+  addTo:(parent)->
     throw new TypeError "parent #{ parent } isn't display object container" unless parent instanceof Sprite
     parent.addChild(@)
     @
 
-  # ### get_bounds():*DisplayObject*
+  # ## get_bounds():*DisplayObject*
   # Calculates a rectangle that defines the area of this object object relative
   # to target coordinate space.
 
-  # ### _requestRender():*DisplayObject*
+  # ## _requestRender():*DisplayObject*
   # [private] Requests rendering to parent.
-  _requestRender: (drawn = false) ->
+  _requestRender:(drawn = false)->
     @_drawn |= drawn
-    #@_measureSize()
     @_measured = false
+    #@_hitTested = false
     @_parent._requestRender true if @_parent?
     @
 
-  # ### _render():*void*
+  # ## _render():*void*
   # [private] Renders this object.
-  _render: ->
+  _render:->
     if @_drawn
       @_drawn = false
       @_measureSize()
@@ -191,7 +191,7 @@ module.exports = class DisplayObject extends EventDispatcher
       @_applyFilters()
       #@_drawBounds()
 
-  # ### _measureSize():*void*
+  # ## _measureSize():*void*
   # [private] Measures the bounds of this object.
   _measureSize:->
     unless @_measured
@@ -217,7 +217,6 @@ module.exports = class DisplayObject extends EventDispatcher
         bounds = new Rectangle
       else
         bounds.adjustOuter()
-
       @_width = rect.width
       @_height = rect.height
       @_rect = rect
@@ -225,24 +224,24 @@ module.exports = class DisplayObject extends EventDispatcher
       @_measured = true
     return
 
-  # ### _applySize():*void*
+  # ## _applySize():*void*
   # [private] Applies the bounds to internal canvas of this object.
-  _applySize: ->
+  _applySize:->
     @_context.canvas.width = @_bounds.width
     @_context.canvas.height = @_bounds.height
 
-  # ### _execStacks():*void*
+  # ## _execStacks():*void*
   # [private] Executes the stacks to this object.
-  _execStacks: ->
+  _execStacks:->
     @_context.translate -@_bounds.x, -@_bounds.y
     for stack in @_stacks
       @["_#{ stack.method }"].apply @, stack.arguments
     @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
-  # ### _applyFilters():*void*
+  # ## _applyFilters():*void*
   # [private] Applies the filters to this object.
-  _applyFilters: ->
+  _applyFilters:->
     if (@filters.length > 0)
       imageData = @_context.getImageData 0, 0, @_bounds.width, @_bounds.height
       newImageData = @_context.createImageData @_bounds.width, @_bounds.height
@@ -250,9 +249,9 @@ module.exports = class DisplayObject extends EventDispatcher
       @_context.putImageData newImageData, 0, 0
     return
 
-  # ### _drawBounds():*void*
+  # ## _drawBounds():*void*
   # [private] Draws the bounds of this object for debug.
-  _drawBounds: ->
+  _drawBounds:->
     @_context.strokeStyle = 'rgba(0, 0, 255, .8)'
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_context.canvas.width, @_context.canvas.height
@@ -265,11 +264,18 @@ module.exports = class DisplayObject extends EventDispatcher
     local = @globalToLocal x, y
     @_hitTest local.x, local.y
   _hitTest:(localX, localY)->
-    #@_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
-    x = localX - @_bounds.x
-    y = localY - @_bounds.y
-    data = @_context.getImageData(x, y, 1, 1).data
-    data[0] + data[1] + data[2] + data[3] isnt 0
+    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
+#    unless @_hitTested
+#      if @_context.canvas.width isnt 0 and @_context.canvas.height isnt 0
+#        @_imageData = @_context.getImageData 0, 0, @_context.canvas.width, @_context.canvas.height
+#      else
+#        @_imageData = null
+#      @_hitTested = true
+#    if @_imageData? and @_bounds.contains localX, localY
+#      i = 4 * (@_imageData.width * ((localY - @_bounds.y >> 0) - 1) + (localX - @_bounds.x >> 0))
+#      @_imageData.data[i + 3] isnt 0
+#    else
+#      false
 
   getPixel32:(x, y)->
     iData = @_context.getImageData x, y, 1, 1

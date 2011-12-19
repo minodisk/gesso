@@ -41,4 +41,4 @@ module.exports = class Sphere extends DisplayObject
     graphics.lineStyle 0, 0xffffff, 0
     graphics.beginFill 0xffffff
     for vertex, i in vertices
-      graphics.drawRect vertex.x - 1 >> 0, vertex.y - 1 >> 0, 1, 1
+      graphics.drawRectWithoutPath vertex.x - 1 >> 0, vertex.y - 1 >> 0, 1, 1

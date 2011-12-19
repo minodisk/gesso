@@ -16,35 +16,35 @@ Rectangle = require 'geom/Rectangle'
 
 module.exports = class TextField extends InteractiveObject
 
-  # ### new TextField()
+  # ## new TextField()
   # Creates a new *TextField* object.
-  constructor: (text = '', textFormat = new TextFormat) ->
+  constructor:(text = '', textFormat = new TextFormat)->
     super()
 
-    # ### text:*String*
+    # ## text:*String*
     # The text in this *TextField*.
     @defineProperty 'text'
       , ->
         @_texts.join '\n'
-      , (text) ->
+      , (text)->
         @_texts = @_stacks[0].arguments[0] = text.split /\r?\n/
         @_requestRender true
 
-    # ### textFormat:*TextFormat*
+    # ## textFormat:*TextFormat*
     # The *TextFormat* applied to this *TextField*.
     @defineProperty 'textFormat'
       , ->
         @_textFormat
-      , (textFormat) ->
+      , (textFormat)->
         @_textFormat = @_stacks[0].arguments[1] = textFormat
         @_requestRender true
 
-    # ### maxWidth:*Number*
+    # ## maxWidth:*Number*
     # The max width of the text, in pixels.
     @defineProperty 'maxWidth'
       , ->
         @_maxWidth
-      , (maxWidth) ->
+      , (maxWidth)->
         @_maxWidth = @_stacks[0].arguments[2] = value
         @_requestRender true
 
@@ -54,9 +54,9 @@ module.exports = class TextField extends InteractiveObject
     @text = text
     @textFormat = textFormat
 
-  # ### _measureSize():*void*
+  # ## _measureSize():*void*
   # [private] Measures the bounds of this object.
-  _measureSize: ->
+  _measureSize:->
     if @_texts? and @_textFormat?
       rect = new Rectangle
       @_context.font = @_textFormat.toStyleSheet()
@@ -76,9 +76,9 @@ module.exports = class TextField extends InteractiveObject
       @_bounds = bounds
     return
 
-  # ### _drawText(texts:*Array*, textFormat:*TextFormat*):*void*
+  # ## _drawText(texts:*Array*, textFormat:*TextFormat*):*void*
   # [private] Draws text onto this object.
-  _drawText: (texts, textFormat) ->
+  _drawText:(texts, textFormat)->
     @_context.font = textFormat.toStyleSheet()
     @_context.textAlign = textFormat.align
     @_context.textBaseline = textFormat.baseline

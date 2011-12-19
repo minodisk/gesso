@@ -21,7 +21,7 @@ _tan = Math.tan
 
 module.exports = class Matrix
 
-  # ### new Matrix(a:*Number* = 1, b:*Number* = 0, c:*Number* = 0, d:*Number* = 1, x:*Number* = 0, y:*Number* = 0)
+  # ## new Matrix(a:*Number* = 1, b:*Number* = 0, c:*Number* = 0, d:*Number* = 1, x:*Number* = 0, y:*Number* = 0)
   # Creates a new Matrix object.
   constructor: (@xx = 1, @xy = 0, @yx = 0, @yy = 1, @ox = 0, @oy = 0) ->
 
@@ -33,7 +33,7 @@ module.exports = class Matrix
     @ox = 0
     @oy = 0
 
-  # ### clone():*Matrix*
+  # ## clone():*Matrix*
   # Copies this object.
   clone: ->
     new Matrix @xx, @xy, @yx, @yy, @ox, @oy
@@ -43,7 +43,7 @@ module.exports = class Matrix
 #{ @xy } #{ @yy } #{ @oy }\n
 0 0 1"
 
-  # ### apply(matrix:*Matrix*):*void*
+  # ## apply(matrix:*Matrix*):*void*
   # Applies the properties of specified *Matrix* object to this object.
   apply: (matrix) ->
     @_apply matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
@@ -56,12 +56,12 @@ module.exports = class Matrix
     @oy = oy
     @
 
-  # ### setTo(context:*CanvasRenderingContext2D*):*void*
+  # ## setTo(context:*CanvasRenderingContext2D*):*void*
   # Sets transform to specified *CanvasRenderingContext2D* object.
   setTo: (context) ->
     context.setTransform @xx, @xy, @yx, @yy, @ox, @oy
 
-  # ### concat(matrix:*Matrix*):*Matrix*
+  # ## concat(matrix:*Matrix*):*Matrix*
   # Concatenates the specified *Matrix* to this object.
   #
   #     |xx yx ox||@xx @yx @ox|   |xx*@xx+yx*@xy xx*@yx+yx*@yy xx*@ox+yx*@oy+ox|
@@ -84,24 +84,24 @@ module.exports = class Matrix
     @oy = xy * _ox + yy * _oy + oy
     @
 
-  # ### translate(tx:*Number*, ty:*Number*):*Matrix*
+  # ## translate(tx:*Number*, ty:*Number*):*Matrix*
   # Applies a translating transformation to this object.
   translate:(tx, ty)->
     @_concat 1, 0, 0, 1, tx, ty
 
-  # ### scale(sx:*Number*, sy:*Number*):*Matrix*
+  # ## scale(sx:*Number*, sy:*Number*):*Matrix*
   # Applies a scaling transformation to this object.
   scale:(sx, sy)->
     @_concat sx, 0, 0, sy, 0, 0
 
-  # ### rotate(angle:*Number*):*Matrix*
+  # ## rotate(angle:*Number*):*Matrix*
   # Applies a rotation transformation to this object.
   rotate:(angle)->
     c = _cos angle
     s = _sin angle
     @_concat c, s, -s, c, 0, 0
 
-  # ### skew(skewX:*Number*, skewY:*Number*):*Matrix*
+  # ## skew(skewX:*Number*, skewY:*Number*):*Matrix*
   # Applies a skewing transformation to this object.
   skew:(skewX, skewY)->
     @_concat 0, _tan(skewY), _tan(skewX), 0, 0, 0
@@ -143,7 +143,7 @@ module.exports = class Matrix
     s = _sin rotation
     @_concat scaleX * c, scaleY * s, -scaleX * s, scaleY * c, tx, ty
 
-  # ### createGradientBox(x:*Number*, y:*Number*, width:*Number*, height:*Number*, rotation:*Number*):*Matrix*
+  # ## createGradientBox(x:*Number*, y:*Number*, width:*Number*, height:*Number*, rotation:*Number*):*Matrix*
   # Creates the gradient style of *Matrix* expected by the `beginGradientFill()
   # and `lineGradientFill()` methods of *Shape* object.
   createGradientBox: (width, height, rotation = 0, x = 0, y = 0)->

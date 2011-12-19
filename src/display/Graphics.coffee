@@ -11,7 +11,7 @@ _ELLIPSE_CUBIC_BEZIER_HANDLE = (Math.SQRT2 - 1) * 4 / 3
 
 module.exports = class Graphics
 
-  # ### toColorString():*String*
+  # ## toColorString():*String*
   # [static] Generates string of color style.
   @toColorString:(color = 0, alpha = 1)->
     "rgba(#{ color >> 16 & 0xff },#{ color >> 8 & 0xff },#{ color & 0xff },#{ if alpha < 0 then 0 else if alpha > 1 then 1 else alpha })"
@@ -58,9 +58,9 @@ module.exports = class Graphics
 
     @_context.setTransform 1, 0, 0, 1, 0, 0
 
-  # ### clear():*Graphics*
+  # ## clear():*Graphics*
   # Clears the drawn graphics.
-  clear: ->
+  clear:->
     while @_stacks.length
       @_stacks.pop()
     @_context.canvas.width = @_context.canvas.height = 0
@@ -85,7 +85,7 @@ module.exports = class Graphics
       method   :'beginFill'
       arguments:[color, alpha]
     @_requestRender true
-  _beginFill:(color, alpha) ->
+  _beginFill:(color, alpha)->
     @_context.fillStyle = Graphics.toColorString color, alpha
     return
 
@@ -205,40 +205,42 @@ module.exports = class Graphics
       # close path.
       @_context.closePath()
 
-  quadraticCurveTo: (x1, y1, x2, y2) ->
+  quadraticCurveTo:(x1, y1, x2, y2)->
     @_stacks.push
       method   : 'quadraticCurveTo'
       arguments: [x1, y1, x2, y2]
       rect     : new Rectangle(x1, y1).contain(x2, y2)
     @_requestRender true
   curveTo: Graphics::quadraticCurveTo
-  _quadraticCurveTo: (x1, y1, x2, y2) ->
+  _quadraticCurveTo:(x1, y1, x2, y2)->
     @_context.quadraticCurveTo x1, y1, x2, y2
 
-  cubicCurveTo: (x1, y1, x2, y2, x3, y3) ->
+  cubicCurveTo:(x1, y1, x2, y2, x3, y3)->
     @_stacks.push
       method   : 'cubicCurveTo'
       arguments: [x1, y1, x2, y2, x3, y3]
       rect     : new Rectangle(x1, y1).contain(x2, y2).contain(x3, y3)
     @_requestRender true
   bezierCurveTo: Graphics::cubicCurveTo
-  _cubicCurveTo: (x1, y1, x2, y2, x3, y3) ->
+  _cubicCurveTo:(x1, y1, x2, y2, x3, y3)->
     @_context.bezierCurveTo x1, y1, x2, y2, x3, y3
 
-  drawRectangle:(rect, clockwise = 0) ->
+  drawRectangle:(rect, clockwise = 0)->
     @drawRect rect.x, rect.y, rect.width, rect.height, clockwise
-  drawRect:(x, y, width, height = width, clockwise = 0) ->
-    if clockwise is 0
-      @_stacks.push
-        method   : 'drawRect'
-        arguments: [x, y, width, height]
-        rect     : new Rectangle x, y, width, height
-      @_requestRender true
-    else
-      r = x + width
-      b = y + height
-      @drawPath [0, 1, 1, 1, 1], [x, y, r, y, r, b, x, b, x, y], clockwise
-  _drawRect:(x, y, width, height)->
+  drawRect:(x, y, width, height = width, clockwise = 0)->
+    r = x + width
+    b = y + height
+    @drawPath [0, 1, 1, 1, 1], [x, y, r, y, r, b, x, b, x, y], clockwise
+
+  drawRectangleWithoutPath:(rect)->
+    @drawRectWithoutPath rect.x, rect.y, rect.width, rect.height
+  drawRectWithoutPath:(x, y, width, height = width)->
+    @_stacks.push
+      method   : 'drawRectWithoutPath'
+      arguments: [x, y, width, height]
+      rect     : new Rectangle x, y, width, height
+    @_requestRender true
+  _drawRectWithoutPath:(x, y, width, height)->
     @_context.fillRect x, y, width, height
     @_context.strokeRect x, y, width, height
 
@@ -268,7 +270,7 @@ module.exports = class Graphics
     @_context.arc x, y, radius, 0, _PI_2, clockwise < 0
     return
 
-  drawEllipse:(x, y, width, height, clockwise = 0) ->
+  drawEllipse:(x, y, width, height, clockwise = 0)->
     width /= 2
     height /= 2
     x += width
@@ -283,7 +285,7 @@ module.exports = class Graphics
       x + handleWidth, y - height, x + width, y - handleHeight, x + width, y
       ], clockwise
 
-  drawRegularPolygon:(x, y, radius, length = 3, clockwise = 0) ->
+  drawRegularPolygon:(x, y, radius, length = 3, clockwise = 0)->
     commands = []
     data = []
     unitRotation = _PI_2 / length

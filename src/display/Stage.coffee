@@ -24,13 +24,13 @@ module.exports = class Stage extends Sprite
   _getHeight:->
     @_height
 
-  # ### new Stage(canvas:*HTMLCanvasElement*)
-  # ### new Stage(width:*int*, height:*int*)
+  # ## new Stage(canvas:*HTMLCanvasElement*)
+  # ## new Stage(width:*int*, height:*int*)
   # Creates a new *Stage* object.
-  constructor:(canvasOrWidth, height = null) ->
+  constructor:(canvasOrWidth, height = null)->
     super()
 
-    # ### frameRate:*Number*
+    # ## frameRate:*Number*
     # Effective frame rate rounded off to one decimal places, in fps.
     # *Stage* updates `frameRate` once in every 30 frames.
     @defineProperty 'frameRate'
@@ -63,12 +63,12 @@ module.exports = class Stage extends Sprite
     canvas.addEventListener 'mousemove', @_onMouseMove, false
     canvas.addEventListener 'mousewheel', @_onMouseWheel, false
 
-  # ### getTimer():*int*
+  # ## getTimer():*int*
   # Computes elapsed time since *Stage* constructed, in milliseconds.
   getTimer:->
     new Date().getTime() - @_startTime
 
-  # ### _enterFrame(time:*int*):*void*
+  # ## _enterFrame(time:*int*):*void*
   # [private] The handler of enter frame.
   _enterFrame:(time)=>
     @currentFrame++
@@ -81,7 +81,7 @@ module.exports = class Stage extends Sprite
       @_render()
     return
 
-  # ### _render():*void*
+  # ## _render():*void*
   # [private] Renders children, then draws children on this object.
   _render:->
     for child in @_children
@@ -90,7 +90,10 @@ module.exports = class Stage extends Sprite
     @_drawChildren()
     return
 
-  # ### _requestRender():*void*
+  _hitTest:(localX, localY)->
+    true
+
+  # ## _requestRender():*void*
   # [private] Reserves rendering on next frame.
   _requestRender:->
     @_drawn = true

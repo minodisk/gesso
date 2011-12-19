@@ -16,7 +16,7 @@ module.exports = class Shape extends DisplayObject
     super()
     @graphics = new Graphics @
 
-  # ### _execStacks():*void*
+  # ## _execStacks():*void*
   # [private] Executes the stacks to this object.
   _execStacks:->
     @graphics._execStacks()

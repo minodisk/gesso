@@ -7,6 +7,7 @@
 # You can access this module by doing:<br/>
 # `require('display/Sprite')`
 
+DisplayObject = require 'display/DisplayObject'
 Graphics = require 'display/Graphics'
 InteractiveObject = require 'display/InteractiveObject'
 Blend = require 'display/Blend'
@@ -14,14 +15,14 @@ BlendMode = require 'display/BlendMode'
 
 module.exports = class Sprite extends InteractiveObject
 
-  # ### new Sprite()
+  # ## new Sprite()
   # Creates a new *Sprite* object.
-  constructor: ->
+  constructor:->
     super()
 
     @defineProperty '_stage'
       , null
-      , (value) ->
+      , (value)->
         child._stage = value for child in @_children
         @__stage = value
         return
@@ -29,19 +30,19 @@ module.exports = class Sprite extends InteractiveObject
     @defineProperty 'mouseEnabled'
       , ->
         @_mouseEnabled
-      , (value) ->
+      , (value)->
         @_mouseEnabled = value
 
     @defineProperty 'mouseChildren'
       , ->
         @_mouseChildren
-      , (value) ->
+      , (value)->
         @_mouseChildren = value
 
     @defineProperty 'buttonMode'
       , ->
         @_buttonMode
-      , (value) ->
+      , (value)->
         @_buttonMode = value
 
     @graphics = new Graphics @
@@ -51,7 +52,7 @@ module.exports = class Sprite extends InteractiveObject
     @_buttonMode = false
     @_mouseIn = false
 
-  # ### addChild(children...:*DisplayObject*):*Sprite*
+  # ## addChild(children...:*DisplayObject*):*Sprite*
   # Adds a child *DisplayObject* object to this object.
   addChild:(child)->
     unless child instanceof DisplayObject then throw new TypeError "Child must be specified in DisplayObject."
@@ -66,17 +67,17 @@ module.exports = class Sprite extends InteractiveObject
     @_children.splice index, 0, child
     @_requestRender true
 
-  # ### removeChild(children...:*DisplayObject*):*Sprite*
+  # ## removeChild(children...:*DisplayObject*):*Sprite*
   # Removes the specified child *DisplayObject* from this object.
-  removeChild: (children...) ->
+  removeChild:(children...)->
     for child in children
       index = @_children.indexOf child
       @_children.splice index, 1 if index isnt -1
     @_requestRender true
 
-  # ### _render():*void*
+  # ## _render():*void*
   # [private] Renders this object.
-  _render: ->
+  _render:->
     if @_drawn
       @_drawn = false
       @_measureSize()
@@ -86,7 +87,7 @@ module.exports = class Sprite extends InteractiveObject
       @_applyFilters()
       #@_drawBounds()
 
-  # ### _measureSize():*void*
+  # ## _measureSize():*void*
   # [private] Measures the bounds of this object.
   _measureSize:->
     super()
@@ -115,13 +116,13 @@ module.exports = class Sprite extends InteractiveObject
     @_bounds = bounds
     return
 
-  # ### _execStacks():*void*
+  # ## _execStacks():*void*
   # [private] Executes the stacks to this object.
   _execStacks:->
     @graphics._execStacks()
     return
 
-  # ### _drawChildren():*void*
+  # ## _drawChildren():*void*
   # [private] Draws children in this object.
   _drawChildren:->
     for child in @_children
@@ -138,9 +139,9 @@ module.exports = class Sprite extends InteractiveObject
         @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
-  # ### _drawBounds():*void*
+  # ## _drawBounds():*void*
   # [private] Draws the bounds of this object for debug.
-  _drawBounds: ->
+  _drawBounds:->
     @_context.strokeStyle = 'rgba(255, 0, 0, .8)'
     @_context.lineWidth = 1
     @_context.strokeRect 0, 0, @_width, @_height

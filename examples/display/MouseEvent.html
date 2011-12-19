@@ -23,7 +23,6 @@ var stage = new Stage(canvas);
 stage.overrideMouseWheel = true;
 
 var outer = new Sprite();
-outer.name = 'outer';
 outer.graphics.beginFill(0xff0000, 0.5);
 outer.graphics.drawRoundRect(0, 0, 140, 100, 10);
 outer.graphics.endFill();
@@ -32,7 +31,6 @@ outer.y = 140;
 outer.rotation = 30;
 stage.addChild(outer);
 var inner = new Sprite();
-inner.name = 'inner';
 inner.graphics.beginFill(0x0000ff, 0.5);
 inner.graphics.drawRoundRect(0, 0, 100, 60, 10);
 inner.graphics.endFill();
@@ -198,6 +196,7 @@ outer.addEventListener(MouseEvent.MOUSE_MOVE, function (e) {
 var stage = new Stage(canvas);
 stage.name = 'stage'
 var sprite = new Sprite();
+sprite.name = 'red'
 sprite.graphics.beginFill(0xff0000);
 sprite.graphics.drawRect(0, 0, 100, 30);
 sprite.graphics.endFill();
@@ -205,6 +204,7 @@ sprite.x = 100;
 sprite.y = 250;
 stage.addChild(sprite);
 var textField = new TextField();
+textField.name = 'textfield'
 textField.textFormat = new TextFormat('Monaco');
 textField.text = 'Click red box.';
 stage.addChild(textField);
@@ -238,6 +238,25 @@ sprite.addEventListener(MouseEvent.CLICK, function (e) {
   text = '';
   text += 'priority:5 (8)\n';
 }, false, 5);
+</pre>
+</section>
+
+<section class="execute">
+  <h2>fill rect test</h2>
+  <canvas width="300" height="300"></canvas>
+<pre>
+var context = canvas.getContext('2d');
+context.beginPath();
+context.fillStyle = '#0000ff';
+context.strokeStyle = '#ff0000';
+context.fillRect(100, 100, 100, 100);
+context.strokeRect(100, 100, 100, 100);
+context.moveTo(100, 100);
+context.lineTo(100, 200);
+context.lineTo(200, 200);
+context.lineTo(200, 100);
+context.closePath();
+console.log(context.isPointInPath(150, 150));
 </pre>
 </section>
 
