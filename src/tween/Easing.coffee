@@ -1,10 +1,10 @@
-# **Package:** *tweens*<br/>
+# **Package:** *tween*<br/>
 # **Inheritance:** *Object* → *Easing*<br/>
 # **Subclasses:** -
 #
 # The definition of easing types.<br/>
 # You can access this module by doing:<br/>
-# `require('tweens/Easing')`
+# `require('tween/Easing')`
 
 _PI = Math.PI
 _PI_2 = _PI * 2

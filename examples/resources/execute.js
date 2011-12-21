@@ -28,8 +28,8 @@
   window.TextFormat = require('text/TextFormat');
   window.TextFormatAlign = require('text/TextFormatAlign');
   window.TextFormatBaseline = require('text/TextFormatBaseline');
-  window.Tween = require('tweens/Tween');
-  window.Easing = require('tweens/Easing');
+  window.Tween = require('tween/Tween');
+  window.Easing = require('tween/Easing');
 
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes, i, len0, execute, j, len1, child, script, canvas;
