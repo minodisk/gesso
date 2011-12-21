@@ -2,8 +2,7 @@
 # **Inheritance:** *Object* → *Easing*<br/>
 # **Subclasses:** -
 #
-# Easing type definition.<br/>
-# see [EasingCurve](EasingCurve.html)<br/>
+# The definition of easing types.<br/>
 # You can access this module by doing:<br/>
 # `require('tweens/Easing')`
 
@@ -23,18 +22,18 @@ module.exports = class Easing
 # b: begin value
 # c: change value
 # d: duration
-  @linear:(t, b, c, d) ->
+  @linear:(t, b, c, d)->
     c * t / d + b
 
-  @easeInQuad:(t, b, c, d) ->
+  @easeInQuad:(t, b, c, d)->
     t /= d
     c * t * t + b
 
-  @easeOutQuad:(t, b, c, d) ->
+  @easeOutQuad:(t, b, c, d)->
     t /= d
     -c * t * (t - 2) + b
 
-  @easeInOutQuad:(t, b, c, d) ->
+  @easeInOutQuad:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       c / 2 * t * t + b
@@ -42,7 +41,7 @@ module.exports = class Easing
       t--
       -c / 2 * (t * (t - 2) - 1) + b
 
-  @easeOutInQuad:(t, b, c, d) ->
+  @easeOutInQuad:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       -c / 2 * t * (t - 2) + b
@@ -50,15 +49,15 @@ module.exports = class Easing
       t--
       c / 2 * (t * t + 1) + b
 
-  @easeInCubic:(t, b, c, d) ->
+  @easeInCubic:(t, b, c, d)->
     t /= d
     c * t * t * t + b
 
-  @easeOutCubic:(t, b, c, d) ->
+  @easeOutCubic:(t, b, c, d)->
     t = t / d - 1
     c * (t * t * t + 1) + b
 
-  @easeInOutCubic:(t, b, c, d) ->
+  @easeInOutCubic:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       c / 2 * t * t * t + b
@@ -66,19 +65,19 @@ module.exports = class Easing
       t -= 2
       c / 2 * (t * t * t + 2) + b
 
-  @easeOutInCubic:(t, b, c, d) ->
+  @easeOutInCubic:(t, b, c, d)->
     t = t * 2 / d - 1
     c / 2 * (t * t * t + 1) + b
 
-  @easeInQuart:(t, b, c, d) ->
+  @easeInQuart:(t, b, c, d)->
     t /= d
     c * t * t * t * t + b
 
-  @easeOutQuart:(t, b, c, d) ->
+  @easeOutQuart:(t, b, c, d)->
     t = t / d - 1
     -c * (t * t * t * t - 1) + b
 
-  @easeInOutQuart:(t, b, c, d) ->
+  @easeInOutQuart:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       c / 2 * t * t * t * t + b
@@ -86,22 +85,22 @@ module.exports = class Easing
       t -= 2
       -c / 2 * (t * t * t * t - 2) + b
 
-  @easeOutInQuart:(t, b, c, d) ->
+  @easeOutInQuart:(t, b, c, d)->
     t = t * 2 / d - 1
     if t < 0
       -c / 2 * (t * t * t * t - 1) + b
     else
       c / 2 * (t * t * t * t + 1) + b
 
-  @easeInQuint:(t, b, c, d) ->
+  @easeInQuint:(t, b, c, d)->
     t /= d
     c * t * t * t * t * t + b
 
-  @easeOutQuint:(t, b, c, d) ->
+  @easeOutQuint:(t, b, c, d)->
     t = t / d - 1
     c * (t * t * t * t * t + 1) + b
 
-  @easeInOutQuint:(t, b, c, d) ->
+  @easeInOutQuint:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       c / 2 * t * t * t * t * t + b
@@ -109,24 +108,24 @@ module.exports = class Easing
       t -= 2
       c / 2 * (t * t * t * t * t + 2) + b
 
-  @easeOutInQuint:(t, b, c, d) ->
+  @easeOutInQuint:(t, b, c, d)->
     t = t * 2 / d - 1
     c / 2 * (t * t * t * t * t + 1) + b
 
-  @easeInExpo:(t, b, c, d) ->
+  @easeInExpo:(t, b, c, d)->
     c * _pow(2, 10 * (t / d - 1)) + b
 
-  @easeOutExpo:(t, b, c, d) ->
+  @easeOutExpo:(t, b, c, d)->
     c * (1 - _pow(2, -10 * t / d)) + b
 
-  @easeInOutExpo:(t, b, c, d) ->
+  @easeInOutExpo:(t, b, c, d)->
     t = t * 2 / d - 1
     if t < 0
       c / 2 * _pow(2, 10 * t) + b
     else
       c / 2 * (2 - _pow(2, -10 * t)) + b
 
-  @easeOutInExpo:(t, b, c, d) ->
+  @easeOutInExpo:(t, b, c, d)->
     t *= 2 / d
     if t is 1
       c / 2 + b
@@ -135,31 +134,31 @@ module.exports = class Easing
     else
       c / 2 * (1 + _pow(2, 10 * (t - 2))) + b
 
-  @easeInSine:(t, b, c, d) ->
+  @easeInSine:(t, b, c, d)->
     -c * (_cos(t / d * _PI_1_2) - 1) + b
 
-  @easeOutSine:(t, b, c, d) ->
+  @easeOutSine:(t, b, c, d)->
     c * _sin(t / d * _PI_1_2) + b
 
-  @easeInOutSine:(t, b, c, d) ->
+  @easeInOutSine:(t, b, c, d)->
     -c / 2 * (_cos(_PI * t / d) - 1) + b
 
-  @easeOutInSine:(t, b, c, d) ->
+  @easeOutInSine:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       c / 2 * _sin(t * _PI_1_2) + b
     else
       -c / 2 * (_cos((t - 1) * _PI_1_2) - 2) + b
 
-  @easeInCirc:(t, b, c, d) ->
+  @easeInCirc:(t, b, c, d)->
     t /= d
     -c * (_sqrt(1 - t * t) - 1) + b
 
-  @easeOutCirc:(t, b, c, d) ->
+  @easeOutCirc:(t, b, c, d)->
     t = t / d - 1
     c * _sqrt(1 - t * t) + b
 
-  @easeInOutCirc:(t, b, c, d) ->
+  @easeInOutCirc:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       -c / 2 * (_sqrt(1 - t * t) - 1) + b
@@ -167,29 +166,29 @@ module.exports = class Easing
       t -= 2
       c / 2 * (_sqrt(1 - t * t) + 1) + b
 
-  @easeOutInCirc:(t, b, c, d) ->
+  @easeOutInCirc:(t, b, c, d)->
     t = t * 2 / d - 1
     if t < 0
       c / 2 * _sqrt(1 - t * t) + b
     else
       -c / 2 * (_sqrt(1 - t * t) - 2) + b
 
-  @easeInBackWith:(s = 1.70158) ->
-    (t, b, c, d) ->
+  @easeInBackWith:(s = 1.70158)->
+    (t, b, c, d)->
       _s = s
       t /= d
       c * t * t * ((_s + 1) * t - _s) + b
-  @easeInBack    :Easing.easeInBackWith()
+  @easeInBack:Easing.easeInBackWith()
 
-  @easeOutBackWith:(s = 1.70158) ->
-    (t, b, c, d) ->
+  @easeOutBackWith:(s = 1.70158)->
+    (t, b, c, d)->
       _s = s
       t = t / d - 1
       c * (t * t * ((_s + 1) * t + _s) + 1) + b
-  @easeOutBack    :@easeOutBackWith()
+  @easeOutBack:@easeOutBackWith()
 
-  @easeInOutBackWith:(s = 1.70158) ->
-    (t, b, c, d) ->
+  @easeInOutBackWith:(s = 1.70158)->
+    (t, b, c, d)->
       _s = s * 1.525
       t *= 2 / d
       if t < 1
@@ -197,19 +196,19 @@ module.exports = class Easing
       else
         t -= 2
         c / 2 * (t * t * ((_s + 1) * t + _s) + 2) + b
-  @easeInOutBack    :@easeInOutBackWith()
+  @easeInOutBack:@easeInOutBackWith()
 
-  @easeOutInBackWith:(s = 1.70158) ->
-    (t, b, c, d) ->
+  @easeOutInBackWith:(s = 1.70158)->
+    (t, b, c, d)->
       _s = s
       t = t * 2 / d - 1
       if t < 0
         c / 2 * (t * t * ((_s + 1) * t + _s) + 1) + b
       else
         c / 2 * (t * t * ((_s + 1) * t - _s) + 1) + b
-  @easeOutInBack    :@easeOutInBackWith()
+  @easeOutInBack:@easeOutInBackWith()
 
-  @easeInBounce:(t, b, c, d) ->
+  @easeInBounce:(t, b, c, d)->
     t = 1 - t / d
     if t < 0.36363636363636365   # 4 / 11
       -c * (7.5625 * t * t - 1) + b
@@ -223,7 +222,7 @@ module.exports = class Easing
       t -= 0.9545454545454546   # 10.5 / 11
       -c * (7.5625 * t * t - 0.015625) + b
 
-  @easeOutBounce:(t, b, c, d) ->
+  @easeOutBounce:(t, b, c, d)->
     t /= d
     if t < 0.36363636363636365   # 4 / 11
       c * (7.5625 * t * t) + b
@@ -237,7 +236,7 @@ module.exports = class Easing
       t -= 0.9545454545454546   # 10.5 / 11
       c * (7.5625 * t * t + 0.984375) + b
 
-  @easeInOutBounce:(t, b, c, d) ->
+  @easeInOutBounce:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       t = 1 - t
@@ -267,7 +266,7 @@ module.exports = class Easing
         c / 2 * (7.5625 * t * t + 1.984375) + b
 
 
-  @easeOutInBounce:(t, b, c, d) ->
+  @easeOutInBounce:(t, b, c, d)->
     t *= 2 / d
     if t < 1
       if t < 0.36363636363636365   # 4 / 11
@@ -295,8 +294,8 @@ module.exports = class Easing
         t -= 0.9545454545454546   # 10.5 / 11
         -c / 2 * (7.5625 * t * t - 1.015625) + b
 
-  @easeInElasticWith:(a = 0, p = 0) ->
-    (t, b, c, d) ->
+  @easeInElasticWith:(a = 0, p = 0)->
+    (t, b, c, d)->
       _a = a
       _p = p
       t = t / d - 1
@@ -308,10 +307,10 @@ module.exports = class Easing
       else
         s = _p / _PI_2 * _asin(c / _a)
       -_a * _pow(2, 10 * t) * _sin((t * d - s) * _PI_2 / _p) + b
-  @easeInElastic    :@easeInElasticWith()
+  @easeInElastic:@easeInElasticWith()
 
-  @easeOutElasticWith:(a = 0, p = 0) ->
-    (t, b, c, d) ->
+  @easeOutElasticWith:(a = 0, p = 0)->
+    (t, b, c, d)->
       _a = a
       _p = p
       t /= d
@@ -323,10 +322,10 @@ module.exports = class Easing
       else
         s = _p / _PI_2 * _asin(c / _a)
       _a * _pow(2, -10 * t) * _sin((t * d - s) * _PI_2 / _p) + b + c
-  @easeOutElastic    :@easeOutElasticWith()
+  @easeOutElastic:@easeOutElasticWith()
 
-  @easeInOutElasticWith:(a = 0, p = 0) ->
-    (t, b, c, d) ->
+  @easeInOutElasticWith:(a = 0, p = 0)->
+    (t, b, c, d)->
       _a = a
       _p = p
       t = t * 2 / d - 1
@@ -341,10 +340,10 @@ module.exports = class Easing
         -_a / 2 * _pow(2, 10 * t) * _sin((t * d - s) * _PI_2 / _p) + b
       else
         _a / 2 * _pow(2, -10 * t) * _sin((t * d - s) * _PI_2 / _p) + b + c
-  @easeInOutElastic    :@easeInOutElasticWith()
+  @easeInOutElastic:@easeInOutElasticWith()
 
-  @easeOutInElasticWith:(a = 0, p = 0) ->
-    (t, b, c, d) ->
+  @easeOutInElasticWith:(a = 0, p = 0)->
+    (t, b, c, d)->
       _a = a
       _p = p
       t = t * 2 / d
@@ -361,5 +360,5 @@ module.exports = class Easing
       else
         t -= 2
         -_a * _pow(2, 10 * t) * _sin((t * d - s) * _PI_2 / _p) + b + c
-  @easeOutInElastic    :@easeOutInElasticWith()
+  @easeOutInElastic:@easeOutInElasticWith()
 

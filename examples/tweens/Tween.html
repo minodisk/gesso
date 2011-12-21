@@ -20,60 +20,86 @@
   <canvas width="300" height="900"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var shape;
 var easingList = [
-  Easing.linear,
-  Easing.easeInQuad,
-  Easing.easeOutQuad,
-  Easing.easeInOutQuad,
-  Easing.easeOutInQuad,
-  Easing.easeInCubic,
-  Easing.easeOutCubic,
-  Easing.easeInOutCubic,
-  Easing.easeOutInCubic,
-  Easing.easeInQuart,
-  Easing.easeOutQuart,
-  Easing.easeInOutQuart,
-  Easing.easeOutInQuart,
-  Easing.easeInQuint,
-  Easing.easeOutQuint,
-  Easing.easeInOutQuint,
-  Easing.easeOutInQuint,
-  Easing.easeInExpo,
-  Easing.easeOutExpo,
-  Easing.easeInOutExpo,
-  Easing.easeOutInExpo,
-  Easing.easeInCirc,
-  Easing.easeOutCirc,
-  Easing.easeInOutCirc,
-  Easing.easeOutInCirc,
-  Easing.easeInSine,
-  Easing.easeOutSine,
-  Easing.easeInOutSine,
-  Easing.easeOutInSine,
-  Easing.easeInBack,
-  Easing.easeOutBack,
-  Easing.easeInOutBack,
-  Easing.easeOutInBack,
-  Easing.easeInBounce,
-  Easing.easeOutBounce,
-  Easing.easeInOutBounce,
-  Easing.easeOutInBounce,
-  Easing.easeInElastic,
-  Easing.easeOutElastic,
-  Easing.easeInOutElastic,
-  Easing.easeOutInElastic
+  'linear',
+  'easeInQuad',
+  'easeOutQuad',
+  'easeInOutQuad',
+  'easeOutInQuad',
+  'easeInCubic',
+  'easeOutCubic',
+  'easeInOutCubic',
+  'easeOutInCubic',
+  'easeInQuart',
+  'easeOutQuart',
+  'easeInOutQuart',
+  'easeOutInQuart',
+  'easeInQuint',
+  'easeOutQuint',
+  'easeInOutQuint',
+  'easeOutInQuint',
+  'easeInExpo',
+  'easeOutExpo',
+  'easeInOutExpo',
+  'easeOutInExpo',
+  'easeInCirc',
+  'easeOutCirc',
+  'easeInOutCirc',
+  'easeOutInCirc',
+  'easeInSine',
+  'easeOutSine',
+  'easeInOutSine',
+  'easeOutInSine',
+  'easeInBack',
+  'easeOutBack',
+  'easeInOutBack',
+  'easeOutInBack',
+  'easeInBounce',
+  'easeOutBounce',
+  'easeInOutBounce',
+  'easeOutInBounce',
+  'easeInElastic',
+  'easeOutElastic',
+  'easeInOutElastic',
+  'easeOutInElastic'
 ];
-for (var i = 0; i < easingList.length; i++) {
-  shape = new Shape();
-  shape.graphics.beginFill(0x0581d2);
-  shape.graphics.drawCircle(0, 0, 5);
-  shape.graphics.endFill();
-  shape.x = 20;
-  shape.y = 20 * (i + 1);
-  stage.addChild(shape);
-  Tween.to(shape, { x: 280 }, 1000, easingList[i]).play();
+var points = [
+  { x: 20, y: 20 },
+  { x: 280, y: 20 },
+  { x: 280, y: 280 },
+  { x: 20, y: 280 }
+];
+var textField = new TextField();
+var textFormat = new TextFormat();
+textFormat.align = TextFormatAlign.CENTER;
+textFormat.baseline = TextFormatBaseline.MIDDLE;
+textField.textFormat = textFormat;
+textField.x = textField.y = 150;
+stage.addChild(textField);
+var shape = new Shape();
+shape.graphics.beginFill(0x0581d2);
+shape.graphics.drawCircle(0, 0, 5);
+shape.graphics.endFill();
+shape.y = 20;
+stage.addChild(shape);
+var tweens = [];
+for (var i = 0, name; i < easingList.length; i++) {
+  name = easingList[i];
+  tweens.push(
+    (function (name) {
+      return function (tween) {
+        textField.text = name;
+        tween.next();
+      }
+    })(name),
+    Tween.to(shape, points[(i + 1) % 4], 1000, Easing[name])
+  );
 }
+var tween = Tween.serial.apply(Tween, tweens);
+tween.onComplete = function () {
+  textField.text = 'Complete!';
+};
+tween.play();
 </pre>
 </section>
 
