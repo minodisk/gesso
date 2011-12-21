@@ -2,9 +2,9 @@
 
 EulerAngles = require '3d/geom/EulerAngles'
 Vector = require '3d/geom/Vector'
-Klass = require 'core/Klass'
+Class = require 'core/Class'
 
-module.exports = class DisplayObject extends Klass
+module.exports = class DisplayObject extends Class
 
   constructor:->
     @position = new Vector 0, 0, 0

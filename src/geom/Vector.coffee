@@ -1,11 +1,11 @@
-Klass = require 'core/Klass'
+Class = require 'core/Class'
 
 sin = Math.sin
 cos = Math.cos
 atan2 = Math.atan2
 sqrt = Math.sqrt
 
-module.exports = class Vector extends Klass
+module.exports = class Vector extends Class
 
   @crossProduct:(a, b)->
     a.distance * b.distance * sin(b.angle - a.angle)

@@ -1,6 +1,6 @@
 # **Experimental Implementation**
 
-Class = require 'core/Klass'
+Class = require 'core/Class'
 EulerAngles = require '3d/geom/EulerAngles'
 Matrix = require '3d/geom/Matrix'
 Vector = require '3d/geom/Vector'

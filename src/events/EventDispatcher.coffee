@@ -1,7 +1,7 @@
-Klass = require 'core/Klass'
+Class = require 'core/Class'
 EventPhase = require 'events/EventPhase'
 
-module.exports = class EventDispatcher extends Klass
+module.exports = class EventDispatcher extends Class
 
   constructor: ->
     @_events = {}
