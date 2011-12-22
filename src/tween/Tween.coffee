@@ -6,47 +6,38 @@
 # You can access this module by doing:<br/>
 # `require('tween/Tween')`
 
-Ticker = require 'timers/Ticker'
 Easing = require 'tween/Easing'
-FunctionTween = require 'tween/actors/FunctionActor'
-ParallelTween = require 'tween/actors/ParallelActor'
-RepeatTween = require 'tween/actors/RepeatActor'
-SerialTween = require 'tween/actors/SerialActor'
 EasingTween = require 'tween/actors/EasingActor'
+FunctionActor = require 'tween/actors/FunctionActor'
+ParallelActor = require 'tween/actors/ParallelActor'
+RepeatActor = require 'tween/actors/RepeatActor'
+SerialActor = require 'tween/actors/SerialActor'
+WaitActor = require 'tween/actors/WaitActor'
 
 _slice = Array.prototype.slice
 
 module.exports = class Tween
 
-  @serial:(tweens...)->
-    new SerialTween tweens
+  @serial:(actors...)->
+    new SerialActor actors
 
-  @parallel:(tweens...)->
-    new ParallelTween tweens
+  @parallel:(actors...)->
+    new ParallelActor actors
 
-  @repeat:(tween, repeatCount)->
-    new RepeatTween tween, repeatCount
+  @repeat:(actor, repeatCount)->
+    new RepeatActor actor, repeatCount
 
-  @func:(func, async = false)->
-    new FunctionTween func, async
+  @func:(func, params...)->
+    new FunctionActor func, params, false
+
+  @funcAsync:(func, params...)->
+    new FunctionActor func, params, true
 
   @wait:(delay)->
-    return (tween)->
-      setTimeout tween.next, delay
+    new WaitActor delay
 
   @tween:(target, src, dst, duration = 1000, easing = Easing.linear)->
     new EasingTween target, src, dst, duration, easing
 
   @to:(target, dst, duration = 1000, easing = Easing.linear)->
     new EasingTween target, null, dst, duration, easing
-
-  constructor:->
-    @_ticker = Ticker.getInstance()
-    @running = false
-
-  reset:->
-    @running = false
-    @currentPhase = 0
-    for tween in @_tweens
-      if tween instanceof Tween then tween.reset()
-    return

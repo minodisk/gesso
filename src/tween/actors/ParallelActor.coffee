@@ -10,11 +10,11 @@ module.exports = class ParallelActor extends GroupActor
   play:->
     if @running is false and @currentPhase < @totalPhase
       @running = true
-      for tween in @_tweens
-        if tween instanceof EasingTween
-          if @onError then tween.onError = @onError
-          tween.onComplete = @next
-          tween.play()
+      for actor in @_actors
+        if actor instanceof EasingTween
+          if @onError then actor.onError = @onError
+          actor.onComplete = @next
+          actor.play()
       @onPlay?()
     return
 

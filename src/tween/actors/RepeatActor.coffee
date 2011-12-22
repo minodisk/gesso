@@ -9,7 +9,7 @@ module.exports = class RepeatActor extends SerialActor
     super(tweens)
 
   next:->
-    tween = @_tweens[@currentPhase]
+    tween = @_actors[@currentPhase]
     if tween instanceof Tween
       tween.reset()
     @_serial.next.apply @, arguments

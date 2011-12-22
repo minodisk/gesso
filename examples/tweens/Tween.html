@@ -86,13 +86,12 @@ var tweens = [];
 for (var i = 0, name; i < easingList.length; i++) {
   name = easingList[i];
   tweens.push(
-    (function (name) {
-      return function (tween) {
-        textField.text = name;
-        tween.next();
-      }
-    })(name),
-    Tween.to(shape, points[(i + 1) % 4], 1000, Easing[name])
+    Tween.func(function (actor) {
+      textField.text = actor.params[0];
+    }, name),
+    Tween.wait(500),
+    Tween.to(shape, points[(i + 1) % 4], 1000, Easing[name]),
+    Tween.wait(500)
   );
 }
 var tween = Tween.serial.apply(Tween, tweens);

@@ -1,4 +1,5 @@
-EasingTween = require 'tween/actors/EasingActor'
+EasingActor = require 'tween/actors/EasingActor'
+FunctionActor = require 'tween/actors/FunctionActor'
 GroupActor = require 'tween/actors/GroupActor'
 
 _slice = Array.prototype.slice
@@ -11,18 +12,15 @@ module.exports = class SerialActor extends GroupActor
   play:->
     if @running is false and @currentPhase < @totalPhase
       @running = true
-      tween = @_tweens[@currentPhase]
-      if tween instanceof EasingTween
-        if @onError then tween.onError = @onError
-        tween.onComplete = @next
-        tween.play()
+      actor = @_actors[@currentPhase]
+      if @onError then actor.onError = @onError
+      actor.onComplete = @next
+      unless actor instanceof FunctionActor
+        actor.play()
       else
         args = _slice.call arguments
-        if args[0] instanceof Error
-          @onError args[0]
-          return
         args.unshift @
-        tween.apply null, args
+        actor.play.apply actor, args
       @onPlay?()
     return
 
@@ -35,15 +33,15 @@ module.exports = class SerialActor extends GroupActor
         throw err
     if @running
       if ++@currentPhase < @totalPhase
-        tween = @_tweens[@currentPhase]
-        if tween instanceof EasingTween
-          if @onError then tween.onError = @onError
-          tween.onComplete = @next
+        tween = @_actors[@currentPhase]
+        if @onError then tween.onError = @onError
+        tween.onComplete = @next
+        unless tween instanceof FunctionActor
           tween.play()
         else
           args = _slice.call arguments
           args.unshift @
-          tween.apply null, args
+          tween.play.apply tween, args
       else
         @stop()
         @onComplete?()
