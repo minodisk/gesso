@@ -1,10 +1,23 @@
-module.exports = class Actor
+EventDispatcher = require 'events/EventDispatcher'
+
+module.exports = class Actor extends EventDispatcher
 
   constructor:->
-    @running = false
 
   stop:->
-    @running = false
 
   reset:->
-    @running = false
+
+  _onPlay:->
+    @onPlay? @
+
+  _onComplete:->
+    @onComplete? @
+
+  _onError:(err)->
+    if err instanceof Error
+      if typeof @onError is 'function'
+        @onError err
+      else
+        throw err
+    return

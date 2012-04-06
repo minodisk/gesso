@@ -8,14 +8,13 @@ module.exports = class ParallelActor extends GroupActor
     super(tweens)
 
   play:->
-    if @running is false and @currentPhase < @totalPhase
-      @running = true
+    if @currentPhase < @totalPhase
       for actor in @_actors
         if actor instanceof EasingTween
           if @onError then actor.onError = @onError
           actor.onComplete = @next
           actor.play()
-      @onPlay?()
+      @_onPlay()
     return
 
   next:(err)=>
@@ -26,8 +25,9 @@ module.exports = class ParallelActor extends GroupActor
       else
         throw err
     setTimeout (=>
-      if @running and ++@currentPhase >= @totalPhase
-        @stop
-        @onComplete?()
+      if ++@currentPhase >= @totalPhase
+        @currentPhase = @totalPhase
+        @stop()
+        @_onComplete()
     ), 0
     return

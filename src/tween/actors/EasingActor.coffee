@@ -1,4 +1,4 @@
-Ticker = require 'timers/Ticker'
+AnimationFrameTicker = require 'timers/AnimationFrameTicker'
 Actor = require 'tween/actors/Actor'
 
 module.exports = class EasingActor extends Actor
@@ -10,7 +10,7 @@ module.exports = class EasingActor extends Actor
     @dst = dst
     @duration = duration
     @easing = easing
-    @_ticker = Ticker.getInstance()
+    @_requestAnimationFrame = AnimationFrameTicker.getInstance()
 
   play:->
     target = @target
@@ -29,7 +29,7 @@ module.exports = class EasingActor extends Actor
         unless value? then changer[i] = target[name]
     @changers = changers
     @_beginningTime = new Date().getTime()
-    @_ticker.addHandler @_update
+    @_requestAnimationFrame.addHandler @_update
     @onPlay?()
     return
 
@@ -42,7 +42,7 @@ module.exports = class EasingActor extends Actor
     if complete = @time >= @duration
       @time = @duration
       factor = 1
-      @_ticker.removeHandler @_update
+      @_requestAnimationFrame.removeHandler @_update
     else
       factor = @easing(@time, 0, 1, @duration)
     target = @target

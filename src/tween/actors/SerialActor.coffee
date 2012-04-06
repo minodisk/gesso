@@ -10,39 +10,28 @@ module.exports = class SerialActor extends GroupActor
     super(tweens)
 
   play:->
-    if @running is false and @currentPhase < @totalPhase
-      @running = true
-      actor = @_actors[@currentPhase]
-      if @onError then actor.onError = @onError
-      actor.onComplete = @next
-      unless actor instanceof FunctionActor
-        actor.play()
-      else
-        args = _slice.call arguments
-        args.unshift @
-        actor.play.apply actor, args
-      @onPlay?()
+    if @currentPhase < @totalPhase
+      @_act()
+      @_onPlay()
     return
 
   next:(err)=>
-    if err instanceof Error
-      if @onError?
-        @onError err
-        return
-      else
-        throw err
-    if @running
-      if ++@currentPhase < @totalPhase
-        tween = @_actors[@currentPhase]
-        if @onError then tween.onError = @onError
-        tween.onComplete = @next
-        unless tween instanceof FunctionActor
-          tween.play()
-        else
-          args = _slice.call arguments
-          args.unshift @
-          tween.play.apply tween, args
-      else
-        @stop()
-        @onComplete?()
+    @_onError err
+    if ++@currentPhase < @totalPhase
+      @_act()
+    else
+      @currentPhase = @totalPhase
+      @stop()
+      @_onComplete()
     return
+
+  _act:->
+    actor = @_actors[@currentPhase]
+    if @onError then actor.onError = @onError
+    actor.onComplete = @next
+    unless actor instanceof FunctionActor
+      actor.play()
+    else
+      args = _slice.call arguments
+      args.unshift @
+      actor.play.apply actor, args

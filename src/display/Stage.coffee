@@ -14,7 +14,7 @@ MouseEvent = require 'events/MouseEvent'
 Rectangle = require 'geom/Rectangle'
 TextField = require 'text/TextField'
 TextFormat = require 'text/TextFormat'
-Ticker = require 'timers/Ticker'
+Ticker = require 'timers/AnimationFrameTicker'
 
 module.exports = class Stage extends Sprite
 

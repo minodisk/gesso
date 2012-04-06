@@ -1,4 +1,4 @@
-_ticker = do ->
+_requestAnimationFrame = do ->
   @requestAnimationFrame or
   @webkitRequestAnimationFrame or
   @mozRequestAnimationFrame or
@@ -8,12 +8,12 @@ _ticker = do ->
 _instance = null
 _internal = false
 
-module.exports = class Ticker
+module.exports = class AnimationFrameTicker
 
   @getInstance: ->
     unless _instance?
       _internal = true
-      _instance = new Ticker
+      _instance = new AnimationFrameTicker
     _instance
 
   constructor: ->
@@ -29,7 +29,7 @@ module.exports = class Ticker
     @_handlers.push handler
     if @_continuous is false
       @_continuous = true
-      _ticker @_onAnimationFrame
+      _requestAnimationFrame @_onAnimationFrame
     return
 
   removeHandler: (handler) ->
@@ -44,5 +44,5 @@ module.exports = class Ticker
       do (handler) ->
         setTimeout (-> handler time), 0
     if @_continuous is true
-      _ticker @_onAnimationFrame
+      _requestAnimationFrame @_onAnimationFrame
     return
