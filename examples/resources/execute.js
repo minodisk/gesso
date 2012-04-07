@@ -1,35 +1,21 @@
-(function (window, require) {
-  var ArrayUtil = require('utils/ArrayUtil');
-  window.Stage = require('display/Stage');
-  window.DisplayObject = require('display/DisplayObject');
-  window.Bitmap = require('display/Bitmap');
-  window.BlendMode = require('display/BlendMode');
-  window.GradientType = require('display/GradientType');
-  window.Loader = require('display/Loader');
-  window.Shape = require('display/Shape');
-  window.Sprite = require('display/Sprite');
-  window.Event = require('events/Event');
-  window.MouseEvent = require('events/MouseEvent');
-  window.KeyboardEvent = require('events/KeyboardEvent');
-  window.ColorMatrixFilter = require('filters/ColorMatrixFilter');
-  window.PrewittFilter = require('filters/PrewittFilter');
-  window.SobelFilter = require('filters/SobelFilter');
-  window.LaplacianFilter = require('filters/LaplacianFilter');
-  window.UnsharpMaskFilter = require('filters/UnsharpMaskFilter');
-  window.BlurFilter = require('filters/BlurFilter');
-  window.GaussianFilter = require('filters/GaussianFilter');
-  window.MedianFilter = require('filters/MedianFilter');
-  window.BilateralFilter = require('filters/BilateralFilter');
-  window.Vector = require('geom/Vector');
-  window.Rectangle = require('geom/Rectangle');
-  window.Matrix = require('geom/Matrix');
-  window.ColorMatrix = require('geom/ColorMatrix');
-  window.TextField = require('text/TextField');
-  window.TextFormat = require('text/TextFormat');
-  window.TextFormatAlign = require('text/TextFormatAlign');
-  window.TextFormatBaseline = require('text/TextFormatBaseline');
-  window.Tween = require('tween/Tween');
-  window.Easing = require('tween/Easing');
+(function (window) {
+  window.Stage = mn.dsk.display.Stage;
+  window.DisplayObject = mn.dsk.display.DisplayObject;
+  window.Bitmap = mn.dsk.display.Bitmap;
+  window.GradientType = mn.dsk.display.GradientType;
+  window.Loader = mn.dsk.display.Loader;
+  window.Shape = mn.dsk.display.Shape;
+  window.Sprite = mn.dsk.display.Sprite;
+  window.Event = mn.dsk.events.Event;
+  window.MouseEvent = mn.dsk.events.MouseEvent;
+  window.KeyboardEvent = mn.dsk.events.KeyboardEvent;
+  window.Vector = mn.dsk.geom.Vector;
+  window.Rectangle = mn.dsk.geom.Rectangle;
+  window.Matrix = mn.dsk.geom.Matrix;
+  window.TextField = mn.dsk.text.TextField;
+  window.TextFormat = mn.dsk.text.TextFormat;
+  window.TextFormatAlign = mn.dsk.text.TextFormatAlign;
+  window.TextFormatBaseline = mn.dsk.text.TextFormatBaseline;
 
   window.addEventListener('DOMContentLoaded', function (e) {
     var executes, i, len0, execute, j, len1, child, script, canvas;
@@ -47,4 +33,4 @@
       (new Function('canvas', script))(canvas);
     }
   }, false);
-})(window, require);
+})(this);
