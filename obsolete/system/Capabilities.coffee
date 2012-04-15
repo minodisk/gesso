@@ -1,9 +1,6 @@
 R_CHROME = /(chrome)[ \/]([\w.]+)/
-;
 R_SAFARI = /(safari)[ \/]([\w.]+)/
-;
 R_WEBKIT = /(webkit)[ \/]([\w.]+)/
-;
 R_OPERA = /(opera)(?:.*version)?[ \/]([\w.]+)/
 R_MSIE = /(msie) ([\w.]+)/
 R_MOZILLA = /(mozilla)(?:.*? rv:([\w.]+))?/
