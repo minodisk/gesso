@@ -270,7 +270,8 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
     local = @globalToLocal x, y
     @_hitTest local.x, local.y
   _hitTest:(localX, localY)->
-    @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
+    if @_bounds?
+      @_context.isPointInPath localX - @_bounds.x, localY - @_bounds.y
 #    unless @_hitTested
 #      if @_context.canvas.width isnt 0 and @_context.canvas.height isnt 0
 #        @_imageData = @_context.getImageData 0, 0, @_context.canvas.width, @_context.canvas.height
