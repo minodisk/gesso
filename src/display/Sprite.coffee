@@ -78,7 +78,8 @@ exports.display.Sprite = class Sprite extends InteractiveObject
       @_execStacks()
       @_drawChildren()
       @_applyFilters()
-      #@_drawBounds()
+      if @__stage?.debug
+        @_drawBounds()
 
   # ## _measureSize():*void*
   # [private] Measures the bounds of this object.
@@ -123,19 +124,6 @@ exports.display.Sprite = class Sprite extends InteractiveObject
         throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
         child._getTransform().setTo(@_context)
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
-#        if child.blendMode is BlendMode.NORMAL
         @_context.drawImage child._context.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
-#        else
-#          src = @_context.getImageData child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y, child._bounds.width, child._bounds.height
-#          dst = child._context.getImageData 0, 0, child._bounds.width, child._bounds.height
-#          @_context.putImageData Blend.scan(src, dst, child.blendMode), child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
         @_context.setTransform 1, 0, 0, 1, 0, 0
-    return
-
-  # ## _drawBounds():*void*
-  # [private] Draws the bounds of this object for debug.
-  _drawBounds:->
-    @_context.strokeStyle = 'rgba(255, 0, 0, .8)'
-    @_context.lineWidth = 1
-    @_context.strokeRect 0, 0, @_width, @_height
     return

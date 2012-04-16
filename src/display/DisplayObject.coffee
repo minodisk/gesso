@@ -185,7 +185,8 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
       @_applySize()
       @_execStacks()
       @_applyFilters()
-      #@_drawBounds()
+      if @__stage?.debug
+        @_drawBounds()
 
   # ## _measureSize():*void*
   # [private] Measures the bounds of this object.
@@ -248,9 +249,10 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
   # ## _drawBounds():*void*
   # [private] Draws the bounds of this object for debug.
   _drawBounds:->
-    @_context.strokeStyle = 'rgba(0, 0, 255, .8)'
-    @_context.lineWidth = 1
+    @_context.strokeStyle = 'rgb(255, 0, 0)'
+    @_context.lineWidth = 2
     @_context.strokeRect 0, 0, @_context.canvas.width, @_context.canvas.height
+    return
 
   hitTest:(x, y)->
     if x instanceof Vector
