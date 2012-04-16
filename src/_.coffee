@@ -38,6 +38,16 @@ _min = Math.min
 _max = Math.max
 _sqrt = Math.sqrt
 _atan2 = Math.atan2
+_requestAnimationFrame = do ->
+  window?.requestAnimationFrame or
+  window?.webkitRequestAnimationFrame or
+  window?.mozRequestAnimationFrame or
+  window?.msRequestAnimationFrame or
+  window?.oRequestAnimationFrame or
+  (callback)->
+    setTimeout ->
+      callback new Date().getTime()
+    , 16.666666666666668
 
 unless window.mn? then window.mn = {}
 unless window.mn.dsk? then window.mn.dsk = {}

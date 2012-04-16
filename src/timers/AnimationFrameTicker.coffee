@@ -1,48 +1,48 @@
-_requestAnimationFrame = do ->
-  @requestAnimationFrame or
-  @webkitRequestAnimationFrame or
-  @mozRequestAnimationFrame or
-  @oRequestAnimationFrame or
-  @msRequestAnimationFrame or
-  (callback) -> setTimeout (()->callback((new Date()).getTime())), 1000 / 60
-_instance = null
-_internal = false
-
 exports.text.AnimationFrameTicker = class AnimationFrameTicker
 
   @getInstance: ->
-    unless _instance?
-      _internal = true
-      _instance = new AnimationFrameTicker
-    _instance
+    unless @_instance?
+      @_internal = true
+      @_instance = new AnimationFrameTicker
+    @_instance
 
   constructor: ->
-    if _internal is false
-      throw new Error "Ticker is singleton model, call Ticker.getInstance()."
-    _internal = false
-
+    unless AnimationFrameTicker._internal
+      throw new Error "AnimationFrameTicker: call AnimationFrameTicker.getInstance()"
+    AnimationFrameTicker._internal = false
     @_handlers = []
-    @_continuous = false
+    @_running = false
     @_counter = 0
 
-  addHandler: (handler) ->
-    @_handlers.push handler
-    if @_continuous is false
-      @_continuous = true
-      _requestAnimationFrame @_onAnimationFrame
+  addHandler: (handler)->
+    if @_handlers.indexOf(handler) is -1
+      @_handlers.push handler
+      if @_running is false
+        @_running = true
+        _requestAnimationFrame @_onAnimationFrame
     return
 
-  removeHandler: (handler) ->
+  removeHandler: (handler)->
     @_handlers.splice @_handlers.indexOf(handler), 1
     if @_handlers.length is 0
-      @_continuous = false
+      @_running = false
     return
 
-  _onAnimationFrame: (time) =>
+  _onAnimationFrame: (time)=>
+#    if @_counter++ % 2 is 0
+#      for handler in @_handlers
+#        do (handler)=>
+#          setTimeout =>
+#            if @_running
+#              handler time
+#          , 0+ % 2 is 0
     @_counter++
     for handler in @_handlers
-      do (handler) ->
-        setTimeout (-> handler time), 0
-    if @_continuous is true
+      do (handler)=>
+        setTimeout =>
+          if @_running
+            handler time
+        , 0
+    if @_running is true
       _requestAnimationFrame @_onAnimationFrame
     return

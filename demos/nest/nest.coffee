@@ -8,10 +8,9 @@ canvas = document.querySelector('canvas')
 stage = new Stage canvas
 stage.debug = true
 
-#tf = new TextField()
-#tf.textFormat = new TextFormat 'monospace', 13, 0xffffff
-#stage.addChild tf
-#circles = []
+tf = new TextField()
+tf.textFormat = new TextFormat 'monospace', 13, 0xffffff
+stage.addChild tf
 #isRender = false
 
 blue = new Sprite
@@ -49,10 +48,9 @@ red.rotation = 0
 green.addChild red
 
 stage.addEventListener 'enterFrame', ->
-  blue.rotation += 1.9
-  green.rotation += -2.7
-  red.rotation += 4.4
-
-#  tf.text = "fps: #{ stage.frameRate }\nlength: #{ circles.length }"
+  blue.rotation += 3.2
+  green.rotation += -4.5
+  red.rotation += 7.3
+  tf.text = "fps: #{stage.frameRate}"
 
 #console.log arguments.callee

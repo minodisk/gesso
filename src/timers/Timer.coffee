@@ -1,48 +1,64 @@
 exports.timers.Timer = class Timer extends EventDispatcher
 
-  Timer:: __defineGetter__ 'delay', -> @_delay
-  Timer:: __defineSetter__ 'delay', (delay)->
-    running = @_running
-    @stop()
-    @_delay = delay
-    @start() if running
-
-  Timer:: __defineGetter__ 'repeatCount', -> @_repeatCount
-  Timer:: __defineSetter__ 'repeatCount', (repeatCount)->
-    @_repeatCount = repeatCount
-    @stop() if @_repeatCount isnt 0 and @_currentCount >= @_repeatCount
-
-  Timer:: __defineGetter__ 'currentCount', -> @_currentCount
-
-  Timer:: __defineGetter__ 'running', -> @_running
+  @TIMER         : "timer"
+  @TIMER_COMPLETE: "timerComplete"
 
   constructor: (delay, repeatCount = 0)->
-    @delay = Number(delay)
+    super()
 
+    @defineProperty "delay", ->
+      @_delay
+    , (value)->
+      running = @_running
+      @stop()
+      @_delay = value
+      if running
+        @start()
+      return
+
+    @defineProperty "repeatCount", ->
+      @_repeatCount
+    , (value)->
+      @_repeatCount = value
+      isEndless = @_repeatCount is 0
+      isComplete = @_currentCount >= @_repeatCount
+      if not isEndless and isComplete
+        @stop()
+      return
+
+    @defineProperty "currentCount", ->
+      @_currentCount
+
+    @defineProperty "running", ->
+      @_running
+
+    @_delay = delay
+    @_repeatCount = repeatCount
     @reset()
 
   reset: ->
     @stop()
     @_currentCount = 0
-    return
 
   start: ->
-    if @_running isnt true and (@_repeatCount is 0 or @_currentCount < @_repeatCount)
-      _clearInterval @_intervalId if @_intervalId?
+    isEndless = @_repeatCount is 0
+    isComplete = @_currentCount >= @_repeatCount
+    if not @_running and (isEndless or not isComplete)
+      if @_intervalId?
+        clearInterval @_intervalId
       @_running = true
       @_intervalId = setInterval @_onInterval, @_delay
-    return
 
   stop: ->
     @_running = false
-    if @_intervalId?
-      _clearInterval @_intervalId
+    if @_intervalId
+      clearInterval @_intervalId
       @_intervalId = null
-    return
 
   _onInterval: =>
-    @dispatchEvent 'timer'
-    if @_repeatCount isnt 0 and ++@_currentCount >= @_repeatCount
+    isEndless = @_repeatCount is 0
+    isComplete = ++@_currentCount >= @_repeatCount
+    @dispatchEvent new Event Timer.TIMER
+    if not isEndless and isComplete
       @stop()
-      @dispatchEvent 'timerComplete'
-    return
+      @dispatchEvent new Event Timer.TIMER_COMPLETE

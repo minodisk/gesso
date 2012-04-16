@@ -42,11 +42,19 @@ exports.display.Stage = class Stage extends Sprite
     @_context = canvas.getContext '2d'
     @_bounds = new Rectangle 0, 0, canvas.width, canvas.height
     @overrideMouseWheel = false
+
     @_startTime = @_time = (new Date()).getTime()
     @currentFrame = 0
-    @_frameRate = 60
+    @_targetFrameRate = @_frameRate = 30
 
-    AnimationFrameTicker.getInstance().addHandler @_enterFrame
+#    AnimationFrameTicker.getInstance().addHandler @_enterFrame
+
+#    timer = new Timer 1000 / 30
+#    timer.addEventListener 'timer', @_enterFrame
+#    timer.start()
+
+    setInterval @_enterFrame, 1000 / @_targetFrameRate
+
     canvas.addEventListener 'click', @_onClick, false
     canvas.addEventListener 'mousedown', @_onMouseDown, false
     canvas.addEventListener 'mouseup', @_onMouseUp, false
@@ -60,12 +68,17 @@ exports.display.Stage = class Stage extends Sprite
 
   # ## _enterFrame(time:*int*):*void*
   # [private] The handler of enter frame.
-  _enterFrame:(time)=>
+  _enterFrame:=>
     @currentFrame++
-    if (@currentFrame % 30) is 0
-      @_frameRate = (300000 / (time - @_time) >> 0) / 10
-      @_time = time
-    @dispatchEvent new Event(Event.ENTER_FRAME)
+#    if @currentFrame % @_targetFrameRate is 0
+#      time = new Date().getTime()
+#      @_frameRate = (@_targetFrameRate / (time - @_time) * 10000 >> 0) / 10
+#      @_time = time
+    time = new Date().getTime()
+    @_frameRate = (1 / (time - @_time) * 10000 >> 0) / 10
+    @_time = time
+
+    @dispatchEvent new Event Event.ENTER_FRAME
     if @_drawn
       @_drawn = false
       @_render()
