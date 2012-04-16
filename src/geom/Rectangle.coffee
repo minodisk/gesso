@@ -10,12 +10,12 @@ exports.geom.Rectangle = class Rectangle
 
   # ## new Rectangle(x:*Number* = 0, y:*Number* = 0, width:*Number* = 0, height:*Number* = 0)
   # Creates a new *Rectangle* instance.
-  constructor: (@x = 0, @y = 0, @width = 0, @height = 0) ->
+  constructor: (@x = 0, @y = 0, @width = 0, @height = 0)->
 
   # ## toString():*String*
   # Creates *String* composed of x, y, width and height.
   toString: ->
-    "[Rectangle x=#{ @x } y=#{ @y } width=#{ @width } height=#{ @height }]"
+    "[Rectangle x=#{@x} y=#{@y} width=#{@width} height=#{@height}]"
 
   # ## clone():*Rectangle*
   # Clones this object.
@@ -24,20 +24,20 @@ exports.geom.Rectangle = class Rectangle
 
   # ## apply(rect:*Rectangle*):*Rectangle*
   # Applies target properties to this object.
-  apply: (rect) ->
+  apply: (rect)->
     @x = rect.x
     @y = rect.y
     @width = rect.width
     @height = rect.height
     @
 
-  contains: (x, y) ->
+  contains: (x, y)->
     @x < x < @x + @width and @y < y < @y + @height
 
-  containsPoint: (point) ->
+  containsPoint: (point)->
     @x < point.x < @x + @width and @y < point.y < @y + @height
 
-  contain: (x, y) ->
+  contain: (x, y)->
     if x < @x
       @width += @x - x
       @x = x
@@ -52,39 +52,39 @@ exports.geom.Rectangle = class Rectangle
 
   # ## offset(dx:*Number*, dy:*Number*):*Rectangle*
   # Add x and y to this object.
-  offset: (dx, dy) ->
+  offset: (dx, dy)->
     @x += dx
     @y += dy
     @
 
   # ## offsetPoint(pt:*Point*):*Rectangle*
   # Add x and y to this object using a *Point* object as a parameter.
-  offsetPoint: (pt) ->
+  offsetPoint: (pt)->
     @x += pt.x
     @y += pt.y
     @
 
-  inflate: (dw, dh) ->
+  inflate: (dw, dh)->
     @width += dw
     @height += dh
     @
 
-  inflatePoint: (pt) ->
+  inflatePoint: (pt)->
     @width += pt.x
     @height += pt.y
     @
 
-  deflate: (dw, dh) ->
+  deflate: (dw, dh)->
     @width -= dw
     @height -= dh
     @
 
-  deflatePoint: (pt) ->
+  deflatePoint: (pt)->
     @width -= pt.x
     @height -= pt.y
     @
 
-  union: (rect) ->
+  union: (rect)->
     l = if @x < rect.x then @x else rect.x
     r1 = @x + @width
     r2 = rect.x + rect.width
@@ -104,7 +104,7 @@ exports.geom.Rectangle = class Rectangle
   isEmpty: ->
     @x is 0 and @y is 0 and @width is 0 and @height is 0
 
-  intersects: (rect) ->
+  intersects: (rect)->
     l = _max @x, rect.x
     r = _min @x + @width, rect.x + rect.width
     w = r - l
@@ -115,7 +115,7 @@ exports.geom.Rectangle = class Rectangle
     return false if h <= 0
     true
 
-  intersection: (rect) ->
+  intersection: (rect)->
     l = _max @x, rect.x
     r = _min @x + @width, rect.x + rect.width
     w = r - l
@@ -126,7 +126,7 @@ exports.geom.Rectangle = class Rectangle
     return new Rectangle() if h <= 0
     new Rectangle l, t, w, h
 
-  measureFarDistance: (x, y) ->
+  measureFarDistance: (x, y)->
     l = @x
     r = @x + @width
     t = @y
@@ -153,3 +153,21 @@ exports.geom.Rectangle = class Rectangle
     @y = y
     @width = Math.ceil @width
     @height = Math.ceil @height
+    
+  transform: (matrix)->
+    lt = new Matrix 1, 0, 0, 1, @x, @y
+    rt = new Matrix 1, 0, 0, 1, @x + @width, @y
+    rb = new Matrix 1, 0, 0, 1, @x + @width, @y + @height
+    lb = new Matrix 1, 0, 0, 1, @x, @y + @height
+    lt.concat matrix
+    rt.concat matrix
+    rb.concat matrix
+    lb.concat matrix
+    l = _min lt.ox, rt.ox, rb.ox, lb.ox
+    r = _max lt.ox, rt.ox, rb.ox, lb.ox
+    t = _min lt.oy, rt.oy, rb.oy, lb.oy
+    b = _max lt.oy, rt.oy, rb.oy, lb.oy
+    @x = l
+    @y = t
+    @width = r - l
+    @height = b - t

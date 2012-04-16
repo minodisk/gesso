@@ -13,13 +13,6 @@ exports.display.Sprite = class Sprite extends InteractiveObject
   constructor:->
     super()
 
-    @defineProperty '_stage'
-      , null
-      , (value)->
-        child._stage = value for child in @_children
-        @__stage = value
-        return
-
     @defineProperty 'mouseEnabled'
       , ->
         @_mouseEnabled
@@ -91,8 +84,11 @@ exports.display.Sprite = class Sprite extends InteractiveObject
       child._render()
       rect.union child._rect
       b = child._bounds.clone()
-      b.x += child.x
-      b.y += child.y
+
+      b.transform child._getTransform()
+#      b.x += child.x
+#      b.y += child.y
+
       bounds.union b
     x = Math.floor bounds.x
     if x isnt bounds.x
@@ -127,7 +123,6 @@ exports.display.Sprite = class Sprite extends InteractiveObject
         matrix.setTo @_context
 
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
-#        @_context.drawImage child._context.canvas, child._bounds.x, child._bounds.y
         @_context.drawImage child._context.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
         @_context.setTransform 1, 0, 0, 1, 0, 0
     return

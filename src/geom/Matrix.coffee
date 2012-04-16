@@ -15,7 +15,7 @@ exports.geom.Matrix = class Matrix
 
   # ## new Matrix(a:*Number* = 1, b:*Number* = 0, c:*Number* = 0, d:*Number* = 1, x:*Number* = 0, y:*Number* = 0)
   # Creates a new Matrix object.
-  constructor: (@xx = 1, @xy = 0, @yx = 0, @yy = 1, @ox = 0, @oy = 0) ->
+  constructor: (@xx = 1, @xy = 0, @yx = 0, @yy = 1, @ox = 0, @oy = 0)->
 
   identity:->
     @xx = 1
@@ -31,15 +31,17 @@ exports.geom.Matrix = class Matrix
     new Matrix @xx, @xy, @yx, @yy, @ox, @oy
 
   toString: ->
-    "#{ @xx } #{ @yx } #{ @ox }\n
-#{ @xy } #{ @yy } #{ @oy }\n
-0 0 1"
+    """
+    #{@xx} #{@yx} #{@ox}
+    #{@xy} #{@yy} #{@oy}
+    0 0 1
+    """
 
   # ## apply(matrix:*Matrix*):*void*
   # Applies the properties of specified *Matrix* object to this object.
-  apply: (matrix) ->
+  apply: (matrix)->
     @_apply matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
-  _apply: (xx, xy, yx, yy, ox, oy) ->
+  _apply: (xx, xy, yx, yy, ox, oy)->
     @xx = xx
     @xy = xy
     @yx = yx
@@ -50,7 +52,7 @@ exports.geom.Matrix = class Matrix
 
   # ## setTo(context:*CanvasRenderingContext2D*):*void*
   # Sets transform to specified *CanvasRenderingContext2D* object.
-  setTo: (context) ->
+  setTo: (context)->
     context.setTransform @xx, @xy, @yx, @yy, @ox, @oy
 
   # ## concat(matrix:*Matrix*):*Matrix*
@@ -59,7 +61,7 @@ exports.geom.Matrix = class Matrix
   #     |xx yx ox||@xx @yx @ox|   |xx*@xx+yx*@xy xx*@yx+yx*@yy xx*@ox+yx*@oy+ox|
   #     |xy yy oy||@xy @yy @oy| = |xy*@xx+yy*@xy xy*@yx+yy*@yy xy*@ox+yy*@oy+oy|
   #     |0  0  1 ||0   0   1  |   |0             0             1               |
-  concat: (matrix) ->
+  concat: (matrix)->
     @_concat matrix.xx, matrix.xy, matrix.yx, matrix.yy, matrix.ox, matrix.oy
   _concat:(xx, xy, yx, yy, ox, oy)->
     _xx = @xx
@@ -121,7 +123,7 @@ exports.geom.Matrix = class Matrix
   #     |@xx @yx @ox||1 0 pt.x|   |@xx @yx @xx*pt.x+@yx*pt.y+@ox|
   #     |@xy @yy @oy||0 1 pt.y| = |@xy @yy @xy*pt.x+@yy*pt.y+@oy|
   #     |0   0   1  ||0 0 1   |   |0   0   1                    |
-  transformPoint: (pt) ->
+  transformPoint: (pt)->
     new Vector @xx * pt.x + @yx * pt.y + @ox, @xy * pt.x + @yy * pt.y + @oy
 
   deltaTransformPoint: (pt)->

@@ -20,32 +20,33 @@
 </section>
 
 <section class="execute">
-  <h2>exist graphics and child shape together</h2>
+  <h2>nest</h2>
   <canvas width="300" height="300"></canvas>
 <pre>
 var stage = new Stage(canvas);
-var sprite = new Sprite();
-sprite.graphics.beginFill(0x0581d2);
-sprite.graphics.drawCircle(0, 0, 40);
-sprite.graphics.endFill();
-sprite.x = 150;
-sprite.y = 150;
-stage.addChild(sprite);
-var shape = new Shape();
-shape.graphics.beginFill(0xffff00, 0.8);
-shape.graphics.drawRegularStar(40, 0, 30);
-shape.graphics.endFill();
-sprite.addChild(shape);
+var sun = new Sprite();
+sun.graphics.beginFill(0xffff00);
+sun.graphics.drawCircle(0, 0, 40);
+sun.graphics.endFill();
+sun.x = 150;
+sun.y = 150;
+stage.addChild(sun);
+var earth = new Sprite();
+earth.graphics.beginFill(0x0581d2);
+earth.graphics.drawCircle(0, 0, 20);
+earth.graphics.endFill();
+earth.x = 100
+sun.addChild(earth);
+var moon = new Shape();
+moon.graphics.beginFill(0x999999);
+moon.graphics.drawCircle(0, 0, 10);
+moon.graphics.endFill();
+moon.x = 35
+earth.addChild(moon);
 var spriteDirection = 1;
 stage.addEventListener('enterFrame', function (e) {
-  if (sprite.x <= 75) {
-    spriteDirection = 1;
-  } else if (sprite.x >= 225) {
-    spriteDirection = -1
-  }
-  sprite.x += spriteDirection * 1;
-
-  shape.rotation++;
+  sun.rotation++
+  earth.rotation+=1.5
 });
 </pre>
 </section>

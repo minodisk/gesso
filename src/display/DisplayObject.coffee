@@ -40,7 +40,14 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
     @defineProperty 'stage'
       , ->
         @__stage
+      , null
+
+    @defineProperty '_stage'
+      , null
       , (value)->
+        if @_children?
+          for child in @_children
+            child._stage = value
         @__stage = value
         return
 
@@ -231,11 +238,10 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
   # ## _execStacks():*void*
   # [private] Executes the stacks to this object.
   _execStacks:->
-    throw new Error "DisplayObject._execStacks: It can't be called"
-#    @_context.translate -@_bounds.x, -@_bounds.y
-#    for stack in @_stacks
-#      @["_#{ stack.method }"].apply @, stack.arguments
-#    @_context.setTransform 1, 0, 0, 1, 0, 0
+    @_context.translate -@_bounds.x, -@_bounds.y
+    for stack in @_stacks
+      @["_#{ stack.method }"].apply @, stack.arguments
+    @_context.setTransform 1, 0, 0, 1, 0, 0
     return
 
   # ## _applyFilters():*void*

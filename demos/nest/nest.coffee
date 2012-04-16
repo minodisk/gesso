@@ -14,10 +14,9 @@ stage.debug = true
 #circles = []
 #isRender = false
 
-
 blue = new Sprite
-blue.graphics.beginFill 0x0000ff
-blue.graphics.drawRect 0, 0, 100, 100
+blue.graphics.beginFill 0x22228B
+blue.graphics.drawRect -8, -8, 16, 80
 blue.graphics.endFill()
 blue.graphics.beginFill 0xffffff
 blue.graphics.drawCircle 0, 0, 2
@@ -28,32 +27,31 @@ blue.y = stage.height / 2
 stage.addChild blue
 
 green = new Sprite
-green.graphics.beginFill 0x00ff00, 0.2
-green.graphics.drawRect -50, -20, 100, 40
+green.graphics.beginFill 0x228B22
+green.graphics.drawRect -5, -5, 10, 110
 green.graphics.endFill()
 green.graphics.beginFill 0xffffff
 green.graphics.drawCircle 0, 0, 2
 green.graphics.endFill()
-green.x = 10
-green.y = 10
+green.y = 72
 green.rotation = 30
 blue.addChild green
 
-red = new Sprite
-red.graphics.beginFill 0xff0000, 0.5
-red.graphics.drawRect -10, -10, 110, 20
+red = new Shape
+red.graphics.beginFill 0x8B2222
+red.graphics.drawRect -3, -3, 6, 130
 red.graphics.endFill()
 red.graphics.beginFill 0xffffff
 red.graphics.drawCircle 0, 0, 2
 red.graphics.endFill()
-red.x = 50
+red.y = 105
 red.rotation = 0
 green.addChild red
 
 stage.addEventListener 'enterFrame', ->
-#  blue.rotation += 1
-  green.rotation += 1.5
-#  red.rotation += 2
+  blue.rotation += 1.9
+  green.rotation += -2.7
+  red.rotation += 4.4
 
 #  tf.text = "fps: #{ stage.frameRate }\nlength: #{ circles.length }"
 
