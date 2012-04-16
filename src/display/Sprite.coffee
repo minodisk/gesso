@@ -106,8 +106,6 @@ exports.display.Sprite = class Sprite extends InteractiveObject
     bounds.height = Math.ceil bounds.height
     @_width = rect.width
     @_height = rect.height
-    @_rect = rect
-    @_bounds = bounds
     return
 
   # ## _execStacks():*void*
@@ -122,8 +120,14 @@ exports.display.Sprite = class Sprite extends InteractiveObject
     for child in @_children
       if child._bounds? and child._bounds.width > 0 and child._bounds.height > 0
         throw new Error 'invalid position' if isNaN child.x or isNaN child._bounds.x or isNaN child.y or isNaN child._bounds.y
-        child._getTransform().setTo(@_context)
+
+        matrix = new Matrix 1, 0, 0, 1, @_bounds.x, @_bounds.y
+        matrix.concat child._getTransform()
+        matrix.translate -@_bounds.x, -@_bounds.y
+        matrix.setTo @_context
+
         @_context.globalAlpha = if child._alpha < 0 then 0 else if child._alpha > 1 then 1 else child._alpha
+#        @_context.drawImage child._context.canvas, child._bounds.x, child._bounds.y
         @_context.drawImage child._context.canvas, child._bounds.x - @_bounds.x, child._bounds.y - @_bounds.y
         @_context.setTransform 1, 0, 0, 1, 0, 0
     return

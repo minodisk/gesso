@@ -27,27 +27,28 @@ blue.y = stage.height / 2
 #blue.rotation = 10
 stage.addChild blue
 
-green = new Shape
+green = new Sprite
 green.graphics.beginFill 0x00ff00, 0.2
 green.graphics.drawRect -50, -20, 100, 40
 green.graphics.endFill()
 green.graphics.beginFill 0xffffff
 green.graphics.drawCircle 0, 0, 2
 green.graphics.endFill()
-green.x = 0
-#green.rotation = 10
+green.x = 10
+green.y = 10
+green.rotation = 30
 blue.addChild green
 
-#red = new Sprite
-#red.graphics.beginFill 0xff0000, 0.5
-#red.graphics.drawRect -10, -10, 110, 20
-#red.graphics.endFill()
-#red.graphics.beginFill 0xffffff
-#red.graphics.drawCircle 0, 0, 5
-#red.graphics.endFill()
-#red.x = 100
-#red.rotation = 10
-#green.addChild red
+red = new Sprite
+red.graphics.beginFill 0xff0000, 0.5
+red.graphics.drawRect -10, -10, 110, 20
+red.graphics.endFill()
+red.graphics.beginFill 0xffffff
+red.graphics.drawCircle 0, 0, 2
+red.graphics.endFill()
+red.x = 50
+red.rotation = 0
+green.addChild red
 
 stage.addEventListener 'enterFrame', ->
 #  blue.rotation += 1
