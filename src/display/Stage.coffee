@@ -75,7 +75,7 @@ exports.display.Stage = class Stage extends Sprite
 #      @_frameRate = (@_targetFrameRate / (time - @_time) * 10000 >> 0) / 10
 #      @_time = time
     time = new Date().getTime()
-    @_frameRate = (1 / (time - @_time) * 10000 >> 0) / 10
+    @_frameRate = (10000 / (time - @_time) >> 0) / 10
     @_time = time
 
     @dispatchEvent new Event Event.ENTER_FRAME
