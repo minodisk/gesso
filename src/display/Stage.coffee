@@ -23,9 +23,8 @@ exports.display.Stage = class Stage extends Sprite
     # ## frameRate:*Number*
     # Effective frame rate rounded off to one decimal places, in fps.
     # *Stage* updates `frameRate` once in every 30 frames.
-    @defineProperty 'frameRate'
-      , ->
-        @_frameRate
+    @defineProperty 'frameRate', ->
+      @_frameRate
 
     if canvasOrWidth instanceof HTMLCanvasElement
       canvas = canvasOrWidth
