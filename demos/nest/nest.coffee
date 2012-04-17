@@ -7,11 +7,11 @@ randomBetween = (a, b)->
 canvas = document.querySelector('canvas')
 stage = new Stage canvas
 stage.debug = true
+render = true
 
 tf = new TextField()
 tf.textFormat = new TextFormat 'monospace', 13, 0xffffff
 stage.addChild tf
-#isRender = false
 
 blue = new Sprite
 blue.graphics.beginFill 0x22228B
@@ -22,7 +22,6 @@ blue.graphics.drawCircle 0, 0, 2
 blue.graphics.endFill()
 blue.x = stage.width / 2
 blue.y = stage.height / 2
-#blue.rotation = 10
 stage.addChild blue
 
 green = new Sprite
@@ -47,10 +46,12 @@ red.y = 105
 red.rotation = 0
 green.addChild red
 
-stage.addEventListener 'enterFrame', ->
-  blue.rotation += 3.2
-  green.rotation += -4.5
-  red.rotation += 7.3
-  tf.text = "fps: #{stage.frameRate}"
+stage.addEventListener 'click', ->
+  render = !render
 
-#console.log arguments.callee
+stage.addEventListener 'enterFrame', ->
+  if render
+    blue.rotation += 3.2
+    green.rotation += -4.5
+    red.rotation += 7.3
+    tf.text = "fps: #{stage.frameRate}"
