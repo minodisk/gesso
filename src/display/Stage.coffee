@@ -30,7 +30,7 @@ exports.display.Stage = class Stage extends Sprite
       canvas = canvasOrWidth
       @_width = canvas.width
       @_height = canvas.height
-    else if notisNaN(Number canvasOrWidth) && notisNaN(Number height)
+    else if not isNaN(Number canvasOrWidth) && not isNaN(Number height)
       canvas = document.createElement 'canvas'
       @_width = canvas.width = canvasOrWidth
       @_height = canvas.height = height
