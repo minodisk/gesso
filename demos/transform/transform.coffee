@@ -1,5 +1,12 @@
-{Stage, Loader} = mn.dsk.display
+{Stage, Sprite, Loader} = mn.dsk.display
+{Vector, Matrix} = mn.dsk.geom
 {Event} = mn.dsk.events
+
+width = 0
+height = 0
+origin = null
+anchorX = null
+anchorY = null
 
 onLoadComplete = (e) ->
   width = loader.width
@@ -32,11 +39,14 @@ onLoadComplete = (e) ->
   origin.addEventListener MouseEvent.MOUSE_DOWN, onMouseDown
   anchorX.addEventListener MouseEvent.MOUSE_DOWN, onMouseDown
   anchorY.addEventListener MouseEvent.MOUSE_DOWN, onMouseDown
+
 onMouseDown = (e) ->
+  console.log e
   anchor = e.currentTarget
   anchor.startDrag()
   stage.addEventListener MouseEvent.MOUSE_MOVE, onMouseMove
   stage.addEventListener MouseEvent.MOUSE_UP, onMouseUp
+
 onMouseMove = (e) ->
   ptO = new Vector(origin.x, origin.y)
   ptX = new Vector(anchorX.x, anchorX.y)
@@ -46,15 +56,15 @@ onMouseMove = (e) ->
   ptX = ptX.subtract(ptO).normalize(scaleX)
   ptY = ptY.subtract(ptO).normalize(scaleY)
   loader.matrix = new Matrix(ptX.x, ptX.y, ptY.x, ptY.y, ptO.x, ptO.y)
+
 onMouseUp = (e) ->
   stage.removeEventListener MouseEvent.MOUSE_MOVE, onMouseMove
   stage.removeEventListener MouseEvent.MOUSE_UP, onMouseUp
   anchor.stopDrag()
 
-do ->
-  canvas = document.getElementsByName('canvas')[0]
-  stage = new Stage canvas
-  loader = new Loader()
-  loader.load "/gesso/images/lena_256.png"
-  loader.addEventListener Event.COMPLETE, onLoadComplete
-  stage.addChild loader
+canvas = document.getElementsByTagName('canvas')[0]
+stage = new Stage canvas
+loader = new Loader()
+loader.load "/gesso/images/lena_256.png"
+loader.addEventListener Event.COMPLETE, onLoadComplete
+stage.addChild loader
