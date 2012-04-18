@@ -1856,7 +1856,7 @@
         canvas = canvasOrWidth;
         this._width = canvas.width;
         this._height = canvas.height;
-      } else if (notisNaN(Number(canvasOrWidth)) && notisNaN(Number(height))) {
+      } else if (!isNaN(Number(canvasOrWidth)) && !isNaN(Number(height))) {
         canvas = document.createElement("canvas");
         this._width = canvas.width = canvasOrWidth;
         this._height = canvas.height = height;
