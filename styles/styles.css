@@ -7,11 +7,8 @@ body {
   font-weight : 300;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  margin : 0 0 20px;
-}
-
-p, ul, ol, table, pre, dl, nav, .gist {
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, table, pre, dl, nav, canvas, .gist {
   margin : 0 0 20px;
 }
 
@@ -40,6 +37,10 @@ h2, h3, h4, h5, h6, h2 a {
   color : #494949;
 }
 
+nav {
+  font-size : 16px;
+}
+
 a {
   color           : #39c;
   text-decoration : none;
@@ -53,7 +54,8 @@ a small {
 }
 
 .wrapper {
-  width  : 860px;
+  /*width  : 860px;*/
+  width  : 1160px;
   margin : 0 auto;
 }
 
@@ -83,7 +85,7 @@ pre {
   overflow-x : auto;
 }
 
-.gist .gist-file {
+/*.gist .gist-file {
   border : none !important;
   margin : 0 !important;
 }
@@ -105,6 +107,16 @@ pre {
 
 .gist .gist-file .gist-meta {
   display : none;
+}*/
+
+.toggleButton {
+  display: block;
+  text-align: right;
+  padding-right: 15px;
+}
+
+canvas {
+  background : #000000;
 }
 
 table {
@@ -196,7 +208,8 @@ header ul a strong {
 }
 
 section {
-  width          : 500px;
+  /*width          : 500px;*/
+  width          : 800px;
   float          : right;
   padding-bottom : 50px;
 }
@@ -219,7 +232,8 @@ footer {
   bottom   : 50px;
 }
 
-@media print, screen and (max-width: 960px) {
+/*@media print, screen and (max-width: 960px) {*/
+@media print, screen and (max-width: 1260px) {
 
   div.wrapper {
     width  : auto;

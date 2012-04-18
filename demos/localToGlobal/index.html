@@ -1,20 +1,23 @@
 <!doctype html>
-<html xmlns="http://www.w3.org/1999/html">
+<html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <title>Gesso Examples</title>
-  <link rel="stylesheet" href="/gesso/stylesheets/styles.css">
+  <title>Gesso Demos | Local to Global</title>
   <meta name="viewport"
     content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <link rel="stylesheet" href="/gesso/styles/styles.css">
+  <link rel="stylesheet" href="/gesso/styles/prettify.css">
+  <script type="text/javascript" src="/gesso/scripts/gesso.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/coffee-script.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/relay.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/prettify.js"></script>
+  <script type="text/coffeescript" src="/gesso/scripts/dripper.coffee"></script>
+
   <!--[if lt IE 9]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-
-  <script type="text/javascript" src="/gesso/javascripts/gesso.js"></script>
-  <script type="text/javascript" src="/gesso/javascripts/coffee-script.js"></script>
-  <script type="text/coffeescript" src="pop.coffee"></script>
-
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-30952514-1']);
@@ -34,12 +37,12 @@
 <div class="wrapper">
   <header>
     <h1><a href="/gesso/">Gesso</a></h1>
-    <h2><a href="/gesso/examples/">Examples</a></h2>
+    <h2><a href="/gesso/demos/">Demos</a></h2>
     <p>A JavaScript module wraps canvas API for browser.</p>
     <nav>
+      <a href="/gesso/guide/">Getting Started</a> |
       <a href="/gesso/docs/">API Documentation</a> |
-      <a href="/gesso/demos/">Demos</a> |
-      <a href="/gesso/examples/">Examples</a>
+      <a href="/gesso/demos/">Demos</a>
     </nav>
     <ul>
       <li><a href="https://github.com/minodisk/gesso/zipball/master">Download
@@ -52,8 +55,9 @@
   </header>
 
   <section>
-    <h3>Pop Star</h3>
-    <canvas></canvas>
+    <h3>Local to Global</h3>
+    <canvas width="800" height="450"></canvas>
+    <pre data-dripper-run="localtoglobal.coffee"></pre>
   </section>
 
   <footer>
@@ -65,9 +69,6 @@
     </p>
   </footer>
 </div>
-<script src="/gesso/javascripts/scale.fix.js"></script>
+<script src="/gesso/scripts/scale.fix.js"></script>
 </body>
 </html>
-
-
-

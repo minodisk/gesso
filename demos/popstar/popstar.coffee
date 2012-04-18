@@ -4,7 +4,7 @@
 randomBetween = (a, b)->
   a + Math.random() * (b - a)
 
-canvas = document.querySelector('canvas')
+canvas = document.getElementsByTagName('canvas')[0]
 stage = new Stage canvas
 tf = new TextField()
 tf.textFormat = new TextFormat 'monospace', 13, 0xffffff
@@ -12,10 +12,10 @@ stage.addChild tf
 circles = []
 isRender = false
 
-canvas.addEventListener 'click', ()=>
+canvas.addEventListener 'click', ->
   isRender = !isRender
 
-stage.addEventListener 'enterFrame', ()=>
+stage.addEventListener 'enterFrame', ->
   if isRender
     i = circles.length
     while i-- > 0
@@ -29,7 +29,7 @@ stage.addEventListener 'enterFrame', ()=>
         circles.splice i, 1
         stage.removeChild circle
 
-    if stage.frameRate > 29 && circles.length < 500
+    if stage.frameRate > 29 and circles.length < 500
       for i in [0...6]
         circle = new Shape()
         ran = Math.random()
@@ -49,6 +49,3 @@ stage.addEventListener 'enterFrame', ()=>
     fps: #{stage.frameRate}
     length: #{circles.length}
   """
-
-return
-console.log arguments.callee

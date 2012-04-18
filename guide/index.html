@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <title>Gesso</title>
+  <title>Gesso Getting Started</title>
   <meta name="viewport"
     content="width=device-width, initial-scale=1, user-scalable=no">
 
@@ -37,6 +37,7 @@
 <div class="wrapper">
   <header>
     <h1><a href="/gesso/">Gesso</a></h1>
+    <h2><a href="/gesso/guide/">Getting Started</a></h2>
     <p>A JavaScript module wraps canvas API for browser.</p>
     <nav>
       <a href="/gesso/guide/">Getting Started</a> |
@@ -54,8 +55,49 @@
   </header>
 
   <section>
-    <h3>About Gesso</h3>
-    <p>Gesso adds display API like ActionScript to JavaScript.</p>
+    <h3>Step1 - Import</h3>
+    <p>Gesso using namespace 'mn.dsk', you had better copy the reference to
+      easy-to-use position.</p>
+    <pre data-dripper-src="1_import.html"></pre>
+  </section>
+
+  <section>
+    <h3>Step2 - Drawing something</h3>
+    <p>Let's draw some graphics. You can use <code>graphics</code> API that is
+      implemented in <code>Stage</code>, <code>Sprite</code> and
+      <code>Shape</code>.</p>
+    <pre data-dripper-run="2_drawing_something.coffee"></pre>
+    <canvas width="480" height="270"></canvas>
+  </section>
+
+  <section>
+    <h3>Step3 - Set properties</h3>
+    <p></p>
+    <pre data-dripper-run="3_set_properties.coffee"></pre>
+    <canvas width="480" height="270"></canvas>
+  </section>
+
+  <section>
+    <h3>Step4 - Doing animation</h3>
+    <p></p>
+    <pre data-dripper-run="4_doing_animation.coffee"></pre>
+    <canvas width="480" height="270"></canvas>
+  </section>
+
+  <section>
+    <h3>Step5 - Centering</h3>
+    <p>You can set center of rotation center of rect by two way. One way, blue
+      rect is drawn at negative position. The other way, red rect is added at
+      negative position to container <code>Sprite</code>.</p>
+    <pre data-dripper-run="5_centering.coffee"></pre>
+    <canvas width="480" height="270"></canvas>
+  </section>
+
+  <section>
+    <h3>Step6 - Container</h3>
+    <p><code>Sprite</code> can have child display object.</p>
+    <pre data-dripper-run="6_container.coffee"></pre>
+    <canvas width="480" height="270"></canvas>
   </section>
 
   <footer>
