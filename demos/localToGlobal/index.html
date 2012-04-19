@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <title>Gesso Demos | Local to Global</title>
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <link rel="stylesheet" href="/gesso/styles/styles.css">
+  <link rel="stylesheet" href="/gesso/styles/prettify.css">
+  <script type="text/javascript" src="/gesso/scripts/gesso.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/coffee-script.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/relay.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/prettify.js"></script>
+  <script type="text/coffeescript" src="/gesso/scripts/dripper.coffee"></script>
+
+  <!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30952514-1']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+        : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+<body>
+<div class="wrapper">
+  <header>
+    <h1><a href="/gesso/">Gesso</a></h1>
+    <h2><a href="/gesso/demos/">Demos</a></h2>
+    <p>A JavaScript module wraps canvas API for browser.</p>
+    <nav>
+      <a href="/gesso/guide/">Getting Started</a> |
+      <a href="/gesso/docs/">API Documentation</a> |
+      <a href="/gesso/demos/">Demos</a>
+    </nav>
+    <ul>
+      <li><a href="https://github.com/minodisk/gesso/zipball/master">Download
+        <strong>ZIP File</strong></a></li>
+      <li><a href="https://github.com/minodisk/gesso/tarball/master">Download
+        <strong>TAR Ball</strong></a></li>
+      <li><a href="https://github.com/minodisk/gesso">View On
+        <strong>GitHub</strong></a></li>
+    </ul>
+  </header>
+
+  <section>
+    <h3>Local to Global</h3>
+    <canvas width="800" height="450"></canvas>
+    <pre data-dripper-run="localtoglobal.coffee"></pre>
+  </section>
+
+  <footer>
+    <p>This project is maintained by
+      <a href="https://github.com/minodisk">minodisk</a></p>
+    <p>
+      <small>Hosted on GitHub Pages &mdash; Theme by
+        <a href="https://github.com/orderedlist">orderedlist</a></small>
+    </p>
+  </footer>
+</div>
+<script src="/gesso/scripts/scale.fix.js"></script>
+</body>
+</html>
