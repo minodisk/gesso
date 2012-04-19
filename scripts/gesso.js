@@ -750,7 +750,8 @@
       this.x = x;
       this.y = y;
       this.width = Math.ceil(this.width);
-      return this.height = Math.ceil(this.height);
+      this.height = Math.ceil(this.height);
+      return this;
     };
     Rectangle.prototype.transform = function(matrix) {
       var b, l, lb, lt, r, rb, rt, t;
@@ -769,7 +770,8 @@
       this.x = l;
       this.y = t;
       this.width = r - l;
-      return this.height = b - t;
+      this.height = b - t;
+      return this;
     };
     return Rectangle;
   }();
@@ -941,8 +943,11 @@
     EventDispatcher.prototype.addEventListener = function(type, listener, useCapture, priority) {
       if (useCapture == null) useCapture = false;
       if (priority == null) priority = 0;
+      if (typeof type !== "string") {
+        throw new TypeError("EventDispatcher.addEventListener: type isn't string");
+      }
       if (typeof listener !== "function") {
-        throw new TypeError("EventDispatcher: listener isn't function");
+        throw new TypeError("EventDispatcher.addEventListener: listener isn't function");
       }
       if (this._events[type] == null) this._events[type] = [];
       this._events[type].push({
@@ -970,12 +975,11 @@
       return this;
     };
     EventDispatcher.prototype.dispatchEvent = function(event) {
-      var i, obj, objs, _len;
+      var obj, objs, _i, _len;
       event.currentTarget = this;
-      objs = this._events[event.type];
-      if (objs != null) {
-        for (i = 0, _len = objs.length; i < _len; i++) {
-          obj = objs[i];
+      if ((objs = this._events[event.type]) != null) {
+        for (_i = 0, _len = objs.length; _i < _len; _i++) {
+          obj = objs[_i];
           if (obj.useCapture && event.eventPhase === EventPhase.CAPTURING_PHASE || obj.useCapture === false && event.eventPhase !== EventPhase.CAPTURING_PHASE) {
             (function(obj, event) {
               return setTimeout(function() {
@@ -1103,14 +1107,8 @@
       return new Vector(src.x + (dst.x - src.x) * ratio, src.y + (dst.y - src.y) * ratio);
     };
     function Vector(x, y) {
-      var src;
       this.x = x != null ? x : 0;
       this.y = y != null ? y : 0;
-      if (this.x instanceof Vector) {
-        src = this.x;
-        this.x = src.x;
-        this.y = src.y;
-      }
       this.defineProperty("direction", function() {
         return _atan2(this.y, this.x);
       }, function(direction) {
@@ -1128,6 +1126,9 @@
         this.y *= ratio;
       });
     }
+    Vector.prototype.clone = function() {
+      return new Vector(this.x, this.y);
+    };
     Vector.prototype.add = function(b) {
       return new Vector(this.x + b.x, this.y + b.y);
     };
@@ -1149,6 +1150,14 @@
       ratio = thickness / _sqrt(this.x * this.x + this.y * this.y);
       this.x *= ratio;
       this.y *= ratio;
+      return this;
+    };
+    Vector.prototype.transform = function(matrix) {
+      var m;
+      m = new Matrix(1, 0, 0, 1, this.x, this.y);
+      m.concat(matrix);
+      this.x = m.ox;
+      this.y = m.oy;
       return this;
     };
     return Vector;
@@ -1265,6 +1274,31 @@
     }
     DisplayObject.prototype._getTransform = function() {
       return this._matrix.clone().createBox(this._scaleX, this._scaleY, this._rotation * _RADIAN_PER_DEGREE, this._x, this._y);
+    };
+    DisplayObject.prototype.localToGlobal = function(point) {
+      var that;
+      that = this;
+      while (that != null) {
+        point = that._localToGlobal(point);
+        that = that.parent;
+      }
+      return point;
+    };
+    DisplayObject.prototype._localToGlobal = function(point) {
+      return point.clone().transform(this._getTransform());
+    };
+    DisplayObject.prototype.globalToLocalPoint = function(point) {
+      return this.globalToLocal(point.x, point.y);
+    };
+    DisplayObject.prototype.globalToLocal = function(x, y) {
+      var displayObject;
+      displayObject = this;
+      while (displayObject) {
+        x -= displayObject.x;
+        y -= displayObject.y;
+        displayObject = displayObject._parent;
+      }
+      return new Vector(x, y);
     };
     DisplayObject.prototype.set = function(propertyName, value) {
       this[propertyName] = value;
@@ -1387,19 +1421,6 @@
       data = iData.data;
       return data[3] << 24 | data[2] << 16 | data[1] << 8 | data[0];
     };
-    DisplayObject.prototype.globalToLocalPoint = function(point) {
-      return this.globalToLocal(point.x, point.y);
-    };
-    DisplayObject.prototype.globalToLocal = function(x, y) {
-      var displayObject;
-      displayObject = this;
-      while (displayObject) {
-        x -= displayObject.x;
-        y -= displayObject.y;
-        displayObject = displayObject._parent;
-      }
-      return new Vector(x, y);
-    };
     return DisplayObject;
   }(EventDispatcher);
   exports.timers.Timer = Timer = function(_super) {
@@ -1515,16 +1536,22 @@
     function InteractiveObject() {
       this._drag = __bind(this._drag, this);
       InteractiveObject.__super__.constructor.call(this);
+      this.defineProperty("mouseEnabled", function() {
+        return this._mouseEnabled;
+      }, function(value) {
+        return this._mouseEnabled = value;
+      });
+      this._mouseEnabled = true;
     }
     InteractiveObject.prototype._propagateMouseEvent = function(event) {
       var child, e, hit, i, pt;
-      if (this._mouseEnabled && event._isPropagationStopped === false) {
+      if (this._mouseEnabled && !event._isPropagationStopped) {
         event = new MouseEvent(event);
         pt = this._getTransform().invert().transformPoint(new Vector(event.localX, event.localY));
         event.localX = pt.x;
         event.localY = pt.y;
         hit = this._hitTest(event.localX, event.localY);
-        if (hit === true && this._mouseIn === false) {
+        if (hit && !this._mouseIn) {
           e = new MouseEvent(event);
           e.type = MouseEvent.MOUSE_OVER;
           this._targetMouseEvent(e);
@@ -1534,7 +1561,7 @@
           this._targetMouseEvent(e);
           this._mouseIn = true;
           if (this._buttonMode) this.__stage._canvas.style.cursor = "pointer";
-        } else if (hit === false && this._mouseIn === true) {
+        } else if (!hit && this._mouseIn) {
           e = new MouseEvent(event);
           e.type = MouseEvent.MOUSE_OUT;
           this._targetMouseEvent(e);
@@ -1629,11 +1656,6 @@
     __extends(Sprite, _super);
     function Sprite() {
       Sprite.__super__.constructor.call(this);
-      this.defineProperty("mouseEnabled", function() {
-        return this._mouseEnabled;
-      }, function(value) {
-        return this._mouseEnabled = value;
-      });
       this.defineProperty("mouseChildren", function() {
         return this._mouseChildren;
       }, function(value) {
@@ -1646,7 +1668,6 @@
       });
       this.graphics = new Graphics(this);
       this._children = [];
-      this._mouseEnabled = true;
       this._mouseChildren = true;
       this._buttonMode = false;
       this._mouseIn = false;

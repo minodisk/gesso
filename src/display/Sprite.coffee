@@ -13,12 +13,6 @@ exports.display.Sprite = class Sprite extends InteractiveObject
   constructor:->
     super()
 
-    @defineProperty 'mouseEnabled'
-      , ->
-        @_mouseEnabled
-      , (value)->
-        @_mouseEnabled = value
-
     @defineProperty 'mouseChildren'
       , ->
         @_mouseChildren
@@ -33,7 +27,6 @@ exports.display.Sprite = class Sprite extends InteractiveObject
 
     @graphics = new Graphics @
     @_children = []
-    @_mouseEnabled = true
     @_mouseChildren = true
     @_buttonMode = false
     @_mouseIn = false

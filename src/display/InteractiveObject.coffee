@@ -10,8 +10,16 @@ exports.display.InteractiveObject = class InteractiveObject extends DisplayObjec
   constructor:->
     super()
 
+    @defineProperty 'mouseEnabled'
+      , ->
+        @_mouseEnabled
+      , (value)->
+        @_mouseEnabled = value
+
+    @_mouseEnabled = true
+
   _propagateMouseEvent:(event)->
-    if @_mouseEnabled and event._isPropagationStopped is false
+    if @_mouseEnabled and not event._isPropagationStopped
       event = new MouseEvent event
       pt = @_getTransform().invert().transformPoint(new Vector(event.localX, event.localY))
       event.localX = pt.x
@@ -19,7 +27,7 @@ exports.display.InteractiveObject = class InteractiveObject extends DisplayObjec
 
       hit = @_hitTest event.localX, event.localY
 
-      if hit is true and @_mouseIn is false
+      if hit and not @_mouseIn
         e = new MouseEvent event
         e.type = MouseEvent.MOUSE_OVER
         @_targetMouseEvent e
@@ -32,7 +40,8 @@ exports.display.InteractiveObject = class InteractiveObject extends DisplayObjec
         @_mouseIn = true
         if @_buttonMode
           @__stage._canvas.style.cursor = 'pointer'
-      else if hit is false and @_mouseIn is true
+
+      else if not hit and @_mouseIn
         e = new MouseEvent event
         e.type = MouseEvent.MOUSE_OUT
         @_targetMouseEvent e

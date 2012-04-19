@@ -154,9 +154,28 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
     @_drawn = false
     @_measured = false
 
-  _getTransform:->
-#    @_matrix.clone().createBox(@_scaleX, @_scaleY, @_rotation * _RADIAN_PER_DEGREE, 0, 0)
+  _getTransform: ->
     @_matrix.clone().createBox(@_scaleX, @_scaleY, @_rotation * _RADIAN_PER_DEGREE, @_x, @_y)
+
+  localToGlobal: (point)->
+    that = @
+    while that?
+      point = that._localToGlobal point
+      that = that.parent
+    point
+
+  _localToGlobal: (point)->
+    point.clone().transform @_getTransform()
+
+  globalToLocalPoint: (point)->
+    @globalToLocal point.x, point.y
+  globalToLocal:(x, y)->
+    displayObject = @
+    while displayObject
+      x -= displayObject.x
+      y -= displayObject.y
+      displayObject = displayObject._parent
+    new Vector x, y
 
   # ## set():*DisplayObject*
   # Sets property to this object. Returns self for method chain.
@@ -288,13 +307,3 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
     iData = @_context.getImageData x, y, 1, 1
     data = iData.data
     data[3] << 24 | data[2] << 16 | data[1] << 8 | data[0]
-
-  globalToLocalPoint:(point)->
-    @globalToLocal point.x, point.y
-  globalToLocal:(x, y)->
-    displayObject = @
-    while displayObject
-      x -= displayObject.x
-      y -= displayObject.y
-      displayObject = displayObject._parent
-    new Vector x, y
