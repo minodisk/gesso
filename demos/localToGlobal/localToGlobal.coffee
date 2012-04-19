@@ -1,12 +1,13 @@
 {Stage, Sprite, Shape} = mn.dsk.display
 {TextField, TextFormat} = mn.dsk.text
+{Vector} = mn.dsk.geom
 
 randomBetween = (a, b)->
   a + Math.random() * (b - a)
 
 canvas = document.getElementsByTagName('canvas')[0]
 stage = new Stage canvas
-stage.debug = true
+#stage.debug = true
 render = true
 
 tf = new TextField()
@@ -46,6 +47,13 @@ red.y = 105
 red.rotation = 0
 green.addChild red
 
+point = red.localToGlobal new Vector 0 ,124
+
+redLiner = new Shape
+redLiner.graphics.lineStyle 1, 0x8B2222, 0.5
+redLiner.graphics.moveTo point.x, point.y
+stage.addChildAt redLiner, 0
+
 stage.addEventListener 'click', ->
   render = !render
 
@@ -55,3 +63,6 @@ stage.addEventListener 'enterFrame', ->
     green.rotation += -4.5
     red.rotation += 7.3
     tf.text = "fps: #{stage.frameRate}"
+
+    point = red.localToGlobal new Vector 0, 124
+    redLiner.graphics.lineTo point.x, point.y
