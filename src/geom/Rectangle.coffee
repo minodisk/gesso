@@ -153,6 +153,7 @@ exports.geom.Rectangle = class Rectangle
     @y = y
     @width = Math.ceil @width
     @height = Math.ceil @height
+    @
     
   transform: (matrix)->
     lt = new Matrix 1, 0, 0, 1, @x, @y
@@ -171,3 +172,4 @@ exports.geom.Rectangle = class Rectangle
     @y = t
     @width = r - l
     @height = b - t
+    @

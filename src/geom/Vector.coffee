@@ -57,3 +57,10 @@ exports.geom.Vector = class Vector extends Class
     @x *= ratio
     @y *= ratio
     @
+
+  transform: (matrix)->
+    m = new Matrix 1, 0, 0, 1, @x, @y
+    m.concat matrix
+    @x = m.ox
+    @y = m.oy
+    @
