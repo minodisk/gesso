@@ -14,7 +14,7 @@ onLoadComplete = (e)->
 
   origin = new Sprite()
   origin.buttonMode = true
-  origin.graphics.beginFill 0x0581d2
+  origin.graphics.beginFill 0xBF1F1F
   origin.graphics.drawCircle 0, 0, 5
   origin.graphics.endFill()
   origin.x = (stage.width - width) / 2
@@ -23,7 +23,7 @@ onLoadComplete = (e)->
 
   anchorX = new Sprite()
   anchorX.buttonMode = true
-  anchorX.graphics.beginFill 0x0581d2
+  anchorX.graphics.beginFill 0xBF1F1F
   anchorX.graphics.drawCircle 0, 0, 5
   anchorX.graphics.endFill()
   anchorX.x = origin.x + width
@@ -32,7 +32,7 @@ onLoadComplete = (e)->
 
   anchorY = new Sprite()
   anchorY.buttonMode = true
-  anchorY.graphics.beginFill 0x0581d2
+  anchorY.graphics.beginFill 0xBF1F1F
   anchorY.graphics.drawCircle 0, 0, 5
   anchorY.graphics.endFill()
   anchorY.x = origin.x
