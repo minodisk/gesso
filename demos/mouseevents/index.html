@@ -3,10 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
-  <title>Gesso Demos</title>
-  <link rel="stylesheet" href="/gesso/styles/styles.css">
+  <title>Gesso Demos | Mouse Events</title>
   <meta name="viewport"
     content="width=device-width, initial-scale=1, user-scalable=no">
+
+  <link rel="stylesheet" href="/gesso/styles/styles.css">
+  <link rel="stylesheet" href="/gesso/styles/prettify.css">
+  <script type="text/javascript" src="/gesso/scripts/gesso.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/coffee-script.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/relay.js"></script>
+  <script type="text/javascript" src="/gesso/scripts/prettify.js"></script>
+  <script type="text/coffeescript" src="/gesso/scripts/dripper.coffee"></script>
+
   <!--[if lt IE 9]>
   <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
@@ -47,13 +55,9 @@
   </header>
 
   <section>
-    <h3>Demos</h3>
-    <ul>
-      <li><a href="localtoglobal">Local to Global</a></li>
-      <li><a href="mouseevents">Mouse Events</a></li>
-      <li><a href="popstar">Pop Star</a></li>
-      <li><a href="transform">Transform</a></li>
-    </ul>
+    <h3>Mouse Events</h3>
+    <canvas width="800" height="450"></canvas>
+    <pre data-dripper-run="mouseevents.coffee"></pre>
   </section>
 
   <footer>
