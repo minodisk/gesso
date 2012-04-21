@@ -1,5 +1,5 @@
 ###
-graphicsJS
+Gesso
 
 The MIT License (MIT)
 

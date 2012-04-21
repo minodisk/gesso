@@ -23,7 +23,7 @@ exports.display.Graphics = class Graphics
       isDrawing = method.indexOf('draw') is 0
       if method is 'moveTo' or
          method is 'lineTo' or
-         method is 'quadraticCurveTo' or
+         method is 'curveTo' or
          method is 'cubicCurveTo' or
          isDrawing
         drawingCounter++
@@ -187,30 +187,46 @@ exports.display.Graphics = class Graphics
       switch command
         when 0 then @_context.moveTo data[i++], data[i++]
         when 1 then @_context.lineTo data[i++], data[i++]
-        when 2 then @_context.quadraticCurveTo data[i++], data[i++], data[i++], data[i++]
+        when 2 then @_context.curveTo data[i++], data[i++], data[i++], data[i++]
         when 3 then @_context.bezierCurveTo data[i++], data[i++], data[i++], data[i++], data[i++], data[i++]
     # If the ending point of path is equal with the starting point of path,
     if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
       # close path.
       @_context.closePath()
 
-  quadraticCurveTo:(x1, y1, x2, y2)->
+  ###*
+  Draws a quadratic Bezier curve using the current line style from the current drawing position to (anchorX, anchorY) and using the control point that (controlX, controlY) specifies. The current drawing position is then set to (anchorX, anchorY). If the movie clip in which you are drawing contains content created with the Flash drawing tools, calls to the curveTo() method are drawn underneath this content. If you call the curveTo() method before any calls to the moveTo() method, the default of the current drawing position is (0, 0). If any of the parameters are missing, this method fails and the current drawing position is not changed.<br/>
+  @param x1 Number  A number that specifies the horizontal position of the control point relative to the registration point of the parent display object.
+  @param y1 Number  A number that specifies the vertical position of the control point relative to the registration point of the parent display object.
+  @param x2 Number  A number that specifies the horizontal position of the next anchor point relative to the registration point of the parent display object.
+  @param y2 Number  A number that specifies the vertical position of the next anchor point relative to the registration point of the parent display object.
+  @returns Graphics self
+  ###
+  curveTo:(x1, y1, x2, y2)->
     @_stacks.push
-      method   : 'quadraticCurveTo'
+      method   : 'curveTo'
       arguments: [x1, y1, x2, y2]
       rect     : new Rectangle(x1, y1).contain(x2, y2)
     @_requestRender true
-  curveTo: Graphics::quadraticCurveTo
-  _quadraticCurveTo:(x1, y1, x2, y2)->
-    @_context.quadraticCurveTo x1, y1, x2, y2
+  _curveTo:(x1, y1, x2, y2)->
+    @_context.curveTo x1, y1, x2, y2
 
+  ###*
+  Draws a cubic Bezier curve from the current drawing position to the specified anchor point. Cubic Bezier curves consist of two anchor points and two control points. The curve interpolates the two anchor points and curves toward the two control points.
+  @param x1 Number  Specifies the horizontal position of the first control point relative to the registration point of the parent display object.
+  @param y1 Number  Specifies the vertical position of the first control point relative to the registration point of the parent display object.
+  @param x2 Number  Specifies the horizontal position of the second control point relative to the registration point of the parent display object.
+  @param y2 Number  Specifies the vertical position of the second control point relative to the registration point of the parent display object.
+  @param x3 Number  Specifies the horizontal position of the anchor point relative to the registration point of the parent display object.
+  @param y3 Number  Specifies the vertical position of the anchor point relative to the registration point of the parent display object.
+  @returns Graphics self
+  ###
   cubicCurveTo:(x1, y1, x2, y2, x3, y3)->
     @_stacks.push
       method   : 'cubicCurveTo'
       arguments: [x1, y1, x2, y2, x3, y3]
       rect     : new Rectangle(x1, y1).contain(x2, y2).contain(x3, y3)
     @_requestRender true
-  bezierCurveTo: Graphics::cubicCurveTo
   _cubicCurveTo:(x1, y1, x2, y2, x3, y3)->
     @_context.bezierCurveTo x1, y1, x2, y2, x3, y3
 
