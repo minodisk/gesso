@@ -1,0 +1,78 @@
+- var isIndex = typeof packages !== 'undefined';
+- var title = isIndex ? 'Docs' : 'Docs | ' + head.class;
+
+!!! 5
+html
+  include includes/head
+
+  body
+    .wrapper
+      include includes/header
+
+      - if (isIndex)
+        - each classes, package in packages
+          section
+            h3 #{package}
+            ul
+              - each cls in classes
+                li
+                  a(href="#{cls.url}") #{cls.name}
+
+      - else
+        section
+          h3 Description
+          p #{head.extends}
+          p !{head.text}
+
+        - if (static.properties.length)
+          section
+            h3 Static Properties
+            dl
+              - each property in static.properties
+                if (!property.private)
+                  dt #{property.name}:#{property.type}
+                  dd !{property.text}
+
+        - if (static.methods.length)
+          section
+            h3 Static Methods
+            dl
+              - each method in static.methods
+                if (!method.private)
+                  dt #{method.name}(#{toParamString(method.param)}):#{method.returns.type}
+                  dd !{method.text}
+
+        - if (constructor)
+          section
+            h3 Constructor
+            dl
+              dt new #{constructor.name}(#{toParamString(constructor.param)})
+              dd !{constructor.text}
+
+        - if (member.properties.length)
+          section
+            h3 Member Properties
+            dl
+              - each property in member.properties
+                if (!property.private)
+                  dt #{property.name}:#{property.type}
+                  dd !{property.text}
+
+        - if (member.methods.length)
+          section
+            h3 Member Methods
+            dl
+              - for method in member.methods
+                if (!method.private)
+                  dt #{method.name}(#{toParamString(method.param)}):#{method.returns.type}
+                  dd !{method.text}
+                  if (method.param)
+                    - each param in method.param
+                      dd
+                        code #{param.name}
+                        | :
+                        code #{param.type}
+                        |  - !{param.text}
+
+      include includes/footer
+    include includes/foot

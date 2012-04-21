@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gesso Docs | Graphics</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/gesso/styles/styles.css">
+    <link rel="stylesheet" href="/gesso/styles/prettify.css">
+    <script type="text/javascript" src="/gesso/lib/gesso.js"></script>
+    <script type="text/javascript" src="/gesso/scripts/coffee-script.js"></script>
+    <script type="text/javascript" src="/gesso/scripts/relay.js"></script>
+    <script type="text/javascript" src="/gesso/scripts/prettify.js"></script>
+    <script type="text/coffeescript" src="/gesso/scripts/dripper.coffee"></script><!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-30952514-1']);
+      _gaq.push(['_trackPageview']);
+      (function () {
+        var ga = document.createElement('script');
+        ga.type = 'text/javascript';
+        ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+          : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1><a href="/gesso/">Gesso</a></h1>
+        <h2><a href="/gesso/docs/">Docs | Graphics</a></h2>
+        <p>A JavaScript module wraps canvas API for browser.</p>
+        <nav><a href="/gesso/guide/">Getting Started</a>|<a href="/gesso/docs/">API Documentation</a>|<a href="/gesso/demos/">Demos</a></nav>
+        <ul>
+          <li><a href="https://github.com/minodisk/gesso/zipball/master">Download<strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/minodisk/gesso/tarball/master">Download<strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/minodisk/gesso">View On<strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h3>Description</h3>
+        <p></p>
+        <p></p>
+      </section>
+      <section>
+        <h3>Static Methods</h3>
+        <dl>
+          <dt>toColorString():void</dt>
+          <dd></dd>
+        </dl>
+      </section>
+      <section>
+        <h3>Constructor</h3>
+        <dl>
+          <dt>new Graphics()</dt>
+          <dd></dd>
+        </dl>
+      </section>
+      <section>
+        <h3>Member Methods</h3>
+        <dl>
+          <dt>beginFill():void</dt>
+          <dd></dd>
+          <dt>beginGradientFill():void</dt>
+          <dd></dd>
+          <dt>clear():void</dt>
+          <dd></dd>
+          <dt>cubicCurveTo(x1:Number, y1:Number, x2:Number, y2:Number, x3:Number, y3:Number):Graphics</dt>
+          <dd><p>Draws a cubic Bezier curve from the current drawing position to the specified anchor point. Cubic Bezier curves consist of two anchor points and two control points. The curve interpolates the two anchor points and curves toward the two control points.</p></dd>
+          <dd><code>x1</code>:<code>Number</code> - Specifies the horizontal position of the first control point relative to the registration point of the parent display object.</dd>
+          <dd><code>y1</code>:<code>Number</code> - Specifies the vertical position of the first control point relative to the registration point of the parent display object.</dd>
+          <dd><code>x2</code>:<code>Number</code> - Specifies the horizontal position of the second control point relative to the registration point of the parent display object.</dd>
+          <dd><code>y2</code>:<code>Number</code> - Specifies the vertical position of the second control point relative to the registration point of the parent display object.</dd>
+          <dd><code>x3</code>:<code>Number</code> - Specifies the horizontal position of the anchor point relative to the registration point of the parent display object.</dd>
+          <dd><code>y3</code>:<code>Number</code> - Specifies the vertical position of the anchor point relative to the registration point of the parent display object.</dd>
+          <dt>curveTo(x1:Number, y1:Number, x2:Number, y2:Number):Graphics</dt>
+          <dd><p>Draws a quadratic Bezier curve using the current line style from the current drawing position to (anchorX, anchorY) and using the control point that (controlX, controlY) specifies. The current drawing position is then set to (anchorX, anchorY). If the movie clip in which you are drawing contains content created with the Flash drawing tools, calls to the curveTo() method are drawn underneath this content. If you call the curveTo() method before any calls to the moveTo() method, the default of the current drawing position is (0, 0). If any of the parameters are missing, this method fails and the current drawing position is not changed.<br/></p></dd>
+          <dd><code>x1</code>:<code>Number</code> - A number that specifies the horizontal position of the control point relative to the registration point of the parent display object.</dd>
+          <dd><code>y1</code>:<code>Number</code> - A number that specifies the vertical position of the control point relative to the registration point of the parent display object.</dd>
+          <dd><code>x2</code>:<code>Number</code> - A number that specifies the horizontal position of the next anchor point relative to the registration point of the parent display object.</dd>
+          <dd><code>y2</code>:<code>Number</code> - A number that specifies the vertical position of the next anchor point relative to the registration point of the parent display object.</dd>
+          <dt>drawCircle():void</dt>
+          <dd></dd>
+          <dt>drawEllipse():void</dt>
+          <dd></dd>
+          <dt>drawPath():void</dt>
+          <dd></dd>
+          <dt>drawRect():void</dt>
+          <dd></dd>
+          <dt>drawRectangle():void</dt>
+          <dd></dd>
+          <dt>drawRectangleWithoutPath():void</dt>
+          <dd></dd>
+          <dt>drawRectWithoutPath():void</dt>
+          <dd></dd>
+          <dt>drawRegularPolygon():void</dt>
+          <dd></dd>
+          <dt>drawRegularStar():void</dt>
+          <dd></dd>
+          <dt>drawRoundRect():void</dt>
+          <dd></dd>
+          <dt>drawRoundRectangle():void</dt>
+          <dd></dd>
+          <dt>drawStar():void</dt>
+          <dd></dd>
+          <dt>endFill():void</dt>
+          <dd></dd>
+          <dt>lineStyle():void</dt>
+          <dd></dd>
+          <dt>lineTo():void</dt>
+          <dd></dd>
+          <dt>moveTo():void</dt>
+          <dd></dd>
+        </dl>
+      </section>
+      <footer>
+        <p>This project is maintained by<a href="https://github.com/minodisk">minodisk</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by<a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script type="text/javascript" src="/gesso/scripts/scale.fix.js"></script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+head
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='chrome=1')
+  title Gesso #{title}
+  meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+  link(rel='stylesheet', href='/gesso/styles/styles.css')
+  link(rel='stylesheet', href='/gesso/styles/prettify.css')
+  script(type='text/javascript', src='/gesso/lib/gesso.js')
+  script(type='text/javascript', src='/gesso/scripts/coffee-script.js')
+  script(type='text/javascript', src='/gesso/scripts/relay.js')
+  script(type='text/javascript', src='/gesso/scripts/prettify.js')
+  script(type='text/coffeescript', src='/gesso/scripts/dripper.coffee')
+  //if lt IE 9
+    script(src='//html5shiv.googlecode.com/svn/trunk/html5.js')
+  script(type='text/javascript')
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-30952514-1']);
+    _gaq.push(['_trackPageview']);
+    (function () {
+      var ga = document.createElement('script');
+      ga.type = 'text/javascript';
+      ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+        : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ga, s);
+    })();
