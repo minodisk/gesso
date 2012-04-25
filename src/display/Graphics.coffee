@@ -187,7 +187,7 @@ exports.display.Graphics = class Graphics
       switch command
         when 0 then @_context.moveTo data[i++], data[i++]
         when 1 then @_context.lineTo data[i++], data[i++]
-        when 2 then @_context.curveTo data[i++], data[i++], data[i++], data[i++]
+        when 2 then @_context.quadraticCurveTo data[i++], data[i++], data[i++], data[i++]
         when 3 then @_context.bezierCurveTo data[i++], data[i++], data[i++], data[i++], data[i++], data[i++]
     # If the ending point of path is equal with the starting point of path,
     if data[0] is data[data.length - 2] and data[1] is data[data.length - 1]
@@ -209,7 +209,7 @@ exports.display.Graphics = class Graphics
       rect     : new Rectangle(x1, y1).contain(x2, y2)
     @_requestRender true
   _curveTo:(x1, y1, x2, y2)->
-    @_context.curveTo x1, y1, x2, y2
+    @_context.quadraticCurveTo x1, y1, x2, y2
 
   ###*
   Draws a cubic Bezier curve from the current drawing position to the specified anchor point. Cubic Bezier curves consist of two anchor points and two control points. The curve interpolates the two anchor points and curves toward the two control points.
