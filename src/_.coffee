@@ -31,6 +31,7 @@ _PI_1_2 = _PI / 2
 _PI_2 = _PI * 2
 _ELLIPSE_CUBIC_BEZIER_HANDLE = (_SQRT2 - 1) * 4 / 3
 _RADIAN_PER_DEGREE = _PI / 180
+_DEGREE_PER_RADIAN = 180 / _PI
 _sin = Math.sin
 _cos = Math.cos
 _tan = Math.tan

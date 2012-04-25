@@ -11,6 +11,7 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
     @_measureSize()
     @_width
   _setWidth:(value)->
+    if typeof value isnt 'number' or isNaN value then throw new TypeError "DisplayObject#width(setter): value isn't Number"
     @_width = value
     @_scaleX = value / @_context.canvas.width unless @_context.canvas.width is 0
     @_requestRender false
@@ -20,6 +21,7 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
     @_measureSize()
     @_height
   _setHeight:(value)->
+    if typeof value isnt 'number' or isNaN value then throw new TypeError "DisplayObject#height(setter): value isn't Number"
     @_height = value
     @_scaleY = value / @_context.canvas.height unless @_context.canvas.height is 0
     @_requestRender false
@@ -63,6 +65,7 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
       , ->
         @_x
       , (value)->
+        if typeof value isnt 'number' or isNaN value or isNaN value then throw new TypeError "DisplayObject#x(setter): value isn't Number"
         @_x = value
         @_requestRender false
         return
@@ -73,6 +76,7 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
       , ->
         @_y
       , (value)->
+        if typeof value isnt 'number' or isNaN value then throw new TypeError "DisplayObject#y(setter): value isn't Number"
         @_y = value
         @_requestRender false
         return
@@ -83,6 +87,7 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
       , ->
         @_alpha
       , (value)->
+        if typeof value isnt 'number' or isNaN value then throw new TypeError "DisplayObject#alpha(setter): value isn't Number"
         @_alpha = value
         @_requestRender false
         return
@@ -93,6 +98,7 @@ exports.display.DisplayObject = class DisplayObject extends EventDispatcher
       , ->
         @_rotation
       , (value)->
+        if typeof value isnt 'number' or isNaN value then throw new TypeError "DisplayObject#rotation(setter): value isn't Number"
         @_rotation = value
         @_requestRender false
         return
