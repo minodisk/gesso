@@ -1,11 +1,26 @@
 exports.geom.Vector = class Vector extends Class
 
+  @polar: (distance, angle)->
+    new Vector distance * _cos(angle), distance * _sin(angle)
+
+  @add: (pt0, pt1)->
+    new Vector pt0.x + pt1.x, pt0.y + pt1.y
+
+  @subtract: (pt0, pt1)->
+    new Vector pt0.x - pt1.x, pt0.y - pt1.y
+
+  @multiple: (pt, num)->
+    new Vector pt.x * num, pt.y * num
+
+  @divide: (pt, num)->
+    new Vector pt.x / num, pt.y / num
+
   @crossProduct: (a, b)->
     a.distance * b.distance * _sin(b.angle - a.angle)
 
   @dotProduct: (a, b)->
 
-  @distance: (a, b)->
+  @distance  : (a, b)->
     x = a.x - b.x
     y = a.y - b.y
     _sqrt x * x + y * y
@@ -14,43 +29,42 @@ exports.geom.Vector = class Vector extends Class
     new Vector src.x + (dst.x - src.x) * ratio, src.y + (dst.y - src.y) * ratio
 
   constructor: (@x = 0, @y = 0)->
-#    if @x instanceof Vector
-#      src = @x
-#      @x = src.x
-#      @y = src.y
+    super()
 
-    @defineProperty 'direction'
-      , ->
-        _atan2 @y, @x
-      , (direction)->
-        magnitude = _sqrt @x * @x + @y * @y
-        @x = magnitude * _cos direction
-        @y = magnitude * _sin direction
-        return
+    @defineProperty 'distance', ->
+      _sqrt @x * @x + @y * @y
 
-    @defineProperty 'magnitude'
-      , ->
-        _sqrt @x * @x + @y * @y
-      , (magnitude)->
-        ratio = magnitude / _sqrt(@x * @x + @y * @y)
-        @x *= ratio
-        @y *= ratio
-        return
+    @defineProperty 'angle', ->
+      _atan2 @y, @x
 
   clone: ->
     new Vector @x, @y
 
-  add: (b)->
-    new Vector @x + b.x, @y + b.y
+  add: (pt)->
+    @x += pt.x
+    @y += pt.y
+    @
 
-  subtract: (b)->
-    new Vector @x - b.x, @y - b.y
+  subtract: (pt)->
+    @x -= pt.x
+    @y -= pt.y
+    @
 
-  divide: (b)->
-    new Vector @x / b, @y / b
+  multiple: (num)->
+    @x *= num
+    @y *= num
+    @
 
-  toString:->
+  divide: (num)->
+    @x /= num
+    @y /= num
+    @
+
+  toString: ->
     "(#{ @x }, #{ @y })"
+
+  toPolar: ->
+    new Polar @distance, @angle
 
   equals: (pt)->
     @x is pt.x and @y is pt.y
